@@ -1,0 +1,28 @@
+name: hexasteel
+services:
+- name: web
+  github:
+    branch: main
+    deploy_on_push: true
+    repo: owner/hexasteel
+  build_command: npm run build
+  run_command: npm start
+  environment_slug: node-js
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  envs:
+  - key: MONGODB_URI
+    value: "${MONGODB_URI}"
+    type: SECRET
+  - key: NEXTAUTH_URL
+    value: "${APP_URL}"
+    type: SECRET
+  - key: NEXTAUTH_SECRET
+    value: "${NEXTAUTH_SECRET}"
+    type: SECRET
+
+databases:
+- name: hexasteel-db
+  engine: MONGODB
+  version: "5"
+  production: true

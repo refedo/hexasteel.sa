@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="60" viewBox="0 0 200 60" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <g fill="#1F2937">
+    <path d="M30,10 L50,20 L40,35 L20,25 Z"/>
+    <path d="M60,20 L80,30 L70,45 L50,35 Z"/>
+    <text x="100" y="35" font-family="Arial" font-size="24" font-weight="bold">HEXA STEEL</text>
+  </g>
+</svg>
