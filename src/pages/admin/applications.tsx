@@ -4,10 +4,10 @@ import Head from 'next/head';
 import { connectToDatabase } from '@/lib/mongodb';
 import { format } from 'date-fns';
 import { 
-  CheckCircleIcon, 
-  XCircleIcon, 
+  CheckCircleIcon,
+  XCircleIcon,
   ClockIcon,
-  DocumentDownloadIcon
+  ArrowDownTrayIcon
 } from '@heroicons/react/24/outline';
 
 interface Application {
@@ -187,7 +187,7 @@ export default function Applications({ applications }: Props) {
                                   rel="noopener noreferrer"
                                   className="text-primary-600 hover:text-primary-900"
                                 >
-                                  <DocumentDownloadIcon className="h-5 w-5" />
+                                  <ArrowDownTrayIcon className="h-5 w-5" />
                                 </a>
                               )}
                             </div>

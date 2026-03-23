@@ -1,4 +1,4 @@
-import { MongoClient } from 'mongodb';
+import { MongoClient, Db } from 'mongodb';
 import mongoose from 'mongoose';
 
 if (!process.env.MONGODB_URI) {
@@ -33,8 +33,6 @@ const connectDB = async () => {
       minPoolSize: 5,
       serverSelectionTimeoutMS: 10000,
       socketTimeoutMS: 45000,
-      keepAlive: true,
-      keepAliveInitialDelay: 300000,
       connectTimeoutMS: 10000,
       heartbeatFrequencyMS: 10000,
     });
@@ -101,3 +99,16 @@ const connectDB = async () => {
 
 // Export the connectDB function
 export { connectDB };
+
+// connectToDatabase: returns a native MongoClient db instance
+let cachedClient: MongoClient | null = null;
+
+export async function connectToDatabase(): Promise<{ db: Db }> {
+  if (cachedClient) {
+    return { db: cachedClient.db('hexasteel') };
+  }
+  const client = new MongoClient(uri);
+  await client.connect();
+  cachedClient = client;
+  return { db: client.db('hexasteel') };
+}
