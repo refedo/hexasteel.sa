@@ -12,13 +12,7 @@ const contactCards = [
   {
     icon: MapPinIcon,
     title: 'Our Location',
-    content: (
-      <>
-        {contactInfo.address}
-        <br />
-        {contactInfo.poBox}
-      </>
-    ),
+    content: contactInfo.address,
     action: {
       text: 'Get Directions',
       href: 'https://www.google.com/maps/place/Hexa+Steel%C2%AE+%D9%87%D9%8A%D9%83%D8%B3%D8%A7+%D8%B3%D8%AA%D9%8A%D9%84%E2%80%AD/@24.6386259,46.840442,17z/data=!4m15!1m8!3m7!1s0x3e2f09febb5e6879:0xf40d2dd14748393e!2zSGV4YSBTdGVlbMKuINmH2YrZg9iz2Kcg2LPYqtmK2YQ!8m2!3d24.638621!4d46.8430169!10e1!16s%2Fg%2F11fpgfk0f_!3m5!1s0x3e2f09febb5e6879:0xf40d2dd14748393e!8m2!3d24.638621!4d46.8430169!16s%2Fg%2F11fpgfk0f_?entry=ttu&g_ep=EgoyMDI1MDIwNS4xIKXMDSoASAFQAw%3D%3D',
