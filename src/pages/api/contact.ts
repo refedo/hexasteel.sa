@@ -23,7 +23,6 @@ export default async function handler(
         name,
         email,
         phone: phone || '',
-        company: company || '',
         subject,
         message,
         status: 'new',
