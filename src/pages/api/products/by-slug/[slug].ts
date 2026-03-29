@@ -14,7 +14,7 @@ export default async function handler(
   }
 
   try {
-    const product = await Product.findOne({ slug });
+    const product = await prisma.product.findUnique({ where: { slug: slug as string } });
     if (!product) {
       return res.status(404).json({ error: 'Product not found' });
     }

@@ -1,9 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../../../lib/prisma';
-
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../../auth/[...nextauth]';
-import mongoose from 'mongoose';
 
 export const config = {
   api: {
@@ -40,7 +38,11 @@ export default async function handler(
       });
     }
 
-    const project = await Project.findById(id);
+    const project = await prisma.project.findUnique({
+      where: { id: id as string },
+      include: { images: true }
+    });
+    
     if (!project) {
       return res.status(404).json({
         error: 'Project not found'
@@ -56,22 +58,17 @@ export default async function handler(
     }
 
     // Add the new image
-    project.images.push({
-      url: image.url,
-      caption: image.caption || ''
+    await prisma.image.create({
+      data: {
+        url: image.url,
+        caption: image.caption || '',
+        projectId: id as string
+      }
     });
-
-    // Save with timeout
-    await Promise.race([
-      project.save(),
-      new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('Save operation timed out')), 10000)
-      )
-    ]);
 
     res.status(200).json({
       message: 'Image added successfully',
-      imageCount: project.images.length
+      imageCount: project.images.length + 1
     });
 
   } catch (error: any) {

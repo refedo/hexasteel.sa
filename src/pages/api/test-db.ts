@@ -1,29 +1,25 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '../../lib/prisma';
-import mongoose from 'mongoose';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   try {
-    console.log('Testing MongoDB connection...');
-    console.log('MongoDB URI:', process.env.MONGODB_URI);
+    console.log('Testing PostgreSQL connection...');
+    console.log('Database URL:', process.env.DATABASE_URL);
     
+    // Test database connection by querying user count
+    const userCount = await prisma.user.count();
+    console.log('Users in database:', userCount);
     
-    
-    // List all collections
-    const collections = await mongoose.connection.db.collections();
-    console.log('Collections:', collections.map(c => c.collectionName));
-    
-    // Get database stats
-    const stats = await mongoose.connection.db.stats();
-    console.log('Database stats:', stats);
-
+    // Test project connection
+    const projectCount = await prisma.project.count();
+    console.log('Projects in database:', projectCount);
     return res.status(200).json({ 
       message: 'Database connection successful',
-      collections: collections.map(c => c.collectionName),
-      stats
+      userCount,
+      projectCount
     });
   } catch (error) {
     console.error('Database test error:', error);
