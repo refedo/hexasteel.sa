@@ -33,8 +33,6 @@ const connectDB = async () => {
       minPoolSize: 5,
       serverSelectionTimeoutMS: 10000,
       socketTimeoutMS: 45000,
-      keepAlive: true,
-      keepAliveInitialDelay: 300000,
       connectTimeoutMS: 10000,
       heartbeatFrequencyMS: 10000,
     });
