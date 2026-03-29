@@ -2,6 +2,7 @@ import { MapPinIcon, PhoneIcon, EnvelopeIcon, ClockIcon } from '@heroicons/react
 
 const contactInfo = {
   address: 'Istanbul St, As Sulay, Riyadh 14322',
+  poBox: 'P.O. Box 12345, Riyadh 11564',
   email: 'info@hexasteel.sa',
   phone: '+966 59 171 6020',
   workingHours: 'Saturday - Thursday: 8:00 AM - 5:00 PM',
