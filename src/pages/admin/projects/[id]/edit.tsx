@@ -3,8 +3,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import ProjectForm from '@/components/admin/ProjectForm';
 import AdminLayout from '@/components/admin/Layout';
-import { connectDB } from '@/lib/mongodb';
-import Project from '@/models/Project';
+import prisma from '@/lib/prisma';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 
@@ -58,8 +57,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       };
     }
 
-    await connectDB();
-    const project = await Project.findById(context.params?.id);
+    const project = await prisma.project.findUnique({
+      where: { id: context.params?.id as string },
+      include: { images: true }
+    });
 
     if (!project) {
       return {
@@ -67,7 +68,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       };
     }
 
-    // Convert _id to string and handle dates
+    // Serialize for Next.js
     const serializedProject = JSON.parse(JSON.stringify(project));
     
     return {

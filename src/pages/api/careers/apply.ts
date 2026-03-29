@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { connectToDatabase } from '@/lib/mongodb';
+import prisma from '@/lib/prisma';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -7,25 +7,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const { db } = await connectToDatabase();
+    // TODO: Implement job applications table in Prisma schema
+    // For now, return a placeholder response
     
-    const application = {
-      ...req.body,
-      resumePath: '', // Will be updated when file storage is implemented
-      status: 'new',
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-
-    const result = await db.collection('jobApplications').insertOne(application);
-
-    // Send notification email to HR (implement with your email service)
-    // await sendNotificationEmail(application);
-
     res.status(201).json({ 
       success: true, 
-      message: 'Application submitted successfully',
-      applicationId: result.insertedId 
+      message: 'Application feature coming soon. Please email your resume to careers@hexasteel.sa',
     });
   } catch (error) {
     console.error('Error submitting application:', error);

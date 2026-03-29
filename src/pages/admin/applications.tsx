@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import { connectToDatabase } from '@/lib/mongodb';
 import { format } from 'date-fns';
 import { 
   CheckCircleIcon, 
   XCircleIcon, 
   ClockIcon,
-  DocumentDownloadIcon
+  ArrowDownTrayIcon
 } from '@heroicons/react/24/outline';
 
 interface Application {
@@ -30,18 +29,11 @@ interface Props {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  // Add authentication check here
-  const { db } = await connectToDatabase();
-  
-  const applications = await db
-    .collection('jobApplications')
-    .find({})
-    .sort({ createdAt: -1 })
-    .toArray();
-
+  // TODO: Implement job applications in PostgreSQL
+  // For now, return empty array
   return {
     props: {
-      applications: JSON.parse(JSON.stringify(applications))
+      applications: []
     }
   };
 };
@@ -187,7 +179,7 @@ export default function Applications({ applications }: Props) {
                                   rel="noopener noreferrer"
                                   className="text-primary-600 hover:text-primary-900"
                                 >
-                                  <DocumentDownloadIcon className="h-5 w-5" />
+                                  <ArrowDownTrayIcon className="h-5 w-5" />
                                 </a>
                               )}
                             </div>
