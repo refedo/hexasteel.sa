@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 
 interface Project {
-  _id: string;
+  id: string;
   title: string;
   description: string;
   category: string;
@@ -107,7 +107,7 @@ export function Projects() {
           ) : (
             projects.map((project) => (
               <motion.div
-                key={project._id}
+                key={project.id}
                 variants={itemVariants}
                 className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow"
               >

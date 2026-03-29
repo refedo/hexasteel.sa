@@ -1,17 +1,19 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+interface Product {
+  id: string;
+  name: string;
+  slug: string;
+  category: string;
+  images: Array<{
+    url: string;
+    isPrimary: boolean;
+  }>;
+}
+
 interface ProductCardProps {
-  product: {
-    _id: string;
-    name: string;
-    slug: string;
-    category: string;
-    images: Array<{
-      url: string;
-      isPrimary: boolean;
-    }>;
-  };
+  product: Product;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import ProductGrid from './ProductGrid';
 
 interface Product {
-  _id: string;
+  id: string;
   name: string;
   slug: string;
   category: string;

@@ -49,7 +49,7 @@ export default function BlogEditor({ initialData, isEditing = false }: BlogEdito
 
     try {
       const url = isEditing 
-        ? `/api/blog/${initialData._id}`
+        ? `/api/blog/${initialData.id}`
         : '/api/blog';
       
       const method = isEditing ? 'PUT' : 'POST';

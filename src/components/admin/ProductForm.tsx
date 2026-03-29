@@ -59,7 +59,7 @@ export default function ProductForm({ initialData, isEditing = false }: ProductF
 
     try {
       const url = isEditing 
-        ? `/api/products/${initialData._id}`
+        ? `/api/products/${initialData.id}`
         : '/api/products';
       
       const method = isEditing ? 'PUT' : 'POST';

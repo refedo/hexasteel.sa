@@ -2,8 +2,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { hash } from 'bcryptjs';
 import prisma from '../../../lib/prisma';
 
-import mongoose from 'mongoose';
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -15,37 +13,30 @@ export default async function handler(
   try {
     
 
-    // Drop existing users collection
-    try {
-      await mongoose.connection.db.dropCollection('users');
-      console.log('Dropped existing users collection');
-    } catch (error) {
-      console.log('No existing users collection to drop');
-    }
-
-    // Create admin user with a simple hashed password
+    // Create admin user
     const password = 'Admin@123';
     const hashedPassword = await hash(password, 12);
-
-    const admin = await User.create({
-      name: 'Admin',
-      email: 'admin@hexasteel.sa',
-      password: hashedPassword,
-      role: 'admin',
-      isActive: true,
+    const adminUser = await prisma.user.create({
+      data: {
+        name: 'Admin User',
+        email: 'admin@hexasteel.sa',
+        password: hashedPassword,
+        role: 'ADMIN',
+        isActive: true,
+      },
     });
 
     console.log('Created admin user:', {
-      email: admin.email,
-      role: admin.role,
-      hashedPassword: admin.password.substring(0, 10) + '...',
+      email: adminUser.email,
+      role: adminUser.role,
+      hashedPassword: adminUser.password.substring(0, 10) + '...',
     });
 
     return res.status(200).json({ 
       message: 'Admin user created successfully',
       user: {
-        email: admin.email,
-        role: admin.role
+        email: adminUser.email,
+        role: adminUser.role
       }
     });
   } catch (error) {

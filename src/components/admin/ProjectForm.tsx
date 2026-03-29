@@ -29,7 +29,7 @@ export default function ProjectForm({ initialData, isEditing = false }: ProjectF
 
     try {
       const url = isEditing 
-        ? `/api/projects/${initialData._id}`
+        ? `/api/projects/${initialData.id}`
         : '/api/projects';
       
       const method = isEditing ? 'PUT' : 'POST';

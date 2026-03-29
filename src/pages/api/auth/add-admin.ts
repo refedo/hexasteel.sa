@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { hash } from 'bcryptjs';
 import prisma from '../../../lib/prisma';
 
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -18,12 +17,14 @@ export default async function handler(
     const password = 'Hexasteel@2025';
     const hashedPassword = await hash(password, 12);
 
-    const admin = await User.create({
-      name: 'Walid',
-      email: 'walid@hexasteel.sa',
-      password: hashedPassword,
-      role: 'admin',
-      isActive: true,
+    const admin = await prisma.user.create({
+      data: {
+        name: 'Walid',
+        email: 'walid@hexasteel.sa',
+        password: hashedPassword,
+        role: 'ADMIN',
+        isActive: true,
+      },
     });
 
     console.log('Created additional admin user:', {

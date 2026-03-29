@@ -227,7 +227,7 @@ export default function ProductsManagement() {
                               <PencilIcon className="h-5 w-5" />
                             </button>
                             <button
-                              onClick={() => handleDelete(product._id)}
+                              onClick={() => handleDelete(product.id)}
                               className="text-red-600 hover:text-red-900"
                             >
                               <TrashIcon className="h-5 w-5" />

@@ -1,7 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { compare } from 'bcryptjs';
 import prisma from '../../lib/prisma';
 
-import { compare } from 'bcryptjs';
+interface User {
+  id: string;
+  email: string;
+  name: string;
+  role: string;
+  password: string;
+}
 
 export default async function handler(
   req: NextApiRequest,
@@ -17,7 +24,7 @@ export default async function handler(
 
     
     
-    const user = await User.findOne({ email });
+    const user = await prisma.user.findUnique({ where: { email } });
     console.log('Found user:', user ? 'yes' : 'no');
 
     if (!user) {
@@ -34,7 +41,7 @@ export default async function handler(
     return res.status(200).json({ 
       message: 'Login successful',
       user: {
-        id: user._id,
+        id: user.id,
         email: user.email,
         name: user.name,
         role: user.role

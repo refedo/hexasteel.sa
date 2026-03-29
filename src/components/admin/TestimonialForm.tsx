@@ -45,7 +45,7 @@ export default function TestimonialForm({ initialData, isEditing = false }: Test
 
     try {
       const url = isEditing 
-        ? `/api/testimonials/${initialData._id}`
+        ? `/api/testimonials/${initialData.id}`
         : '/api/testimonials';
       
       const method = isEditing ? 'PUT' : 'POST';
@@ -231,7 +231,7 @@ export default function TestimonialForm({ initialData, isEditing = false }: Test
                 >
                   <option value="">Select a project</option>
                   {projects.map((project: any) => (
-                    <option key={project._id} value={project._id}>
+                    <option key={project.id} value={project.id}>
                       {project.title}
                     </option>
                   ))}

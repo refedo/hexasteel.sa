@@ -10,7 +10,7 @@ import {
 } from '@heroicons/react/24/outline';
 
 interface Application {
-  _id: string;
+  id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -135,7 +135,7 @@ export default function Applications({ applications }: Props) {
                     </thead>
                     <tbody className="divide-y divide-gray-200 bg-white">
                       {filteredApplications.map((application) => (
-                        <tr key={application._id}>
+                        <tr key={application.id}>
                           <td className="whitespace-nowrap px-3 py-4">
                             <div className="flex flex-col">
                               <div className="font-medium text-gray-900">
@@ -161,13 +161,13 @@ export default function Applications({ applications }: Props) {
                           <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                             <div className="flex justify-end space-x-2">
                               <button
-                                onClick={() => updateApplicationStatus(application._id, 'shortlisted')}
+                                onClick={() => updateApplicationStatus(application.id, 'shortlisted')}
                                 className="text-green-600 hover:text-green-900"
                               >
                                 <CheckCircleIcon className="h-5 w-5" />
                               </button>
                               <button
-                                onClick={() => updateApplicationStatus(application._id, 'rejected')}
+                                onClick={() => updateApplicationStatus(application.id, 'rejected')}
                                 className="text-red-600 hover:text-red-900"
                               >
                                 <XCircleIcon className="h-5 w-5" />
