@@ -1,0 +1,135 @@
+// Prisma schema for Hexa Steel website
+// Migrated from MongoDB to PostgreSQL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" // Can be changed to "mysql" if preferred
+  url      = env("DATABASE_URL")
+}
+
+// User model
+model User {
+  id        String    @id @default(uuid())
+  name      String
+  email     String    @unique
+  password  String
+  role      Role      @default(EDITOR)
+  avatar    String?
+  isActive  Boolean   @default(true)
+  lastLogin DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  blogs     Blog[]
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  VENDOR
+}
+
+// Project model
+model Project {
+  id             String   @id @default(uuid())
+  title          String
+  description    String   @db.Text
+  location       String
+  client         String
+  completionDate DateTime
+  category       String
+  scope          String[]
+  specifications Json?
+  status         String   @default("Planned")
+  featured       Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  images         Image[]
+  testimonials   Testimonial[]
+}
+
+// Image model (for projects)
+model Image {
+  id        String  @id @default(uuid())
+  url       String
+  caption   String?
+  projectId String?
+  project   Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+// Blog model
+model Blog {
+  id        String   @id @default(uuid())
+  title     String
+  slug      String   @unique
+  excerpt   String
+  content   String   @db.Text
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+  category  String
+  tags      String[]
+  image     String?
+  featured  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Testimonial model
+model Testimonial {
+  id               String   @id @default(uuid())
+  name             String
+  position         String
+  company          String
+  content          String   @db.Text
+  rating           Int
+  avatar           String?
+  featured         Boolean  @default(false)
+  projectId        String?  
+  projectReference Project? @relation(fields: [projectId], references: [id])
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+// Product model
+model Product {
+  id          String   @id @default(uuid())
+  name        String
+  slug        String   @unique
+  description String   @db.Text
+  category    String
+  subcategory String?
+  features    String[] 
+  images      String[]
+  price       Float?
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Contact model
+model Contact {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String   @db.Text
+  status    String   @default("New")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Knowledge Content model
+model KnowledgeContent {
+  id        String   @id @default(uuid())
+  title     String
+  slug      String   @unique
+  content   String   @db.Text
+  category  String
+  tags      String[]
+  files     String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
