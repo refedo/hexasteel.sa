@@ -1,5 +1,5 @@
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import Logo from '../Logo';
 import {
   MapPinIcon,
@@ -13,45 +13,15 @@ import {
   Instagram,
 } from '../icons/social/index';
 
-const navigation = {
-  company: [
-    { name: 'About', href: '/about' },
-    { name: 'Projects', href: '/projects' },
-    { name: 'Products', href: '/products' },
-    { name: 'FAQ', href: '/faq' },
-    { name: 'Contact', href: '/contact' },
-  ],
-  resources: [
-    { name: 'Knowledge Center', href: '/knowledge' },
-    { name: 'Blog', href: '/blog' },
-    { name: 'Factory Capabilities', href: '/factory-capabilities' },
-    { name: 'Initiatives', href: '/initiatives' },
-  ],
-  social: [
-    { name: 'Facebook', href: '#', icon: Facebook },
-    { name: 'Twitter', href: '#', icon: Twitter },
-    { name: 'LinkedIn', href: '#', icon: Linkedin },
-    { name: 'Instagram', href: '#', icon: Instagram },
-  ],
-};
-
-const contactInfo = [
-  {
-    icon: PhoneIcon,
-    text: '+966 13 123 4567',
-    href: 'tel:+966131234567'
-  },
-  {
-    icon: EnvelopeIcon,
-    text: 'info@hexasteel.sa',
-    href: 'mailto:info@hexasteel.sa'
-  },
-  {
-    icon: MapPinIcon,
-    text: 'Dammam 2nd Industrial City, KSA',
-    href: 'https://goo.gl/maps/your-location'
-  }
-];
+interface SiteSettings {
+  contactPhone?: string;
+  contactEmail?: string;
+  contactAddress?: string;
+  facebookUrl?: string;
+  twitterUrl?: string;
+  linkedinUrl?: string;
+  instagramUrl?: string;
+}
 
 const quickLinks = [
   { text: 'About', href: '/about' },
@@ -68,14 +38,27 @@ const resources = [
   { text: 'Initiatives', href: '/initiatives' },
 ];
 
-const socialLinks = [
-  { name: 'Facebook', href: '#', icon: Facebook },
-  { name: 'Twitter', href: '#', icon: Twitter },
-  { name: 'LinkedIn', href: '#', icon: Linkedin },
-  { name: 'Instagram', href: '#', icon: Instagram },
-];
-
 export default function Footer() {
+  const [settings, setSettings] = useState<SiteSettings>({});
+
+  useEffect(() => {
+    fetch('/api/public/settings')
+      .then(r => r.ok ? r.json() : {})
+      .then(data => setSettings(data))
+      .catch(() => {});
+  }, []);
+
+  const phone = settings.contactPhone || '+966 13 123 4567';
+  const email = settings.contactEmail || 'info@hexasteel.sa';
+  const address = settings.contactAddress || 'Dammam 2nd Industrial City, KSA';
+
+  const socialLinks = [
+    { name: 'Facebook', href: settings.facebookUrl || '#', icon: Facebook },
+    { name: 'Twitter', href: settings.twitterUrl || '#', icon: Twitter },
+    { name: 'LinkedIn', href: settings.linkedinUrl || '#', icon: Linkedin },
+    { name: 'Instagram', href: settings.instagramUrl || '#', icon: Instagram },
+  ];
+
   return (
     <footer className="bg-primary-800 text-white">
       <div className="container mx-auto px-4 py-12">
@@ -84,14 +67,22 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
             <div className="space-y-4">
-              {contactInfo.map((item, index) => (
-                <div key={index} className="flex items-start space-x-3">
-                  <item.icon className="w-6 h-6 text-primary-300 flex-shrink-0" />
-                  <a href={item.href} className="text-gray-300 hover:text-primary-300 transition-colors">
-                    {item.text}
-                  </a>
-                </div>
-              ))}
+              <div className="flex items-start space-x-3">
+                <PhoneIcon className="w-6 h-6 text-primary-300 flex-shrink-0" />
+                <a href={`tel:${phone.replace(/\s/g, '')}`} className="text-gray-300 hover:text-primary-300 transition-colors">
+                  {phone}
+                </a>
+              </div>
+              <div className="flex items-start space-x-3">
+                <EnvelopeIcon className="w-6 h-6 text-primary-300 flex-shrink-0" />
+                <a href={`mailto:${email}`} className="text-gray-300 hover:text-primary-300 transition-colors">
+                  {email}
+                </a>
+              </div>
+              <div className="flex items-start space-x-3">
+                <MapPinIcon className="w-6 h-6 text-primary-300 flex-shrink-0" />
+                <span className="text-gray-300">{address}</span>
+              </div>
             </div>
           </div>
 
@@ -101,7 +92,7 @@ export default function Footer() {
             <ul className="space-y-2">
               {quickLinks.map((link, index) => (
                 <li key={index}>
-                  <Link 
+                  <Link
                     href={link.href}
                     className="text-gray-300 hover:text-primary-300 transition-colors"
                   >
@@ -118,7 +109,7 @@ export default function Footer() {
             <ul className="space-y-2">
               {resources.map((resource, index) => (
                 <li key={index}>
-                  <Link 
+                  <Link
                     href={resource.href}
                     className="text-gray-300 hover:text-primary-300 transition-colors"
                   >

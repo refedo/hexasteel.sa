@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { CheckCircleIcon } from '@heroicons/react/24/solid';
 
 interface ProjectCardProps {
   project: {
@@ -9,6 +10,7 @@ interface ProjectCardProps {
     description: string;
     location: string;
     category: string;
+    status?: string;
     images: Array<{
       url: string;
       caption: string;
@@ -18,6 +20,7 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project }: ProjectCardProps) {
   const mainImage = project.images[0];
+  const isCompleted = project.status === 'Completed';
 
   return (
     <motion.div
@@ -35,6 +38,12 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             unoptimized
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+          {isCompleted && (
+            <div className="absolute top-3 right-3 flex items-center gap-1 bg-green-500 text-white text-xs font-semibold px-2 py-1 rounded-full">
+              <CheckCircleIcon className="h-3.5 w-3.5" />
+              Completed
+            </div>
+          )}
           <div className="absolute bottom-0 left-0 right-0 p-6">
             <span className="inline-block px-3 py-1 text-sm text-white bg-primary-500 rounded-full mb-3">
               {project.category}
