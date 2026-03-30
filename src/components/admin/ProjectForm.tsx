@@ -10,6 +10,8 @@ interface ProjectFormProps {
 export default function ProjectForm({ initialData, isEditing = false }: ProjectFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -89,16 +91,27 @@ export default function ProjectForm({ initialData, isEditing = false }: ProjectF
     const files = e.target.files;
     if (!files?.length) return;
 
-    const formData = new FormData();
-    for (let i = 0; i <files.length; i++) {
-      formData.append('images', files[i]);
+    setIsUploading(true);
+    setUploadProgress(0);
+
+    const uploadFormData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      uploadFormData.append('images', files[i]);
     }
 
     try {
+      // Simulate progress for better UX
+      const progressInterval = setInterval(() => {
+        setUploadProgress(prev => Math.min(prev + 10, 90));
+      }, 200);
+
       const response = await fetch('/api/upload', {
         method: 'POST',
-        body: formData,
+        body: uploadFormData,
       });
+
+      clearInterval(progressInterval);
+      setUploadProgress(100);
 
       if (response.ok) {
         const data = await response.json();
@@ -119,14 +132,28 @@ export default function ProjectForm({ initialData, isEditing = false }: ProjectF
           console.log('Updated form data with images:', updated);
           return updated;
         });
+
+        // Reset upload state after a brief delay
+        setTimeout(() => {
+          setIsUploading(false);
+          setUploadProgress(0);
+        }, 500);
       } else {
-        console.error('Upload failed:', response.status, response.statusText);
-        alert('Failed to upload images. Please try again.');
+        const errorData = await response.json();
+        console.error('Upload failed:', response.status, errorData);
+        alert(`Failed to upload images: ${errorData.error || 'Unknown error'}`);
+        setIsUploading(false);
+        setUploadProgress(0);
       }
     } catch (error) {
       console.error('Error uploading images:', error);
-      alert('Failed to upload images. Please try again.');
+      alert(`Failed to upload images: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      setIsUploading(false);
+      setUploadProgress(0);
     }
+
+    // Reset file input
+    e.target.value = '';
   };
 
   const removeImage = (index: number) => {
@@ -283,14 +310,14 @@ export default function ProjectForm({ initialData, isEditing = false }: ProjectF
                 Project Images
               </label>
               <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                <div className="space-y-1 text-center">
+                <div className="space-y-1 text-center w-full">
                   <PhotoIcon className="mx-auto h-12 w-12 text-gray-400" />
                   <div className="flex text-sm text-gray-600">
                     <label
                       htmlFor="image-upload"
-                      className="relative cursor-pointer rounded-md bg-white font-medium text-blue-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 hover:text-blue-500"
+                      className={`relative cursor-pointer rounded-md bg-white font-medium text-blue-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 hover:text-blue-500 ${isUploading ? 'opacity-50 pointer-events-none' : ''}`}
                     >
-                      <span>Upload images</span>
+                      <span>{isUploading ? 'Uploading...' : 'Upload images'}</span>
                       <input
                         id="image-upload"
                         name="image-upload"
@@ -299,10 +326,24 @@ export default function ProjectForm({ initialData, isEditing = false }: ProjectF
                         accept="image/*"
                         className="sr-only"
                         onChange={handleImageUpload}
+                        disabled={isUploading}
                       />
                     </label>
                   </div>
                   <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                  
+                  {/* Upload Progress Bar */}
+                  {isUploading && (
+                    <div className="mt-4 w-full max-w-xs mx-auto">
+                      <div className="bg-gray-200 rounded-full h-2.5">
+                        <div 
+                          className="bg-blue-600 h-2.5 rounded-full transition-all duration-300"
+                          style={{ width: `${uploadProgress}%` }}
+                        ></div>
+                      </div>
+                      <p className="text-xs text-gray-600 mt-1">{uploadProgress}%</p>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -347,6 +388,11 @@ export default function ProjectForm({ initialData, isEditing = false }: ProjectF
 
       <div className="pt-5">
         <div className="flex justify-end">
+          {isUploading && (
+            <p className="mr-4 text-sm text-orange-600 self-center">
+              ⚠️ Please wait for image upload to complete
+            </p>
+          )}
           <button
             type="button"
             onClick={() => router.back()}
@@ -356,8 +402,12 @@ export default function ProjectForm({ initialData, isEditing = false }: ProjectF
           </button>
           <button
             type="submit"
-            disabled={isSubmitting}
-            className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            disabled={isSubmitting || isUploading}
+            className={`ml-3 inline-flex justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+              isSubmitting || isUploading 
+                ? 'bg-gray-400 cursor-not-allowed' 
+                : 'bg-blue-600 hover:bg-blue-700'
+            }`}
           >
             {isSubmitting ? 'Saving...' : isEditing ? 'Update Project' : 'Create Project'}
           </button>
