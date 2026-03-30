@@ -24,7 +24,8 @@ export default function ProjectForm({ initialData, isEditing = false }: ProjectF
   });
 
   useEffect(() => {
-    if (initialData) {
+    if (initialData && Object.keys(initialData).length > 0) {
+      console.log('Initializing form with data:', initialData);
       setFormData({
         title: initialData.title || '',
         description: initialData.description || '',
@@ -33,9 +34,9 @@ export default function ProjectForm({ initialData, isEditing = false }: ProjectF
         category: initialData.category || '',
         status: initialData.status || 'Planned',
         completionDate: initialData.completionDate || '',
-        scope: initialData.scope || [],
+        scope: Array.isArray(initialData.scope) ? initialData.scope : [],
         specifications: initialData.specifications || {},
-        images: initialData.images || [],
+        images: Array.isArray(initialData.images) ? initialData.images : [],
       });
     }
   }, [initialData]);
