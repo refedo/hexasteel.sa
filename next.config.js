@@ -3,6 +3,17 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: ['images.unsplash.com', 'placehold.co'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'hexasteel.sa',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.hexasteel.sa',
+      },
+    ],
+    unoptimized: false,
   },
   experimental: {
     scrollRestoration: true
