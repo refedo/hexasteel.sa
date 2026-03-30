@@ -71,6 +71,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     // Serialize for Next.js
     const serializedProject = JSON.parse(JSON.stringify(project));
     
+    console.log('Project data being sent to edit page:', {
+      id: serializedProject.id,
+      title: serializedProject.title,
+      imagesCount: serializedProject.images?.length || 0,
+      images: serializedProject.images
+    });
+    
     return {
       props: {
         project: {
