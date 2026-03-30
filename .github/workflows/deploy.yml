@@ -41,6 +41,8 @@ jobs:
             cd /var/www/hexasteel-website
             git pull origin main
             npm ci
+            mkdir -p public/uploads
+            chmod 755 public/uploads
             npm run build
             npx prisma migrate deploy
             npx prisma generate
