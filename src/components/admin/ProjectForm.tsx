@@ -45,6 +45,9 @@ export default function ProjectForm({ initialData, isEditing = false }: ProjectF
     e.preventDefault();
     setIsSubmitting(true);
 
+    console.log('Submitting project with data:', formData);
+    console.log('Images being submitted:', formData.images);
+
     try {
       const url = isEditing 
         ? `/api/projects/${initialData.id}`
@@ -99,14 +102,26 @@ export default function ProjectForm({ initialData, isEditing = false }: ProjectF
 
       if (response.ok) {
         const data = await response.json();
+        console.log('Upload response:', data);
+        
         const newImages = data.urls.map((url: string) => ({
           url: url,
           caption: ''
         }));
-        setFormData(prev => ({
-          ...prev,
-          images: [...prev.images, ...newImages],
-        }));
+        
+        console.log('New images to add:', newImages);
+        
+        setFormData(prev => {
+          const updated = {
+            ...prev,
+            images: [...prev.images, ...newImages],
+          };
+          console.log('Updated form data with images:', updated);
+          return updated;
+        });
+      } else {
+        console.error('Upload failed:', response.status, response.statusText);
+        alert('Failed to upload images. Please try again.');
       }
     } catch (error) {
       console.error('Error uploading images:', error);
