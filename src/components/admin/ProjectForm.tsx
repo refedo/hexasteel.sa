@@ -352,11 +352,11 @@ export default function ProjectForm({ initialData, isEditing = false }: ProjectF
                 <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
                   {formData.images.map((image: { url: string; caption: string }, index: number) => (
                     <div key={index} className="relative group">
-                      <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200">
+                      <div className="aspect-square w-full overflow-hidden rounded-lg bg-gray-200">
                         <img
                           src={image.url}
                           alt={`Project image ${index + 1}`}
-                          className="object-cover"
+                          className="w-full h-full object-cover"
                         />
                       </div>
                       <button

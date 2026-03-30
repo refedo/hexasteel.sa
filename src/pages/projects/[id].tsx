@@ -64,8 +64,10 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
                   src={selectedImage || project.images[0]?.url}
                   alt={project.title}
                   fill
+                  sizes="(max-width: 768px) 100vw, 80vw"
                   className="object-cover"
                   priority
+                  unoptimized
                 />
               </div>
 
@@ -86,7 +88,9 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
                           src={image.url}
                           alt={image.caption || project.title}
                           fill
+                          sizes="(max-width: 768px) 16vw, 10vw"
                           className="object-cover"
+                          unoptimized
                         />
                       </button>
                     ))}
