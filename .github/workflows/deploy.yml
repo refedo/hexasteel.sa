@@ -38,12 +38,13 @@ jobs:
           key: ${{ secrets.DO_SSH_KEY }}
           port: ${{ secrets.DO_PORT }}
           script: |
-            cd /var/www/hexasteel.sa
+            cd /var/www/hexasteel-website
             git pull origin main
             npm ci
             npm run build
             npx prisma migrate deploy
-            pm2 restart hexasteel || pm2 start npm --name "hexasteel" -- start
+            npx prisma generate
+            pm2 restart hexasteel-website
             pm2 save
 
       - name: Notify deployment status
