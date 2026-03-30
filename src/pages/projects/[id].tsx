@@ -4,6 +4,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { CalendarIcon, MapPinIcon, UserIcon } from '@heroicons/react/24/outline';
+import { CheckCircleIcon } from '@heroicons/react/24/solid';
 
 interface ProjectDetailsProps {
   project: {
@@ -14,6 +15,7 @@ interface ProjectDetailsProps {
     client: string;
     completionDate: string;
     category: string;
+    status?: string;
     images: Array<{
       url: string;
       caption: string;
@@ -42,6 +44,12 @@ export default function ProjectDetails({ project }: ProjectDetailsProps) {
               <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
                 {project.title}
               </h1>
+              {project.status === 'Completed' && (
+                <div className="inline-flex items-center gap-1.5 bg-green-100 text-green-700 text-sm font-semibold px-3 py-1 rounded-full mb-4">
+                  <CheckCircleIcon className="h-4 w-4" />
+                  Completed
+                </div>
+              )}
               <div className="flex flex-wrap justify-center gap-6 text-gray-600">
                 <div className="flex items-center">
                   <MapPinIcon className="w-5 h-5 mr-2" />

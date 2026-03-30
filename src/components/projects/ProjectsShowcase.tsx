@@ -8,6 +8,7 @@ interface Project {
   description: string;
   location: string;
   category: string;
+  status?: string;
   images: Array<{
     url: string;
     caption: string;

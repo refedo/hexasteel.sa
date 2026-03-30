@@ -191,7 +191,10 @@ export default function Settings() {
 
           {/* Site Settings Section */}
           <div className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-semibold mb-4">Site Settings</h2>
+            <h2 className="text-xl font-semibold mb-1">Site Settings</h2>
+            <p className="text-sm text-gray-500 mb-4">
+              Contact info and social links are displayed in the site footer and contact page.
+            </p>
             <form onSubmit={handleSiteSettingsSave} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
