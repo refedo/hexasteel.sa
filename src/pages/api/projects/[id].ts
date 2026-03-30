@@ -64,6 +64,11 @@ export default async function handler(
 
           // Handle images update if provided
           if (images && Array.isArray(images)) {
+            console.log('Processing images update:', {
+              imageCount: images.length,
+              images: images
+            });
+            
             // Delete existing images
             await prisma.image.deleteMany({
               where: { projectId: id },
@@ -71,13 +76,19 @@ export default async function handler(
             
             // Create new images
             if (images.length > 0) {
-              await prisma.image.createMany({
-                data: images.map((image: any) => ({
-                  url: image.url,
-                  caption: image.caption || '',
-                  projectId: id,
-                })),
+              const imageData = images.map((image: any) => ({
+                url: image.url,
+                caption: image.caption || '',
+                projectId: id,
+              }));
+              
+              console.log('Creating images in database:', imageData);
+              
+              const createdImages = await prisma.image.createMany({
+                data: imageData,
               });
+              
+              console.log('Images created:', createdImages);
             }
             
             // Fetch the project again with updated images
