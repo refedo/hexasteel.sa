@@ -9,7 +9,7 @@ import { authOptions } from '@/pages/api/auth/[...nextauth]';
 
 interface EditProjectProps {
   project: {
-    _id: string;
+    id: string;
     title: string;
     description: string;
     client: string;

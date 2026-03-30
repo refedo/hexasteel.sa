@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { PhotoIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
@@ -10,7 +10,7 @@ interface ProjectFormProps {
 export default function ProjectForm({ initialData, isEditing = false }: ProjectFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState(initialData || {
+  const [formData, setFormData] = useState({
     title: '',
     description: '',
     client: '',
@@ -22,6 +22,23 @@ export default function ProjectForm({ initialData, isEditing = false }: ProjectF
     specifications: {},
     images: [],
   });
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        title: initialData.title || '',
+        description: initialData.description || '',
+        client: initialData.client || '',
+        location: initialData.location || '',
+        category: initialData.category || '',
+        status: initialData.status || 'Planned',
+        completionDate: initialData.completionDate || '',
+        scope: initialData.scope || [],
+        specifications: initialData.specifications || {},
+        images: initialData.images || [],
+      });
+    }
+  }, [initialData]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
