@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ['images.unsplash.com', 'placehold.co'],
+    domains: ['images.unsplash.com', 'placehold.co', 'hexasteel.sa', 'www.hexasteel.sa'],
     remotePatterns: [
       {
         protocol: 'https',
@@ -12,8 +12,13 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'www.hexasteel.sa',
       },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
     ],
-    unoptimized: false,
+    // Disable image optimization for uploaded files to avoid 404 errors
+    unoptimized: process.env.NODE_ENV === 'production',
   },
   experimental: {
     scrollRestoration: true
