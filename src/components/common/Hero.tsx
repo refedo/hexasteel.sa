@@ -4,11 +4,12 @@ interface HeroProps {
   title: string;
   subtitle?: string;
   backgroundImage?: string;
+  background?: string;
 }
 
-export default function Hero({ title, subtitle, backgroundImage }: HeroProps) {
+export default function Hero({ title, subtitle, backgroundImage, background }: HeroProps) {
   return (
-    <div className={`bg-gray-900 py-24 relative overflow-hidden ${backgroundImage ? 'min-h-[40vh]' : ''}`}>
+    <div className={`${background ?? 'bg-gray-900'} py-24 relative overflow-hidden ${backgroundImage ? 'min-h-[40vh]' : ''}`}>
       {backgroundImage && (
         <div 
           className="absolute inset-0 opacity-30 bg-cover bg-center"

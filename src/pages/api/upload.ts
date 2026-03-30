@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { IncomingForm } from 'formidable';
+import { IncomingForm, Files } from 'formidable';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { getServerSession } from 'next-auth/next';
@@ -40,8 +40,8 @@ export default async function handler(
       maxFileSize: 10 * 1024 * 1024, // 10MB
     });
 
-    const { files } = await new Promise((resolve, reject) => {
-      form.parse(req, (err, _, files) => {
+    const { files } = await new Promise<{ files: Files }>((resolve, reject) => {
+      form.parse(req, (err, _fields, files) => {
         if (err) reject(err);
         resolve({ files });
       });

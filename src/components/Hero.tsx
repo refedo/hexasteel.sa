@@ -5,19 +5,39 @@ import Image from 'next/image';
 interface HeroProps {
   title?: string;
   description?: string;
+  subtitle?: string;
   showFeatures?: boolean;
+  background?: string;
+  backgroundImage?: string;
 }
 
 export default function Hero({ 
   title = "Building Tomorrow's Steel Structures Today",
-  description = "Leading the way in innovative steel construction solutions with unmatched quality and precision",
-  showFeatures = true 
+  description,
+  subtitle,
+  showFeatures = true,
+  background = "bg-gradient-to-br from-blue-900/90 via-gray-900/90 to-gray-800/90",
+  backgroundImage,
 }: HeroProps) {
+  const resolvedDescription =
+    description ??
+    subtitle ??
+    "Leading the way in innovative steel construction solutions with unmatched quality and precision";
+
   return (
     <div className="relative min-h-screen">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0 bg-gray-900">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/90 via-gray-900/90 to-gray-800/90" />
+        {backgroundImage && (
+          <Image
+            src={backgroundImage}
+            alt="Hero background"
+            fill
+            priority
+            className="object-cover opacity-40"
+          />
+        )}
+        <div className={`absolute inset-0 ${background}`} />
       </div>
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 py-32 sm:py-48">
@@ -38,7 +58,7 @@ export default function Hero({
             )}
           </h1>
           <p className="text-xl text-gray-300 mb-8">
-            {description}
+            {resolvedDescription}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
