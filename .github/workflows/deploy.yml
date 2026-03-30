@@ -30,7 +30,7 @@ jobs:
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
           NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
 
-      - name: Deploy to Digital Ocean
+      - name: Deploy to Digital Ocean - Hexasteel.sa
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.DO_HOST }}
