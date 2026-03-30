@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { IncomingForm, Files } from 'formidable';
+import { IncomingForm, Files, File } from 'formidable';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { getServerSession } from 'next-auth/next';
@@ -38,6 +38,12 @@ export default async function handler(
       keepExtensions: true,
       maxFiles: 10,
       maxFileSize: 10 * 1024 * 1024, // 10MB
+      filename: (name, ext, part) => {
+        // Generate a unique filename
+        const timestamp = Date.now();
+        const randomString = Math.random().toString(36).substring(2, 8);
+        return `${timestamp}-${randomString}${ext}`;
+      }
     });
 
     const { files } = await new Promise<{ files: Files }>((resolve, reject) => {
@@ -47,14 +53,14 @@ export default async function handler(
       });
     });
 
-    const uploadedFiles = Array.isArray(files.images) ? files.images : [files.images];
-    const urls = await Promise.all(
-      uploadedFiles.map(async (file) => {
-        const filename = path.basename(file.filepath);
-        return `/uploads/${filename}`;
-      })
-    );
+    const uploadedFiles = Array.isArray(files.images) ? files.images : [files.images].filter(Boolean);
+    
+    const urls = uploadedFiles.map((file: File) => {
+      const filename = path.basename(file.filepath);
+      return `/uploads/${filename}`;
+    });
 
+    console.log('Files uploaded successfully:', urls);
     res.status(200).json({ urls });
   } catch (error) {
     console.error('Upload error:', error);
