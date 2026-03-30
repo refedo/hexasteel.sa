@@ -3,7 +3,7 @@ module.exports = {
     name: 'hexasteel',
     script: 'npm',
     args: 'start',
-    cwd: '/var/www/hexasteel.sa',
+    cwd: '/var/www/hexasteel-website',
     instances: 1,
     autorestart: true,
     watch: false,

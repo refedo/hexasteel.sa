@@ -133,3 +133,29 @@ model KnowledgeContent {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+// Team Member model
+model TeamMember {
+  id          String   @id @default(uuid())
+  name        String
+  position    String
+  department  String
+  bio         String?  @db.Text
+  email       String?
+  phone       String?
+  avatar      String?
+  linkedin    String?
+  order       Int      @default(0)
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Settings model
+model Settings {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  value     String   @db.Text
+  type      String   @default("text")
+  updatedAt DateTime @updatedAt
+}
