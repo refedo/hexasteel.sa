@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import Layout from '../components/layout/Layout';
 import PageHeader from '../components/PageHeader';
 import Head from 'next/head';
+import SEO from '../components/common/SEO';
 
 interface PartnerFormData {
   companyName: string;
@@ -25,10 +26,12 @@ export default function PartnerPage() {
 
   return (
     <Layout>
-      <Head>
-        <title>Partner with Us - Hexasteel</title>
-        <meta name="description" content="Join forces with a trusted steel building industry leader. We offer frame agreements with secured tonnage and competitive pricing for qualified partners." />
-      </Head>
+      <SEO
+        title="Partner with Us"
+        description="Partner with Hexa Steel® — Saudi Arabia's leading steel structure manufacturer. We offer frame agreements with secured tonnage, competitive pricing, and long-term strategic partnerships."
+        canonical="/partner"
+        keywords="Hexa Steel partner, steel manufacturer partnership, frame agreement, Saudi Arabia steel partner, tonnage agreement"
+      />
 
       <PageHeader 
         title="Become Our Partner"

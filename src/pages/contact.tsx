@@ -3,17 +3,17 @@ import ContactForm from '../components/contact/ContactForm';
 import ContactInfo from '../components/contact/ContactInfo';
 import Map from '../components/contact/Map';
 import Hero from '../components/common/Hero';
+import SEO from '../components/common/SEO';
 
 export default function ContactPage() {
   return (
     <>
-      <Head>
-        <title>Contact Us - Hexasteel</title>
-        <meta
-          name="description"
-          content="Get in touch with Hexasteel for all your steel construction needs. We're here to help bring your project to life."
-        />
-      </Head>
+      <SEO
+        title="Contact Us"
+        description="Contact Hexa Steel® for all your steel structure and pre-engineered building needs in Saudi Arabia. Our expert team is ready to help you bring your construction project to life."
+        canonical="/contact"
+        keywords="contact Hexa Steel, steel construction inquiry, Saudi Arabia, PEB quote, steel structure consultation"
+      />
 
       <div>
         <Hero 

@@ -10,8 +10,7 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
     <SessionProvider session={session}>
       <ErrorBoundary>
         <Head>
-          <title>Hexa Steel - Leading Steel Structure Manufacturer</title>
-          <meta name="description" content="Hexa Steel - Your trusted partner in steel structure manufacturing, offering comprehensive solutions from design to installation." />
+          {/* Base viewport and favicon - individual pages set their own titles/descriptions */}
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="icon" href="/favicon.ico" />
           <link rel="preconnect" href="https://fonts.googleapis.com" />

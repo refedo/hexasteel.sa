@@ -5,17 +5,18 @@ import Stats from '../components/about/Stats';
 import Values from '../components/about/Values';
 import Team from '../components/about/Team';
 import Hero from '../components/common/Hero';
+import SEO, { organizationJsonLd } from '../components/common/SEO';
 
 export default function AboutPage() {
   return (
     <>
-      <Head>
-        <title>About Us - Hexa Steel®</title>
-        <meta
-          name="description"
-          content="Learn about Hexa Steel®'s journey, mission, values, and the team behind our success in steel construction."
-        />
-      </Head>
+      <SEO
+        title="About Us"
+        description="Learn about Hexa Steel®'s 25+ year journey, our mission to deliver innovative steel solutions, core values, and the expert team driving our success in Saudi Arabia's construction industry."
+        canonical="/about"
+        keywords="about Hexa Steel, steel manufacturer Saudi Arabia, company history, steel construction team"
+        jsonLd={organizationJsonLd()}
+      />
 
       <div>
         {/* Hero Section */}

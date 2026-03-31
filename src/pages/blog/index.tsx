@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Hero from '../../components/common/Hero';
 import BlogCard from '../../components/blog/BlogCard';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import SEO from '../../components/common/SEO';
 
 // Sample blog data - Replace with actual data from your API/database
 const blogPosts = [
@@ -70,12 +71,13 @@ export default function BlogPage() {
 
   return (
     <>
+      <SEO
+        title="Blog & Insights"
+        description="Explore Hexa Steel®'s blog for the latest insights, industry trends, innovations, and news from the steel construction and pre-engineered building sector in Saudi Arabia."
+        canonical="/blog"
+        keywords="steel construction blog, PEB insights, steel industry news, Saudi Arabia construction, Hexa Steel articles"
+      />
       <Head>
-        <title>Blog - Hexasteel</title>
-        <meta
-          name="description"
-          content="Stay updated with the latest insights, trends, and news from the steel construction industry."
-        />
       </Head>
 
       <main>

@@ -2,17 +2,17 @@ import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import Hero from '../../components/common/Hero';
 import ProjectsShowcase from '../../components/projects/ProjectsShowcase';
+import SEO from '../../components/common/SEO';
 
 export default function ProjectsPage() {
   return (
     <>
-      <Head>
-        <title>Our Projects - Hexasteel</title>
-        <meta
-          name="description"
-          content="Explore our portfolio of successful steel construction projects across industrial, commercial, residential, and infrastructure sectors."
-        />
-      </Head>
+      <SEO
+        title="Our Projects"
+        description="Explore Hexa Steel®'s portfolio of completed steel construction projects across Saudi Arabia — industrial facilities, commercial complexes, warehouses, and specialized structures."
+        canonical="/projects"
+        keywords="steel construction projects, PEB projects Saudi Arabia, industrial buildings portfolio, Hexa Steel projects"
+      />
 
       <main>
         <Hero

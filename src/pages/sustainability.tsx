@@ -2,6 +2,7 @@ import Head from 'next/head';
 import { motion } from 'framer-motion';
 import Hero from '../components/common/Hero';
 import SustainabilityInitiatives from '../components/sustainability/SustainabilityInitiatives';
+import SEO from '../components/common/SEO';
 
 const stats = [
   { label: 'Carbon Reduction', value: '170+ tons', description: 'Annual CO2 emissions reduced' },
@@ -13,13 +14,12 @@ const stats = [
 export default function Sustainability() {
   return (
     <div className="min-h-screen bg-gray-50">
-      <Head>
-        <title>Sustainability - Hexa Steel®</title>
-        <meta 
-          name="description" 
-          content="Discover Hexa Steel's commitment to sustainability through innovative initiatives in paperless operations, electrified transportation, and green building practices." 
-        />
-      </Head>
+      <SEO
+        title="Sustainability"
+        description="Hexa Steel® leads Saudi Arabia's steel industry toward a greener future with solar power, zero-waste production, electrified fleet, and LEED-certified sustainable construction practices."
+        canonical="/sustainability"
+        keywords="Hexa Steel sustainability, green steel manufacturing, Saudi Arabia sustainable construction, ISO 14001, LEED certified, eco-friendly steel"
+      />
 
       <Hero
         title="Sustainability"

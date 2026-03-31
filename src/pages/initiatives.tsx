@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import { Tab } from '@headlessui/react';
+import SEO from '../components/common/SEO';
 import { motion } from 'framer-motion';
 import Hero from '../components/common/Hero';
 import { initiatives } from '../data/initiatives';
@@ -29,13 +30,12 @@ export default function Initiatives() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Head>
-        <title>Our Initiatives - HexaSteel</title>
-        <meta 
-          name="description" 
-          content="Discover HexaSteel's innovative initiatives in sustainability, education, and industry partnerships." 
-        />
-      </Head>
+      <SEO
+        title="Our Initiatives"
+        description="Hexa Steel® drives innovation in Saudi Arabia through lean manufacturing, 5S excellence, sustainable production, electrified logistics, the Hexa Steel Academy, and the PIF Accelerated Manufacturing Program."
+        canonical="/initiatives"
+        keywords="Hexa Steel initiatives, lean manufacturing, 5S, sustainability, PIF AMP, Hexa Academy, Saudi Arabia steel"
+      />
 
       <Hero
         title="Our Initiatives"
