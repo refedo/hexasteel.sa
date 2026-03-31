@@ -77,8 +77,6 @@ export default function BlogPage() {
         canonical="/blog"
         keywords="steel construction blog, PEB insights, steel industry news, Saudi Arabia construction, Hexa Steel articles"
       />
-      <Head>
-      </Head>
 
       <main>
         <Hero
