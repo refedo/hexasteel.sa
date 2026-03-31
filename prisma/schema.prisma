@@ -159,3 +159,30 @@ model Settings {
   type      String   @default("text")
   updatedAt DateTime @updatedAt
 }
+
+// FAQ Item model
+model FAQItem {
+  id        String   @id @default(uuid())
+  question  String
+  answer    String   @db.Text
+  category  String   @default("general")
+  order     Int      @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Certification model
+model Certification {
+  id          String   @id @default(uuid())
+  name        String
+  category    String
+  description String   @db.Text
+  validUntil  String?
+  icon        String?
+  benefits    String[]
+  order       Int      @default(0)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

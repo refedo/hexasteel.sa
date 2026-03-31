@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Head from 'next/head';
 import Hero from '@/components/Hero';
 import ServicesGrid from '@/components/products/ServicesGrid';
+import SEO, { breadcrumbJsonLd } from '@/components/common/SEO';
 
 const categories = [
   {
@@ -161,10 +162,13 @@ const services = [
 export default function ProductsPage() {
   return (
     <>
-      <Head>
-        <title>Products & Services - Hexasteel</title>
-        <meta name="description" content="Explore our comprehensive range of steel structure solutions and services." />
-      </Head>
+      <SEO
+        title="Products & Services"
+        description="Explore Hexa Steel®'s comprehensive range of steel structure solutions: pre-engineered buildings, industrial structures, secondary items, tanks, piping systems, and surface treatment services."
+        canonical="/products"
+        keywords="steel products, pre-engineered buildings, PEB systems, steel structures, industrial buildings, tanks vessels, piping systems, Saudi Arabia"
+        jsonLd={breadcrumbJsonLd([{ name: 'Home', url: '/' }, { name: 'Products', url: '/products' }])}
+      />
 
       <Hero
         title="Products & Services"

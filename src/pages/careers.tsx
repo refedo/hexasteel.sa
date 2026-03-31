@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { motion } from 'framer-motion';
 import { BriefcaseIcon, ClockIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 import ApplicationForm from '@/components/careers/ApplicationForm';
+import SEO from '@/components/common/SEO';
 
 interface Job {
   id: string;
@@ -129,13 +130,12 @@ export default function Careers() {
 
   return (
     <>
-      <Head>
-        <title>Join Our Team - Hexa Steel®</title>
-        <meta
-          name="description"
-          content="Join Hexa Steel® and be part of a dynamic team shaping the future of steel construction. Explore our current job openings and career opportunities."
-        />
-      </Head>
+      <SEO
+        title="Careers - Join Our Team"
+        description="Build your career with Hexa Steel®. Explore exciting job openings in steel construction, engineering, project management, quality control, and more in Saudi Arabia."
+        canonical="/careers"
+        keywords="Hexa Steel careers, steel construction jobs, engineering jobs Saudi Arabia, PEB jobs, steel fabrication careers"
+      />
 
       {/* Header */}
       <div className="bg-gradient-to-r from-primary-600 via-primary-700 to-primary-800 py-16 px-4">

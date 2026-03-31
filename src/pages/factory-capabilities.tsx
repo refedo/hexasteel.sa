@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import { Tab } from '@headlessui/react';
+import SEO from '../components/common/SEO';
 import { motion } from 'framer-motion';
 import { productionLines } from '../data/factoryCapabilities';
 import MachineDetails from '../components/factory/MachineDetails';
@@ -21,13 +22,12 @@ export default function FactoryCapabilities() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Head>
-        <title>Factory Capabilities - HexaSteel</title>
-        <meta 
-          name="description" 
-          content="Explore HexaSteel's state-of-the-art manufacturing facilities and machinery capabilities." 
-        />
-      </Head>
+      <SEO
+        title="Factory Capabilities"
+        description="Explore Hexa Steel®'s state-of-the-art manufacturing facility in Saudi Arabia: CNC plasma cutting, automatic welding lines, roll forming, and 300+ tons daily production capacity."
+        canonical="/factory-capabilities"
+        keywords="steel factory Saudi Arabia, steel manufacturing facility, CNC plasma cutting, welding line, roll forming, production capacity"
+      />
 
       {/* Hero Section */}
       <Hero

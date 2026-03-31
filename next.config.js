@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  env: {
+    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL || 'https://hexasteel.sa',
+  },
   images: {
     domains: ['images.unsplash.com', 'placehold.co', 'hexasteel.sa', 'www.hexasteel.sa'],
     remotePatterns: [

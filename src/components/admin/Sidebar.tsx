@@ -8,6 +8,10 @@ import {
   CubeIcon,
   ChatBubbleLeftRightIcon,
   Cog6ToothIcon,
+  QuestionMarkCircleIcon,
+  ShieldCheckIcon,
+  BookOpenIcon,
+  BriefcaseIcon,
 } from '@heroicons/react/24/outline';
 
 const navigation = [
@@ -17,6 +21,10 @@ const navigation = [
   { name: 'Products', href: '/admin/products', icon: CubeIcon },
   { name: 'Blog Posts', href: '/admin/blog', icon: DocumentTextIcon },
   { name: 'Testimonials', href: '/admin/testimonials', icon: ChatBubbleLeftRightIcon },
+  { name: 'FAQ', href: '/admin/faq', icon: QuestionMarkCircleIcon },
+  { name: 'Certifications', href: '/admin/certifications', icon: ShieldCheckIcon },
+  { name: 'Knowledge Center', href: '/admin/knowledge', icon: BookOpenIcon },
+  { name: 'Applications', href: '/admin/applications', icon: BriefcaseIcon },
   { name: 'Settings', href: '/admin/settings', icon: Cog6ToothIcon },
 ];
 
@@ -38,7 +46,7 @@ export default function Sidebar({ onSignOut }: SidebarProps) {
                   href={item.href}
                   className={`
                     group flex gap-x-3 rounded-md p-2 text-sm font-semibold
-                    ${router.pathname === item.href
+                    ${router.pathname === item.href || (item.href !== '/admin' && router.pathname.startsWith(item.href))
                       ? 'bg-gray-800 text-white'
                       : 'text-gray-400 hover:bg-gray-800 hover:text-white'
                     }

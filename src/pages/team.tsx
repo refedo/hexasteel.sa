@@ -6,14 +6,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FaLinkedin } from 'react-icons/fa';
 import { PhotoIcon } from '@heroicons/react/24/outline';
+import SEO from '@/components/common/SEO';
 
 const TeamPage: NextPage = () => {
   return (
     <>
-      <Head>
-        <title>Our Team | Hexasteel</title>
-        <meta name="description" content="Meet the experienced team behind Hexasteel's success in steel building construction." />
-      </Head>
+      <SEO
+        title="Our Team"
+        description="Meet the expert leadership team behind Hexa Steel®'s success — experienced engineers, managers, and professionals driving excellence in Saudi Arabia's steel construction industry."
+        canonical="/team"
+        keywords="Hexa Steel team, steel engineers Saudi Arabia, construction management team, steel company leadership"
+      />
 
       <Layout>
         <div className="bg-white py-12 sm:py-16">

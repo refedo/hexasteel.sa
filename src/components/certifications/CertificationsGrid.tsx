@@ -1,6 +1,17 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-const certifications = [
+interface Certification {
+  id: string;
+  name: string;
+  category: string;
+  description: string;
+  validUntil: string;
+  icon: string;
+  benefits: string[];
+}
+
+const staticCertifications: Certification[] = [
   {
     id: 'iso9001',
     name: 'ISO 9001:2015',
@@ -8,12 +19,7 @@ const certifications = [
     description: 'International standard for Quality Management Systems (QMS), demonstrating our commitment to consistent quality and customer satisfaction.',
     validUntil: '2026',
     icon: '🏅',
-    benefits: [
-      'Standardized quality processes',
-      'Enhanced customer satisfaction',
-      'Continuous improvement culture',
-      'Risk-based thinking approach'
-    ]
+    benefits: ['Standardized quality processes', 'Enhanced customer satisfaction', 'Continuous improvement culture', 'Risk-based thinking approach'],
   },
   {
     id: 'iso14001',
@@ -22,12 +28,7 @@ const certifications = [
     description: 'Certification for Environmental Management System (EMS), showcasing our dedication to environmental responsibility and sustainability.',
     validUntil: '2026',
     icon: '🌿',
-    benefits: [
-      'Environmental impact reduction',
-      'Resource efficiency',
-      'Regulatory compliance',
-      'Sustainable practices'
-    ]
+    benefits: ['Environmental impact reduction', 'Resource efficiency', 'Regulatory compliance', 'Sustainable practices'],
   },
   {
     id: 'iso45001',
@@ -36,12 +37,7 @@ const certifications = [
     description: 'International standard for Occupational Health and Safety Management Systems, ensuring a safe and healthy workplace.',
     validUntil: '2026',
     icon: '⚕️',
-    benefits: [
-      'Workplace safety enhancement',
-      'Risk prevention',
-      'Employee wellbeing',
-      'Legal compliance'
-    ]
+    benefits: ['Workplace safety enhancement', 'Risk prevention', 'Employee wellbeing', 'Legal compliance'],
   },
   {
     id: 'cswip',
@@ -50,12 +46,7 @@ const certifications = [
     description: 'Certification Scheme for Welding Inspection Personnel, validating our expertise in welding inspection and quality control.',
     validUntil: 'Ongoing',
     icon: '⚡',
-    benefits: [
-      'Expert welding inspection',
-      'Quality assurance',
-      'International recognition',
-      'Technical expertise'
-    ]
+    benefits: ['Expert welding inspection', 'Quality assurance', 'International recognition', 'Technical expertise'],
   },
   {
     id: 'cwi',
@@ -64,12 +55,7 @@ const certifications = [
     description: 'Certified Welding Inspector certification from the American Welding Society, demonstrating our welding inspection capabilities.',
     validUntil: 'Ongoing',
     icon: '🔍',
-    benefits: [
-      'Comprehensive inspection skills',
-      'Code compliance expertise',
-      'Quality control assurance',
-      'Industry recognition'
-    ]
+    benefits: ['Comprehensive inspection skills', 'Code compliance expertise', 'Quality control assurance', 'Industry recognition'],
   },
   {
     id: 'asci',
@@ -78,12 +64,7 @@ const certifications = [
     description: 'American Steel Construction Institute certification, validating our expertise in steel construction and fabrication.',
     validUntil: 'Ongoing',
     icon: '🏗️',
-    benefits: [
-      'Steel construction expertise',
-      'Industry best practices',
-      'Technical competency',
-      'Quality standards'
-    ]
+    benefits: ['Steel construction expertise', 'Industry best practices', 'Technical competency', 'Quality standards'],
   },
   {
     id: 'leed',
@@ -92,16 +73,24 @@ const certifications = [
     description: 'Leadership in Energy and Environmental Design certification, demonstrating our commitment to sustainable construction practices.',
     validUntil: 'Ongoing',
     icon: '🌱',
-    benefits: [
-      'Sustainable practices',
-      'Energy efficiency',
-      'Environmental responsibility',
-      'Green building expertise'
-    ]
-  }
+    benefits: ['Sustainable practices', 'Energy efficiency', 'Environmental responsibility', 'Green building expertise'],
+  },
 ];
 
 export default function CertificationsGrid() {
+  const [certifications, setCertifications] = useState<Certification[]>(staticCertifications);
+
+  useEffect(() => {
+    fetch('/api/certifications')
+      .then((r) => r.json())
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) setCertifications(data);
+      })
+      .catch(() => {
+        // keep static fallback
+      });
+  }, []);
+
   return (
     <section className="py-16 bg-gradient-to-b from-gray-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -115,12 +104,13 @@ export default function CertificationsGrid() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {certifications.map((cert) => (
+          {certifications.map((cert, index) => (
             <motion.div
               key={cert.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
+              transition={{ delay: index * 0.05 }}
               className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
             >
               <div className="p-6">
@@ -140,8 +130,8 @@ export default function CertificationsGrid() {
                   <div className="space-y-2">
                     <h4 className="font-semibold text-gray-900">Key Benefits:</h4>
                     <ul className="space-y-2">
-                      {cert.benefits.map((benefit, index) => (
-                        <li key={index} className="flex items-center text-gray-600 text-sm">
+                      {(cert.benefits || []).map((benefit, i) => (
+                        <li key={i} className="flex items-center text-gray-600 text-sm">
                           <span className="mr-2 text-primary-500">✓</span>
                           {benefit}
                         </li>

@@ -4,6 +4,7 @@ import { PlusIcon, PencilIcon, TrashIcon, DocumentIcon } from '@heroicons/react/
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import { useSession } from 'next-auth/react';
 
 interface Product {
   id: string;
@@ -23,6 +24,8 @@ interface Product {
 export default function ProductsManagement() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [seeding, setSeeding] = useState(false);
+  const [seedMessage, setSeedMessage] = useState('');
   const [filter, setFilter] = useState({
     category: '',
     status: '',
@@ -83,6 +86,25 @@ export default function ProductsManagement() {
     }
   };
 
+  const handleSeedProducts = async () => {
+    if (!confirm('Seed products from site data? Existing products are skipped.')) return;
+    setSeeding(true);
+    try {
+      const res = await fetch('/api/products/seed', { method: 'POST' });
+      if (res.ok) {
+        const data = await res.json();
+        setSeedMessage(`Seeded ${data.added} product(s). ${data.skipped} already existed.`);
+        fetchProducts();
+      } else {
+        setSeedMessage('Failed to seed products');
+      }
+    } catch {
+      setSeedMessage('Error seeding products');
+    } finally {
+      setSeeding(false);
+    }
+  };
+
   const categories = [
     { id: 'peb', name: 'Pre-Engineered Buildings' },
     { id: 'steel-structures', name: 'Steel Structures' },
@@ -102,7 +124,14 @@ export default function ProductsManagement() {
               Manage your product catalog including PEB systems, steel structures, and components
             </p>
           </div>
-          <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+          <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none flex gap-2">
+            <button
+              onClick={handleSeedProducts}
+              disabled={seeding}
+              className="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 disabled:opacity-50"
+            >
+              {seeding ? 'Seeding...' : 'Seed from Site Data'}
+            </button>
             <Link
               href="/admin/products/new"
               className="inline-flex items-center justify-center rounded-md border border-transparent bg-primary-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 sm:w-auto"
@@ -112,6 +141,12 @@ export default function ProductsManagement() {
             </Link>
           </div>
         </div>
+
+        {seedMessage && (
+          <div className={`mt-4 p-4 rounded-lg ${seedMessage.includes('Seeded') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+            {seedMessage}
+          </div>
+        )}
 
         {/* Filters */}
         <div className="mt-8 flex flex-col sm:flex-row sm:items-center sm:space-x-4">

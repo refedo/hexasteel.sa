@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { CalendarIcon, ClockIcon, UserIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
+import SEO, { articleJsonLd } from '../../components/common/SEO';
 
 // Sample blog post data - Replace with actual data from your API/database
 const blogPosts = {
@@ -89,13 +90,24 @@ interface BlogPostProps {
 export default function BlogPost({ post }: BlogPostProps) {
   return (
     <>
-      <Head>
-        <title>{post.title} - Hexasteel Blog</title>
-        <meta
-          name="description"
-          content={post.content.substring(0, 160)}
-        />
-      </Head>
+      <SEO
+        title={post.title}
+        description={post.content.replace(/<[^>]+>/g, '').substring(0, 160)}
+        canonical={`/blog/${post.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
+        ogType="article"
+        ogImage={post.coverImage}
+        author={post.author?.name}
+        publishedTime={post.publishDate}
+        keywords={`${post.category}, steel construction, Hexa Steel blog`}
+        jsonLd={articleJsonLd({
+          title: post.title,
+          description: post.content.replace(/<[^>]+>/g, '').substring(0, 160),
+          image: post.coverImage,
+          url: `/blog/${post.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
+          publishedTime: post.publishDate,
+          authorName: post.author?.name,
+        })}
+      />
 
       <main>
         {/* Hero Section */}
