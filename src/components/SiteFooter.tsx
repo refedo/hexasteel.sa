@@ -1,9 +1,16 @@
 import Link from "next/link";
-import { brand } from "@/content/site";
-export function SiteFooter() {
-  return <footer className="site-footer"><div className="shell footer-content">
-    <div><strong>HEXA STEEL®</strong><p>Engineering · Manufacturing · Project Delivery</p></div>
-    <div className="footer-links"><Link href="/contact">Contact</Link><Link href="/request-quotation">Request a quotation</Link><Link href="/knowledge">Knowledge Centre</Link><a href={brand.linkedIn} rel="noopener noreferrer" target="_blank">LinkedIn ↗</a></div>
-    <small>© {new Date().getFullYear()} Hexa Steel® · Saudi Arabia</small>
-  </div></footer>;
+import {brand} from "@/content/site";
+export function SiteFooter(){
+return <footer className="site-footer"><div className="shell footer-content">
+  <div><strong>HEXA STEEL<sup className="trademark">®</sup></strong><p>Engineered with precision. Built for confidence.</p><p>Saudi Arabia · Structural Steel · PEB · Project Delivery</p></div>
+  <div className="footer-links">
+  <Link href="/solutions/structural-steel">Structural Steel</Link><Link href="/solutions/peb">PEB</Link>
+  <Link href="/project-delivery">Project Delivery</Link><Link href="/projects">Projects</Link>
+  <Link href="/capabilities/machinery">Machinery</Link><Link href="/capabilities/coating">Coating</Link>
+  <Link href="/capabilities/quality">Quality</Link><Link href="/company/operational-excellence">Operational Excellence</Link>
+  <Link href="/knowledge">Knowledge Centre</Link><Link href="/insights">Insights</Link><Link href="/contact">Contact</Link>
+  <a href={brand.linkedIn} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+  </div>
+  <small>© {new Date().getFullYear()} HEXA STEEL® · Saudi Arabia · V3 Pre-launch review</small>
+  </div></footer>
 }

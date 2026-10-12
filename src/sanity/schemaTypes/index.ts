@@ -68,4 +68,44 @@ const initiative=defineType({name:"initiative",title:"Strategic Initiative",type
   defineField({name:"currentStatus",type:"string",options:{list:["Planned","In progress","Completed"]}}),
   defineField({name:"gallery",type:"array",of:[{type:"image"}]})
 ]});
-export const schemaTypes=[localizedText,contentSection,page,project,machine,article,credential,initiative];
+
+const siteSettings=defineType({
+  name:"siteSettings",title:"Brand & Website Settings",type:"document",
+  fields:[
+    defineField({name:"accentColor",title:"Industrial Accent Color",description:"Select an approved visual accent; primary HEXA navy #2C3E50 remains unchanged.",type:"string",initialValue:"#C6D547",
+      options:{list:[
+        {title:"Signal Lime / Current",value:"#C6D547"},
+        {title:"Brushed Brass",value:"#D7B36B"},
+        {title:"Steel Blue",value:"#94B2C3"},
+        {title:"Concrete Silver",value:"#CDD3D8"},
+        {title:"Copper",value:"#C89372"}
+      ]},validation:r=>r.required()}),
+    defineField({name:"headerTagline",type:"localizedText",title:"Header Tagline"}),
+    defineField({name:"contactNotificationEmail",type:"string",description:"Editorial reference only. Actual transactional mail credentials are server-only."})
+  ],
+  preview:{prepare:()=>({title:"HEXA Website Theme & Settings"})}
+});
+const testimonial=defineType({
+  name:"testimonial",title:"Client Testimonial",type:"document",
+  fields:[
+    defineField({name:"quote",type:"text",rows:4,validation:r=>r.required()}),
+    defineField({name:"client",type:"string",validation:r=>r.required()}),
+    defineField({name:"person",type:"string"}),
+    defineField({name:"role",type:"string"}),
+    defineField({name:"publicationPermission",type:"boolean",initialValue:false}),
+    defineField({name:"isFeatured",type:"boolean",initialValue:false})
+  ]
+});
+const teamProfile=defineType({
+  name:"teamProfile",title:"Team & Leadership Profile",type:"document",
+  fields:[
+    defineField({name:"name",type:"string",validation:r=>r.required()}),
+    defineField({name:"role",type:"localizedText"}),
+    defineField({name:"department",type:"string"}),
+    defineField({name:"photo",type:"image",options:{hotspot:true}}),
+    defineField({name:"bio",type:"text"}),
+    defineField({name:"consentToPublish",type:"boolean",initialValue:false})
+  ]
+});
+
+export const schemaTypes=[localizedText,contentSection,page,project,machine,article,credential,initiative,siteSettings,testimonial,teamProfile];
