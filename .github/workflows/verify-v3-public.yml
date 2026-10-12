@@ -11,19 +11,37 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 4
     steps:
-      - name: Verify external DNS, homepage and content routes
+      - name: Verify updated public homepage and client routes
         run: |
           set -eu
           getent ahostsv4 hexasteel.sa >/dev/null
           body="$(mktemp)"
-          response="$(curl -L -sS --connect-timeout 8 --max-time 25 -o "$body" -w '%{http_code}' https://hexasteel.sa/)"
-          echo "Public homepage HTTP status: $response"
-          test "$response" = 200
-          grep -q "Two equally important disciplines" "$body"
-          grep -q "Engineering · Manufacturing" "$body" || grep -q "Project Delivery" "$body"
-          for route in projects project-delivery insights capabilities/machinery capabilities/coating capabilities/quality company/operational-excellence knowledge knowledge/structural-steel-vs-peb; do
-            status="$(curl -L -sS --connect-timeout 8 --max-time 25 -o /dev/null -w '%{http_code}' "https://hexasteel.sa/$route")"
-            echo "/$route => $status"
-            test "$status" = 200
+          status="$(curl -LsS --connect-timeout 8 --max-time 25 -o "$body" -w '%{http_code}' https://hexasteel.sa/)"
+          test "$status" = 200
+          grep -q "Trust, demonstrated" "$body"
+          grep -q "Explore service" "$body"
+          grep -q "hexa-roadmap" "$body"
+          for route in project-delivery capabilities/machinery capabilities/quality solutions/peb; do
+            target="$(mktemp)"
+            code="$(curl -LsS --connect-timeout 8 --max-time 25 -o "$target" -w '%{http_code}' "https://hexasteel.sa/$route")"
+            echo "/$route => $code"
+            test "$code" = 200
+            case "$route" in
+              project-delivery) grep -q "execution-discipline" "$target";;
+              capabilities/machinery)
+                grep -q "What we can make" "$target"
+                if grep -Eiq "Bodor|Primo|BMS Machinery|AWB-1500" "$target"; then
+                  echo "Supplier or model information leaked to machine service page"; exit 1
+                fi
+                ;;
+              capabilities/quality) grep -q "quality-selector" "$target";;
+              solutions/peb) grep -q "C/Z" "$target";;
+            esac
           done
-          echo "SUCCESS: external HTTPS confirms revised multipage Hexa V3"
+          echo "SUCCESS: V3.5 core redesign externally verified"
+      - name: Check reference industrial hero photo is reachable
+        run: |
+          image="https://images.unsplash.com/photo-1741009305401-c71594c08c2c?auto=format%26fit=crop%26w=1200%26q=80"
+          status="$(curl -LsS --connect-timeout 8 --max-time 20 -o /dev/null -w '%{http_code}' "$image" || true)"
+          echo "Reference hero image HTTP status: $status"
+          test "$status" = 200
