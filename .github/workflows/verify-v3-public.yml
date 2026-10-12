@@ -1,0 +1,25 @@
+name: Verify public HEXA V3 URL
+on:
+  push:
+    branches: [rebuild/website-v3]
+    paths: [.github/workflows/verify-v3-public.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-public-site:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Verify public HTTPS and V3 markers
+        run: |
+          set -eu
+          echo "Resolving hexasteel.sa from an external GitHub runner"
+          getent ahostsv4 hexasteel.sa >/dev/null || { echo "Public DNS did not resolve"; exit 1; }
+          body="$(mktemp)"
+          response="$(curl -L -sS --connect-timeout 8 --max-time 25 -o "$body" -w '%{http_code}' https://hexasteel.sa/)"
+          echo "Public website HTTP status: $response"
+          test "$response" = 200
+          grep -q "Built for confidence" "$body"
+          grep -q "Two disciplines" "$body"
+          echo "SUCCESS: V3 homepage is publicly reachable at https://hexasteel.sa"
