@@ -1,0 +1,81 @@
+name: DigitalOcean V3 deployment preflight
+
+on:
+  push:
+    branches:
+      - rebuild/website-v3
+
+permissions:
+  contents: read
+
+jobs:
+  server-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Verify DigitalOcean SSH settings are present
+        env:
+          DO_HOST: ${{ secrets.DO_HOST }}
+          DO_USERNAME: ${{ secrets.DO_USERNAME }}
+          DO_SSH_KEY: ${{ secrets.DO_SSH_KEY }}
+        run: |
+          set -eu
+          test -n "$DO_HOST" || { echo "Missing DO_HOST"; exit 1; }
+          test -n "$DO_USERNAME" || { echo "Missing DO_USERNAME"; exit 1; }
+          test -n "$DO_SSH_KEY" || { echo "Missing DO_SSH_KEY"; exit 1; }
+          echo "SSH settings are configured"
+
+      - name: Inspect server prerequisites (READ ONLY)
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.DO_HOST }}
+          username: ${{ secrets.DO_USERNAME }}
+          key: ${{ secrets.DO_SSH_KEY }}
+          port: ${{ secrets.DO_PORT || '22' }}
+          command_timeout: 90s
+          script: |
+            set -eu
+            echo "Connected to DigitalOcean (read-only checks)"
+            if command -v node >/dev/null 2>&1; then
+              echo "Node major version: $(node -p 'process.versions.node.split(".")[0]')"
+            else
+              echo "Node not found on remote PATH"
+            fi
+            if command -v npm >/dev/null 2>&1; then
+              echo "npm executable available"
+            else
+              echo "npm executable missing"
+            fi
+            if command -v pm2 >/dev/null 2>&1; then
+              echo "PM2 executable available"
+              if pm2 describe hexasteel-website >/dev/null 2>&1; then
+                echo "PM2 service 'hexasteel-website' exists"
+              elif pm2 describe hexasteel >/dev/null 2>&1; then
+                echo "PM2 service 'hexasteel' exists"
+              else
+                echo "Expected PM2 service not visible to SSH user"
+              fi
+            else
+              echo "PM2 executable missing"
+            fi
+            if command -v nginx >/dev/null 2>&1; then
+              echo "Nginx executable available"
+              if nginx -t >/dev/null 2>&1; then
+                echo "Nginx configuration test passed"
+              else
+                echo "Nginx -t unavailable or requires elevated permissions"
+              fi
+            else
+              echo "Nginx executable missing"
+            fi
+            if test -d /var/www/hexasteel-website/.git; then
+              echo "Legacy website git checkout is present"
+            else
+              echo "Legacy website checkout not found at expected path"
+            fi
+            if curl -fsS --max-time 5 -o /dev/null http://127.0.0.1:4500; then
+              echo "Local website port 4500 responds"
+            else
+              echo "Local website port 4500 not responding"
+            fi
+            echo "Preflight complete; no files, PM2 processes, DNS, or Nginx settings were changed."
