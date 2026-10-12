@@ -97,4 +97,20 @@ jobs:
             if command -v pm2 >/dev/null 2>&1; then
               pm2 jlist 2>/dev/null | node -e 'let s="";process.stdin.on("data",x=>s+=x);process.stdin.on("end",()=>{try{let a=JSON.parse(s);console.log("Visible PM2 app names: "+a.map(x=>x.name).join(", "));}catch{console.log("PM2 app list unreadable")}})' || true
             fi
+            echo "=== Domain mapping sanity check ==="
+            if command -v python3 >/dev/null 2>&1; then
+              nginx -T 2>/dev/null | python3 -c 'import re,sys; s=sys.stdin.read(); blocks=[]; pat=re.compile(r"\bserver\s*\{");
+              for m in pat.finditer(s):
+               depth=1; j=m.end();
+               while j<len(s) and depth:
+                depth+=(s[j]=="{")-(s[j]=="}"); j+=1
+               chunk=s[m.start():j]
+               if re.search(r"server_name\s+[^;]*hexasteel\.sa[^;]*;",chunk):
+                targets=re.findall(r"proxy_pass\s+([^;]+);",chunk)
+                ports=[re.search(r":(\d+)",v).group(1) if re.search(r":(\d+)",v) else "named-upstream" for v in targets]
+                print("hexasteel.sa Nginx server found; proxy ports:", ",".join(ports) if ports else "none (redirect/static)")
+              '
+            fi
+            echo "Storage free above 1GB:"
+            if test "$(df -Pk /var/www | tail -1 | awk '{print $4}')" -gt 1048576; then echo "yes"; else echo "no"; fi
             echo "Preflight complete; no files, PM2 processes, DNS, or Nginx settings were changed."
