@@ -78,4 +78,23 @@ jobs:
             else
               echo "Local website port 4500 not responding"
             fi
+            echo "=== Deployment routing summary (sanitized) ==="
+            if node -e 'process.exit(Number(process.versions.node.split(".")[0]) >= 22 ? 0 : 1)' >/dev/null 2>&1; then
+              echo "Node.js 22+ available"
+            else
+              echo "Node.js 22+ is NOT available on SSH user's PATH"
+            fi
+            if test -d /var/www/hexasteel-website/.git; then
+              echo "Checkout branch: $(git -C /var/www/hexasteel-website branch --show-current)"
+              echo "Checkout has $(git -C /var/www/hexasteel-website status --porcelain | wc -l | tr -d " ") uncommitted paths"
+            fi
+            if command -v ss >/dev/null 2>&1; then
+              ss -lntH | awk '{print $4}' | sed -nE 's/.*:([0-9]+)$/\1/p' | sort -nu | awk '{printf "%s ",$1} END{print ""}' | sed 's/^/Listening TCP ports: /'
+            fi
+            if command -v nginx >/dev/null 2>&1; then
+              nginx -T 2>/dev/null | grep -Eo 'proxy_pass http://(127\.0\.0\.1|localhost):[0-9]+' | sed -E 's/.*:([0-9]+)$/\1/' | sort -nu | awk '{printf "%s ",$1} END{print ""}' | sed 's/^/Configured localhost Nginx proxy ports: /' || true
+            fi
+            if command -v pm2 >/dev/null 2>&1; then
+              pm2 jlist 2>/dev/null | node -e 'let s="";process.stdin.on("data",x=>s+=x);process.stdin.on("end",()=>{try{let a=JSON.parse(s);console.log("Visible PM2 app names: "+a.map(x=>x.name).join(", "));}catch{console.log("PM2 app list unreadable")}})' || true
+            fi
             echo "Preflight complete; no files, PM2 processes, DNS, or Nginx settings were changed."
