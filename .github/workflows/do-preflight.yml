@@ -97,10 +97,30 @@ jobs:
             if command -v pm2 >/dev/null 2>&1; then
               pm2 jlist 2>/dev/null | node -e 'let s="";process.stdin.on("data",x=>s+=x);process.stdin.on("end",()=>{try{let a=JSON.parse(s);console.log("Visible PM2 app names: "+a.map(x=>x.name).join(", "));}catch{console.log("PM2 app list unreadable")}})' || true
             fi
-            echo "=== Domain mapping sanity check ==="
-            if command -v python3 >/dev/null 2>&1; then
-              nginx -T 2>/dev/null | python3 -c 'import sys,re; s=re.split(r"\bserver\s*\{",sys.stdin.read()); b=[x for x in s if re.search(r"\bserver_name[^;]*hexasteel\.sa",x)]; ports=sorted(set(re.findall(r"\bproxy_pass\s+http://(?:localhost|127\.0\.0\.1):(\d+)", " ".join(b)))); print("Nginx domain blocks:",len(b)); print("Candidate localhost proxy ports:",",".join(ports) if ports else "none")'
-            fi
+            echo "=== Domain-specific Nginx mapping ==="
+            python3 - <<'PY'
+            import re, subprocess
+            config = subprocess.run(["nginx", "-T"], capture_output=True, text=True, check=True).stdout
+            count = 0
+            to_4500 = False
+            for match in re.finditer(r"\bserver\s*\{", config):
+                depth = 1
+                position = match.end()
+                while position < len(config) and depth:
+                    if config[position] == "{":
+                        depth += 1
+                    elif config[position] == "}":
+                        depth -= 1
+                    position += 1
+                block = config[match.end():position - 1]
+                if re.search(r"\bserver_name\s+[^;]*\bhexasteel\.sa\b", block):
+                    count += 1
+                    targets = re.findall(r"\bproxy_pass\s+([^;]+);", block)
+                    if any(re.search(r"^http://(?:localhost|127\.0\.0\.1):4500(?:/|$)", item) for item in targets):
+                        to_4500 = True
+            print("Hexasteel domain Nginx server blocks:", count)
+            print("At least one Hexasteel Nginx block proxies to port 4500:", to_4500)
+            PY
             echo "Storage free above 1GB:"
             if test "$(df -Pk /var/www | tail -1 | awk '{print $4}')" -gt 1048576; then echo "yes"; else echo "no"; fi
             echo "Preflight complete; no files, PM2 processes, DNS, or Nginx settings were changed."
