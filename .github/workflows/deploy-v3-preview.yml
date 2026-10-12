@@ -1,0 +1,116 @@
+name: Deploy Hexa V3 direct-domain preview
+on:
+  push:
+    branches: [rebuild/website-v3]
+    paths: [.github/workflows/deploy-v3-preview.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: hexasteel-v3-review
+  cancel-in-progress: false
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install and validate
+        run: |
+          npm install --no-audit --no-fund
+          npm run check
+      - name: Build deployable Next.js
+        env:
+          NEXT_PUBLIC_SITE_URL: https://hexasteel.sa
+        run: |
+          npm run build
+          mkdir -p .next/standalone/.next
+          cp -R .next/static .next/standalone/.next/static
+          mkdir -p .next/standalone/public
+          tar -czf "hexa-v3-$GITHUB_SHA.tgz" -C .next/standalone .
+      - name: Safety preflight on DigitalOcean
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.DO_HOST }}
+          username: ${{ secrets.DO_USERNAME }}
+          key: ${{ secrets.DO_SSH_KEY }}
+          port: ${{ secrets.DO_PORT || '22' }}
+          command_timeout: 90s
+          script: |
+            set -eu
+            command -v pm2
+            command -v nginx
+            node -e 'process.exit(Number(process.versions.node.split(".")[0]) >= 22 ? 0 : 1)'
+            nginx -t >/dev/null 2>&1
+            test ! -e "$HOME/hexasteel-v3/current"
+            test ! -e "$HOME/hexasteel-v3/releases"
+            if pm2 describe hexasteel-v3-review >/dev/null 2>&1; then
+              echo "Refusing: V3 service name already exists"; exit 1
+            fi
+            if ss -lntH | grep -Eq '[:.]4500[[:space:]]'; then
+              echo "Refusing: port 4500 already in use"; exit 1
+            fi
+            if test "$(df -Pk "$HOME" | tail -1 | awk '{print $4}')" -lt 512000; then
+              echo "Refusing: insufficient free disk"; exit 1
+            fi
+            echo "Isolated deployment preflight passed"
+      - name: Transfer V3 bundle
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.DO_HOST }}
+          username: ${{ secrets.DO_USERNAME }}
+          key: ${{ secrets.DO_SSH_KEY }}
+          port: ${{ secrets.DO_PORT || '22' }}
+          source: "hexa-v3-${{ github.sha }}.tgz"
+          target: /tmp
+          overwrite: false
+      - name: Activate isolated preview and check public domain
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.DO_HOST }}
+          username: ${{ secrets.DO_USERNAME }}
+          key: ${{ secrets.DO_SSH_KEY }}
+          port: ${{ secrets.DO_PORT || '22' }}
+          command_timeout: 120s
+          script: |
+            set -eu
+            APP="$HOME/hexasteel-v3"
+            RELEASE="$APP/releases/${{ github.sha }}"
+            BUNDLE="/tmp/hexa-v3-${{ github.sha }}.tgz"
+            test -f "$BUNDLE"
+            test ! -e "$APP/current"
+            mkdir -p "$RELEASE"
+            tar -xzf "$BUNDLE" -C "$RELEASE"
+            test -f "$RELEASE/server.js"
+            ln -s "$RELEASE" "$APP/current"
+            complete=no
+            rollback() {
+              if [ "$complete" != yes ]; then
+                pm2 delete hexasteel-v3-review >/dev/null 2>&1 || true
+                rm -f "$APP/current"
+                echo "Preview activation rolled back"
+              fi
+            }
+            trap rollback EXIT
+            export PORT=4500 HOSTNAME=127.0.0.1 NODE_ENV=production
+            pm2 start "$APP/current/server.js" --name hexasteel-v3-review --cwd "$APP/current" --time
+            ready=no
+            for n in 1 2 3 4 5 6 7 8 9 10; do
+              if curl -fsS --max-time 5 http://127.0.0.1:4500/ | grep -q "Built for confidence"; then
+                ready=yes
+                break
+              fi
+              sleep 2
+            done
+            test "$ready" = yes || { echo "Local health check failed"; exit 1; }
+            if ! curl -kfsS --max-time 10 --resolve hexasteel.sa:443:127.0.0.1 https://hexasteel.sa/ | grep -q "Two disciplines"; then
+              echo "Domain routing did not return the V3 page"; exit 1
+            fi
+            pm2 save >/dev/null
+            rm -f "$BUNDLE"
+            complete=yes
+            trap - EXIT
+            echo "SUCCESS: V3 direct-domain prelaunch at https://hexasteel.sa"
