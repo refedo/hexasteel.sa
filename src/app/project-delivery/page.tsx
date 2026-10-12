@@ -1,16 +1,17 @@
 import type {Metadata} from "next";
+import Link from "next/link";
 import {PageHero,CallToAction} from "@/components/PageBlocks";
 import {DeliveryTimeline} from "@/components/DeliveryTimeline";
 export const metadata:Metadata={title:"Project Management & Site Execution"};
-const capabilities=[
- ["Planning & project controls","Baseline schedules, critical-path reviews, progress measurement, dependencies, change coordination and delivery commitments."],
- ["Engineering & submittals","Method statements, material approvals, shop drawings, lifting plans, safety plans, inspection plans and RFI resolution."],
- ["Site enabling works","Setting-out and survey coordination, anchor-bolt positioning, site interface management and handover readiness."],
- ["Lifting & erection coordination","Certified crane planning, rigging interfaces, lifting permits, crane utilization and qualified subcontractor coordination where contracted."],
- ["Alignment & bolting","Erection supervision, plumb and alignment verification, controlled bolting, torque wrenching and inspection records."],
- ["HSE & quality leadership","Job-specific HSE plans, toolbox briefings, ITP witness points, NCR closeout and documented site supervision."]
+const disciplines=[
+{no:"01",title:"Plan every interface.",tag:"PROJECT CONTROLS",summary:"Define the critical path before production starts.",details:["Integrated schedules and look-ahead plans","Design and shop-drawing release controls","RFI, material submittal and procurement coordination","Production progress and delivery planning"]},
+{no:"02",title:"Engineer the method.",tag:"TECHNICAL DOCUMENTATION",summary:"The method matters as much as the finished member.",details:["Method statements and lifting plans","Quality and safety plans","Material documentation and ITP witness points","Loading and logistics arrangements"]},
+{no:"03",title:"Manage the site.",tag:"FIELD EXECUTION",summary:"Bridge the factory, client, contractor and installation partners.",details:["Surveying and setting out","Anchor-bolt positioning and interfaces","Certified cranes and lifting coordination","Erection supervision and subcontractor management"]},
+{no:"04",title:"Verify the handover.",tag:"COMPLETION & CONTROL",summary:"Close the project with documented technical accountability.",details:["Alignment and dimensional verification","Bolting, torque tightening and inspection","Site NCR resolution","Safety controls, inspection records and handover"]},
 ];
-export default function Delivery(){return <main><PageHero eyebrow="PROJECT DELIVERY / CONTRACTUAL STEELWORK" title="Deliberate planning. Disciplined delivery." intro="Our project-management capability connects engineers, fabricators, procurement teams, logistics and site partners across seven controlled activities and three integrated stages."/>
-<section className="section"><div className="shell"><p className="eyebrow">OUR SEVEN-ACTIVITY DELIVERY MODEL</p><h2>One coordinated project lifecycle.</h2><DeliveryTimeline/></div></section>
-<section className="section service-panel"><div className="shell"><p className="eyebrow">PROJECT MANAGEMENT & SITE CAPABILITIES</p><div className="feature-grid">{capabilities.map(([name,detail],i)=><article className="feature-card" key={name}><small>0{i+1}</small><h3>{name}</h3><p>{detail}</p></article>)}</div><p className="legal-note">Site erection is subcontracted and managed/supervised by Hexa where included in the contractual scope. Exact work packages and qualifications are project-specific.</p></div></section>
-<CallToAction heading="Plan the project before fabrication starts."/></main>}
+export default function Delivery(){return <main>
+<PageHero eyebrow="CONTRACTUAL STEEL PROJECT DELIVERY" title="Seven activities. One accountable delivery system." intro="Our project teams plan and coordinate engineering, procurement, fabrication, coating, dispatch and site work as one connected execution program."/>
+<section className="section roadmap-page-section"><div className="shell"><p className="eyebrow">OUR PROJECT DELIVERY SYSTEM</p><h2>From engineering<br/><span>to erection.</span></h2><p className="roadmap-lede">Each activity belongs to one of three stages. Every handoff is planned, monitored and supported by appropriate deliverables.</p><DeliveryTimeline/></div></section>
+<section className="section site-execution-section"><div className="shell"><div className="site-execution-intro"><p className="eyebrow">PROJECT MANAGEMENT & SITE CAPABILITIES</p><h2>Execution begins long before steel reaches the site.</h2><p>Explore the four disciplines behind controlled contractual project delivery.</p></div><div className="execution-editorial">{disciplines.map(d=><details className="execution-discipline" key={d.no} open={d.no==="01"}><summary><span className="execution-no">{d.no}</span><span className="execution-summary"><small>{d.tag}</small><strong>{d.title}</strong><em>{d.summary}</em></span><span className="execution-plus" aria-hidden="true">+</span></summary><div className="execution-reveal"><ul>{d.details.map(x=><li key={x}>{x}</li>)}</ul></div></details>)}</div></div></section>
+<section className="delivery-commitment"><div className="shell"><p className="eyebrow on-dark">DELIVERY WITH DISCIPLINE</p><h2>Careful planning.<br/>Deliberate delivery.</h2><p>Erection is carried out by qualified subcontractors under Hexa coordination and supervision where included in the agreed scope. Site procedures, qualified resources and project-specific approvals are defined contractually.</p><Link href="/capabilities/quality" className="text-link light-link">Explore our project quality controls ↗</Link></div></section>
+<CallToAction heading="Plan your steel project with Hexa." /></main>}

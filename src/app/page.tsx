@@ -2,7 +2,7 @@ import Link from "next/link";
 import {brand, values, machines, insights, articles} from "@/content/site";
 import {DeliveryTimeline} from "@/components/DeliveryTimeline";
 
-const Photo = ()=> <div className="hero-photograph" role="img" aria-label="Large industrial steel structure under construction"><div className="hero-photo-shade"/><div className="hero-photo-label">STRUCTURAL STEEL / INDUSTRIAL BUILDINGS <span>REFERENCE PHOTOGRAPHY</span></div></div>;
+const Photo = ()=> <div className="hero-photograph" role="img" aria-label="Crane and site crew installing structural steel beams on a multi-level steel frame"><div className="hero-photo-shade"/><div className="hero-photo-label">STRUCTURAL STEEL / PROJECT EXECUTION <span>ILLUSTRATIVE PHOTOGRAPH · XIAO LIANG / UNSPLASH</span></div></div>;
 
 export default function Home(){
 return <main>
@@ -14,6 +14,8 @@ return <main>
       <div className="hero-actions"><Link className="button signal" href="/request-quotation">Request a quotation ↗</Link><Link href="/projects" className="quiet-link">Explore our projects ↗</Link></div>
     </div><Photo/>
   </div><div className="shell hero-stages"><span>ENGINEERING</span><span>OPERATIONS</span><span>SITE</span><small>7 ACTIVITIES · 3 INTEGRATED STAGES</small></div></section>
+
+  <section className="trust-line" aria-label="Qualifications and industrial engagement"><div className="shell trust-line-inner"><div className="trust-line-heading"><small>OUR TRACK RECORD</small><strong>Trust, demonstrated.</strong></div><div className="trust-line-facts"><span>ARAMCO <small>Manufacturer Approval</small></span><span>MODON <small>Accredited · Projects Delivered</small></span><span>PIF AMP <small>Cohort #1 · 2024</small></span><span>ISO SYSTEMS <small>9001 · 14001 · 45001</small></span></div></div></section>
 
   <section className="section" id="solutions"><div className="shell">
     <div className="section-intro"><p className="eyebrow">01 / OUR SOLUTIONS</p><h2>Built for complexity.<br/><span>Made for industry.</span></h2><p>Two equally important disciplines, supported by one engineering and delivery culture.</p></div>
@@ -37,7 +39,7 @@ return <main>
   </div></div></section>
 
   <section className="section" id="machines"><div className="shell"><div className="section-intro"><p className="eyebrow">04 / STEEL SERVICES & MACHINERY</p><h2>Manufacturing<br/><span>by design.</span></h2><p>Laser cutting, automatic built-up welding and C/Z purlin forming bring speed, consistency and greater process control.</p></div>
-  <div className="machine-grid">{machines.map(m=><article key={m.slug} className="machine-card"><span className="machine-overline">{m.type}</span><div className="machine-number">{m.headline}</div><h3>{m.name}</h3><p>{m.service}</p><Link href={"/capabilities/machinery#"+m.slug}>View machine capability ↗</Link></article>)}</div>
+  <div className="service-capability-grid">{machines.map((m,i)=><Link href={"/capabilities/machinery#"+m.slug} key={m.slug} className="service-capability"><span className="service-capability-index">0{i+1} / {m.type}</span><div className="service-capability-symbol" aria-hidden="true">{m.headline}</div><h3>{m.name}</h3><p>{m.service}</p><span className="capability-link">Explore service ↗</span></Link>)}</div>
   <div className="feature-strip"><div><h3>Production, expressed in tonnes.</h3><p>Approximately 2,250 tonnes in 2025 (management-reported historic output, pending verification). Current sustainable monthly capacity varies by product mix, manpower, handling and coating bottlenecks; the confirmed rate will be published following a production capacity assessment.</p></div><Link href="/capabilities/machinery">Manufacturing capabilities ↗</Link></div>
   </div></section>
 
