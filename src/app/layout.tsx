@@ -1,0 +1,13 @@
+import type { Metadata } from "next";
+import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
+import "./globals.css";
+export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://hexasteel.sa"),
+  title: { default: "HEXA STEEL® | Engineered with Precision", template: "%s | HEXA STEEL®" },
+  description: "Structural Steel, PEB, advanced manufacturing, project management and site execution in Saudi Arabia.",
+  robots: { index: false, follow: false } // staging: switch on only after content approval
+};
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  return <html lang="en"><body><SiteHeader/>{children}<SiteFooter/></body></html>;
+}
