@@ -9,7 +9,7 @@ export default function Machinery(){return <main>
   <p className="eyebrow">OUR MANUFACTURING SERVICES</p>
   <div className="service-editorial-list">{machines.map((m,i)=><article className="service-editorial" id={m.slug} key={m.slug}>
     <div className="service-number">0{i+1}<span> / 04</span></div>
-    <div className="service-editorial-description"><p className="eyebrow">{m.type}</p><h2>{m.name}</h2><p>{m.service}</p><details className="service-reveal"><summary>What we deliver <span>+</span></summary><ul>{m.outcomes.map(x=><li key={x}>{x}</li>)}</ul></details><Link className="text-link" href="/request-quotation">Request this service</Link></div>
+    <div className="service-editorial-description"><p className="eyebrow">{m.type}</p><h2>{m.name}</h2><p>{m.service}</p><details className="service-reveal"><summary>What we deliver <span>+</span></summary><ul>{m.outcomes.map(x=><li key={x}>{x}</li>)}</ul></details><Link className="text-link" href={"/request-quotation?service="+encodeURIComponent(m.slug)}>Request this service</Link></div>
     <div className={"service-art service-art-"+i} aria-hidden="true"><span className="service-art-form"/><span className="service-art-tag">{m.headline}</span></div>
   </article>)}</div>
 </div></section>
