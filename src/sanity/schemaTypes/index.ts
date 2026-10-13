@@ -25,21 +25,24 @@ const page = defineType({
   ],
   preview:{select:{title:"title.en"}}
 });
-const project=defineType({name:"project",title:"Project Case Study",type:"document",fields:[
-  defineField({name:"title",type:"localizedText",validation:r=>r.required()}),
-  defineField({name:"slug",type:"slug",options:{source:"title.en"}}),
-  defineField({name:"sector",type:"string"}),
-  defineField({name:"client",type:"string",validation:r=>r.required()}),
-  defineField({name:"summary",type:"text",rows:4,validation:r=>r.required()}),
-  defineField({name:"quantityDisplay",type:"string",description:"Public approved project weight, e.g. 440 t; leave blank when unknown."}),
-  defineField({name:"status",type:"string",initialValue:"Selected Project"}),
-  defineField({name:"coverImage",type:"image",options:{hotspot:true},description:"Actual project image only: do not upload stock images into client case studies."}),
-  defineField({name:"approvedForWeb",type:"boolean",initialValue:false,description:"Management review completed and content cleared for public release."}),
-  defineField({name:"clientPermissionVerified",type:"boolean",initialValue:false}),
+const project=defineType({name:"project",title:"Public Project Case Study",type:"document",
+ description:"PUBLIC DATASET: never enter confidential client names, customer references or restricted documents. Use anonymous identifiers only.",
+ fields:[
+  defineField({name:"publicTitle",type:"localizedText",title:"Anonymous Project Title",description:"No customer names or restricted project identifiers.",validation:r=>r.required()}),
+  defineField({name:"publicSlug",type:"slug",title:"Anonymous URL",options:{source:"publicTitle.en"},validation:r=>r.required()}),
+  defineField({name:"sector",type:"string",title:"Sector"}),
+  defineField({name:"publicSummary",type:"text",title:"Public Scope Summary",rows:4,validation:r=>r.required()}),
+  defineField({name:"quantityDisplay",type:"string",title:"Approved Tonnage"}),
+  defineField({name:"deliveryStatus",type:"string",title:"Delivery Status",options:{list:["Completed","Ongoing","Status to confirm"]},initialValue:"Status to confirm",validation:r=>r.required()}),
+  defineField({name:"coverImage",type:"image",options:{hotspot:true},description:"Approved project image, no confidential client identification."}),
   defineField({name:"completionYear",type:"number"}),
-  defineField({name:"scope",type:"text"}),
-  defineField({name:"photos",type:"array",of:[{type:"image",options:{hotspot:true}}]})
-]});
+  defineField({name:"scope",type:"text",title:"Public Scope Details"}),
+  defineField({name:"photos",type:"array",of:[{type:"image",options:{hotspot:true}}]}),
+  defineField({name:"approvedForWeb",type:"boolean",initialValue:false,description:"Management reviewed all facts, photos and figures."}),
+  defineField({name:"identityClearedForWeb",type:"boolean",initialValue:false,description:"Confirmed title, slug, imagery and copy contain no restricted identities."})
+ ],
+ preview:{select:{title:"publicTitle.en",subtitle:"deliveryStatus"}}
+});
 const machine=defineType({name:"machine",title:"Machine Capability",type:"document",fields:[
   defineField({name:"name",type:"string",validation:r=>r.required()}),
   defineField({name:"manufacturer",type:"string"}),
@@ -89,7 +92,15 @@ const siteSettings=defineType({
     defineField({name:"headerTagline",type:"localizedText",title:"Header Tagline"}),
     defineField({name:"heroHeadline",type:"localizedText",title:"Homepage Headline"}),
     defineField({name:"heroDescription",type:"localizedText",title:"Homepage Hero Description"}),
-    defineField({name:"ambition",type:"localizedText",title:"Homepage Ambition Statement"}),
+    defineField({name:"marketPositioning",type:"localizedText",title:"Homepage Market Positioning",description:"Management-approved corporate positioning."}),
+ defineField({name:"ambition",type:"localizedText",title:"Legacy Ambition Statement",hidden:true}),
+ defineField({name:"trustIndicators",type:"array",title:"Homepage Trust Indicators",of:[{type:"object",fields:[
+  defineField({name:"figure",type:"string",title:"Figure",validation:r=>r.required()}),
+  defineField({name:"unit",type:"string",title:"Description Label",validation:r=>r.required()}),
+  defineField({name:"description",type:"string",title:"Explanation"}),
+  defineField({name:"symbol",type:"string",title:"Index / Symbol"}),
+  defineField({name:"approvedForWeb",type:"boolean",initialValue:false,description:"Evidence checked and release approved."})
+ ]}]}),
     defineField({name:"heroSlides",type:"array",title:"Homepage Hero Images",description:"Upload genuine HEXA Steel® factory or project photos with permission. Max six.",
        validation:r=>r.max(6),of:[{type:"object",fields:[
         defineField({name:"asset",type:"image",options:{hotspot:true},validation:r=>r.required()}),
@@ -97,7 +108,7 @@ const siteSettings=defineType({
         defineField({name:"alt",type:"string",title:"Accessible image description",validation:r=>r.required()}),
         defineField({name:"credit",type:"string"})
        ]}]}),
-    defineField({name:"contactNotificationEmail",type:"string",description:"Editorial reference only. Actual transactional mail credentials are server-only."})
+    defineField({name:"contactNotificationEmail",type:"string",hidden:true,description:"Not connected until secure transactional forms are implemented."})
   ],
   preview:{prepare:()=>({title:"HEXA Website Theme & Settings"})}
 });
@@ -160,4 +171,11 @@ const capabilityService=defineType({name:"capabilityService",title:"Public Manuf
  defineField({name:"approvedForWeb",type:"boolean",initialValue:false})
 ],description:"Customer-facing capability only. Do not store confidential supplier quotes, machine models or internal production recipes here."});
 
-export const schemaTypes=[localizedText,contentSection,page,project,credential,initiative,siteSettings,testimonial,teamProfile,knowledgeArticle,companyUpdate,capabilityService];
+const publicQualification=defineType({name:"publicQualification",title:"Public Qualification / Approval",type:"document",fields:[
+ defineField({name:"name",type:"string",validation:r=>r.required()}),
+ defineField({name:"category",type:"string",options:{list:["Manufacturer Approval","Supplier Registration","Prequalification","Accreditation","Certification","Other"]},validation:r=>r.required()}),
+ defineField({name:"detail",type:"string",title:"Public Scope and Status",validation:r=>r.required()}),
+ defineField({name:"verifiedScope",type:"boolean",initialValue:false,description:"Scope and current status verified against official documentation."}),
+ defineField({name:"approvedForWeb",type:"boolean",initialValue:false,description:"Cleared for public release."})
+]});
+export const schemaTypes=[localizedText,contentSection,page,project,credential,initiative,siteSettings,testimonial,teamProfile,knowledgeArticle,companyUpdate,capabilityService,publicQualification];
