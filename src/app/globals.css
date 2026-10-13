@@ -912,3 +912,56 @@ body:has(.hexa-studio) > .site-header,body:has(.hexa-studio) > .site-footer{disp
 @media(max-width:1350px){.hexa-nav-desktop{gap:9px}.hexa-nav-trigger{font-size:10px}}
 @media(max-width:1170px){.hexa-nav-desktop{display:none}.hexa-nav-toggle{display:flex}.hexa-nav-root{order:3;flex:0}.header-right{order:2}.site-header .wordmark{margin-right:auto}}
 @media(max-width:700px){.hexa-nav-mobile{top:76px}.career-role>summary{grid-template-columns:94px 1fr 18px;gap:12px}.career-code{font-size:9px}.career-role-detail{padding-left:0}.career-fields{grid-template-columns:1fr}.frame-catalogue{grid-template-columns:1fr}.component-glossary article{grid-template-columns:40px 1fr;gap:13px}}
+
+
+/* HEXA V3.10 — editorial RFQ intake */
+.rfq-hero{position:relative;background:#172d3b;overflow:hidden}
+.rfq-hero::after{content:"";position:absolute;right:-5%;top:-35%;width:44vw;min-width:300px;aspect-ratio:1;border:1px solid #97aeb92f;transform:rotate(20deg);pointer-events:none;box-shadow:0 0 0 60px #97aeb906,0 0 0 120px #97aeb904}
+.rfq-hero .shell{position:relative;z-index:1}
+.rfq-hero h1{max-width:1050px}
+.rfq-hero p:not(.eyebrow){max-width:770px}
+.rfq-hero-meta{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:28px;padding-top:17px;border-top:1px solid #ffffff30}
+.rfq-hero-meta span{color:#c0d0d9;font-size:11px;letter-spacing:.04em}
+.rfq-section{background:#f4f7f9;padding:clamp(48px,6vw,110px) 0}
+.rfq-layout{display:grid;grid-template-columns:minmax(240px,.68fr) minmax(420px,1.4fr);gap:clamp(25px,4vw,80px);align-items:start}
+.rfq-service-intro{position:sticky;top:112px}
+.rfq-service-intro h2{font-size:clamp(30px,4vw,60px);letter-spacing:-.045em;line-height:1.07;margin:14px 0 22px}
+.rfq-service-intro>p:not(.eyebrow){font-size:14px;line-height:1.8;color:#637987}
+.rfq-help-steps{margin:30px 0;border-top:1px solid #b8c8d1}
+.rfq-help-steps>div{display:flex;gap:15px;padding:15px 0;align-items:center;border-bottom:1px solid #b8c8d1}
+.rfq-help-steps b{font-size:14px;color:#698494;min-width:26px}
+.rfq-help-steps span{font-size:13px;font-weight:750;color:#2c3e50}
+.rfq-service-intro .rfq-assurance{font-size:12px!important;color:#617684}
+.rfq-form-container{background:#fff;border:1px solid #c8d4db;padding:clamp(20px,3.5vw,48px);box-shadow:0 18px 65px rgba(31,54,68,.06)}
+.rfq-form-header h2{font-size:clamp(29px,3.6vw,48px);margin:10px 0;letter-spacing:-.04em}
+.rfq-form-header>p{font-size:14px;color:#667d89;line-height:1.6;max-width:570px}
+.rfq-quick-contact{display:flex;justify-content:space-between;gap:16px;align-items:center;background:#e8f1ee;border-top:2px solid #406b56;padding:17px;margin:24px 0 35px}
+.rfq-quick-contact strong{font-size:14px;color:#2a4d3c}
+.rfq-quick-contact p{font-size:12px;color:#63786b;margin:6px 0 0}
+.rfq-whatsapp-button{background:#235e43;color:white!important;min-height:42px!important;padding:12px 15px!important;white-space:nowrap;font-size:12px!important}
+.rfq-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px 17px}
+.rfq-field{display:flex;flex-direction:column;gap:9px;color:#395466;font-size:12px;font-weight:750}
+.rfq-field.rfq-wide{grid-column:1/-1}
+.rfq-field input,.rfq-field select,.rfq-field textarea{display:block;width:100%;background:#f8fafb;border:1px solid #bbcdd6;border-radius:2px;padding:13px;font-size:14px;font-weight:450;color:#203341;outline-offset:2px}
+.rfq-field input:focus-visible,.rfq-field select:focus-visible,.rfq-field textarea:focus-visible{outline:2px solid #476679;border-color:#476679}
+.rfq-field textarea{resize:vertical;min-height:125px}
+.rfq-field input[type=file]{font-size:12px;background:#edf2f4;cursor:pointer}
+.rfq-field small{line-height:1.6;color:#71838c;font-size:11px;font-weight:400}
+.rfq-form{display:flex;flex-direction:column;gap:26px}
+.rfq-agreement{display:flex;align-items:flex-start;gap:11px;font-size:11px;line-height:1.6;color:#637683}
+.rfq-agreement input{flex:none;margin-top:2px;accent-color:#2c3e50}
+.rfq-spam-field{position:absolute!important;left:-10000px!important;visibility:hidden}
+.rfq-submit{max-width:100%;text-align:left;justify-content:space-between;min-height:54px;font-size:12px;cursor:pointer}
+.rfq-submit:disabled{opacity:.6;cursor:wait}
+.rfq-error{border-left:3px solid #aa4d4d;background:#fceeee;color:#943838;padding:12px;font-size:12px}
+.rfq-note{font-size:11px;color:#6b808b;line-height:1.7;margin:0}
+.rfq-email-standby{border-left:3px solid #597b90;background:#edf3f6;padding:20px;font-size:13px;color:#3c5565;line-height:1.7}
+.rfq-email-standby p{margin-bottom:0}
+.rfq-confirmed{border:1px solid #b5ccbf;padding:clamp(20px,3.3vw,44px);background:#f1f7f3;min-height:300px}
+.rfq-confirmed h2{font-size:clamp(28px,3vw,48px);margin:10px 0 20px}
+.rfq-confirmed>p{font-size:14px;color:#5b7363;line-height:1.7}
+.rfq-reference{font-size:clamp(19px,2.3vw,31px);letter-spacing:-.025em;font-weight:800;padding:20px;border:1px dashed #719c81;background:white;overflow-wrap:anywhere;color:#1e5438}
+.rfq-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px}
+.rfq-alt-action{background:transparent;color:#254e3b!important;border:1px solid #809b89!important}
+@media(max-width:980px){.rfq-layout{grid-template-columns:1fr;gap:28px}.rfq-service-intro{position:static;max-width:700px}.rfq-help-steps{display:grid;grid-template-columns:repeat(3,1fr)}.rfq-help-steps>div{padding:15px 8px;gap:8px}}
+@media(max-width:620px){.rfq-form-grid{grid-template-columns:1fr;gap:17px}.rfq-quick-contact{align-items:stretch;flex-direction:column}.rfq-quick-contact .button{justify-content:center}.rfq-help-steps{grid-template-columns:1fr;margin:25px 0}.rfq-help-steps>div{padding:12px 0}.rfq-hero-meta{gap:10px}.rfq-form-container{padding:19px}.rfq-actions{flex-direction:column}}

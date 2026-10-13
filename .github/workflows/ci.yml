@@ -1,9 +1,9 @@
 name: V3 foundation checks
 on:
   push:
-    branches: ["rebuild/**"]
+    branches: ["rebuild/**", "feature/**"]
   pull_request:
-    branches: [main]
+    branches: [main, "rebuild/**"]
 jobs:
   validate:
     runs-on: ubuntu-latest
