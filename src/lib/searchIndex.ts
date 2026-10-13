@@ -52,3 +52,18 @@ export function rankSearch(query:string,entries:SearchResult[],max=18){
    return {item,score};
  }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score||a.item.title.localeCompare(b.item.title)).slice(0,max).map(x=>x.item);
 }
+
+/** Merge published CMS entries without discarding the static page's searchable body. */
+export function mergeSearchEntries(staticEntries:SearchResult[],cmsEntries:SearchResult[]):SearchResult[]{
+ const results=new Map<string,SearchResult>();
+ for(const item of staticEntries)results.set(item.href,item);
+ for(const item of cmsEntries){
+  const before=results.get(item.href);
+  results.set(item.href,before?{
+   ...item,
+   description:item.description||before.description,
+   keywords:[before.keywords,item.keywords,before.description].filter(Boolean).join(" "),
+  }:item);
+ }
+ return [...results.values()];
+}
