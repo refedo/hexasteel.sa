@@ -20,7 +20,7 @@ jobs:
           fetch() {
             route="$1"
             output="$2"
-            code="$(curl -LsS --connect-timeout 8 --max-time 30 -o "$output" -w '%{http_code}' "$base/$route")"
+            code="$(curl -LsS --retry 3 --retry-delay 2 --retry-all-errors --connect-timeout 8 --max-time 30 -o "$output" -w '%{http_code}' "$base/$route")"
             echo "$route => $code"
             test "$code" = 200
           }
@@ -54,7 +54,7 @@ jobs:
       - name: Check public Sanity dataset for historical client data
         run: |
           set -euo pipefail
-          curl -sSfGL --connect-timeout 8 --max-time 20 \
+          curl -sSfGL --retry 3 --retry-delay 2 --retry-all-errors --connect-timeout 8 --max-time 20 \
             'https://ik7morln.api.sanity.io/v2025-02-01/data/query/production' \
             --data-urlencode 'query=count(*[_type=="project" && defined(client)])' \
             -o /tmp/oldclients.json
