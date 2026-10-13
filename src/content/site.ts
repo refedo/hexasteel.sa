@@ -12,6 +12,8 @@ export const navigation = [
   {label:"Steel Fabrication & Processing",href:"/services/fabrication"},
   {label:"Manufacturing Services",href:"/capabilities/machinery"},
   {label:"Pipes & Vessels",href:"/services/pipes-vessels"},
+  {label:"Sheeting & Cladding",href:"/products/sheeting"},
+  {label:"Steel Accessories",href:"/products/steel-accessories"},
   {label:"Coating & Galvanization",href:"/capabilities/coating"},
   {label:"Supply Chain & Procurement",href:"/services/supply-chain"}
  ]},
@@ -28,9 +30,12 @@ export const navigation = [
  {label:"Knowledge Centre",href:"/knowledge",children:[
   {label:"Engineering Guides",href:"/knowledge"},
   {label:"Steel Grades & Traceability",href:"/knowledge/steel-grades-traceability"},
+  {label:"PEB Frame Types",href:"/knowledge/peb-frame-systems"},
+  {label:"PEB Components",href:"/knowledge/peb-building-components"},
   {label:"Technical FAQs",href:"/knowledge#faq"}
  ]},
  {label:"Insights",href:"/insights"},
+ {label:"Careers",href:"/company/careers"},
 ] as const;
 export const reportedQualifications=[
  {name:"Saudi Aramco",detail:"Manufacturer approval — subject to approved product scope"},
@@ -38,7 +43,12 @@ export const reportedQualifications=[
  {name:"National Water Company (NWC)",detail:"Company-reported qualification / registration"},
  {name:"Qiddiya",detail:"Company-reported qualification / registration"},
  {name:"New Murabba",detail:"Company-reported qualification / registration"},
- {name:"MODON",detail:"Company-reported accreditation and project experience"}
+ {name:"MODON",detail:"Industrial facility accreditation and project experience"},
+ {name:"Water Transmission Company (WTCO)",detail:"Water infrastructure engagement"},
+ {name:"Red Sea Global",detail:"Project delivery experience"},
+ {name:"Alfanar",detail:"Industrial project engagement"},
+ {name:"Saudi Electricity Company (SEC)",detail:"Energy infrastructure engagement"},
+ {name:"SEVEN Entertainment",detail:"Project delivery experience"}
 ] as const;
 export const activityGroups = [
   { stage: "Engineering", summary: "Translate requirements into coordinated, buildable deliverables.", activities: [
@@ -77,6 +87,7 @@ export const references=[
  {slug:"airport-infrastructure-steel",title:"Airport Infrastructure Steelwork",category:"Specialty Steelworks",year:"",size:"",description:"Specialty fabrication and coordinated steel supply for infrastructure environments.",status:"Status to confirm",image:""},
  {slug:"industrial-pipe-supports",title:"Industrial Pipe Supports & Steelwork",category:"Industrial Steelworks",year:"",size:"",description:"Industrial steelwork and fabrication support for manufacturing and process facilities.",status:"Status to confirm",image:""},
  {slug:"industrial-building-reference",title:"Industrial Facility Steelwork",category:"Industrial Buildings",year:"",size:"",description:"Industrial building steelwork coordinated with fabrication and procurement.",status:"Status to confirm",image:""},
+ {slug:"water-infrastructure-steelwork",title:"Water Infrastructure Steelwork",category:"Infrastructure Steel",year:"",size:"",description:"Steel fabrication and delivery support for water infrastructure development.",status:"Status to confirm",image:""},
  {slug:"commercial-steel-reference",title:"Commercial Structural Steel Package",category:"Structural Steel",year:"",size:"",description:"Structural steelwork for commercial building construction.",status:"Status to confirm",image:""},
 ];
 export const insights=[

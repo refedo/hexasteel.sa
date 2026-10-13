@@ -2,6 +2,7 @@ import type {Metadata} from "next";
 import Link from "next/link";
 import {CapabilityNarrative} from "@/components/CapabilityNarrative";
 import {CallToAction,PageHero} from "@/components/PageBlocks";
+import {PEBFrames} from "@/components/PEBFrames";
 export const metadata:Metadata={title:"Pre-Engineered Buildings"};
 const scenes=[
 {label:"Industrial Buildings",eyebrow:"01 / MODON & INDUSTRY",headline:"Made for the industrial future.",description:"Factories, warehouses, logistics facilities and expansions demand efficient structural framing, buildability and reliable delivery.",outcomes:["Factory and production buildings","Warehousing and industrial logistics","MODON development and expansion projects"],href:"/projects",cta:"Explore project references",symbol:"PEB"},
@@ -13,6 +14,7 @@ export default function PEB(){return <main>
  <PageHero eyebrow="SOLUTIONS / PRE-ENGINEERED BUILDINGS" title="Industrial buildings engineered around purpose." intro="Integrated PEB solutions for factories, warehouses and industrial expansions—with in-house primary framing and C/Z purlin capabilities."/>
  <section className="section editorial-capability-intro"><div className="shell editorial-statement"><div><p className="eyebrow">A CORE HEXA STEEL DISCIPLINE</p><h2>Efficient buildings.<br/><span>Controlled delivery.</span></h2></div><p>PEB and Structural Steel are equal core solutions. Our project teams coordinate the structural system, primary steel, secondary elements, coating and site installation scope.</p></div></section>
  <section className="section capability-story-section"><div className="shell"><div className="section-intro"><p className="eyebrow">EXPLORE OUR PRE-ENGINEERED BUILDING CAPABILITY</p><h2>Purpose-led systems.<br/><span>Manufacturing control.</span></h2><p>Discover our industrial building approach—from primary framing to C/Z purlin manufacturing.</p></div><CapabilityNarrative scenes={scenes} kicker="PRE-ENGINEERED BUILDINGS"/></div></section>
+ <section className="section"><div className="shell"><div className="section-intro"><p className="eyebrow">PEB FRAME DESIGN OPTIONS</p><h2>Every span has<br/><span>its own solution.</span></h2><p>Explore single-span, multi-span, multi-gable, lean-to, cantilever and curved industrial framing systems.</p></div><PEBFrames compact/><Link className="text-link" href="/knowledge/peb-frame-systems">Read the illustrated PEB frame guide</Link></div></section>
  <section className="industrial-section-band"><div className="shell industrial-band-layout"><div><p className="eyebrow on-dark">MODON / INDUSTRIAL DEVELOPMENT</p><h2>Industrial development is a long-term commitment.</h2><p>Hexa has undertaken MODON projects and reports accreditation, alongside a planned 16,415 m² facility expansion. The expansion is not yet commissioned production capacity.</p></div><Link href="/insights/modon-expansion-2026" className="button outline">Our planned industrial expansion ↗</Link></div></section>
  <CallToAction heading="Discuss your next industrial building."/>
  </main>}

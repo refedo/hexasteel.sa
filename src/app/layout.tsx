@@ -7,9 +7,12 @@ import {getAccentColor} from "@/lib/siteSettings";
 import type {CSSProperties} from "react";
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://hexasteel.sa"),
-  title: { default: "HEXA STEEL® | Engineered with Precision", template: "%s | HEXA STEEL®" },
-  description: "Structural Steel, PEB, advanced manufacturing, project management and site execution in Saudi Arabia.",
-  robots: { index: false, follow: false } // staging: switch on only after content approval
+  title: { default: "HEXA STEEL® | Structural Steel & PEB Manufacturer Saudi Arabia", template: "%s | HEXA STEEL®" },
+  description: "Hexa Steel® provides structural steel fabrication, pre-engineered buildings (PEB), C/Z purlins, laser cutting, steel detailing, project management and site delivery in Saudi Arabia.",
+  keywords: ["Saudi steel fabrication","structural steel manufacturer Saudi Arabia","PEB Saudi Arabia","pre engineered buildings","steel structures Riyadh","industrial steel fabrication","C purlins","Z purlins","steel detailing","industrial project delivery"],
+  openGraph:{type:"website",siteName:"HEXA Steel®",locale:"en_SA",title:"HEXA Steel® | Steel Fabrication & PEB",description:"Engineering, manufacturing and project delivery in Saudi Arabia.",url:"https://hexasteel.sa"},
+  twitter:{card:"summary_large_image",title:"HEXA Steel® | Structural Steel & PEB"},
+  robots: { index: true, follow: true, googleBot:{index:true,follow:true,maxImagePreview:"large"} }
 };
 // Keep CMS-controlled visual settings fresh without disabling static rendering.
 export const revalidate = 30;

@@ -29,7 +29,6 @@ export function SiteNavigation(){
     </div>}</>:
     <Link className="hexa-nav-trigger" href={item.href} onClick={close}>{item.label}</Link>}
   </div>)}
-  <Link className="hexa-nav-trigger" href="/company/careers" onClick={close}>Careers</Link>
   </nav>
   <button className={"hexa-nav-toggle"+(mobile?" open":"")} type="button" aria-expanded={mobile} aria-controls="hexa-nav-mobile-panel" aria-label={mobile?"Close menu":"Open menu"} onClick={()=>setMobile(v=>!v)}><span/><span/><span/></button>
   {mobile&&<><div className="hexa-nav-backdrop" onClick={close}/><nav className="hexa-nav-mobile" id="hexa-nav-mobile-panel" aria-label="Mobile navigation">
@@ -38,7 +37,6 @@ export function SiteNavigation(){
      {"children" in item && item.children?<><div className="hexa-nav-mobile-parent"><Link href={item.href} onClick={close}>{item.label}</Link><button type="button" aria-label={"Show "+item.label+" sections"} aria-expanded={sub===item.href} onClick={()=>setSub(v=>v===item.href?null:item.href)}>{sub===item.href?"−":"+"}</button></div>{sub===item.href&&<div className="hexa-nav-mobile-children">{item.children.map(child=><Link href={child.href} key={child.href} onClick={close}>{child.label}</Link>)}</div>}</>:
       <Link href={item.href} onClick={close} className="hexa-nav-mobile-direct">{item.label}</Link>}
    </div>)}
-   <Link className="hexa-nav-mobile-direct" href="/company/careers" onClick={close}>Careers</Link>
    <Link className="hexa-nav-mobile-direct" href="/contact" onClick={close}>Contact Us</Link>
    <Link className="hexa-nav-mobile-rfq" href="/request-quotation" onClick={close}>Request a quotation</Link>
   </nav></>}
