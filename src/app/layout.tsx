@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   description: "Structural Steel, PEB, advanced manufacturing, project management and site execution in Saudi Arabia.",
   robots: { index: false, follow: false } // staging: switch on only after content approval
 };
+// Keep CMS-controlled visual settings fresh without disabling static rendering.
+export const revalidate = 30;
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const accent=await getAccentColor();
   const themeStyle={"--signal":accent} as CSSProperties;
