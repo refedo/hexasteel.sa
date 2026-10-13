@@ -824,3 +824,19 @@ body:has(.hexa-studio) > .site-header,body:has(.hexa-studio) > .site-footer{disp
 .wordmark>span{display:flex;align-items:baseline;gap:9px}
 .wordmark .brand-tagline{font-size:8px;letter-spacing:.07em;text-transform:uppercase;color:#9cadb8;font-weight:650;white-space:nowrap}
 @media(max-width:1450px){.wordmark .brand-tagline{display:none}}
+
+/* HEXA public mobile number, contact options & prominent WhatsApp entry point */
+.contact-shortcuts{position:fixed;right:22px;bottom:22px;display:flex;flex-direction:column;align-items:flex-end;gap:9px;z-index:120;pointer-events:none}
+.contact-shortcut{display:flex;align-items:center;gap:8px;padding:12px 17px;background:#193746;color:#fff!important;border:1px solid #496272;box-shadow:0 6px 24px #0002;border-radius:999px;font-size:12px;font-weight:750;pointer-events:auto;transition:transform .2s}
+.contact-shortcut.chat{background:#286343;border-color:#4c8a5d}
+.contact-shortcut:hover{transform:translateY(-2px)}
+.contact-shortcut.phone{padding:10px 15px}
+.contact-direct-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.contact-layout{display:grid;grid-template-columns:minmax(270px,.85fr) minmax(350px,1.3fr);gap:clamp(28px,5vw,75px)}
+.contact-detail-panel{padding-top:18px}
+.contact-detail-panel h2{font-size:clamp(34px,4vw,60px)}
+.contact-detail{border-top:1px solid #c1ced5;padding:21px 0;display:flex;flex-direction:column;gap:8px}
+.contact-detail small{font-size:10px;font-weight:850;letter-spacing:.15em;color:#637a89}
+.contact-detail a,.contact-detail>span{font-size:clamp(16px,1.5vw,22px);font-weight:700;color:#2c3e50}
+.contact-detail .contact-map-link{font-size:12px;text-decoration:underline;text-underline-offset:5px}
+@media(max-width:760px){.contact-layout{grid-template-columns:1fr}.contact-shortcuts{bottom:18px;right:15px}.contact-shortcut{font-size:11px;padding:10px 13px}.contact-direct-actions{flex-direction:column;align-items:flex-start}}

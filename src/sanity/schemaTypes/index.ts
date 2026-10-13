@@ -108,6 +108,8 @@ const siteSettings=defineType({
         defineField({name:"alt",type:"string",title:"Accessible image description",validation:r=>r.required()}),
         defineField({name:"credit",type:"string"})
        ]}]}),
+    defineField({name:"contactMobile",type:"string",title:"Public Mobile / WhatsApp Number",description:"Public number in international E.164 format, e.g. +966591716020. Changing this updates Contact, footer and WhatsApp buttons.",initialValue:"+966591716020",validation:r=>r.regex(/^\+[1-9][0-9]{7,14}$/,{name:"international phone number"})}),
+    defineField({name:"whatsappEnabled",type:"boolean",title:"Show WhatsApp Chat",initialValue:true}),
     defineField({name:"contactNotificationEmail",type:"string",hidden:true,description:"Not connected until secure transactional forms are implemented."})
   ],
   preview:{prepare:()=>({title:"HEXA Website Theme & Settings"})}
