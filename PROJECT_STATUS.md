@@ -21,7 +21,7 @@
 
 **Preserved from V3.10/V3.11:** Service-prefilled forms, optional technical questions, signed service CTAs, WhatsApp fallback (+966591716020), high-entropy receipt references, consent, bounded upload/file-type checks, fail-closed malware scan, two separate Sales/customer notification templates, optional CRM webhook, responsive design and RFQ smoke tests.
 
-**Developed in current milestone (subject to CI):**
+**Developed and CI-verified in current milestone:** Application commit [`0e54b7f`](https://github.com/refedo/hexasteel.sa/commit/0e54b7f0f0f03dbe2a3cf8bd1a7d967b24a821bd), [push CI passed](https://github.com/refedo/hexasteel.sa/actions/runs/38482515220), [PR CI passed](https://github.com/refedo/hexasteel.sa/actions/runs/38482521542). Both ran TypeScript, production build, RFQ HTTP, durability regression and worker syntax checks.
 - PostgreSQL receipt schema (`database/migrations/001_rfq_intake.sql`) with unique reference/idempotency key, restricted RFQ record and two-message outbox.
 - S3-compatible *private* document storage, SHA-256 manifests, server-side encryption request, and defensive orphan cleanup after unambiguous rollbacks.
 - Transactional write-before-acknowledge contract in `src/lib/rfqStore.ts`; network retries reuse a UUID to avoid duplicate records. Commit uncertainty never triggers deletion of possibly referenced customer documents.
@@ -32,7 +32,7 @@
 
 **Not implemented/accepted:** DigitalOcean database/bucket provisioning, operational restricted worker identity and schedule, scanner/vendor data agreement, real mailbox delivery & bounce evidence, independently authenticated Sales document access, distributed abuse prevention, accessibility/device sign-off, privacy/retention validation and monitored operations. RFQ form submission must remain **disabled** pending these gates. WhatsApp is a user-initiated alternative; it does not create a reference or queue ticket.
 
-**Exact milestone state:** Developed on isolated PR #12 → CI verification → external infrastructure acceptance → CEO decision on merge/deploy. **R1 stays 61%.**
+**Exact stopping point:** Developed and CI-tested at application SHA `0e54b7f` on draft PR #12 → private infrastructure/scanner/email acceptance BLOCKED → CEO decision on merge/deploy pending. No production activation. Do not imply full end-to-end acceptance. **R1 stays 61%.**
 
 ---
 
