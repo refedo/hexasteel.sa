@@ -48,6 +48,16 @@
 
 ---
 
+## Sanity Studio connectivity verification — 13 October 2026
+
+- **Sanity Project ID:** \`ik7morln\`; dataset \`production\`.
+- **Applied fix:** removed the environment-variable-only Studio placeholder and provided the public Sanity Project ID as a fallback in the Studio configuration and CMS readers.
+- **DigitalOcean deployment:** [passed](https://github.com/refedo/hexasteel.sa/actions/runs/38423275394) on V3 branch.
+- **Independent domain smoke test:** [passed](https://github.com/refedo/hexasteel.sa/actions/runs/38424091525). \`/studio\` returns HTTP 200, contains the Sanity editor shell, and no longer shows the connection placeholder.
+- **Sanity public data API:** HTTP 200; CORS headers confirmed \`access-control-allow-origin: https://hexasteel.sa\` and \`access-control-allow-credentials: true\`.
+- **Remaining acceptance gate:** corporate owner logs into the Studio from a browser, successfully edits/publishes the Website Settings accent, and confirms the live website reflects the edit after cache revalidation. Other CMS content CRUD and role permissions remain to be tested.
+- **R1 progress stays at 54%** until the authenticated editor/publishing test passes; operational setup is not equivalent to editorial acceptance.
+
 ## One-page executive summary
 
 - **Release 1 (corporate website + CMS + secure enquiry intake) completion: approximately 54%**.
