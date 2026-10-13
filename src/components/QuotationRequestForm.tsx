@@ -8,6 +8,7 @@ export function QuotationRequestForm({initialService,whatsappBase,enabled,upload
  const [status,setStatus]=useState<SubmitStatus>("idle");
  const [message,setMessage]=useState("");
  const [reference,setReference]=useState("");
+ const [acknowledgementAccepted,setAcknowledgementAccepted]=useState(false);
  const [quantity,setQuantity]=useState("");
  const [unit,setUnit]=useState("t");
  const [contact,setContact]=useState("");
@@ -52,18 +53,18 @@ export function QuotationRequestForm({initialService,whatsappBase,enabled,upload
   const data=new FormData(form);
   try{
    const response=await fetch("/api/rfq",{method:"POST",body:data,headers:{Accept:"application/json"}});
-   const payload=await response.json() as {error?:string;reference?:string};
+   const payload=await response.json() as {error?:string;reference?:string;acknowledgementAccepted?:boolean};
    if(!response.ok)throw new Error(payload.error||"Your request could not be sent.");
    if(!payload.reference)throw new Error("An RFQ reference was not returned. Contact our team.");
-   setReference(payload.reference);setStatus("success");form.reset();setFiles([]);
+   setReference(payload.reference);setAcknowledgementAccepted(payload.acknowledgementAccepted===true);setStatus("success");form.reset();setFiles([]);
   }catch(e){setStatus("error");setMessage(e instanceof Error?e.message:"Unable to send request. Please use WhatsApp.");}
  }
  if(status==="success")return <section className="rfq-confirmed" role="status">
    <span className="eyebrow">REQUEST ACCEPTED</span>
    <h2>Your request has been received.</h2>
-   <p>Our sales team has received your technical enquiry. Your reference number is:</p>
+   <p>Our email provider has accepted the request for our sales team. Your reference number is:</p>
    <div className="rfq-reference">{reference}</div>
-   <p>Keep this number for correspondence. A confirmation email has been requested for your address; please check your inbox.</p>
+   <p>{acknowledgementAccepted?"Keep this number for correspondence. An acknowledgement email has been requested for your address. Please check your inbox.":"Keep this reference number: Sales notification was accepted, but your acknowledgement email could not be submitted. Please contact our team using the reference."}</p>
    <div className="rfq-actions"><button type="button" className="button dark" onClick={()=>{setStatus("idle");setReference("")}}>Submit another request</button><a href={whatsapp} target="_blank" rel="noopener noreferrer" className="button rfq-alt-action">Chat with our team</a></div>
  </section>;
  return <div className="rfq-form-container">

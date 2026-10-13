@@ -125,22 +125,40 @@ export async function POST(request:Request){
   "Your RFQ is now submitted for commercial review. A formal quotation or estimation number, where applicable, will be issued separately.",
   "For a follow-up, please quote the reference above.",
  ].join("\n");
- // One transactional email request: customer is the visible recipient, the private sales inbox is BCC.
- // The same reference and attachments reach both parties; no documents enter the public Sanity CMS.
- let sent:Response;
- try{
-  sent=await fetch("https://api.resend.com/emails",{
-   method:"POST",cache:"no-store",
-   headers:{Authorization:"Bearer "+secret,"Content-Type":"application/json"},
-   body:JSON.stringify({from,to:[email],bcc:[sales],reply_to:sales,subject:"HEXA Steel® | RFQ received | "+reference,text:note,...(attachments.length?{attachments}:{})})
-  });
- }catch{return error("Email delivery could not be confirmed. Please use WhatsApp or retry.",502);}
- if(!sent.ok)return error("We could not accept the request at this time. Please contact our sales team via WhatsApp.",502);
+ // Keep technical drawings in the authorised Sales message, never in the customer acknowledgement.
+ // Sending Sales first avoids false rejection of a request already received by Hexa if the second email fails.
+ async function sendEmail(payload:Record<string,unknown>):Promise<boolean>{
+  try{
+   const response=await fetch("https://api.resend.com/emails",{
+    method:"POST",cache:"no-store",signal:AbortSignal.timeout(12000),
+    headers:{Authorization:"Bearer "+secret,"Content-Type":"application/json"},
+    body:JSON.stringify(payload),
+   });
+   return response.ok;
+  }catch{return false;}
+ }
+ const salesAccepted=await sendEmail({
+  from,to:[sales],reply_to:email,subject:"HEXA Steel® | New Sales RFQ | "+reference,
+  text:note,...(attachments.length?{attachments}:{}),
+ });
+ if(!salesAccepted)return error("We could not accept the request at this time. Please contact our sales team via WhatsApp.",502);
+ const customerText=[
+  "HEXA Steel® — RFQ acknowledgement","",
+  "Reference: "+reference,"Service: "+serviceName,
+  "Thank you, "+name+". Your request has been sent to the HEXA Steel® commercial team.",
+  "The next step is technical and commercial review. No quotation amount or delivery commitment has been issued.",
+  "Please keep this reference for correspondence.",
+  "This acknowledgement does not include copies of your technical documents."
+ ].join("\n");
+ const acknowledgementAccepted=await sendEmail({
+  from,to:[email],reply_to:sales,subject:"HEXA Steel® | RFQ acknowledgement | "+reference,text:customerText,
+ });
+ if(!acknowledgementAccepted)console.error("RFQ customer acknowledgement not accepted. Reference: "+reference);
  // A private CRM may be connected later; never expose customer information in Sanity or public routes.
  const handoff=await handoffRfqLead({
   schemaVersion:1,event:"rfq.received",reference,receivedAt:new Date().toISOString(),status:"Received",source:"website",serviceCode:service,serviceName,
   customer:{name,company,email,phone},project:{description,quantity,unit,location,requiredDate,technicalSpec,technicalDetail},attachments:attachmentMetadata,
  });
  if(handoff==="failed")console.error("RFQ lead webhook unavailable; recover lead from Sales acknowledgement. Reference: "+reference);
- return NextResponse.json({ok:true,reference},{headers:{"Cache-Control":"no-store"}});
+ return NextResponse.json({ok:true,reference,acknowledgementAccepted},{headers:{"Cache-Control":"no-store"}});
 }

@@ -4,7 +4,7 @@
 - Machinery page `Request this service` links to `/request-quotation?service=<approved-code>`.
 - Preserves the chosen service and asks only for contact, company, rough quantity, delivery date and scope. Optional PDF, DWG, DXF, DOCX or XLSX attachments, capped to 2 files / 5 MB each / 8 MB total.
 - Displays a direct WhatsApp link to +966 59 171 6020, with selected-service context, irrespective of email setup.
-- After secure email delivery **acceptance**, generates a server-side `HX-RFQ-YYYYMMDD-XXXXXXXXXXXX` identifier, sends a single email to the customer with Sales BCC, includes permitted drawings as attachments, and shows the reference in-page. This is an *RFQ receipt*, not a commercial quotation/estimation number.
+- After secure email delivery **acceptance**, generates a server-side `HX-RFQ-YYYYMMDD-XXXXXXXXXXXX` identifier, sends an internal Sales email with permitted drawings and then a separate customer receipt **without drawings**, and shows the reference in-page. This is an *RFQ receipt*, not a commercial quotation/estimation number.
 - No CRM tracking/dashboard or persistent searchable ticket database is claimed in this release.
 
 ## Server configuration
@@ -22,12 +22,12 @@ If a credential is missing, the site shows a WhatsApp request route and does **n
 - Explicit consent, a honeypot, origin validation, a basic in-process throttle, and a file extension/signature allowlist are provided.
 - Uploaded files are **not stored** in the public Sanity dataset, public assets, static folders, or URL query parameters.
 - Before large-volume production use, add a managed anti-bot service, **virus/malware scanning for CAD and office documents**, distributed rate limiting, a private durable CRM datastore and monitored mail bounces/failures.
-- The single-email approach provides a customer acknowledgement and Sales BCC when accepted by the provider. Resend API acceptance is not guaranteed delivery and does not itself constitute a durable sales queue.
+- Resend API acceptance is not guaranteed delivery and does not itself constitute a durable sales queue. Sales and customer messages have separate acceptance reporting.
 - Sensitive customer documents should be limited to authorised project data.
 
 ## Acceptance tests before activating
 1. Verify all service CTAs preselect their respective machinery services.
-2. Use a test sales recipient and verified domain. Submit an RFQ with PDF and DWG; confirm Sales receives BCC attachments, and the customer receives the receipt with the **same reference**.
+2. Use a test sales recipient and verified domain. Submit an RFQ with PDF and DWG; confirm Sales receives a private notification with attachments, and the customer receives a separate receipt with **the same reference but without attachments**.
 3. Verify malformed files, too many/large files, invalid service IDs, missing consent, spam traps and invalid origins are rejected.
 4. Verify no customer details/attachment metadata leak into Sanity, search indexes, URLs or application logs.
 5. Verify WhatsApp prefilled service routing on iPhone and Android.
@@ -48,3 +48,10 @@ Connect to OTS™ or a supported CRM after process ownership and data protection
 - File transfer through WhatsApp is an alternative **only if client authorises that channel**. Never assert that WhatsApp yields an RFQ reference or that website-upload absence blocks plain-text RFQs.
 - Enforce private access, scanner operational SLAs, monitored email delivery, privacy/retention policies, distributed rate limiting and verified inboxes before enabling `RFQ_SUBMISSIONS_ENABLED` in production.
 - Verification: `npm run check && npm run build && npm run test:rfq`. This test covers preselection CTA URLs, HTTP page availability, cross-origin rejection and attachment rejection when scanner is unconfigured.
+
+
+### V3.11 two-message email separation
+- **Sales notification first:** sends RFQ details and clean-scanned documents only to the restricted Sales inbox, using customer address as `reply_to`.
+- **Customer acknowledgement second:** sends a short receipt with the same reference **without drawings**, reducing unnecessary exposure of confidential plans.
+- Success response is based on Sales email-provider acceptance; if customer acknowledgement is not accepted, UI shows the RFQ reference and warns the customer to retain it. It does **not** cause a duplicate request retry.
+- A successful Resend response indicates provider acceptance only, **not confirmed mailbox delivery**, and outbound email is not a durable queue. Validate both inboxes and provider failure/bounce handling before activation.
