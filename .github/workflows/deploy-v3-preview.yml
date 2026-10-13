@@ -119,7 +119,7 @@ jobs:
             for route in projects insights capabilities/machinery knowledge/structural-steel-vs-peb project-delivery; do
               curl -fsS --max-time 8 "http://127.0.0.1:4500/$route" >/dev/null || { echo "Failed route: $route"; exit 1; }
             done
-            if ! curl -kfsS --max-time 10 --resolve hexasteel.sa:443:127.0.0.1 https://hexasteel.sa/ | grep -q "Two equally important"; then
+            if ! curl -kfsS --max-time 10 --resolve hexasteel.sa:443:127.0.0.1 https://hexasteel.sa/ | grep -q "WHY CHOOSE HEXA STEEL"; then
               echo "Domain did not serve revised V3"; exit 1
             fi
             pm2 save >/dev/null
