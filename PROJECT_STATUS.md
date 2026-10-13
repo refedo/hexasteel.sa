@@ -5,14 +5,14 @@
 **Repository:** [refedo/hexasteel.sa](https://github.com/refedo/hexasteel.sa)  
 **Working branch:** `rebuild/website-v3` (never merge to `main` without approval)  
 **Review domain:** https://hexasteel.sa (pre-launch)  
-**Last verified application release:** `48132e6`; [DigitalOcean deploy success](https://github.com/refedo/hexasteel.sa/actions/runs/38312807712)  
-**External path-check:** [GitHub public route verification succeeded](https://github.com/refedo/hexasteel.sa/actions/runs/38313053327)  
-**Current branch HEAD at audit:** `40cd124` (documentation/workflow changes after application release).
+**Last verified application release:** `a50b744`; [DigitalOcean deployment passed](https://github.com/refedo/hexasteel.sa/actions/runs/38363775423)  
+**External path-check:** [V3.6 external verification succeeded](https://github.com/refedo/hexasteel.sa/actions/runs/38364047694)  
+**Current implementation baseline:** `a50b744` (subsequent workflow and tracking commits do not change the application build).
 
 ## Change log — V3.6 (2026-10-13)
 
 **Implementation commit:** [a50b744](https://github.com/refedo/hexasteel.sa/commit/a50b74497b3fbf9b32e525a7b210778c0f9f4d9c)  
-**Status when logged:** Source committed; CI and DO deployment checks in progress. Live verification required before changing R1 completion estimate.
+**Release verified:** TypeScript/Next.js build, DigitalOcean deployment and independent public-URL tests passed. Design/content approval remains open.
 **Scope delivered in source (awaiting external design acceptance):**
 - Three-image slider for structural steel construction / industrial buildings / manufacturing reference imagery (illustrative, not Hexa project photos), with slide controls and motion-reduction support.
 - Replaced historic 2,250 tonne capacity notice with people/machinery/process capabilities and "thousands of tonnes each year" positioning.
@@ -30,7 +30,7 @@
 
 ## One-page executive summary
 
-- **Release 1 (corporate website + CMS + secure enquiry intake) completion: approximately 44%**.
+- **Release 1 (corporate website + CMS + secure enquiry intake) completion: approximately 48%**.
 - **Release 2 (advanced vendor qualification + commercial dashboard/OTS links): not started.**
 - **Release 3 (human-approved AI estimation): not started.**
 - These percentages are *management planning estimates* computed from weighted R1 workstreams. They are **not** objective code coverage, cost burn, or a claim that 44% of the entire three-release program is complete.
@@ -41,16 +41,16 @@
 
 | Workstream | Weight | Estimated work completed | Weighted contribution | Status |
 |---|---:|---:|---:|---|
-| Strategy, sitemap, blueprint | 10% | 90% | 9.00% | Mostly complete |
-| Visual system, responsive UX | 15% | 75% | 11.25% | In CEO review |
-| Page architecture and interactions | 15% | 75% | 11.25% | Core pages built |
-| Approved reference projects and trust proof | 10% | 25% | 2.50% | Placeholders and draft claims |
+| Strategy, sitemap, blueprint | 10% | 95% | 9.50% | Mostly complete |
+| Visual system, responsive UX | 15% | 80% | 12.00% | In CEO review |
+| Page architecture and interactions | 15% | 80% | 12.00% | Core pages built |
+| Approved reference projects and trust proof | 10% | 35% | 3.50% | Placeholders and draft claims |
 | Connected Sanity CMS / editorial freedom | 15% | 15% | 2.25% | Schemas exist; project not connected |
-| Knowledge Centre, Insights and SEO content | 10% | 50% | 5.00% | Routes/draft articles live; editorial still needed |
+| Knowledge Centre, Insights and SEO content | 10% | 55% | 5.50% | Routes/draft articles live; editorial still needed |
 | Arabic / English, RTL, localization | 10% | 0% | 0.00% | Not implemented |
 | Contact, secure RFQ and vendor intake | 10% | 10% | 1.00% | Contact UI exists, delivery/portal not launched |
-| Accessibility, security, QA and release sign-off | 5% | 40% | 2.00% | CI & route checks; broader QA remains |
-| **Release 1** | **100%** | — | **44.25% ≈ 44%** | **In progress** |
+| Accessibility, security, QA and release sign-off | 5% | 45% | 2.25% | CI & route checks; broader QA remains |
+| **Release 1** | **100%** | — | **48.00% ≈ 48%** | **In progress** |
 
 **Method:** Each row's weight × estimated row completion. Revise only after accepted deliverables and release evidence. Release 2 and Release 3 are tracked separately.
 
@@ -59,16 +59,16 @@
 ### Implemented and deployed for review
 
 - [x] Next.js V3 clean application with GitHub CI and isolated DigitalOcean release process
-- [x] Homepage with structural steel and PEB presented as equal primary solutions
+- [x] Homepage with structural steel and PEB presented as equal primary solutions; three-image industrial slider and management-approved aspiration phrasing still require executive visual sign-off
 - [x] Responsive V3 layout, typography, HEXA primary #2C3E50 and selectable accent configuration in code
 - [x] Project Delivery page, 7-activity/3-stage connected timeline, expandable site delivery sections
-- [x] Quality Control page with interactive inspection checkpoints
+- [x] Quality Control page with interactive ITP-governed checkpoints in order: MIR/material, dimensional, welding, surface/coating, TQM/documents
 - [x] Service-led manufacturing capability page without public machine brands/models
 - [x] Structural Steel and PEB detail pages
 - [x] Coating and fire protection overview
-- [x] Completed-reference project index and individual page templates (not yet approved client case studies)
+- [x] Expanded 8-reference project index, category/search filters and individual pages; management client/project data and illustrative images await client and image publication clearance
 - [x] Knowledge Centre listing and three linked technical articles (draft editorials)
-- [x] Insights index and five milestone/story detail routes (draft editorials)
+- [x] Insights index with category filters and interactive featured stories; six milestone/story detail pages including SIRI; editorial accuracy still requires management sign-off
 - [x] Operational Excellence and Hexa Academy/People landing pages
 - [x] Contact page UI; quotation information page
 - [x] Homepage high-level trust/qualification strip (not Kirby-style quantified evidence tiles)
@@ -97,16 +97,16 @@
 
 | Destination | Structure available | Data/publication maturity |
 |---|---|---|
-| Homepage | Yes | CEO reviewing visuals; trust proof unverified |
+| Homepage | Yes | Slider and capability-led copy deployed; CEO reviewing visuals and aspiration; trust proof unverified |
 | Structural Steel | Yes | Content draft |
 | PEB | Yes | Content draft; MODON/scope evidence required |
 | Project Delivery & Site | Yes | Timeline interactive/accordion; mobile review pending |
 | Machinery / Steel Services | Yes | Service-led, no machine brands/models in current client UI |
 | Coating / Fire Protection | Yes | Confirm offered and subcontracted scopes |
-| Quality Control | Yes | Interactive; credential validity pending |
-| Projects + case studies | Yes | Public facts/images approval pending |
+| Quality Control | Yes | Five interactive ITP checkpoints incl. MIR, dimensional, welding, coating and TQM; credentials pending |
+| Projects + case studies | Yes | Eight named references and filters; authentic photo/client-use approvals pending |
 | Knowledge Centre + article pages | Yes | Three draft linked articles |
-| Insights + milestone pages | Yes | Milestone dates/narratives need editorial approval |
+| Insights + milestone pages | Yes | Six story pages incl. SIRI and updated PSF/SIF/PIF/AMP terminology; editorial approval pending |
 | Operational Excellence | Yes | Operational claims need evidence review |
 | People / Academy | Yes | Team profiles/photos consent pending |
 | Contact | UI only | Email delivery not signed off |
@@ -171,4 +171,4 @@ Restricted supervised estimator pilot for repeatable Steel Services; engineering
 
 **Rules:** Never inflate completion merely because a page route exists. Never claim an actual testimonial, manufacturer approval scope, certificate validity or capacity without documentary validation. Only increase a workstream's percentage when an acceptance criterion is met. Update this markdown file after every accepted release and explain the percentage change.
 
-_Last updated: 2026-10-13. This is a working tracker, not a certification of launch readiness._
+_Last updated: 2026-10-13 after verified V3.6 deployment. This is a working tracker, not a certification of launch readiness._
