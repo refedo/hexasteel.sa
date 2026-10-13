@@ -81,6 +81,6 @@ export function QuotationRequestForm({initialService,whatsappBase,enabled}:Props
    <button disabled={status==="sending"} className="button dark rfq-submit" type="submit">{status==="sending"?"Submitting request…":"Send request & receive RFQ reference"}</button>
    {message&&<p className="rfq-error" role="alert">{message}</p>}
    <p className="rfq-note">No account required. We send your request to our commercial team and email you the reference. A quote is issued separately after technical review.</p>
-  </form>:<div className="rfq-email-standby"><strong>Start directly with our commercial team.</strong><p>Select a service above and use WhatsApp to send your requirements. Our team will help you share technical drawings and arrange a formal quotation.</p></div>}
+  </form>:<div className="rfq-email-standby"><strong>File submission is being configured.</strong><p>You can request a quotation immediately through WhatsApp. Our team can advise on the secure submission of drawings. Online RFQ confirmation emails will be available once the dedicated sales mailbox is verified.</p></div>}
  </div>;
 }
