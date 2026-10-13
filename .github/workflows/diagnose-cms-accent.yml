@@ -1,4 +1,4 @@
-name: Diagnose HEXA CMS accent synchronization
+name: Verify HEXA CMS accent synchronization
 on:
   push:
     branches: [rebuild/website-v3]
@@ -7,32 +7,36 @@ on:
 permissions:
   contents: read
 jobs:
-  diagnose:
+  verify:
     runs-on: ubuntu-latest
     timeout-minutes: 4
     steps:
-      - name: Query published Sanity accent and public homepage
-        shell: bash
+      - name: Verify published CMS accent matches live homepage
         run: |
           set -euo pipefail
           curl -fsSL --connect-timeout 8 --max-time 25 \
             -G 'https://ik7morln.api.sanity.io/v2025-02-01/data/query/production' \
-            --data-urlencode 'query=*[_type=="siteSettings"]{_id,accentColor}' \
+            --data-urlencode 'query=*[_type=="siteSettings" && _id=="siteSettings"][0]{accentColor}' \
             -o /tmp/sanity-settings.json
-          python3 - <<'PY'
-          import json
-          data=json.load(open('/tmp/sanity-settings.json'))
-          records=data.get("result",[])
-          print("Sanity published siteSettings:", [{"id": x.get("_id"),"accent":x.get("accentColor")} for x in records])
-          PY
-          for suffix in '' '?cms-review=1'; do
-            curl -fsSL --connect-timeout 8 --max-time 25 -D /tmp/home-headers -o /tmp/home-html "https://hexasteel.sa/$suffix"
-            python3 - <<'PY'
-          import re
-          html=open('/tmp/home-html').read()
-          print("Homepage inline body styles:",re.findall(r'<body[^>]*>',html)[:1])
-          for token in ['--signal:#CDD3D8','--signal:#C6D547','--signal:#cdd3d8','--signal:#c6d547']:
-              print(f"HTML token {token}: {token in html}")
-          PY
-            grep -iE '^(x-nextjs-cache|x-cache|cache-control|age):' /tmp/home-headers || true
+          for n in 1 2 3; do
+            curl -fsSL --connect-timeout 8 --max-time 25 \
+              -D /tmp/hexa-headers -o /tmp/hexa-home \
+              "https://hexasteel.sa/?cms-theme-test=$n"
           done
+          python3 - <<'PY'
+          import json,re
+          settings=json.load(open('/tmp/sanity-settings.json'))
+          value=settings.get('result',{}).get('accentColor','')
+          assert re.fullmatch(r'#[0-9a-fA-F]{6}',value),f'Unexpected CMS accent {value}'
+          html=open('/tmp/hexa-home').read()
+          match=re.search(r'<body[^>]*style="[^"]*--signal:([^;" ]+)',html)
+          actual=match.group(1) if match else None
+          print("Published Sanity accent:",value)
+          print("Live homepage CSS variable:",actual)
+          assert actual and actual.lower()==value.lower(),"Published Sanity theme differs from live website"
+          headers=open('/tmp/hexa-headers').read()
+          cache=re.search(r'^cache-control:\s*(.*)$',headers,re.I|re.M)
+          print("Cache-Control:",cache.group(1) if cache else "missing")
+          assert cache and 's-maxage=30' in cache.group(1), "Expected 30 second homepage ISR cache policy"
+          print("PASS: CMS accent matches live page; render cache is 30s")
+          PY
