@@ -16,3 +16,4 @@ jobs:
       - run: npm run check
       - run: npm run build
       - run: npm run test:rfq
+      - run: npm run test:search

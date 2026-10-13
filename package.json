@@ -8,7 +8,8 @@
     "test:rfq": "node scripts/test-rfq-http.mjs",
     "start": "next start",
     "check": "tsc --noEmit",
-    "studio": "sanity dev"
+    "studio": "sanity dev",
+    "test:search": "node scripts/test-search-http.mjs"
   },
   "dependencies": {
     "next": "^15.5.0",

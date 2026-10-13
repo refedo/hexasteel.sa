@@ -1,11 +1,13 @@
-import {articles,insights,machines,references} from "@/content/site";
+import {articles,insights,machines,references,reportedQualifications} from "@/content/site";
+import {structuralSteelSearchCorpus} from "@/content/structuralSteel";
 
 export type SearchResult = {title:string;description:string;href:string;category:string;keywords?:string};
 const core:SearchResult[]=[
  {title:"Products & Services",description:"Explore structural steel, PEB, steel services, design, fabrication and coating.",href:"/products-services",category:"Solutions"},
+ {title:"Company Overview",description:"Company information, HEXA Steel divisions, industrial qualifications and leadership values.",href:"/company",category:"Company"},
  {title:"Who We Are",description:"Hexa Steel mission, values, supply chain and manufacturing philosophy.",href:"/company/about",category:"Company"},
  {title:"Careers",description:"Hexa Steel career enquiries and recruitment.",href:"/company/careers",category:"Company"},
- {title:"Approvals & Qualifications",description:"Company-reported manufacturer approvals, accreditation and supplier registration.",href:"/company/approvals",category:"Company"},
+ {title:"Approvals & Qualifications",description:"Company-reported manufacturer approvals, accreditation and supplier registration.",href:"/company/approvals",category:"Company",keywords:reportedQualifications.map(x=>x.name+" "+x.detail).join(" ")},
  {title:"Supply Chain & Procurement",description:"Strategic sourcing, approved material, vendor coordination, MTC, lead time planning and logistics.",href:"/services/supply-chain",category:"Services"},
  {title:"Design & Detailing",description:"Structural engineering, design codes AISC, MBMA, 3D detailing, shop drawings.",href:"/services/design-detailing",category:"Services"},
  {title:"Pipes & Vessels",description:"Piping supports, fabricated tanks and vessels under project-specific engineering requirements.",href:"/services/pipes-vessels",category:"Services"},
@@ -16,7 +18,7 @@ const core:SearchResult[]=[
  {title:"Open Positions",description:"QC engineer, QC inspector, QA engineer, Sales engineer and Planning & Document Controller, 5–8 years.",href:"/company/careers",category:"Careers"},
  {title:"Fabrication Services",description:"C/Z purlin forming, laser cutting and built-up steel fabrication.",href:"/services/fabrication",category:"Services"},
  {title:"Home",description:"HEXA Steel corporate website. Structural steel, PEB and project delivery.",href:"/",category:"Pages",keywords:"engineering manufacturing factory hexa"},
- {title:"Structural Steel",description:"Complex steel structures, industrial buildings, platforms, pipe racks and commercial steel.",href:"/solutions/structural-steel",category:"Solutions",keywords:"hot rolled steel beams columns fabrication"},
+ {title:"Structural Steel",description:"Complex steel structures, industrial buildings, platforms, pipe racks and commercial steel.",href:"/solutions/structural-steel",category:"Solutions",keywords:"hot rolled steel beams columns fabrication "+structuralSteelSearchCorpus},
  {title:"Pre-Engineered Buildings (PEB)",description:"Factory warehouses, industrial PEB structures, C/Z purlin production and MODON developments.",href:"/solutions/peb",category:"Solutions",keywords:"peb purlin portal frames buildings"},
  {title:"Project Management and Site Execution",description:"Seven activities: design, detailing, procurement, production, coating, delivery and erection.",href:"/project-delivery",category:"Solutions",keywords:"lifting plans installation surveying anchor bolts site construction"},
  {title:"Selected Projects",description:"Explore anonymized structural steel and industrial project references.",href:"/projects",category:"Projects",keywords:"case studies clients portfolio tonnage"},

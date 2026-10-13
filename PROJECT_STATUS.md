@@ -1,3 +1,16 @@
+## V3.12 — Approvals logo support & full-content search coverage (2026-10-14, feature branch; not released)
+
+- **Branch:** `feature/v312-approvals-search-index`, based on the latest verified `feature/rfq-lead-intake-v3-11` head `ed7b94c`. Stacked behind draft PR #12; no merge or deployment authorized.
+- **Search fix:** Structural steel's displayed narrative/product range now shares its source with the on-site search index. Mezzanine, poultry farm(s), industrial platforms, trusses, warehouses and the alias “metal works” return `/solutions/structural-steel` in both header search API and dedicated results page. CMS-approved Insights/Knowledge full section copy and project scope join the searchable corpus. Company overview and reported qualification names are included.
+- **Vendor logos:** CMS `publicQualification` now supports an official logo image, accessible alt text and mandatory per-logo `logoUseAuthorized` approval. The approvals page displays uploaded/cleared Sanity logos responsively, retaining the existing text-only presentation otherwise; never synthesize logos or imply unsupported endorsement.
+- **Testing:** CI adds `test:search` for API, search results page, actual structural content, existing queries and sitemap. Verify successful CI for the feature SHA before review; perform responsive browser QA after approval to deploy.
+- **Operational blockers:** Obtain rights-cleared official logo files for all eleven listed organizations (or each current approved CMS qualification); upload and explicitly clear them in Sanity; verify approved status/scope per name. No remote logo hotlinking. Until these assets and clearances exist, no official vendor logos will display.
+- **SEO distinction:** Internal website search indexing is separate from Google/Bing crawl indexing. The global `SITE_INDEXING_APPROVED` opt-in remains **false**; never enable external indexing without CEO approval.
+- **R1 weighted completion:** **61% unchanged** until editorial assets, CI and operational acceptance are verified; R2 and R3 separate.
+- **Next:** Confirm logos, editorial scopes, staged PR stack and green CI. Seek explicit permission before integration merge / DigitalOcean deployment. Record final PR, commit and CI outcomes here after verified.
+
+---
+
 # HEXA Steel® — Website V3 Delivery Dashboard
 
 ## V3.11 — RFQ & Lead Generation security milestone (14 October 2026)
