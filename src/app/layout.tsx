@@ -5,6 +5,8 @@ import {ContactShortcuts} from "@/components/ContactShortcuts";
 import "./globals.css";
 import {getAccentColor} from "@/lib/siteSettings";
 import type {CSSProperties} from "react";
+// Search indexing requires explicit go-live approval; preview domain is intentionally noindex.
+const indexingApproved=process.env.SITE_INDEXING_APPROVED==="true";
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://hexasteel.sa"),
   title: { default: "HEXA STEEL® | Structural Steel & PEB Manufacturer Saudi Arabia", template: "%s | HEXA STEEL®" },
@@ -12,7 +14,7 @@ export const metadata: Metadata = {
   keywords: ["Saudi steel fabrication","structural steel manufacturer Saudi Arabia","PEB Saudi Arabia","pre engineered buildings","steel structures Riyadh","industrial steel fabrication","C purlins","Z purlins","steel detailing","industrial project delivery"],
   openGraph:{type:"website",siteName:"HEXA Steel®",locale:"en_SA",title:"HEXA Steel® | Steel Fabrication & PEB",description:"Engineering, manufacturing and project delivery in Saudi Arabia.",url:"https://hexasteel.sa"},
   twitter:{card:"summary_large_image",title:"HEXA Steel® | Structural Steel & PEB"},
-  robots: { index: true, follow: true, googleBot:{index:true,follow:true,"max-image-preview":"large"} }
+  robots: { index:indexingApproved, follow:indexingApproved, googleBot:{index:indexingApproved,follow:indexingApproved,"max-image-preview":"large"} }
 };
 // Keep CMS-controlled visual settings fresh without disabling static rendering.
 export const revalidate = 30;

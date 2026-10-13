@@ -7,6 +7,7 @@
 - Existing V3.10 already implemented service-prefilled forms, optional drawing/BOQ uploads, high-entropy receipt references, a Resend customer email with Sales BCC, and WhatsApp fallback. **V3.11 separates restricted Sales attachment notification from the customer receipt** for privacy. This is **not** evidence that email delivery or production activation has passed.
 - V3.11 introduces contextual technical questions by service, malware-scan-gated attachments with fail-closed checks, and an optional authenticated server-to-server private CRM lead event (HMAC SHA-256, idempotency key, no raw attachments).
 - CI contract strengthened with HTTP RFQ tests and TypeScript/build checks.
+- Pre-launch crawl-control discrepancy corrected at source: index/follow metadata now defaults OFF until `SITE_INDEXING_APPROVED=true` is explicitly configured for approved go-live; this requires a new build. This is not a substitute for access control.
 - **Gates remaining:** CI passing; verified scanner vendor and file privacy; verified sending domain and real customer/Sales delivery with PDF+DWG; hardened throttling/bot defence and privacy/retention; secure durable database and tracking queue; explicit CEO deployment permission.
 - **R1 weighted progress stays at 61% pending acceptance.** Do not equate code-complete RFQ with commercially operational lead intake.
 

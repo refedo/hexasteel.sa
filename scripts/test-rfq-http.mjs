@@ -39,6 +39,7 @@ async function run(){
   const html=await page.text();
   assert(html.includes("Precision Laser Cutting"),"Missing preselected service option");
   assert(html.includes("Plate material / grade"),"Missing laser-specific technical questions");
+  assert(html.includes("noindex"),"Pre-launch RFQ pages must be noindex by default");
   assert(html.includes("wa.me/966591716020"),"Missing direct WhatsApp contact");
   assert(!html.includes('name="attachments"'),"Attachment picker must remain hidden without malware scan");
   const invalidOrigin=await fetch(origin+"/api/rfq",{method:"POST",headers:{origin:"https://malicious.example"}});

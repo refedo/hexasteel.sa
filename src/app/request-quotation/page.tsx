@@ -6,7 +6,7 @@ import {rfqFileScanningAvailable} from "@/lib/rfqSecurity";
 export const metadata:Metadata={
  title:"Request a Quotation — Steel Services & PEB",
  description:"Request Hexa Steel® quotation for laser cutting, C/Z purlins, structural steel, PEB, fabrication and industrial steel components. Send your requirements and drawings.",
- robots:{index:true,follow:true},
+ robots:{index:process.env.SITE_INDEXING_APPROVED==="true",follow:process.env.SITE_INDEXING_APPROVED==="true"},
 };
 type Props={searchParams:Promise<{service?:string}>};
 export default async function QuotationPage({searchParams}:Props){
