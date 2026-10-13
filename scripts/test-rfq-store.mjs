@@ -70,7 +70,7 @@ const source=fs.readFileSync(new URL("../src/lib/rfqStore.ts",import.meta.url),"
 const compiled=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText;
 const exports={};
 vm.runInNewContext(compiled,{
- exports,process:{env:fakeEnv},Buffer,URL,
+ exports,process:{env:fakeEnv},Buffer,URL,AbortSignal,
  require(name){
   if(name==="pg")return {Pool:FakePool};
   if(name==="@aws-sdk/client-s3")return {S3Client:FakeS3,PutObjectCommand:FakePut,DeleteObjectCommand:FakeDelete};
