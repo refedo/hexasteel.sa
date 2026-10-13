@@ -9,15 +9,15 @@
  */
 export const qualificationLogos:Record<string,{url:string;source:string}> = {
  "Saudi Aramco":{
-  url:"https://commons.wikimedia.org/wiki/Special:FilePath/Saudi_aramco_logo.svg",
+  url:"https://upload.wikimedia.org/wikipedia/commons/c/c5/Saudi_aramco_logo.svg",
   source:"https://commons.wikimedia.org/wiki/File:Saudi_aramco_logo.svg"
  },
  "Maaden":{
-  url:"https://commons.wikimedia.org/wiki/Special:FilePath/Ma%27aden.svg",
+  url:"https://upload.wikimedia.org/wikipedia/commons/4/47/Ma%27aden.svg",
   source:"https://commons.wikimedia.org/wiki/File:Ma%27aden.svg"
  },
  "National Water Company (NWC)":{
-  url:"https://commons.wikimedia.org/wiki/Special:FilePath/National_Water_Company_Logo_2021.png",
+  url:"https://upload.wikimedia.org/wikipedia/commons/2/21/National_Water_Company_Logo_2021.png",
   source:"https://commons.wikimedia.org/wiki/File:National_Water_Company_Logo_2021.png"
  },
  "Qiddiya":{
@@ -37,15 +37,15 @@ export const qualificationLogos:Record<string,{url:string;source:string}> = {
   source:"https://www.mewa.gov.sa/ar/Partners"
  },
  "Red Sea Global":{
-  url:"https://commons.wikimedia.org/wiki/Special:FilePath/RSG_Logo.png",
+  url:"https://upload.wikimedia.org/wikipedia/commons/5/55/RSG_Logo.png",
   source:"https://commons.wikimedia.org/wiki/File:RSG_Logo.png"
  },
  "Alfanar":{
-  url:"https://commons.wikimedia.org/wiki/Special:FilePath/Alfanar_brand_logo.png",
+  url:"https://upload.wikimedia.org/wikipedia/commons/f/f7/Alfanar_brand_logo.png",
   source:"https://commons.wikimedia.org/wiki/File:Alfanar_brand_logo.png"
  },
  "Saudi Electricity Company (SEC)":{
-  url:"https://commons.wikimedia.org/wiki/Special:FilePath/Logo_Saudi_Electric_Company.svg",
+  url:"https://upload.wikimedia.org/wikipedia/commons/5/5e/Logo_Saudi_Electric_Company.svg",
   source:"https://commons.wikimedia.org/wiki/File:Logo_Saudi_Electric_Company.svg"
  },
  "SEVEN Entertainment":{
