@@ -11,38 +11,28 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Verify updated homepage, project/quality and insights
+      - name: Verify website search, editorial designs and CMS onboarding route
         run: |
           set -eu
           getent ahostsv4 hexasteel.sa >/dev/null
-          check_route() {
-            route="$1"
-            dest="$(mktemp)"
-            code="$(curl -LsS --connect-timeout 8 --max-time 25 -o "$dest" -w '%{http_code}' "https://hexasteel.sa/$route")"
-            echo "/$route => $code"
+          check() {
+            path="$1"
+            marker="$2"
+            file="$(mktemp)"
+            code="$(curl -LsS --connect-timeout 8 --max-time 25 -o "$file" -w '%{http_code}' "https://hexasteel.sa$path")"
+            echo "$path => HTTP $code"
             test "$code" = 200
-            printf "%s\n" "$dest"
+            grep -q "$marker" "$file" || { echo "Missing marker: $marker"; exit 1; }
           }
-          home="$(mktemp)"
-          code="$(curl -LsS --connect-timeout 8 --max-time 25 -o "$home" -w '%{http_code}' https://hexasteel.sa/)"
-          echo "Homepage => $code"
-          test "$code" = 200
-          grep -q "hero-slide-controls" "$home"
-          grep -q "thousands of tonnes" "$home"
-          grep -q "Our ambition" -i "$home"
-          quality="$(mktemp)"
-          test "$(curl -LsS --connect-timeout 8 --max-time 25 -o "$quality" -w '%{http_code}' https://hexasteel.sa/capabilities/quality)" = 200
-          grep -q "Materials &amp; MIR" "$quality"
-          grep -q "Dimensional" "$quality"
-          grep -q "Surface &amp; Coating" "$quality"
-          grep -q "Inspection" "$quality"
-          projects="$(mktemp)"
-          test "$(curl -LsS --connect-timeout 8 --max-time 25 -o "$projects" -w '%{http_code}' https://hexasteel.sa/projects)" = 200
-          grep -q "MAPA" "$projects"
-          grep -q "NADEC" "$projects"
-          grep -q "Red Sea Global" "$projects"
-          insights="$(mktemp)"
-          test "$(curl -LsS --connect-timeout 8 --max-time 25 -o "$insights" -w '%{http_code}' https://hexasteel.sa/insights)" = 200
-          grep -q "SIRI" "$insights"
-          test "$(curl -LsS --connect-timeout 8 --max-time 25 -o /dev/null -w '%{http_code}' https://hexasteel.sa/insights/siri-assessment-2025)" = 200
-          echo "SUCCESS: externally verified V3.6 pages and interactive content"
+          check / "Search entire HEXA website"
+          check /search?q=peb "Search the whole website"
+          check "/api/search?q=quality" "Quality Control"
+          check "/api/search?q=MODON" "MODON"
+          check /solutions/structural-steel "capability-narrative-tabs"
+          check /solutions/peb "capability-narrative-tabs"
+          check /company/operational-excellence "capability-narrative-tabs"
+          check /projects "MAPA"
+          check /insights "SIRI"
+          check /knowledge "Knowledge Centre"
+          check /studio "HEXA Content Studio"
+          echo "SUCCESS: V3.7 global search, editorial design, and Sanity onboarding verified externally"
