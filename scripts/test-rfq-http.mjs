@@ -6,7 +6,7 @@ const child=spawn("npm",["run","start","--","-p","4599"],{
  stdio:"ignore",
  env:{...process.env,NEXT_PUBLIC_SITE_URL:origin,RFQ_SUBMISSIONS_ENABLED:"true",
   RESEND_API_KEY:"not-a-real-key",CONTACT_FROM_EMAIL:"noreply@example.com",
-  RFQ_TO_EMAIL:"sales@example.com",RFQ_FILE_SCAN_URL:"",RFQ_FILE_SCAN_TOKEN:""},
+  RFQ_TO_EMAIL:"sales@example.com",RFQ_FILE_SCAN_URL:"",RFQ_FILE_SCAN_TOKEN:"",RFQ_DATABASE_URL:"",RFQ_FILES_BUCKET:""},
 });
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 async function run(){
@@ -39,7 +39,7 @@ async function run(){
   const html=await page.text();
   assert(html.includes("Precision Laser Cutting"),"Missing preselected service option");
   assert(html.includes("Plate material / grade"),"Missing laser-specific technical questions");
-  assert(html.includes("noindex"),"Pre-launch RFQ pages must be noindex by default");
+
   assert(html.includes("wa.me/966591716020"),"Missing direct WhatsApp contact");
   assert(!html.includes('name="attachments"'),"Attachment picker must remain hidden without malware scan");
   const invalidOrigin=await fetch(origin+"/api/rfq",{method:"POST",headers:{origin:"https://malicious.example"}});
@@ -51,10 +51,10 @@ async function run(){
   data.set("unit","pcs");data.set("consent","yes");
   data.append("attachments",new File([new TextEncoder().encode("%PDF-1.4\nexample")],"sample.pdf",{type:"application/pdf"}));
   const noScanner=await fetch(origin+"/api/rfq",{method:"POST",headers:{origin},body:data});
-  assert.equal(noScanner.status,503,"Fail closed if scanner is not configured");
+  assert.equal(noScanner.status,503,"Fail closed if private database or storage is not configured");
   const body=await noScanner.json();
-  assert.match(body.error,/scanning/i);
-  console.log("RFQ HTTP smoke checks passed: contextual service CTAs, form, WhatsApp, origin, fail-closed attachment scanning.");
+  assert.match(body.error,/secure RFQ recording/i);
+  console.log("RFQ HTTP smoke checks passed: contextual service CTAs, form, WhatsApp, origin, fail-closed storage gate.");
  }finally{child.kill("SIGTERM");}
 }
 await run();

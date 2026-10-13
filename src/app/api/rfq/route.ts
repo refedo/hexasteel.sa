@@ -2,8 +2,9 @@ import {NextResponse} from "next/server";
 import {randomBytes} from "node:crypto";
 import {maxFileSize,maxFiles,maxUploadTotal,rfqServices,validRfqService} from "@/lib/rfq";
 import {handoffRfqLead,rfqFileHash,scanRfqAttachment,type RfqAttachmentMetadata} from "@/lib/rfqSecurity";
+import {persistRfq,rfqStoreConfigured,type RfqDocument} from "@/lib/rfqStore";
 export const runtime="nodejs";
-// Two sequential attachment scans + separated Sales/customer mail + optional CRM handoff.
+// File scanning, restricted object storage and transactional notification outbox.
 export const maxDuration=60;
 const MAX_REQUEST_BODY=9*1024*1024;
 const counters=new Map<string,{reset:number;count:number}>();
@@ -56,10 +57,9 @@ export async function POST(request:Request){
  if(allowedOrigins[0]==="https://hexasteel.sa")allowedOrigins.push("https://www.hexasteel.sa");
  if(!allowedOrigins.includes(request.headers.get("origin")||""))return error("Submission origin not accepted.",403);
  if(process.env.RFQ_SUBMISSIONS_ENABLED!=="true")return error("Online RFQ submission is being activated. Please request your quotation through WhatsApp.",503);
- const secret=process.env.RESEND_API_KEY;
- const from=process.env.CONTACT_FROM_EMAIL;
  const sales=process.env.RFQ_TO_EMAIL||process.env.CONTACT_TO_EMAIL;
- if(!secret||!from||!sales)return error("Online submission is temporarily unavailable. Please use WhatsApp to contact our commercial team.",503);
+ if(!rfqStoreConfigured()||!process.env.RESEND_API_KEY||!process.env.CONTACT_FROM_EMAIL||!sales)
+  return error("Secure RFQ recording is temporarily unavailable. Please use WhatsApp to contact our commercial team.",503);
  const ip=request.headers.get("x-forwarded-for")?.split(",")[0]?.trim()||"anonymous";
  const now=Date.now();const prev=counters.get(ip);
  if(prev&&prev.reset>now&&prev.count>=5)return error("Too many requests. Please try again later or contact our team by WhatsApp.",429);
@@ -80,8 +80,10 @@ export async function POST(request:Request){
  const description=clean(form.get("description"),3000);
  const technicalSpec=clean(form.get("technicalSpec"),180);
  const technicalDetail=clean(form.get("technicalDetail"),180);
+ const submissionId=clean(form.get("submissionId"),40);
  if(!validRfqService(service)||name.length<2||company.length<2||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||
- !/^[+0-9 ()-]{7,25}$/.test(phone)||description.length<10||form.get("consent")!=="yes")
+ !/^[+0-9 ()-]{7,25}$/.test(phone)||description.length<10||form.get("consent")!=="yes"||
+ !/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(submissionId))
   return error("Please complete the required RFQ fields.",400);
  if(quantity&&!/^\d{1,9}(\.\d{1,3})?$/.test(quantity))return error("Please enter a valid numeric quantity.",400);
  if(!["t","pcs","m2","m"].includes(unit))return error("Invalid measurement unit.",400);
@@ -89,7 +91,7 @@ export async function POST(request:Request){
  const files=form.getAll("attachments").filter((x):x is File=>x instanceof File&&x.size>0);
  if(files.length>maxFiles||files.some(x=>x.size>maxFileSize)||
  files.reduce((sum,x)=>sum+x.size,0)>maxUploadTotal)return error("File limit exceeded: 2 files, max 5 MB each and 8 MB combined.",413);
- const attachments:{filename:string;content:string}[]=[];
+ const documents:RfqDocument[]=[];
  const attachmentMetadata:RfqAttachmentMetadata[]=[];
  for(const [i,file] of files.entries()){
   const data=Buffer.from(await file.arrayBuffer());
@@ -98,7 +100,7 @@ export async function POST(request:Request){
   if(verdict==="unavailable")return error("Secure document scanning is temporarily unavailable. Please send your enquiry without files and contact Sales for a secure document channel.",503);
   if(verdict==="blocked")return error("A document did not pass the security scan. Please contact Sales for an approved submission method.",422);
   const safeName=file.name.replace(/[^a-zA-Z0-9._ -]/g,"_").slice(0,90);
-  attachments.push({filename:String(i+1)+"-"+safeName,content:data.toString("base64")});
+  documents.push({filename:String(i+1)+"-"+safeName,bytes:data,sha256:rfqFileHash(data)});
   attachmentMetadata.push({filename:safeName,sizeBytes:file.size,sha256:rfqFileHash(data)});
  }
  const reference="HX-RFQ-"+new Date().toISOString().slice(0,10).replaceAll("-","")+"-"+randomBytes(6).toString("hex").toUpperCase();
@@ -121,45 +123,34 @@ export async function POST(request:Request){
   "Scope and instructions:",
   description,
   "",
-  "Technical files: "+files.length+" attached",
+  "Technical files: "+files.length+" stored privately",
   "",
   "Your RFQ is now submitted for commercial review. A formal quotation or estimation number, where applicable, will be issued separately.",
   "For a follow-up, please quote the reference above.",
  ].join("\n");
- // Keep technical drawings in the authorised Sales message, never in the customer acknowledgement.
- // Sending Sales first avoids false rejection of a request already received by Hexa if the second email fails.
- async function sendEmail(payload:Record<string,unknown>):Promise<boolean>{
-  try{
-   const response=await fetch("https://api.resend.com/emails",{
-    method:"POST",cache:"no-store",signal:AbortSignal.timeout(12000),
-    headers:{Authorization:"Bearer "+secret,"Content-Type":"application/json"},
-    body:JSON.stringify(payload),
-   });
-   return response.ok;
-  }catch{return false;}
+ // Persist contact, scanned private documents and both notification jobs first.
+ // No success is returned on a provider or database failure; Resend is handled
+ // asynchronously by the private outbox worker, not this public request.
+ const lead={
+  schemaVersion:1 as const,event:"rfq.received" as const,
+  reference,receivedAt:new Date().toISOString(),status:"Received" as const,source:"website" as const,
+  serviceCode:service,serviceName,customer:{name,company,email,phone},
+  project:{description,quantity,unit,location,requiredDate,technicalSpec,technicalDetail},
+  attachments:attachmentMetadata,
+ };
+ let saved:{reference:string;replayed:boolean};
+ try{
+  saved=await persistRfq({idempotencyKey:submissionId,lead,documents,salesAddress:sales});
+ }catch(e){
+  if(e instanceof Error && e.message==="RFQ_IDEMPOTENCY_CONFLICT")
+   return error("Your enquiry changed after a previous submission attempt. Please contact Sales before sending a new request.",409);
+  console.error("RFQ durable intake failed; transaction not confirmed.");
+  return error("Your request could not be securely recorded. Please retry with the same form or contact Sales using WhatsApp.",503);
  }
- const salesAccepted=await sendEmail({
-  from,to:[sales],reply_to:email,subject:"HEXA Steel® | New Sales RFQ | "+reference,
-  text:note,...(attachments.length?{attachments}:{}),
- });
- if(!salesAccepted)return error("We could not accept the request at this time. Please contact our sales team via WhatsApp.",502);
- const customerText=[
-  "HEXA Steel® — RFQ acknowledgement","",
-  "Reference: "+reference,"Service: "+serviceName,
-  "Thank you, "+name+". Your request has been sent to the HEXA Steel® commercial team.",
-  "The next step is technical and commercial review. No quotation amount or delivery commitment has been issued.",
-  "Please keep this reference for correspondence.",
-  "This acknowledgement does not include copies of your technical documents."
- ].join("\n");
- const acknowledgementAccepted=await sendEmail({
-  from,to:[email],reply_to:sales,subject:"HEXA Steel® | RFQ acknowledgement | "+reference,text:customerText,
- });
- if(!acknowledgementAccepted)console.error("RFQ customer acknowledgement not accepted. Reference: "+reference);
- // A private CRM may be connected later; never expose customer information in Sanity or public routes.
- const handoff=await handoffRfqLead({
-  schemaVersion:1,event:"rfq.received",reference,receivedAt:new Date().toISOString(),status:"Received",source:"website",serviceCode:service,serviceName,
-  customer:{name,company,email,phone},project:{description,quantity,unit,location,requiredDate,technicalSpec,technicalDetail},attachments:attachmentMetadata,
- });
- if(handoff==="failed")console.error("RFQ lead webhook unavailable; recover lead from Sales acknowledgement. Reference: "+reference);
- return NextResponse.json({ok:true,reference,acknowledgementAccepted},{headers:{"Cache-Control":"no-store"}});
+ // The optional R2 CRM webhook is best effort and cannot invalidate a stored RFQ.
+ if(!saved.replayed){
+  const handoff=await handoffRfqLead({...lead,reference:saved.reference});
+  if(handoff==="failed")console.error("RFQ secondary CRM handoff unavailable. Reference: "+saved.reference);
+ }
+ return NextResponse.json({ok:true,reference:saved.reference,acknowledgementQueued:true},{headers:{"Cache-Control":"no-store"}});
 }
