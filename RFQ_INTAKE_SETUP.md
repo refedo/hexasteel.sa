@@ -1,4 +1,19 @@
-# HEXA Steel® — RFQ Intake V3.10
+# HEXA Steel® — RFQ Intake V3.11 / Controlled Configuration
+
+**Latest rule:** Follow this section and `RFQ_OPERATIONS.md`. The original V3.10 email-first notes below are historical implementation records only. They must not be used as deployment instructions because they predate the Master Blueprint V3.2 durability reconciliation.
+
+**Current system:** Next.js RFQ form → validation → file signature/size checks → mandatory clean malware scan for attachments → private S3-compatible storage → PostgreSQL RFQ row and two notification outbox rows in one committed transaction → receipt reference → independent background notification processing. An optional signed CRM webhook runs only after record acceptance.
+
+**Disabled until approved:** `RFQ_SUBMISSIONS_ENABLED=false` is mandatory until the private database, encrypted/restricted bucket, sender/DNS configuration, outbox worker, scoped access, safe retention and end-to-end tests are operationally accepted. Secure upload picker is hidden without scanner configuration. WhatsApp remains accessible.
+
+**Idempotency:** The browser maintains a UUID for retries of the *same* enquiry. A different payload with the same key is rejected. If COMMIT response is lost, do not delete files that might belong to a committed RFQ; reconcile using the UUID. Customer references are not quotation numbers.
+
+**Email separation:** Technical drawings remain in the private object store. The outbox has two messages: Sales detailed notification and a separate customer acknowledgement without drawings. The worker logs provider acceptance, retries and terminal failures; do not claim mailbox delivery without independent evidence.
+
+---
+
+## Historical V3.10/V3.11 notes (superseded by current section)
+
 
 ## Customer workflow
 - Machinery page `Request this service` links to `/request-quotation?service=<approved-code>`.

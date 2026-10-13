@@ -1,17 +1,41 @@
 # HEXA Steel® — Website V3 Delivery Dashboard
 
-## V3.11 — RFQ & Lead Generation security milestone (14 October 2026)
+## Current verified baseline — 14 October 2026
 
-**Branch:** `feature/rfq-lead-intake-v3-11`, based on `rebuild/website-v3`. **Release state:** implementation and code verification completed; **draft PR #12**, **no merge/deployment initiated**. Full Next.js build, TypeScript and RFQ HTTP smoke tests **passed** on [`b88fb78`](https://github.com/refedo/hexasteel.sa/commit/b88fb785fea3cfb7362e04ac9261292fe0da3efb) ([CI 38476945035](https://github.com/refedo/hexasteel.sa/actions/runs/38476945035) and [PR CI 38476951970](https://github.com/refedo/hexasteel.sa/actions/runs/38476951970)).
+**Authoritative milestone checkpoint.** The historical V3.7/V3.8 notes further below are retained for evidence, but no longer describe the latest deployed build.
 
-- Existing V3.10 already implemented service-prefilled forms, optional drawing/BOQ uploads, high-entropy receipt references, a Resend customer email with Sales BCC, and WhatsApp fallback. **V3.11 separates restricted Sales attachment notification from the customer receipt** for privacy. This is **not** evidence that email delivery or production activation has passed.
-- V3.11 introduces contextual technical questions by service, malware-scan-gated attachments with fail-closed checks, and an optional authenticated server-to-server private CRM lead event (HMAC SHA-256, idempotency key, no raw attachments).
-- CI contract strengthened with HTTP RFQ tests and TypeScript/build checks.
-- Pre-launch crawl-control discrepancy corrected at source: index/follow metadata now defaults OFF until `SITE_INDEXING_APPROVED=true` is explicitly configured for approved go-live; this requires a new build. This is not a substitute for access control.
-- **Gates remaining:** verified scanner vendor and file privacy; verified sending domain and real customer/Sales delivery with PDF+DWG; hardened throttling/bot defence and privacy/retention; secure durable database and tracking queue; explicit CEO deployment permission.
-- **R1 weighted progress stays at 61% pending acceptance.** Do not equate code-complete RFQ with commercially operational lead intake.
+| Track | Official position | Evidence |
+|---|---|---|
+| Release 1 — Corporate website, CMS & lead generation | **60.60% ≈ 61%, officially documented, unchanged** | Existing weighted workstreams and last accepted R1 baseline |
+| Previously mentioned 65% | **Provisional / unapproved, NOT official** | No approved revised weighted calculation |
+| Release 2 — Commercial CRM and controlled OTS™ | Not started | Future scope |
+| Release 3 — Human-approved AI steel estimation | Not started | Future scope |
+
+**Latest integration baseline:** `rebuild/website-v3` at `00abfd0b0daa7bc3771690da4a6d3ab95d8cc2f4`. [DigitalOcean direct-domain deployment passed](https://github.com/refedo/hexasteel.sa/actions/runs/38474087754); [CI passed](https://github.com/refedo/hexasteel.sa/actions/runs/38474087860). This demonstrates the integration revision was deployed, **not** that live RFQ email/attachment handling has been accepted.
+
+**Active RFQ feature:** `feature/rfq-lead-intake-v3-11`, [draft PR #12](https://github.com/refedo/hexasteel.sa/pull/12), targeting `rebuild/website-v3`; no merge or production deployment. PR #11 is an older V3.10 draft overlapping code already present on integration and must not be blindly merged. PR #8 remains open into `main`.
+
+**Blueprint:** HEXA Website Master Blueprint HX-WEB-003 Revision 3.2, commercial RFQ and email/file requirements (pp. 28–32). R1 must record submissions, quarantine/store technical files privately and **queue notifications before acknowledging an RFQ**. No R2 customer portal or binding AI quotation is implied.
+
+## V3.11 — RFQ durability implementation (unmerged)
+
+**Preserved from V3.10/V3.11:** Service-prefilled forms, optional technical questions, signed service CTAs, WhatsApp fallback (+966591716020), high-entropy receipt references, consent, bounded upload/file-type checks, fail-closed malware scan, two separate Sales/customer notification templates, optional CRM webhook, responsive design and RFQ smoke tests.
+
+**Developed in current milestone (subject to CI):**
+- PostgreSQL receipt schema (`database/migrations/001_rfq_intake.sql`) with unique reference/idempotency key, restricted RFQ record and two-message outbox.
+- S3-compatible *private* document storage, SHA-256 manifests, server-side encryption request, and defensive orphan cleanup after unambiguous rollbacks.
+- Transactional write-before-acknowledge contract in `src/lib/rfqStore.ts`; network retries reuse a UUID to avoid duplicate records. Commit uncertainty never triggers deletion of possibly referenced customer documents.
+- Dedicated outbox worker with lease/claim, retry schedule, terminal failure state and deterministic provider idempotency key; provider acceptance still is not proof of final mailbox delivery.
+- Frontend/server activation requires explicit feature switch and PostgreSQL/S3 configuration. The public RFQ route no longer emails drawings or creates an RFQ from email acceptance alone.
+- Separate testing of idempotent replay, atomic failure rollback, ambiguous COMMIT handling, contextual CTA routing and disabled-state API behavior.
+- Reverted the unrelated V3.11 `SITE_INDEXING_APPROVED` site-wide SEO modification to its integration-branch version. SEO/indexing remains an R1-G gate and is not silently changed in RFQ work.
+
+**Not implemented/accepted:** DigitalOcean database/bucket provisioning, operational restricted worker identity and schedule, scanner/vendor data agreement, real mailbox delivery & bounce evidence, independently authenticated Sales document access, distributed abuse prevention, accessibility/device sign-off, privacy/retention validation and monitored operations. RFQ form submission must remain **disabled** pending these gates. WhatsApp is a user-initiated alternative; it does not create a reference or queue ticket.
+
+**Exact milestone state:** Developed on isolated PR #12 → CI verification → external infrastructure acceptance → CEO decision on merge/deploy. **R1 stays 61%.**
 
 ---
+
 
 
 **Baseline:** 13 October 2026  
@@ -19,9 +43,9 @@
 **Repository:** [refedo/hexasteel.sa](https://github.com/refedo/hexasteel.sa)  
 **Working branch:** `rebuild/website-v3` (never merge to `main` without approval)  
 **Review domain:** https://hexasteel.sa (pre-launch)  
-**Last verified application release:** `a936a6f` (V3.8 corporate redesign); [DigitalOcean deployment passed](https://github.com/refedo/hexasteel.sa/actions/runs/38450949331)  
+**Historical V3.8 application release (superseded):** `a936a6f` (V3.8 corporate redesign); [DigitalOcean deployment passed](https://github.com/refedo/hexasteel.sa/actions/runs/38450949331)  
 **External verification:** [V3.8 pages and client confidentiality check passed](https://github.com/refedo/hexasteel.sa/actions/runs/38451975065)  
-**Current implementation baseline:** `a936a6f` (focused homepage, sticky dropdown menus, client-safe projects, new services, CMS field audit).
+**Historical V3.8 implementation baseline:** `a936a6f` (focused homepage, sticky dropdown menus, client-safe projects, new services, CMS field audit).
 
 ## Change log — V3.7 (2026-10-13)
 
@@ -259,4 +283,4 @@ Restricted supervised estimator pilot for repeatable Steel Services; engineering
 
 **Rules:** Never inflate completion merely because a page route exists. Never claim an actual testimonial, manufacturer approval scope, certificate validity or capacity without documentary validation. Only increase a workstream's percentage when an acceptance criterion is met. Update this markdown file after every accepted release and explain the percentage change.
 
-_Last updated: 2026-10-13 after verified V3.7 deployment. This is a working tracker, not a certification of launch readiness._
+_Historical V3.7 snapshot retained for audit. Latest authoritative checkpoint is the 14 October 2026 summary at the top; none of the unmerged RFQ work is counted as operational acceptance._
