@@ -9,7 +9,8 @@
     "start": "next start",
     "check": "tsc --noEmit",
     "studio": "sanity dev",
-    "test:rfq-worker": "node --check scripts/process-rfq-outbox.mjs"
+    "test:rfq-worker": "node --check scripts/process-rfq-outbox.mjs",
+    "test:rfq-store": "node scripts/test-rfq-store.mjs"
   },
   "dependencies": {
     "next": "^15.5.0",
