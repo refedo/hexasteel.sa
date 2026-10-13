@@ -29,6 +29,12 @@ const project=defineType({name:"project",title:"Project Case Study",type:"docume
   defineField({name:"title",type:"localizedText",validation:r=>r.required()}),
   defineField({name:"slug",type:"slug",options:{source:"title.en"}}),
   defineField({name:"sector",type:"string"}),
+  defineField({name:"client",type:"string",validation:r=>r.required()}),
+  defineField({name:"summary",type:"text",rows:4,validation:r=>r.required()}),
+  defineField({name:"quantityDisplay",type:"string",description:"Public approved project weight, e.g. 440 t; leave blank when unknown."}),
+  defineField({name:"status",type:"string",initialValue:"Selected Project"}),
+  defineField({name:"coverImage",type:"image",options:{hotspot:true},description:"Actual project image only: do not upload stock images into client case studies."}),
+  defineField({name:"approvedForWeb",type:"boolean",initialValue:false,description:"Management review completed and content cleared for public release."}),
   defineField({name:"clientPermissionVerified",type:"boolean",initialValue:false}),
   defineField({name:"completionYear",type:"number"}),
   defineField({name:"scope",type:"text"}),
@@ -81,6 +87,16 @@ const siteSettings=defineType({
         {title:"Copper",value:"#C89372"}
       ]},validation:r=>r.required()}),
     defineField({name:"headerTagline",type:"localizedText",title:"Header Tagline"}),
+    defineField({name:"heroHeadline",type:"localizedText",title:"Homepage Headline"}),
+    defineField({name:"heroDescription",type:"localizedText",title:"Homepage Hero Description"}),
+    defineField({name:"ambition",type:"localizedText",title:"Homepage Ambition Statement"}),
+    defineField({name:"heroSlides",type:"array",title:"Homepage Hero Images",description:"Upload genuine HEXA Steel® factory or project photos with permission. Max six.",
+       validation:r=>r.max(6),of:[{type:"object",fields:[
+        defineField({name:"asset",type:"image",options:{hotspot:true},validation:r=>r.required()}),
+        defineField({name:"title",type:"string",validation:r=>r.required()}),
+        defineField({name:"alt",type:"string",title:"Accessible image description",validation:r=>r.required()}),
+        defineField({name:"credit",type:"string"})
+       ]}]}),
     defineField({name:"contactNotificationEmail",type:"string",description:"Editorial reference only. Actual transactional mail credentials are server-only."})
   ],
   preview:{prepare:()=>({title:"HEXA Website Theme & Settings"})}
@@ -108,4 +124,40 @@ const teamProfile=defineType({
   ]
 });
 
-export const schemaTypes=[localizedText,contentSection,page,project,machine,article,credential,initiative,siteSettings,testimonial,teamProfile];
+
+const knowledgeArticle=defineType({name:"knowledgeArticle",title:"Knowledge Centre — Articles",type:"document",fields:[
+ defineField({name:"title",type:"localizedText",validation:r=>r.required()}),
+ defineField({name:"slug",type:"slug",options:{source:"title.en"},validation:r=>r.required()}),
+ defineField({name:"category",type:"string",validation:r=>r.required()}),
+ defineField({name:"intro",type:"localizedText",validation:r=>r.required()}),
+ defineField({name:"sections",type:"array",of:[{type:"object",fields:[
+  defineField({name:"heading",type:"localizedText",validation:r=>r.required()}),
+  defineField({name:"body",type:"localizedText",validation:r=>r.required()})
+ ]}]}),
+ defineField({name:"coverImage",type:"image",options:{hotspot:true}}),
+ defineField({name:"approvedForWeb",type:"boolean",initialValue:false,description:"Visible only once public publication approved."}),
+ defineField({name:"seoDescription",type:"text",rows:3})
+]});
+const companyUpdate=defineType({name:"companyUpdate",title:"News / Insights / Initiatives",type:"document",fields:[
+ defineField({name:"title",type:"localizedText",validation:r=>r.required()}),
+ defineField({name:"slug",type:"slug",options:{source:"title.en"},validation:r=>r.required()}),
+ defineField({name:"category",type:"string",options:{list:["Strategic Initiative","Industry Engagement","Operational Excellence","Manufacturing Qualification","Industrial Growth"]},validation:r=>r.required()}),
+ defineField({name:"displayDate",type:"string",title:"Display date",validation:r=>r.required()}),
+ defineField({name:"summary",type:"localizedText",validation:r=>r.required()}),
+ defineField({name:"sections",type:"array",of:[{type:"object",fields:[
+  defineField({name:"heading",type:"localizedText",validation:r=>r.required()}),
+  defineField({name:"body",type:"localizedText",validation:r=>r.required()})
+ ]}]}),
+ defineField({name:"coverImage",type:"image",options:{hotspot:true}}),
+ defineField({name:"approvedForWeb",type:"boolean",initialValue:false}),
+ defineField({name:"seoDescription",type:"text",rows:3})
+]});
+const capabilityService=defineType({name:"capabilityService",title:"Public Manufacturing Service",type:"document",fields:[
+ defineField({name:"title",type:"localizedText",validation:r=>r.required()}),
+ defineField({name:"description",type:"localizedText",validation:r=>r.required()}),
+ defineField({name:"serviceArea",type:"string",options:{list:["Cutting","Fabrication","Built-up Sections","Purlins","Coating"]}}),
+ defineField({name:"publicImage",type:"image",options:{hotspot:true}}),
+ defineField({name:"approvedForWeb",type:"boolean",initialValue:false})
+],description:"Customer-facing capability only. Do not store confidential supplier quotes, machine models or internal production recipes here."});
+
+export const schemaTypes=[localizedText,contentSection,page,project,credential,initiative,siteSettings,testimonial,teamProfile,knowledgeArticle,companyUpdate,capabilityService];

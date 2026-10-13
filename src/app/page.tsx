@@ -2,21 +2,23 @@ import Link from "next/link";
 import {brand, values, machines, insights, articles} from "@/content/site";
 import {DeliveryTimeline} from "@/components/DeliveryTimeline";
 import {HeroSlider} from "@/components/HeroSlider";
+import {getHomeSettings} from "@/lib/cms";
 
-export default function Home(){
+export default async function Home(){
+const settings=await getHomeSettings();
 return <main>
   <section className="hero industrial-hero"><div className="shell hero-content">
     <div className="hero-text"><p className="eyebrow on-dark">ENGINEERING · MANUFACTURING · PROJECT DELIVERY</p>
-      <h1>ENGINEERED<br/>WITH <em>PRECISION.</em></h1>
+      <h1>{settings.heroHeadline||<>ENGINEERED<br/>WITH <em>PRECISION.</em></>}</h1>
       <p className="hero-subtitle">Built for confidence.</p>
-      <p className="hero-description">Structural steel and pre-engineered buildings backed by engineered solutions, documented quality, disciplined project management and controlled site execution.</p>
+      <p className="hero-description">{settings.heroDescription||"Structural steel and pre-engineered buildings backed by engineered solutions, documented quality, disciplined project management and controlled site execution."}</p>
       <div className="hero-actions"><Link className="button signal" href="/request-quotation">Request a quotation ↗</Link><Link href="/projects" className="quiet-link">Explore our projects ↗</Link></div>
-    </div><HeroSlider/>
+    </div><HeroSlider slides={settings.heroSlides}/>
   </div><div className="shell hero-stages"><span>ENGINEERING</span><span>OPERATIONS</span><span>SITE</span><small>7 ACTIVITIES · 3 INTEGRATED STAGES</small></div></section>
 
   <section className="trust-line" aria-label="Qualifications and industrial engagement"><div className="shell trust-line-inner"><div className="trust-line-heading"><small>OUR TRACK RECORD</small><strong>Trust, demonstrated.</strong></div><div className="trust-line-facts"><span>ARAMCO <small>Manufacturer Approval</small></span><span>MODON <small>Accredited · Projects Delivered</small></span><span>PIF AMP <small>Cohort #1 · 2024</small></span><span>ISO SYSTEMS <small>9001 · 14001 · 45001</small></span></div></div></section>
 
-  <section className="ambition-banner"><div className="shell ambition-banner-inner"><span>OUR AMBITION</span><strong>To become Saudi Arabia's #1 mid-sized steel fabrication company—through ambition, aspiration, quality, and continuous development.</strong></div></section>
+  <section className="ambition-banner"><div className="shell ambition-banner-inner"><span>OUR AMBITION</span><strong>{settings.ambition||"To become Saudi Arabia's #1 mid-sized steel fabrication company—through ambition, aspiration, quality, and continuous development."}</strong></div></section>
 
   <section className="section" id="solutions"><div className="shell">
     <div className="section-intro"><p className="eyebrow">01 / OUR SOLUTIONS</p><h2>Built for complexity.<br/><span>Made for industry.</span></h2><p>Two equally important disciplines, supported by one engineering and delivery culture.</p></div>
