@@ -2,7 +2,7 @@ import type {ReactNode} from "react";
 type FrameKind="clear"|"multi"|"multiGable"|"lean"|"cantilever"|"curved"|"singleSlope"|"multiGable3";
 const catalogue:{id:FrameKind;name:string;description:string}[]=[
 {id:"clear",name:"Single-span / Clear-span",description:"One rigid portal frame without intermediate columns"},
-{id:"multi",name:"Multi-span",description:"Wide spans with engineered intermediate column supports"},
+{id:"multi",name:"Multi-span",description:"One continuous roof ridge with intermediate columns supporting multiple bays"},
 {id:"multiGable",name:"Multi-gable",description:"Two pitched roof modules with an engineered valley"},
 {id:"multiGable3",name:"Multi-gable / Triple",description:"Three coordinated roof modules for extensive industrial halls"},
 {id:"lean",name:"Lean-to Extension",description:"Sloping extension attached to or adjacent to a main structure"},
@@ -16,7 +16,7 @@ const line={fill:"none",stroke:col,strokeWidth:6,strokeLinejoin:"round" as const
 const secondary={fill:"none",stroke:accent,strokeWidth:2.5,strokeDasharray:"6 5"};
 switch(id){
  case"clear":return <><path {...line} d="M42 150 L42 68 L160 34 L278 68 L278 150"/><path {...secondary} d="M42 68 L160 34 L278 68"/></>;
- case"multi":return <><path {...line} d="M28 150 V73 L100 43 L160 67 L220 43 L292 73 V150 M160 67 V150"/></>;
+ case"multi":return <><path {...line} d="M28 150 V80 L160 32 L292 80 V150 M110 50 V150 M210 50 V150"/></>;
  case"multiGable":return <><path {...line} d="M24 150 V73 L91 40 L158 73 L225 40 L294 73 V150 M158 73 V150"/></>;
  case"multiGable3":return <><path {...line} d="M18 150 V75 L65 45 L112 75 L160 45 L207 75 L254 45 L302 75 V150 M112 75 V150 M207 75 V150"/></>;
  case"lean":return <><path {...line} d="M110 150 V40 L250 70 V150 M110 85 L40 108 V150"/></>;
