@@ -9,6 +9,25 @@
 **External path-check:** [GitHub public route verification succeeded](https://github.com/refedo/hexasteel.sa/actions/runs/38313053327)  
 **Current branch HEAD at audit:** `40cd124` (documentation/workflow changes after application release).
 
+## Change log — V3.6 (2026-10-13)
+
+**Implementation commit:** [a50b744](https://github.com/refedo/hexasteel.sa/commit/a50b74497b3fbf9b32e525a7b210778c0f9f4d9c)  
+**Status when logged:** Source committed; CI and DO deployment checks in progress. Live verification required before changing R1 completion estimate.
+**Scope delivered in source (awaiting external design acceptance):**
+- Three-image slider for structural steel construction / industrial buildings / manufacturing reference imagery (illustrative, not Hexa project photos), with slide controls and motion-reduction support.
+- Replaced historic 2,250 tonne capacity notice with people/machinery/process capabilities and "thousands of tonnes each year" positioning.
+- Added a company ambition statement to become the #1 mid-sized Saudi steel fabrication company; **not** a verified industry-ranking claim.
+- QC sequence revised to 01 MIR/material receiving, 02 dimensional, 03 welding, 04 surface preparation/blasting/coating, 05 TQM/controlled documentation and OTS™ records; ITP is mandatory across inspection checkpoints.
+- Projects expanded to eight named references with searchable/filterable industry portfolio, known tonnages only and clearly labelled illustrative sector photographs. Client logos/endorsements/actual project photos not invented.
+- Insights redesigned with interactive story selection, categorical navigation and featured editorial view.
+- PSF/SIF abbreviations and PIF/AMP expansions added; SIRI (Smart Industry Readiness Index) milestone published in source content.
+- Removed generic "photos/documentation will be added" copy from Insights detail pages and capacity-verification announcement from Knowledge Centre FAQ.
+
+**Executive acceptance remaining:** actual Hexa project photographs, publication consent for named client references, production facts, #1 market positioning wording, mobile aesthetics; further CMS/editorial integration.
+**Next milestone:** connect the working Sanity CMS, make page sections, news, article assets, and theme settings independently editable after design approval.
+
+---
+
 ## One-page executive summary
 
 - **Release 1 (corporate website + CMS + secure enquiry intake) completion: approximately 44%**.
