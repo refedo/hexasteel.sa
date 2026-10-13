@@ -1,13 +1,33 @@
 # HEXA Steel® — Website V3 Delivery Dashboard
 
 **Baseline:** 13 October 2026  
-**Status:** Release 1 in implementation / executive design review  
+**Status:** Release 1 in implementation / iterative executive visual review and CMS connection  
 **Repository:** [refedo/hexasteel.sa](https://github.com/refedo/hexasteel.sa)  
 **Working branch:** `rebuild/website-v3` (never merge to `main` without approval)  
 **Review domain:** https://hexasteel.sa (pre-launch)  
-**Last verified application release:** `a50b744`; [DigitalOcean deployment passed](https://github.com/refedo/hexasteel.sa/actions/runs/38363775423)  
-**External path-check:** [V3.6 external verification succeeded](https://github.com/refedo/hexasteel.sa/actions/runs/38364047694)  
-**Current implementation baseline:** `a50b744` (subsequent workflow and tracking commits do not change the application build).
+**Last verified application release:** `b427cd3` (V3.7); [DigitalOcean deployment passed](https://github.com/refedo/hexasteel.sa/actions/runs/38376802853)  
+**External path-check:** [V3.7 public global-search and redesign checks passed](https://github.com/refedo/hexasteel.sa/actions/runs/38377181392)  
+**Current implementation baseline:** `b427cd3` (global search, editorial pages and Sanity Studio boundary).
+
+## Change log — V3.7 (2026-10-13)
+
+**Implementation:** [441f6aec](https://github.com/refedo/hexasteel.sa/commit/441f6aecf3a85bdb8febed8f21bfaeef9fec328a) and [b427cd3](https://github.com/refedo/hexasteel.sa/commit/b427cd3b3cd5070cca21fd395cd389cd4e471ae8).  
+**Validation:** [Build/TypeScript passed](https://github.com/refedo/hexasteel.sa/actions/runs/38376802813), [DigitalOcean deployment passed](https://github.com/refedo/hexasteel.sa/actions/runs/38376802853), [external URL checks passed](https://github.com/refedo/hexasteel.sa/actions/runs/38377181392).
+
+**Delivered:**
+- Global website-level search in the header, Ctrl/⌘ + K, search overlay, backend search endpoint and dedicated /search results page.
+- Public search index covering company pages, steel services, clients/projects, Knowledge Centre, Insights and quality; merges approved CMS content once Sanity is provisioned.
+- Structural Steel, PEB and Operational Excellence redesigned into interactive editorial capability panels, matching the visual language of Projects/Quality/Insights rather than card piles.
+- Sanity content schemas refined for approved web projects, Knowledge articles, Insights, public steel services, homepage slider imagery and selected brand accent.
+- CMS loaders integrated into Homepage, Projects, Insights and Knowledge pages with current references retained as fallback.
+- /studio editorial workspace entry point built. Without the Sanity Project ID it intentionally displays a setup message; no editorial content is actually editable yet.
+- Corporate onboarding and quality controls documented in [CMS_SETUP.md](CMS_SETUP.md).
+
+**Not yet accepted or completed:** actual Sanity project connection, role management, live editor publishing, authentic HEXA media, permissioned client case studies, bilingual Arabic/RTL, secure RFQ/email/vendor intake and final security/performance QA.
+
+**Next milestone:** provision the Sanity project under a HEXA-owned account, configure the public project ID and authorized editors, and prove the six end-to-end CMS acceptance tests without changing source code.
+
+---
 
 ## Change log — V3.6 (2026-10-13)
 
@@ -30,27 +50,27 @@
 
 ## One-page executive summary
 
-- **Release 1 (corporate website + CMS + secure enquiry intake) completion: approximately 48%**.
+- **Release 1 (corporate website + CMS + secure enquiry intake) completion: approximately 54%**.
 - **Release 2 (advanced vendor qualification + commercial dashboard/OTS links): not started.**
 - **Release 3 (human-approved AI estimation): not started.**
 - These percentages are *management planning estimates* computed from weighted R1 workstreams. They are **not** objective code coverage, cost burn, or a claim that 44% of the entire three-release program is complete.
-- **Current review gate:** CEO to accept/revise the active V3 visual direction and page structures.
-- **Next engineering milestone after sign-off:** connect the Sanity project, make the theme and editorial content truly editable, create publishing/preview workflows, and load approved company information.
+- **Current review gate:** CEO visual feedback continues iteratively in parallel with connecting Sanity.
+- **Next engineering milestone:** connect the HEXA-owned Sanity project, configure roles, prove editing and publishing, then expand CMS coverage and previews.
 
 ## Release 1 weighted completion score
 
 | Workstream | Weight | Estimated work completed | Weighted contribution | Status |
 |---|---:|---:|---:|---|
 | Strategy, sitemap, blueprint | 10% | 95% | 9.50% | Mostly complete |
-| Visual system, responsive UX | 15% | 80% | 12.00% | In CEO review |
-| Page architecture and interactions | 15% | 80% | 12.00% | Core pages built |
+| Visual system, responsive UX | 15% | 85% | 12.75% | Iterative CEO review |
+| Page architecture and interactions | 15% | 90% | 13.50% | Global search / editorial redesign verified |
 | Approved reference projects and trust proof | 10% | 35% | 3.50% | Placeholders and draft claims |
-| Connected Sanity CMS / editorial freedom | 15% | 15% | 2.25% | Schemas exist; project not connected |
+| Connected Sanity CMS / editorial freedom | 15% | 35% | 5.25% | Schemas, adapters and Studio built; project not connected |
 | Knowledge Centre, Insights and SEO content | 10% | 55% | 5.50% | Routes/draft articles live; editorial still needed |
 | Arabic / English, RTL, localization | 10% | 0% | 0.00% | Not implemented |
 | Contact, secure RFQ and vendor intake | 10% | 10% | 1.00% | Contact UI exists, delivery/portal not launched |
-| Accessibility, security, QA and release sign-off | 5% | 45% | 2.25% | CI & route checks; broader QA remains |
-| **Release 1** | **100%** | — | **48.00% ≈ 48%** | **In progress** |
+| Accessibility, security, QA and release sign-off | 5% | 50% | 2.50% | CI, deployment and global-search routes verified |
+| **Release 1** | **100%** | — | **54.00% ≈ 54%** | **In progress** |
 
 **Method:** Each row's weight × estimated row completion. Revise only after accepted deliverables and release evidence. Release 2 and Release 3 are tracked separately.
 
@@ -73,13 +93,16 @@
 - [x] Contact page UI; quotation information page
 - [x] Homepage high-level trust/qualification strip (not Kirby-style quantified evidence tiles)
 - [x] Direct LinkedIn link
+- [x] Verified global search, overlay and dedicated /search endpoint
+- [x] Interactive editorial solutions and operational-excellence narrative panels
+- [x] CMS read adapters and Studio onboarding route (not connected)
 - [x] Server-side route checks and rollback-capable pre-launch deployment
 
 ### Designed or partly coded, but NOT operationally finished
 
 - [ ] Connect actual Sanity project/dataset; enable editor sign-in, previews, role controls
 - [ ] Enable CMS color selector for a real editor; **model and frontend fallback exist, not a connected editor workflow**
-- [ ] Make every project, article, testimonial, machine service and section dynamically CMS-driven
+- [ ] Complete dynamic CMS coverage (projects, articles, insights and hero are wired; testimonials, services, every page section and preview workflows remain)
 - [ ] Confirm trademark/branding and integrate approved official HEXA logo assets
 - [ ] Replace illustrative imagery with actual HEXA-approved photo/video library
 - [ ] Approve real project data and customer/client-name/logo/endorsement use
@@ -98,8 +121,8 @@
 | Destination | Structure available | Data/publication maturity |
 |---|---|---|
 | Homepage | Yes | Slider and capability-led copy deployed; CEO reviewing visuals and aspiration; trust proof unverified |
-| Structural Steel | Yes | Content draft |
-| PEB | Yes | Content draft; MODON/scope evidence required |
+| Structural Steel | Yes | Interactive editorial service narrative implemented, visuals subject to ongoing refinement |
+| PEB | Yes | Interactive editorial service narrative; MODON/scope evidence required |
 | Project Delivery & Site | Yes | Timeline interactive/accordion; mobile review pending |
 | Machinery / Steel Services | Yes | Service-led, no machine brands/models in current client UI |
 | Coating / Fire Protection | Yes | Confirm offered and subcontracted scopes |
@@ -107,7 +130,7 @@
 | Projects + case studies | Yes | Eight named references and filters; authentic photo/client-use approvals pending |
 | Knowledge Centre + article pages | Yes | Three draft linked articles |
 | Insights + milestone pages | Yes | Six story pages incl. SIRI and updated PSF/SIF/PIF/AMP terminology; editorial approval pending |
-| Operational Excellence | Yes | Operational claims need evidence review |
+| Operational Excellence | Yes | Interactive editorial systems; operational claims need evidence review |
 | People / Academy | Yes | Team profiles/photos consent pending |
 | Contact | UI only | Email delivery not signed off |
 | Request quotation | Intro only | Secure intake/uploads not operational |
@@ -135,8 +158,8 @@ Additional qualification/credibility row: MODON accredited/project references, A
 
 ### R1 — High-end bilingual website and secure enquiry intake (in progress)
 1. **R1-A: Foundation & responsive prototype** — accepted code/build; visual review open.
-2. **R1-B: CEO visual/content acceptance** — review hero, 7-stage timeline, quality interactions, project delivery and service-led capability pages.
-3. **R1-C: Sanity operating CMS** — editor adds article, updates a project, switches approved accent and previews changes WITHOUT GitHub.
+2. **R1-B: CEO visual/content acceptance** — rolling reviews in parallel with CMS implementation; no premature final design freeze.
+3. **R1-C: Sanity operating CMS** — integration code done; connect live Sanity project, verify editing and publication WITHOUT GitHub, establish previews and editorial roles.
 4. **R1-D: Trust, evidence and approved media** — launch with validated content, photos, credentials and approved testimonies.
 5. **R1-E: Bilingual implementation** — mobile Arabic RTL, English, locale routes and SEO.
 6. **R1-F: Contact + RFQ + vendor registration intake** — confirmed email receipt, secure file access, audit trails and notification.
@@ -171,4 +194,4 @@ Restricted supervised estimator pilot for repeatable Steel Services; engineering
 
 **Rules:** Never inflate completion merely because a page route exists. Never claim an actual testimonial, manufacturer approval scope, certificate validity or capacity without documentary validation. Only increase a workstream's percentage when an acceptance criterion is met. Update this markdown file after every accepted release and explain the percentage change.
 
-_Last updated: 2026-10-13 after verified V3.6 deployment. This is a working tracker, not a certification of launch readiness._
+_Last updated: 2026-10-13 after verified V3.7 deployment. This is a working tracker, not a certification of launch readiness._
