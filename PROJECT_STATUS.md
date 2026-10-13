@@ -2,13 +2,13 @@
 
 ## V3.11 — RFQ & Lead Generation security milestone (14 October 2026)
 
-**Branch:** `feature/rfq-lead-intake-v3-11`, based on `rebuild/website-v3`. **Release state:** implementation under CI review; **no merge/deployment initiated**.
+**Branch:** `feature/rfq-lead-intake-v3-11`, based on `rebuild/website-v3`. **Release state:** implementation and code verification completed; **draft PR #12**, **no merge/deployment initiated**. Full Next.js build, TypeScript and RFQ HTTP smoke tests **passed** on [`b88fb78`](https://github.com/refedo/hexasteel.sa/commit/b88fb785fea3cfb7362e04ac9261292fe0da3efb) ([CI 38476945035](https://github.com/refedo/hexasteel.sa/actions/runs/38476945035) and [PR CI 38476951970](https://github.com/refedo/hexasteel.sa/actions/runs/38476951970)).
 
 - Existing V3.10 already implemented service-prefilled forms, optional drawing/BOQ uploads, high-entropy receipt references, a Resend customer email with Sales BCC, and WhatsApp fallback. **V3.11 separates restricted Sales attachment notification from the customer receipt** for privacy. This is **not** evidence that email delivery or production activation has passed.
 - V3.11 introduces contextual technical questions by service, malware-scan-gated attachments with fail-closed checks, and an optional authenticated server-to-server private CRM lead event (HMAC SHA-256, idempotency key, no raw attachments).
 - CI contract strengthened with HTTP RFQ tests and TypeScript/build checks.
 - Pre-launch crawl-control discrepancy corrected at source: index/follow metadata now defaults OFF until `SITE_INDEXING_APPROVED=true` is explicitly configured for approved go-live; this requires a new build. This is not a substitute for access control.
-- **Gates remaining:** CI passing; verified scanner vendor and file privacy; verified sending domain and real customer/Sales delivery with PDF+DWG; hardened throttling/bot defence and privacy/retention; secure durable database and tracking queue; explicit CEO deployment permission.
+- **Gates remaining:** verified scanner vendor and file privacy; verified sending domain and real customer/Sales delivery with PDF+DWG; hardened throttling/bot defence and privacy/retention; secure durable database and tracking queue; explicit CEO deployment permission.
 - **R1 weighted progress stays at 61% pending acceptance.** Do not equate code-complete RFQ with commercially operational lead intake.
 
 ---
