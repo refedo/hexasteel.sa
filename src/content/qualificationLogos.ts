@@ -37,16 +37,16 @@ export const qualificationLogos:Record<string,{url:string;source:string}> = {
   source:"https://www.mewa.gov.sa/ar/Partners"
  },
  "Red Sea Global":{
-  url:"https://www.redseaglobal.com/documents/d/guest/rsg_en_rgb_horizontal-png",
-  source:"https://www.redseaglobal.com/en/"
+  url:"https://static.srpcdigital.com/styles/1037xauto/public/2023-10/387013_0.png",
+  source:"https://english.aawsat.com/business/4625191-red-sea-global-and-kingdom-holding-company-sign-sar2-billion-joint-venture%C2%A0"
  },
  "Alfanar":{
   url:"https://images.seeklogo.com/logo-png/54/1/al-fanar-company-logo-png_seeklogo-541300.png",
   source:"https://seeklogo.com/vector-logo/541300/al-fanar-company"
  },
  "Saudi Electricity Company (SEC)":{
-  url:"https://saudipedia.com/en/saudipediaen/uploads/images/2024/05/29/60633.jpg",
-  source:"https://saudipedia.com/en/article/956/economy-and-business/companies/saudi-electricity-company"
+  url:"https://saudipedia.com/var/site/storage/images/8/3/7/8/3628738-1-eng-GB/039be145f15c-60633.jpg",
+  source:"https://saudipedia.com/en/saudi-electricity-company"
  },
  "SEVEN Entertainment":{
   url:"https://images.seeklogo.com/logo-png/54/1/seven-saudi-entertainments-venture-logo-png_seeklogo-549975.png?v=1957817327588210208",
