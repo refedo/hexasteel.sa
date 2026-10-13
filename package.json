@@ -9,7 +9,9 @@
     "start": "next start",
     "check": "tsc --noEmit",
     "studio": "sanity dev",
-    "test:search": "node scripts/test-search-http.mjs"
+    "test:search": "node scripts/test-search-http.mjs",
+    "generate:search": "node scripts/generate-public-search.mjs",
+    "prebuild": "npm run generate:search"
   },
   "dependencies": {
     "next": "^15.5.0",

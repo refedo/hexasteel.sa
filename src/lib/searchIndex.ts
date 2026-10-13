@@ -1,5 +1,6 @@
 import {articles,insights,machines,references,reportedQualifications} from "@/content/site";
 import {structuralSteelSearchCorpus} from "@/content/structuralSteel";
+import generatedPageSearch from "@/content/generatedPageSearch.json";
 
 export type SearchResult = {title:string;description:string;href:string;category:string;keywords?:string};
 const core:SearchResult[]=[
@@ -33,7 +34,7 @@ const core:SearchResult[]=[
  {title:"Request a Quotation",description:"RFQ enquiries for structural steel, PEB and steel services.",href:"/request-quotation",category:"Contact",keywords:"pricing quote cost estimation"},
 ];
 export const staticSearchIndex:SearchResult[]=[
- ...core,
+ ...core.map(item=>({...item,keywords:[item.keywords,generatedPageSearch[item.href as keyof typeof generatedPageSearch]||""].filter(Boolean).join(" ")})),
  ...machines.map(x=>({title:x.name,description:x.service,href:"/capabilities/machinery#"+x.slug,category:"Capabilities",keywords:x.outcomes.join(" ")})),
  ...references.map(x=>({title:x.title,description:x.description,href:"/projects/"+x.slug,category:"Projects",keywords:x.category+" "+x.size+" "+x.year})),
  ...articles.map(x=>({title:x.title,description:x.intro,href:"/knowledge/"+x.slug,category:"Knowledge",keywords:x.sections.map(y=>y.join(" ")).join(" ")})),

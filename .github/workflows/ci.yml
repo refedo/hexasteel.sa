@@ -13,6 +13,7 @@ jobs:
         with:
           node-version: "22"
       - run: npm install --no-audit --no-fund
+      - run: npm run generate:search
       - run: npm run check
       - run: npm run build
       - run: npm run test:rfq
