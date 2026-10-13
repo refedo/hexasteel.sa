@@ -13,7 +13,7 @@ export async function getAccentColor(): Promise<string> {
   if(!id)return fallback;
   try{
     const client=createClient({projectId:id,dataset,apiVersion:"2025-02-01",useCdn:true});
-    const color=await client.fetch<string|null>('*[_type=="siteSettings" && _id=="siteSettings"][0].accentColor',{}, {next:{revalidate:120}});
+    const color=await client.fetch<string|null>('*[_type=="siteSettings" && _id=="siteSettings"][0].accentColor',{}, {next:{revalidate:30}});
     return accentOptions.some(option=>option.value===color)?color!:fallback;
   }catch{return fallback}
 }
