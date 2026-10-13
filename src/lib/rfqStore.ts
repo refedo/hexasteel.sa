@@ -82,7 +82,7 @@ export async function persistRfq(input:{
    await s3.send(new PutObjectCommand({
     Bucket:bucket,Key:key,Body:new Uint8Array(doc.bytes),ContentType:"application/octet-stream",
     ServerSideEncryption:"AES256",Metadata:{sha256:doc.sha256},
-   }));
+   }),{abortSignal:AbortSignal.timeout(15000)});
    uploaded.push(key);
    manifest.push({key,filename:doc.filename,bytes:doc.bytes.byteLength,sha256:doc.sha256});
   }
@@ -135,5 +135,9 @@ export async function persistRfq(input:{
     new DeleteObjectCommand({Bucket:process.env.RFQ_FILES_BUCKET!,Key}))));
   }
   throw e;
- }finally{client.release();}
+ }finally{
+  // An interrupted COMMIT can leave session state indeterminate.
+  // Destroy the connection instead of returning it to the reusable pool.
+  client.release(commitAttempted&&!committed);
+ }
 }
