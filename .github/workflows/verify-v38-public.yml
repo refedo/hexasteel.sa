@@ -1,4 +1,5 @@
 name: Verify HEXA V3.8 public structure & confidentiality
+# Re-run following successful DigitalOcean V3.8 activation
 on:
   push:
     branches: [rebuild/website-v3]
