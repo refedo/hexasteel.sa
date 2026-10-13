@@ -53,6 +53,7 @@ export async function POST(request:Request){
  const allowedOrigins=[new URL(process.env.NEXT_PUBLIC_SITE_URL||"https://hexasteel.sa").origin];
  if(allowedOrigins[0]==="https://hexasteel.sa")allowedOrigins.push("https://www.hexasteel.sa");
  if(!allowedOrigins.includes(request.headers.get("origin")||""))return error("Submission origin not accepted.",403);
+ if(process.env.RFQ_SUBMISSIONS_ENABLED!=="true")return error("Online RFQ submission is being activated. Please request your quotation through WhatsApp.",503);
  const secret=process.env.RESEND_API_KEY;
  const from=process.env.CONTACT_FROM_EMAIL;
  const sales=process.env.RFQ_TO_EMAIL||process.env.CONTACT_TO_EMAIL;

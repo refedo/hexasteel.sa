@@ -11,7 +11,7 @@ type Props={searchParams:Promise<{service?:string}>};
 export default async function QuotationPage({searchParams}:Props){
  const query=await searchParams;
  const contact=await getPublicContact();
- const enabled=Boolean(process.env.RESEND_API_KEY&&process.env.CONTACT_FROM_EMAIL&&(process.env.RFQ_TO_EMAIL||process.env.CONTACT_TO_EMAIL));
+ const enabled=process.env.RFQ_SUBMISSIONS_ENABLED==="true"&&Boolean(process.env.RESEND_API_KEY&&process.env.CONTACT_FROM_EMAIL&&(process.env.RFQ_TO_EMAIL||process.env.CONTACT_TO_EMAIL));
  return <main>
    <section className="inner-hero rfq-hero"><div className="shell">
     <p className="eyebrow on-dark">COMMERCIAL / SERVICE REQUEST</p>
