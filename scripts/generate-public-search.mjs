@@ -42,12 +42,32 @@ for(const route of routes){
  visit(ast);
  corpus[route]=[...new Set(visible)].join(" ").slice(0,24000);
 }
+// Static insight detail pages have distinct content in the stories map.
+const insightPath=path.join(root,"src/app/insights/[slug]/page.tsx");
+const insightAst=ts.createSourceFile(insightPath,fs.readFileSync(insightPath,"utf8"),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);
+function findStories(node){
+ if(ts.isVariableDeclaration(node)&&node.name.getText(insightAst)==="stories"&&node.initializer&&ts.isObjectLiteralExpression(node.initializer)){
+  for(const item of node.initializer.properties){
+   if(!ts.isPropertyAssignment(item))continue;
+   const slug=ts.isStringLiteral(item.name)?item.name.text:item.name.getText(insightAst);
+   const words=[];
+   function collect(n){
+    if((ts.isStringLiteral(n)||ts.isNoSubstitutionTemplateLiteral(n))&&!rejectText(n.text))words.push(n.text.replace(/\\s+/g," ").trim());
+    ts.forEachChild(n,collect);
+   }
+   collect(item.initializer);
+   corpus["/insights/"+slug]=[...new Set(words)].join(" ").slice(0,24000);
+  }
+ }
+ ts.forEachChild(node,findStories);
+}
+findStories(insightAst);
 const output=path.join(root,"src/content/generatedPageSearch.json");
 const next=JSON.stringify(corpus,null,2)+"\n";
 if(process.argv.includes("--check")){
  if(!fs.existsSync(output)||fs.readFileSync(output,"utf8")!==next)throw Error("Search index stale. Run npm run generate:search");
- console.log("Public route search corpus up to date:",routes.length,"routes");
+ console.log("Public route search corpus up to date:",Object.keys(corpus).length,"routes");
 }else{
  fs.writeFileSync(output,next);
- console.log("Generated search corpus:",routes.length,"public routes");
+ console.log("Generated search corpus:",Object.keys(corpus).length,"public routes");
 }

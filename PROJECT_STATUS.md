@@ -2,9 +2,9 @@
 
 **Stacked draft PR #14** from feature/rfq-lead-intake-v3-11, integrating RFQ changes through SHA 5f915788. No merge, deployment or public-logo publication has been approved.
 
-- Public-source copy is indexed automatically at build time for **27 static sitemap routes**; published CMS projects, Knowledge articles and Insights remain searchable. This is website **internal search**, not Google/Bing crawl indexing.
+- Public-source copy is indexed automatically at build time for **27 static sitemap routes**; published CMS projects, Knowledge articles and Insights remain searchable; static Insight detail sections are included per article. This is website **internal search**, not Google/Bing crawl indexing.
 - Structural Steel narrative and all eight displayed product-range descriptions now drive search, with aliases for “metal works”, “poultry farms” and “mezzanine”.
-- CMS search also reads approved project scope, Knowledge section bodies and Insight section bodies. Approved organizations are searchable by name/scope.
+- CMS search also reads approved project summaries, Knowledge section bodies and Insight section bodies. Approved organizations are searchable by name/scope.
 - Sanity publicQualification adds an official logo upload field, accessible alt text and a separate explicit logo-use authorization flag. The responsive approvals page displays verified Sanity CDN assets only when BOTH approval publication and logo-use flags pass; otherwise names remain visible without logos.
 - CI extends current RFQ TypeScript/build/HTTP/database/worker testing with search/sitemap HTTP smoke checks. Record successful run SHA here after confirmation.
 - **Not yet complete:** actual authorized logo files for each listed organization, CMS upload/publish of files, proof of relationship/approval status, responsive visual QA, PR merge/review and live release.

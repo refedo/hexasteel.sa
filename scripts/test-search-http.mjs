@@ -27,7 +27,7 @@ async function run(){
    const html=await page.text();
    assert(html.includes("/solutions/structural-steel"),"Dedicated search page is missing the structural result for "+term);
   }
-  for(const term of ["SIRI","ITP","laser","PEB","Qiddiya"]){
+  for(const term of ["SIRI","ITP","laser","PEB","Qiddiya","manufacturing discipline"]){
    const result=await (await fetch(origin+"/api/search?q="+encodeURIComponent(term))).json();
    assert(result.results.length>0,"Existing content regression for "+term);
   }
