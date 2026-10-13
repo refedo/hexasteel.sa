@@ -6,7 +6,7 @@ export type RfqLeadEvent = {
  schemaVersion:1; event:"rfq.received"; reference:string; receivedAt:string;
  status:"Received"; source:"website"; serviceCode:string; serviceName:string;
  customer:{name:string;company:string;email:string;phone:string};
- project:{description:string;quantity:string;unit:string;location:string;requiredDate:string};
+ project:{description:string;quantity:string;unit:string;location:string;requiredDate:string;technicalSpec:string;technicalDetail:string};
  attachments:RfqAttachmentMetadata[];
 };
 

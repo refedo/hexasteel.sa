@@ -37,3 +37,14 @@ If a credential is missing, the site shows a WhatsApp request route and does **n
 Persist a record to a **private** managed database before returning successful submission, with authenticated, expiring upload URLs. Add a sales queue and milestones:
 Received → Technical Review → Clarification → Estimating → Quoted → Won / Lost.
 Connect to OTS™ or a supported CRM after process ownership and data protection are agreed. **Do not expose request status or files publicly using guessable sequential references.**
+
+
+## V3.11 security and lead handoff (feature branch; NOT production-active)
+
+- Existing V3.10 service selection now exposes two contextual, optional technical prompts per selected service to improve estimation without burdening buyers with compulsory engineering questions.
+- Secure upload UI is hidden unless both `RFQ_FILE_SCAN_URL` and `RFQ_FILE_SCAN_TOKEN` are configured. Server validation still rejects documents unless each is declared **clean** by the private HTTPS malware scanner; errors/timeouts fail closed. The scanner receives raw document bytes and must comply with Hexa data protection agreements. No third-party scanning may be activated without review of where files are transferred and stored.
+- Optional `RFQ_LEAD_WEBHOOK_URL` + `RFQ_LEAD_WEBHOOK_SECRET` send a private `rfq.received` event after email-provider acceptance. Event includes service, contact and requirements plus **metadata/hash only** for files. Downstream CRM must verify HMAC SHA-256 signature over exact raw JSON request body and deduplicate by RFQ reference / Idempotency-Key. HTTPS required.
+- Email-only mode remains a **non-durable** lead intake; webhook failure is logged with *reference only*, with Sales email acting as recovery channel. Do not label this as a completed CRM queue or show public tracking status. Store lead/file records in a real private database before advertising durable RFQ tracking.
+- File transfer through WhatsApp is an alternative **only if client authorises that channel**. Never assert that WhatsApp yields an RFQ reference or that website-upload absence blocks plain-text RFQs.
+- Enforce private access, scanner operational SLAs, monitored email delivery, privacy/retention policies, distributed rate limiting and verified inboxes before enabling `RFQ_SUBMISSIONS_ENABLED` in production.
+- Verification: `npm run check && npm run build && npm run test:rfq`. This test covers preselection CTA URLs, HTTP page availability, cross-origin rejection and attachment rejection when scanner is unconfigured.

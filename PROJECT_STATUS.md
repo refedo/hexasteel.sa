@@ -1,5 +1,18 @@
 # HEXA Steel® — Website V3 Delivery Dashboard
 
+## V3.11 — RFQ & Lead Generation security milestone (14 October 2026)
+
+**Branch:** `feature/rfq-lead-intake-v3-11`, based on `rebuild/website-v3`. **Release state:** implementation under CI review; **no merge/deployment initiated**.
+
+- Existing V3.10 already implemented service-prefilled forms, optional drawing/BOQ uploads, high-entropy receipt references, a Resend customer email with Sales BCC, and WhatsApp fallback. This is **not** evidence that email delivery or production activation has passed.
+- V3.11 introduces contextual technical questions by service, malware-scan-gated attachments with fail-closed checks, and an optional authenticated server-to-server private CRM lead event (HMAC SHA-256, idempotency key, no raw attachments).
+- CI contract strengthened with HTTP RFQ tests and TypeScript/build checks.
+- **Gates remaining:** CI passing; verified scanner vendor and file privacy; verified sending domain and real customer/Sales delivery with PDF+DWG; hardened throttling/bot defence and privacy/retention; secure durable database and tracking queue; explicit CEO deployment permission.
+- **R1 weighted progress stays at 61% pending acceptance.** Do not equate code-complete RFQ with commercially operational lead intake.
+
+---
+
+
 **Baseline:** 13 October 2026  
 **Status:** Release 1 in implementation / iterative executive visual review and CMS connection  
 **Repository:** [refedo/hexasteel.sa](https://github.com/refedo/hexasteel.sa)  

@@ -1,6 +1,6 @@
 "use client";
 import {useMemo,useState} from "react";
-import {maxFiles,maxFileSize,maxUploadTotal,rfqServices,validRfqService} from "@/lib/rfq";
+import {maxFiles,maxFileSize,maxUploadTotal,rfqServices,rfqServiceDetails,validRfqService} from "@/lib/rfq";
 type Props={initialService:string;whatsappBase:string;enabled:boolean;uploadsEnabled:boolean};
 type SubmitStatus="idle"|"sending"|"success"|"error";
 export function QuotationRequestForm({initialService,whatsappBase,enabled,uploadsEnabled}:Props){
@@ -17,6 +17,9 @@ export function QuotationRequestForm({initialService,whatsappBase,enabled,upload
  const [company,setCompany]=useState("");
  const [name,setName]=useState("");
  const [files,setFiles]=useState<File[]>([]);
+ const [technicalSpec,setTechnicalSpec]=useState("");
+ const [technicalDetail,setTechnicalDetail]=useState("");
+ const serviceDetails=validRfqService(service)?rfqServiceDetails[service]:null;
  const whatsapp=useMemo(()=>{
   const current=rfqServices.find(item=>item.value===service);
   const msg=["Hello HEXA Steel®, I would like to request a quotation.",
@@ -27,10 +30,12 @@ export function QuotationRequestForm({initialService,whatsappBase,enabled,upload
    email?"Email: "+email:"",
    location?"Project location: "+location:"",
    scope?"Scope / specifications: "+scope:"",
+   serviceDetails&&technicalSpec?serviceDetails.first+": "+technicalSpec:"",
+   serviceDetails&&technicalDetail?serviceDetails.second+": "+technicalDetail:"",
    quantity?"Estimated quantity: "+quantity+" "+unit:"",
    "Please let me know how to send drawings and specifications."].filter(Boolean).join("\n");
   return whatsappBase+"?text="+encodeURIComponent(msg);
- },[service,company,name,contact,email,scope,location,quantity,unit,whatsappBase]);
+ },[service,company,name,contact,email,scope,location,quantity,unit,whatsappBase,technicalSpec,technicalDetail,serviceDetails]);
  function updateFiles(list:FileList|null){
   const selected=Array.from(list||[]);
   setFiles(selected);
@@ -67,11 +72,13 @@ export function QuotationRequestForm({initialService,whatsappBase,enabled,upload
   <form className="rfq-form" onSubmit={submit} encType="multipart/form-data">
    <div className="rfq-form-grid">
     <label className="rfq-field rfq-wide">01 / What can we manufacture for you?
-     <select required name="service" value={service} onChange={e=>setService(e.target.value)}>
+     <select required name="service" value={service} onChange={e=>{setService(e.target.value);setTechnicalSpec("");setTechnicalDetail("");}}>
       <option value="">Choose a service</option>
       {rfqServices.map(item=><option key={item.value} value={item.value}>{item.label}</option>)}
      </select>
     </label>
+    {serviceDetails&&<p className="rfq-file-guidance rfq-wide">{serviceDetails.guidance}</p>}
+    {serviceDetails&&<><label className="rfq-field">{serviceDetails.first} (optional)<input name="technicalSpec" maxLength={180} value={technicalSpec} onChange={e=>setTechnicalSpec(e.target.value)} placeholder={serviceDetails.firstHint}/></label><label className="rfq-field">{serviceDetails.second} (optional)<input name="technicalDetail" maxLength={180} value={technicalDetail} onChange={e=>setTechnicalDetail(e.target.value)} placeholder={serviceDetails.secondHint}/></label></>}
     <label className="rfq-field">Your name *<input required name="fullName" maxLength={120} autoComplete="name" placeholder="Contact person" value={name} onChange={e=>setName(e.target.value)}/></label>
     <label className="rfq-field">Company *<input required name="company" maxLength={150} autoComplete="organization" placeholder="Organization" value={company} onChange={e=>setCompany(e.target.value)}/></label>
     <label className="rfq-field">Business email {enabled?"*":"(optional)"}<input required={enabled} name="email" type="email" maxLength={180} autoComplete="email" placeholder="name@company.com" value={email} onChange={e=>setEmail(e.target.value)}/></label>

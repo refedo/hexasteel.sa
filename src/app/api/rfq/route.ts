@@ -77,6 +77,8 @@ export async function POST(request:Request){
  const location=clean(form.get("location"),120);
  const requiredDate=clean(form.get("requiredDate"),10);
  const description=clean(form.get("description"),3000);
+ const technicalSpec=clean(form.get("technicalSpec"),180);
+ const technicalDetail=clean(form.get("technicalDetail"),180);
  if(!validRfqService(service)||name.length<2||company.length<2||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||
  !/^[+0-9 ()-]{7,25}$/.test(phone)||description.length<10||form.get("consent")!=="yes")
   return error("Please complete the required RFQ fields.",400);
@@ -113,6 +115,8 @@ export async function POST(request:Request){
   "Location: "+(location||"Not supplied"),
   "Required delivery: "+(requiredDate||"Not specified"),
   "",
+  "Service-specific detail 1: "+(technicalSpec||"Not supplied"),
+  "Service-specific detail 2: "+(technicalDetail||"Not supplied"),
   "Scope and instructions:",
   description,
   "",
@@ -135,7 +139,7 @@ export async function POST(request:Request){
  // A private CRM may be connected later; never expose customer information in Sanity or public routes.
  const handoff=await handoffRfqLead({
   schemaVersion:1,event:"rfq.received",reference,receivedAt:new Date().toISOString(),status:"Received",source:"website",serviceCode:service,serviceName,
-  customer:{name,company,email,phone},project:{description,quantity,unit,location,requiredDate},attachments:attachmentMetadata,
+  customer:{name,company,email,phone},project:{description,quantity,unit,location,requiredDate,technicalSpec,technicalDetail},attachments:attachmentMetadata,
  });
  if(handoff==="failed")console.error("RFQ lead webhook unavailable; recover lead from Sales acknowledgement. Reference: "+reference);
  return NextResponse.json({ok:true,reference},{headers:{"Cache-Control":"no-store"}});
