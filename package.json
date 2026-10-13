@@ -5,9 +5,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "test:rfq": "node scripts/test-rfq-http.mjs",
     "start": "next start",
     "check": "tsc --noEmit",
-    "studio": "sanity dev"
+    "studio": "sanity dev",
+    "test:rfq-worker": "node --check scripts/process-rfq-outbox.mjs",
+    "test:rfq-store": "node scripts/test-rfq-store.mjs"
   },
   "dependencies": {
     "next": "^15.5.0",
@@ -15,7 +18,9 @@
     "react-dom": "^19.0.0",
     "sanity": "^4.0.0",
     "@sanity/vision": "^4.0.0",
-    "next-sanity": "^11.0.0"
+    "next-sanity": "^11.0.0",
+    "pg": "^8.13.3",
+    "@aws-sdk/client-s3": "^3.821.0"
   },
   "devDependencies": {
     "typescript": "^5.7.3",
@@ -24,6 +29,7 @@
     "@types/react-dom": "^19.0.0",
     "tailwindcss": "^3.4.17",
     "postcss": "^8.4.49",
-    "autoprefixer": "^10.4.20"
+    "autoprefixer": "^10.4.20",
+    "@types/pg": "^8.11.11"
   }
 }
