@@ -819,3 +819,8 @@ body:has(.hexa-studio) > .site-header,body:has(.hexa-studio) > .site-footer{disp
  .company-navigation-row{grid-template-columns:40px 1fr 18px;gap:9px}
  .company-navigation-row p{font-size:12px}
 }
+
+/* Optional CMS-managed brand tagline */
+.wordmark>span{display:flex;align-items:baseline;gap:9px}
+.wordmark .brand-tagline{font-size:8px;letter-spacing:.07em;text-transform:uppercase;color:#9cadb8;font-weight:650;white-space:nowrap}
+@media(max-width:1450px){.wordmark .brand-tagline{display:none}}

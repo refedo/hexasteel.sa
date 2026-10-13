@@ -12,6 +12,7 @@ const defaultClaims=[
 
 export default async function Home(){
  const settings=await getHomeSettings();
+ const trustIndicators=settings.trustIndicators?.length?settings.trustIndicators:defaultClaims;
  const advantages=[
   {number:"01",title:"Agility",principle:"FLEXIBILITY · SIMPLICITY",description:"Fast decisions, practical engineering and responsive teams. We adapt to the constraints of the project instead of making the project adapt to us."},
   {number:"02",title:"Premium Quality",principle:"SCIENCE · QUALITY · TRUST",description:"Manufacturing governed by ITPs, material traceability, qualified procedures, dimensional checks and documented quality evidence."},
@@ -28,7 +29,7 @@ export default async function Home(){
    </div><HeroSlider slides={settings.heroSlides}/></div></section>
    <section className="home-trust" aria-label="HEXA Steel track record and capabilities">
     <div className="shell"><div className="home-section-heading"><p className="eyebrow">TRUST INDICATORS</p><h2>Built on capability.<br/><span>Measured by delivery.</span></h2></div>
-      <div className="trust-proof-grid">{defaultClaims.map(item=><div className="trust-proof" key={item.symbol}><span className="trust-proof-n">{item.symbol}</span><strong>{item.figure}</strong><span className="trust-proof-unit">{item.unit}</span><p>{item.description}</p></div>)}</div>
+      <div className="trust-proof-grid">{trustIndicators.map(item=><div className="trust-proof" key={item.symbol}><span className="trust-proof-n">{item.symbol}</span><strong>{item.figure}</strong><span className="trust-proof-unit">{item.unit}</span><p>{item.description}</p></div>)}</div>
       <p className="proof-footnote">Figures and corporate qualifications reflect Hexa management information and should be supported by approved records.</p>
       <div className="trust-approval-link"><span>ARAMCO · MODON · MAADEN · NWC · QIDDIYA · NEW MURABBA</span><Link href="/company/approvals">Explore approvals & qualifications ↗</Link></div>
     </div>
