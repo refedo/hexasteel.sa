@@ -7,7 +7,7 @@ const core:SearchResult[]=[
  {title:"Careers",description:"Hexa Steel career enquiries and recruitment.",href:"/company/careers",category:"Company"},
  {title:"Approvals & Qualifications",description:"Company-reported manufacturer approvals, accreditation and supplier registration.",href:"/company/approvals",category:"Company"},
  {title:"Supply Chain & Procurement",description:"Strategic sourcing, approved material, vendor coordination, MTC, lead time planning and logistics.",href:"/services/supply-chain",category:"Services"},
- {title:"Design & Detailing",description:"Structural engineering, design codes AISC, MBMA, Tekla detailing, shop drawings.",href:"/services/design-detailing",category:"Services"},
+ {title:"Design & Detailing",description:"Structural engineering, design codes AISC, MBMA, 3D detailing, shop drawings.",href:"/services/design-detailing",category:"Services"},
  {title:"Pipes & Vessels",description:"Piping supports, fabricated tanks and vessels under project-specific engineering requirements.",href:"/services/pipes-vessels",category:"Services"},
  {title:"Fabrication Services",description:"C/Z purlin forming, laser cutting and built-up steel fabrication.",href:"/services/fabrication",category:"Services"},
  {title:"Home",description:"HEXA Steel corporate website. Structural steel, PEB and project delivery.",href:"/",category:"Pages",keywords:"engineering manufacturing factory hexa"},

@@ -43,9 +43,9 @@ export function SiteSearch(){
          <span className="search-shortcut">ESC</span>
        </div>
        <div className="site-search-results" aria-live="polite">
-         {query.trim().length<2?<><p className="search-results-label">POPULAR SEARCHES</p><div className="search-suggestions">{suggested.map(x=><button key={x.term} type="button" onClick={()=>setQuery(x.term)}>{x.label} ↗</button>)}</div><p className="search-help">Searches all published site sections, knowledge articles, insights and projects.</p></>:
+         {query.trim().length<2?<><p className="search-results-label">POPULAR SEARCHES</p><div className="search-suggestions">{suggested.map(x=><button key={x.term} type="button" onClick={()=>setQuery(x.term)}>{x.label}</button>)}</div><p className="search-help">Searches all published site sections, knowledge articles, insights and projects.</p></>:
          <><p className="search-results-label">{busy?"SEARCHING…":results.length+" MATCHING RESULTS"}</p>
-         {results.map(r=><Link className="site-search-result" href={r.href} key={r.href} onClick={close}><span className="search-result-category">{r.category}</span><strong>{r.title}</strong><small>{r.description}</small><span className="search-result-arrow">↗</span></Link>)}
+         {results.map(r=><Link className="site-search-result" href={r.href} key={r.href} onClick={close}><span className="search-result-category">{r.category}</span><strong>{r.title}</strong><small>{r.description}</small><span className="search-result-arrow"></span></Link>)}
          {!busy&&results.length===0&&<p className="search-help">No matching content found. Try “steel”, “PEB”, “MIR”, “MODON” or “project delivery”.</p>}</>}
        </div>
        <div className="search-footer"><span>Search HEXA Steel®</span><span>Press ESC to close</span></div>

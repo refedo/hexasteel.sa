@@ -22,7 +22,7 @@ export function ProjectExplorer({projects=references}:{projects?:Project[]}){
        {p.size&&<span className="project-mass">{p.size}<small>PROJECT STEELWORK REFERENCE</small></span>}
       </Link>
       <div className="project-showcase-meta"><span>{p.category}</span><span>{p.year||"SELECTED REFERENCE"}</span></div>
-      <div className="project-identity"><h3>{p.title}</h3><span className={"project-status "+(p.status==="Completed"?"completed":p.status==="Ongoing"?"ongoing":"unverified")}>{p.status}</span></div><p>{p.description}</p><Link className="project-showcase-arrow" href={"/projects/"+p.slug}>Explore project ↗</Link>
+      <div className="project-identity"><h3>{p.title}</h3><span className={"project-status "+(p.status==="Completed"?"completed":p.status==="Ongoing"?"ongoing":"unverified")}>{p.status}</span></div><p>{p.description}</p><Link className="project-showcase-arrow" href={"/projects/"+p.slug}>Explore project</Link>
     </article>)}
    </div>
    {filtered.length===0&&<p className="project-empty">No matching projects. Try another category or search.</p>}

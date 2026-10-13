@@ -15,7 +15,7 @@ export function QualityExperience({compact=false}:{compact?:boolean}) {
     {gates.map((gate,i)=><button key={gate.number} type="button" role="tab" aria-selected={i===active} aria-controls="quality-feature" className={i===active?"selected":""} onClick={()=>setActive(i)}><span>{gate.number}</span>{gate.name}</button>)}
    </div>
    <div className="quality-feature" id="quality-feature" role="tabpanel">
-    <div className="quality-feature-copy"><p className="eyebrow">{g.eyebrow}</p><h3>{g.headline}</h3><p className="quality-intro">{g.statement}</p><ul>{g.items.map(item=><li key={item}><span aria-hidden="true">✓</span>{item}</li>)}</ul><p className="quality-qualifier">{g.foot}</p>{!compact&&<Link href="/contact" className="text-link">Discuss our quality controls ↗</Link>}</div>
+    <div className="quality-feature-copy"><p className="eyebrow">{g.eyebrow}</p><h3>{g.headline}</h3><p className="quality-intro">{g.statement}</p><ul>{g.items.map(item=><li key={item}><span aria-hidden="true">✓</span>{item}</li>)}</ul><p className="quality-qualifier">{g.foot}</p>{!compact&&<Link href="/contact" className="text-link">Discuss our quality controls</Link>}</div>
     <div className="quality-technical-visual" aria-hidden="true"><div className="quality-technical-lines"><span/><span/><span/><span/><span/></div><div className="quality-technical-label">QUALITY / CHECKPOINT {g.number}</div><div className="quality-technical-count">{g.number}</div><div className="quality-technical-stamp">ITP <span>→</span> INSPECTION <span>→</span> RECORD</div></div>
    </div>
    <p className="quality-underbar">EXPLORE EACH CONTROL POINT <span>5 CHECKPOINTS · ONE CONNECTED QUALITY SYSTEM</span></p>

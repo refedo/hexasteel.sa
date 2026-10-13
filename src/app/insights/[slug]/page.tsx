@@ -36,7 +36,7 @@ export default async function Insight({params}:Props){
  return <main><PageHero eyebrow={item.category.toUpperCase()+" / "+item.date} title={item.title} intro={story.lead}/>
   <section className="section"><article className="shell article-body"><p className="eyebrow">HEXA STEEL® / INDUSTRIAL JOURNEY</p>
   {story.sections.map(([heading,copy],i)=><section key={heading}><p className="eyebrow">0{i+1} / DEVELOPMENT</p><h2>{heading}</h2><p>{copy}</p></section>)}
-  {"link" in story && story.link&&<Link href={story.link.href} className="text-link">{story.link.label} ↗</Link>}
+  {"link" in story && story.link&&<Link href={story.link.href} className="text-link">{story.link.label}</Link>}
   <div className="article-rule"/><Link href="/insights" className="text-link">← All insights and milestones</Link></article></section>
   <CallToAction heading="Explore what Hexa can deliver."/></main>
 }
