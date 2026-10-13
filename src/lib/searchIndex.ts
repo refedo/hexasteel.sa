@@ -46,7 +46,7 @@ export function rankSearch(query:string,entries:SearchResult[],max=18){
  const parts=input.split(" ").filter(x=>x.length>=2);
  return entries.map(item=>{
    const title=item.title.toLowerCase(),description=item.description.toLowerCase(),keywords=(item.keywords||"").toLowerCase(),category=item.category.toLowerCase();
-   let score=0;if(title.includes(input))score+=24;if(description.includes(input))score+=12;
+   let score=0;if(title.includes(input))score+=24;if(description.includes(input))score+=12;if(keywords.includes(input))score+=14;
    for(const term of parts){if(title.includes(term))score+=8;if(category.includes(term))score+=4;if(description.includes(term))score+=3;if(keywords.includes(term))score+=1;}
    return {item,score};
  }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score||a.item.title.localeCompare(b.item.title)).slice(0,max).map(x=>x.item);
