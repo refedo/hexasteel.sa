@@ -1,5 +1,6 @@
 import {createClient} from "next-sanity";
 import {articles,insights,references} from "@/content/site";
+import {qualificationLogos} from "@/content/qualificationLogos";
 import type {SearchResult} from "@/lib/searchIndex";
 
 type Project = (typeof references)[number];
@@ -60,19 +61,30 @@ export async function getCmsSearchEntries():Promise<SearchResult[]>{
  ...guides.map(x=>({title:x.title,description:x.intro,category:"Knowledge",href:"/knowledge/"+x.slug,keywords:x.category+" "+x.sections.map(s=>s.heading+" "+s.body).join(" ")}))
  ];
 }
-export type PublicQualification={name:string;detail:string;logoUrl?:string;logoAlt?:string};
+export type PublicQualification={name:string;detail:string;logoUrl?:string;logoAlt?:string;logoSource?:string};
 export async function getQualifications():Promise<PublicQualification[]>{
  const {reportedQualifications}=await import("@/content/site");
- // Preserve the current curated list when editors publish only a subset of the records.
- const byName=new Map<string,PublicQualification>(reportedQualifications.map(x=>[x.name.toLowerCase(),{...x}]));
+ // Keep the public, management-reported list intact when CMS has only a subset.
+ const byName=new Map<string,PublicQualification>(reportedQualifications.map(x=>{
+  const image=qualificationLogos[x.name];
+  return [x.name.toLowerCase(),{...x,logoUrl:image?.url,logoSource:image?.source,logoAlt:x.name+" official logo"}];
+ }));
  const live=await safeFetch<{name:string;detail:string;logoUrl?:string;logoAlt?:string}>(
   '*[_type=="publicQualification" && approvedForWeb==true && verifiedScope==true]{name,detail,"logoUrl":select(logoUseAuthorized==true=>logo.asset->url,""),logoAlt}'
  );
  for(const record of live){
   if(!record.name?.trim()||!record.detail?.trim())continue;
-  // Only display approved public Sanity assets. Do not hotlink third-party brands.
-  const logoUrl=record.logoUrl?.startsWith("https://cdn.sanity.io/images/ik7morln/production/")?record.logoUrl:"";
-  byName.set(record.name.trim().toLowerCase(),{name:record.name,detail:record.detail,logoUrl,logoAlt:record.logoAlt?.trim()||record.name+" logo"});
+  const name=record.name.trim(),fallback=byName.get(name.toLowerCase());
+  // Prefer an explicitly-cleared, original CMS asset. Never accept arbitrary
+  // CMS-hosted remote URL fields or files from restricted datasets.
+  const cmsLogo=record.logoUrl?.startsWith("https://cdn.sanity.io/images/ik7morln/production/")
+   ?record.logoUrl:undefined;
+  const chosen=cmsLogo||fallback?.logoUrl;
+  byName.set(name.toLowerCase(),{
+   name,detail:record.detail,logoUrl:chosen,
+   logoSource:cmsLogo?undefined:fallback?.logoSource,
+   logoAlt:record.logoAlt?.trim()||name+" official logo"
+  });
  }
  return [...byName.values()];
 }

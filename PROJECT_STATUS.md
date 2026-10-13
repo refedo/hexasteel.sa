@@ -1,5 +1,7 @@
 ## V3.12 — Organization logos and full-site internal search (feature branch; pending acceptance)
 
+**14 October revision:** Added 11 sourced, non-fabricated logo candidates as baseline image slots, with Sanity editorial override; screenshots/live remain earlier deployment. Updated smoke tests to confirm logo slots, source URLs, direct structural-steel subcategory deep links and incomplete-word matching. Brand usage/remote image integrity require executive visual and rights review (see QUALIFICATION_LOGOS.md).
+
 **Stacked draft PR #14** from feature/rfq-lead-intake-v3-11, integrating RFQ changes through SHA 5f915788. No merge, deployment or public-logo publication has been approved.
 
 - Public-source copy is indexed automatically at build time for **27 static sitemap routes**; published CMS projects, Knowledge articles and Insights remain searchable; static Insight detail sections are included per article. This is website **internal search**, not Google/Bing crawl indexing.

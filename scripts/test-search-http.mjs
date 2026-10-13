@@ -17,7 +17,7 @@ async function run(){
   for(const phrase of ["Mezzanine structures","Poultry farm structures","Industrial platforms","Warehouses and hangars"]){
    assert(structural.includes(phrase),"Missing actual structural-page copy: "+phrase);
   }
-  for(const term of ["metal works","poultry farms","mezzanine","industrial platforms","roof trusses","warehouses"]){
+  for(const term of ["metal works","poultry farms","poultr","mezzanine","industrial platforms","roof trusses","warehouses"]){
    const api=await fetch(origin+"/api/search?q="+encodeURIComponent(term));
    assert.equal(api.status,200,"API search failed for "+term);
    const result=await api.json();
@@ -26,6 +26,10 @@ async function run(){
    assert.equal(page.status,200,"Search page failed for "+term);
    const html=await page.text();
    assert(html.includes("/solutions/structural-steel"),"Dedicated search page is missing the structural result for "+term);
+  }
+  for(const [term,anchor] of [["poultry farms","poultry-farm-structures"],["mezzanine","mezzanine-structures"]]){
+   const result=await (await fetch(origin+"/api/search?q="+encodeURIComponent(term))).json();
+   assert(result.results.some(x=>x.href==="/solutions/structural-steel#"+anchor),"Missing direct product result for "+term);
   }
   for(const term of ["SIRI","ITP","laser","PEB","Qiddiya","manufacturing discipline"]){
    const result=await (await fetch(origin+"/api/search?q="+encodeURIComponent(term))).json();
@@ -37,6 +41,11 @@ async function run(){
   }
   const approvals=await (await fetch(origin+"/company/approvals")).text();
   assert(approvals.includes("Saudi Aramco"),"Company-reported qualifications missing");
+  for(const org of ["Saudi_aramco_logo.svg","Ma%27aden.svg","National_Water_Company_Logo_2021.png","Qiddiya%20City%20Dual%20Stacked","RSG_Logo.png","Logo_Saudi_Electric_Company.svg","seven-saudi-entertainments-venture"]){
+   assert(approvals.includes(org),"Missing curated organization logo: "+org);
+  }
+  assert.equal((approvals.match(/class="approval-logo-slot"/g)||[]).length,11,"Every reported organization must render a logo slot");
+  assert(approvals.includes("does not imply endorsement"),"Missing logo ownership disclaimer");
   console.log("V3.12 search smoke checks passed: structural subcategories, synonyms, CMS fallback, and sitemap.");
  }finally{child.kill("SIGTERM");}
 }
