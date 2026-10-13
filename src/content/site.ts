@@ -5,12 +5,40 @@ export const brand = {
   accentDefault: "#C6D547",
 };
 export const navigation = [
-  ["Solutions", "/solutions/structural-steel"],
-  ["Project Delivery", "/project-delivery"],
-  ["Projects", "/projects"],
-  ["Capabilities", "/capabilities/machinery"],
-  ["Knowledge", "/knowledge"],
-  ["Insights", "/insights"],
+ {label:"Products & Services",href:"/products-services",children:[
+  {label:"Structural Steel",href:"/solutions/structural-steel"},
+  {label:"Pre-Engineered Buildings (PEB)",href:"/solutions/peb"},
+  {label:"Steel Design & Detailing",href:"/services/design-detailing"},
+  {label:"Steel Fabrication & Processing",href:"/services/fabrication"},
+  {label:"Manufacturing Services",href:"/capabilities/machinery"},
+  {label:"Pipes & Vessels",href:"/services/pipes-vessels"},
+  {label:"Coating & Galvanization",href:"/capabilities/coating"},
+  {label:"Supply Chain & Procurement",href:"/services/supply-chain"}
+ ]},
+ {label:"Project Delivery",href:"/project-delivery"},
+ {label:"Projects",href:"/projects"},
+ {label:"Company",href:"/company",children:[
+  {label:"Who We Are",href:"/company/about"},
+  {label:"Approvals & Qualifications",href:"/company/approvals"},
+  {label:"Quality & Certifications",href:"/capabilities/quality"},
+  {label:"Operational Excellence & OTS™",href:"/company/operational-excellence"},
+  {label:"People & Hexa Academy",href:"/company/people"},
+  {label:"Careers",href:"/company/careers"}
+ ]},
+ {label:"Knowledge Centre",href:"/knowledge",children:[
+  {label:"Engineering Guides",href:"/knowledge"},
+  {label:"Steel Grades & Traceability",href:"/knowledge/steel-grades-traceability"},
+  {label:"Technical FAQs",href:"/knowledge#faq"}
+ ]},
+ {label:"Insights",href:"/insights"},
+] as const;
+export const reportedQualifications=[
+ {name:"Saudi Aramco",detail:"Manufacturer approval — subject to approved product scope"},
+ {name:"Maaden",detail:"Company-reported qualification / procurement relationship"},
+ {name:"National Water Company (NWC)",detail:"Company-reported qualification / registration"},
+ {name:"Qiddiya",detail:"Company-reported qualification / registration"},
+ {name:"New Murabba",detail:"Company-reported qualification / registration"},
+ {name:"MODON",detail:"Company-reported accreditation and project experience"}
 ] as const;
 export const activityGroups = [
   { stage: "Engineering", summary: "Translate requirements into coordinated, buildable deliverables.", activities: [
@@ -42,14 +70,14 @@ export const machines=[
   {slug:"steel-fabrication",name:"Structural Steel Fabrication",type:"FULL-SERVICE FABRICATION",service:"Fit-up, fabrication, welding, finishing and inspection for complex contractual steel assemblies.",headline:"STEEL",outcomes:["Fabrication-ready assemblies","Coordinated quality records","Integration with coating and delivery"]},
 ];
 export const references=[
-  {slug:"mapa-structural-2025",client:"MAPA",title:"Major Structural Steel Package",category:"Structural Steel",year:"2025",size:"1,115 t",description:"A major fabricated structural steel package requiring coordinated production, quality documentation and delivery planning.",status:"Selected project reference",image:""},
-  {slug:"nadec-industrial-2024",client:"NADEC",title:"Industrial Steelworks",category:"Structural Steel",year:"2024",size:"440 t",description:"Steel fabrication supporting industrial development, with coordinated production and documentation.",status:"Selected project reference",image:""},
-  {slug:"red-sea-2024",client:"Red Sea Global",title:"Project Steel Package",category:"Structural Steel",year:"2024",size:"335 t",description:"Fabricated structural steel associated with demanding project coordination and quality controls.",status:"Selected project reference",image:""},
-  {slug:"alhamadaniyah-2026",client:"Alhamadaniyah Complex",title:"Complex Steel Structures",category:"Structural Steel",year:"2026",size:"440 t",description:"Complex project steelwork referenced in Hexa's 2026 delivery portfolio.",status:"2026 project reference",image:""},
-  {slug:"kkia-ags",client:"KKIA – AGS",title:"Airport-Related Steelworks",category:"Specialty Steelworks",year:"",size:"",description:"Project reference in Hexa's industrial and infrastructure portfolio.",status:"Selected engagement",image:""},
-  {slug:"green-pipes",client:"Green Pipes",title:"Industrial Steelworks",category:"Industrial Steelworks",year:"",size:"",description:"Industrial steel fabrication project reference.",status:"Selected engagement",image:""},
-  {slug:"saudi-coffee",client:"Saudi Coffee",title:"Industrial Facility Steelwork",category:"Industrial Buildings",year:"",size:"",description:"Project reference for steelwork associated with an industrial facility.",status:"Selected engagement",image:""},
-  {slug:"al-othaim",client:"Al Othaim",title:"Commercial Steelworks",category:"Structural Steel",year:"",size:"",description:"Commercial steel project reference within Hexa's portfolio.",status:"Selected engagement",image:""},
+ {slug:"industrial-structure-large-2025",title:"Major Industrial Structural Steel Package",category:"Structural Steel",year:"2025",size:"1,115 t",description:"Large industrial steel fabrication package integrating documented production, quality inspection and delivery coordination.",status:"Completed",image:""},
+ {slug:"industrial-facility-steelwork-2024",title:"Industrial Facility Steelwork",category:"Structural Steel",year:"2024",size:"440 t",description:"Industrial structural package with managed fabrication, quality documentation and material delivery.",status:"Completed",image:""},
+ {slug:"specialty-steelwork-2024",title:"Specialty Structural Steel Package",category:"Structural Steel",year:"2024",size:"335 t",description:"Project-specific structural steel assemblies supported by inspection and coordinated project logistics.",status:"Completed",image:""},
+ {slug:"complex-structures-2026",title:"Complex Structural Steel Assemblies",category:"Structural Steel",year:"2026",size:"440 t",description:"A contracted complex structural steel package progressing through the engineering and manufacturing delivery lifecycle.",status:"Ongoing",image:""},
+ {slug:"airport-infrastructure-steel",title:"Airport Infrastructure Steelwork",category:"Specialty Steelworks",year:"",size:"",description:"Specialty fabrication and coordinated steel supply for infrastructure environments.",status:"Status to confirm",image:""},
+ {slug:"industrial-pipe-supports",title:"Industrial Pipe Supports & Steelwork",category:"Industrial Steelworks",year:"",size:"",description:"Industrial steelwork and fabrication support for manufacturing and process facilities.",status:"Status to confirm",image:""},
+ {slug:"industrial-building-reference",title:"Industrial Facility Steelwork",category:"Industrial Buildings",year:"",size:"",description:"Industrial building steelwork coordinated with fabrication and procurement.",status:"Status to confirm",image:""},
+ {slug:"commercial-steel-reference",title:"Commercial Structural Steel Package",category:"Structural Steel",year:"",size:"",description:"Structural steelwork for commercial building construction.",status:"Status to confirm",image:""},
 ];
 export const insights=[
   {slug:"amp-cohort-one",category:"Strategic Initiative",date:"September 2024",title:"Hexa Steel® selected for PIF AMP Cohort #1",summary:"Hexa joined Cohort #1 of the Accelerated Manufacturing Program (AMP) by the Public Investment Fund (PIF)."},
@@ -78,6 +106,13 @@ export const articles=[
     ["Site: Erection and handover","Establish method statements, lifting plans, site access, survey controls, alignment, bolting and safety measures. Erection may be delivered by qualified subcontractors under Hexa management where contracted."],
     ["Managing constraints","Use progress tracking, RFIs, NCRs, critical-path reviews and evidence-based coordination to bring deviations to the surface early."]
   ]}
+  {slug:"steel-grades-traceability",category:"Materials & Quality Guide",title:"Steel Grades, Heat Numbers & Material Traceability",intro:"A practical guide to material standards, mill certificates, grade selection, yield strength, heat-number control and traceability in structural steel fabrication.",sections:[
+    ["Understand grades before selecting material","Common structural steel specifications include ASTM A36 and A572, EN 10025 S235/S275/S355 and project-specific materials. These grades are not interchangeable without an engineering assessment of mechanical, chemical, welding and toughness requirements."],
+    ["Yield strength versus tensile strength","Yield strength describes the stress at which permanent deformation begins; ultimate tensile strength describes the maximum stress before necking or fracture. Design codes specify how material properties are used with applicable resistance factors and load combinations."],
+    ["Heat number and Mill Test Certificate (MTC)","Each steel heat or batch identifier connects the material to its mill inspection certificate. The MTC provides the declared grade and relevant chemical and mechanical test results. Material Inspection Requests (MIRs) and receiving checks help validate deliveries."],
+    ["Traceability after cutting and fabrication","Maintain heat / identification references as plates and sections are cut into pieces and assembled. Approved material traceability procedures determine how parts are identified, transferred and recorded through welding, coating and dispatch."],
+    ["Standards and engineering coordination","Structural design may follow the specified AISC standard; PEB projects may apply MBMA guidance where appropriate; welding is controlled under applicable AWS D1.1 requirements. Final selections depend on contract specifications and competent engineering review."]
+  ]},
 ];
 export const faqs=[
   ["Does Hexa Steel manufacture both structural steel and PEB?","Yes. Both are core solutions. The most suitable system depends on project geometry, loading, scope and schedule."],

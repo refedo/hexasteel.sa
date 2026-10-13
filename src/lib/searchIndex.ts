@@ -2,11 +2,19 @@ import {articles,insights,machines,references} from "@/content/site";
 
 export type SearchResult = {title:string;description:string;href:string;category:string;keywords?:string};
 const core:SearchResult[]=[
+ {title:"Products & Services",description:"Explore structural steel, PEB, steel services, design, fabrication and coating.",href:"/products-services",category:"Solutions"},
+ {title:"Who We Are",description:"Hexa Steel mission, values, supply chain and manufacturing philosophy.",href:"/company/about",category:"Company"},
+ {title:"Careers",description:"Hexa Steel career enquiries and recruitment.",href:"/company/careers",category:"Company"},
+ {title:"Approvals & Qualifications",description:"Company-reported manufacturer approvals, accreditation and supplier registration.",href:"/company/approvals",category:"Company"},
+ {title:"Supply Chain & Procurement",description:"Strategic sourcing, approved material, vendor coordination, MTC, lead time planning and logistics.",href:"/services/supply-chain",category:"Services"},
+ {title:"Design & Detailing",description:"Structural engineering, design codes AISC, MBMA, Tekla detailing, shop drawings.",href:"/services/design-detailing",category:"Services"},
+ {title:"Pipes & Vessels",description:"Piping supports, fabricated tanks and vessels under project-specific engineering requirements.",href:"/services/pipes-vessels",category:"Services"},
+ {title:"Fabrication Services",description:"C/Z purlin forming, laser cutting and built-up steel fabrication.",href:"/services/fabrication",category:"Services"},
  {title:"Home",description:"HEXA Steel corporate website. Structural steel, PEB and project delivery.",href:"/",category:"Pages",keywords:"engineering manufacturing factory hexa"},
  {title:"Structural Steel",description:"Complex steel structures, industrial buildings, platforms, pipe racks and commercial steel.",href:"/solutions/structural-steel",category:"Solutions",keywords:"hot rolled steel beams columns fabrication"},
  {title:"Pre-Engineered Buildings (PEB)",description:"Factory warehouses, industrial PEB structures, C/Z purlin production and MODON developments.",href:"/solutions/peb",category:"Solutions",keywords:"peb purlin portal frames buildings"},
  {title:"Project Management and Site Execution",description:"Seven activities: design, detailing, procurement, production, coating, delivery and erection.",href:"/project-delivery",category:"Solutions",keywords:"lifting plans installation surveying anchor bolts site construction"},
- {title:"Selected Projects",description:"Explore Hexa's structural steel and industrial project references.",href:"/projects",category:"Projects",keywords:"case studies clients portfolio tonnage"},
+ {title:"Selected Projects",description:"Explore anonymized structural steel and industrial project references.",href:"/projects",category:"Projects",keywords:"case studies clients portfolio tonnage"},
  {title:"Steel Services and Manufacturing",description:"Precision cutting, built-up beams, C/Z purlins and fabrication services.",href:"/capabilities/machinery",category:"Capabilities",keywords:"laser CNC cutting assembly welding steel"},
  {title:"Quality Control & Assurance",description:"MIR, ITP, welding WPS/PQR, dimensional checks, NDT, DFT, TQM, SOP and traceability.",href:"/capabilities/quality",category:"Capabilities",keywords:"inspection testing plan quality MTC CWI document control"},
  {title:"Coating & Fire Protection",description:"Epoxy coatings, intumescent and cementitious systems, blasting, DFT.",href:"/capabilities/coating",category:"Capabilities",keywords:"painting primer surface protection coating"},
@@ -20,7 +28,7 @@ const core:SearchResult[]=[
 export const staticSearchIndex:SearchResult[]=[
  ...core,
  ...machines.map(x=>({title:x.name,description:x.service,href:"/capabilities/machinery#"+x.slug,category:"Capabilities",keywords:x.outcomes.join(" ")})),
- ...references.map(x=>({title:x.client+" — "+x.title,description:x.description,href:"/projects/"+x.slug,category:"Projects",keywords:x.category+" "+x.size+" "+x.year})),
+ ...references.map(x=>({title:x.title,description:x.description,href:"/projects/"+x.slug,category:"Projects",keywords:x.category+" "+x.size+" "+x.year})),
  ...articles.map(x=>({title:x.title,description:x.intro,href:"/knowledge/"+x.slug,category:"Knowledge",keywords:x.sections.map(y=>y.join(" ")).join(" ")})),
  ...insights.map(x=>({title:x.title,description:x.summary,href:"/insights/"+x.slug,category:"Insights",keywords:x.category+" "+x.date})),
 ];
