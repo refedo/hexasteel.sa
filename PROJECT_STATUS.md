@@ -5,9 +5,9 @@
 **Repository:** [refedo/hexasteel.sa](https://github.com/refedo/hexasteel.sa)  
 **Working branch:** `rebuild/website-v3` (never merge to `main` without approval)  
 **Review domain:** https://hexasteel.sa (pre-launch)  
-**Last verified application release:** `b427cd3` (V3.7); [DigitalOcean deployment passed](https://github.com/refedo/hexasteel.sa/actions/runs/38376802853)  
-**External path-check:** [V3.7 public global-search and redesign checks passed](https://github.com/refedo/hexasteel.sa/actions/runs/38377181392)  
-**Current implementation baseline:** `b427cd3` (global search, editorial pages and Sanity Studio boundary).
+**Last verified application release:** `d7c1f3d` (CMS theme cache improvement); [DigitalOcean deployment passed](https://github.com/refedo/hexasteel.sa/actions/runs/38426349900)  
+**External verification:** [Sanity theme matches live page; 30s cache confirmed](https://github.com/refedo/hexasteel.sa/actions/runs/38427221666)  
+**Current implementation baseline:** `d7c1f3d` (Sanity Studio, global search, editable theme and 30-second visual cache).
 
 ## Change log — V3.7 (2026-10-13)
 
@@ -58,14 +58,28 @@
 - **Remaining acceptance gate:** corporate owner logs into the Studio from a browser, successfully edits/publishes the Website Settings accent, and confirms the live website reflects the edit after cache revalidation. Other CMS content CRUD and role permissions remain to be tested.
 - **R1 progress stays at 54%** until the authenticated editor/publishing test passes; operational setup is not equivalent to editorial acceptance.
 
+## CMS publishing test accepted — 13 October 2026
+
+**Sanity project:** \`ik7morln\` / \`production\` | **Plan:** 30-day Growth feature trial, configured to downgrade to Free automatically unless explicitly upgraded.
+
+**Verified:** HEXA company owner accessed the live Sanity Studio and published the \`siteSettings\` document with accent **Concrete Silver #CDD3D8**. Independent probes returned that exact published value from Sanity and the live website. Next.js stale HTML briefly showed the previous lime color; the website then served Concrete Silver.
+
+**Caching improvement deployed:** theme data fetch and root layout revalidation reduced from 120 to 30 seconds, preserving static caching. [DigitalOcean release passed](https://github.com/refedo/hexasteel.sa/actions/runs/38426349900), and [external test passed](https://github.com/refedo/hexasteel.sa/actions/runs/38427221666), confirming published color equals live \`--signal\` and the website uses \`s-maxage=30\`.
+
+**Status:** Embedded Studio authentication and CMS brand-accent edit/publish are accepted. Remaining: publish and verify approved Projects, Insights, and Knowledge documents with images, permissions and search; verify restricted drafts and editorial workflows. **Release 1 estimate: 57%** (CMS workstream maturity moved from 35% to 55%, adding 3 weighted points). CMS still not complete.
+
+**Next milestone:** Editor adds one approved Knowledge Centre article with original image, publishes, and verifies it appears in listing, detail URL and global search without a GitHub deploy.
+
+---
+
 ## One-page executive summary
 
-- **Release 1 (corporate website + CMS + secure enquiry intake) completion: approximately 54%**.
+- **Release 1 (corporate website + CMS + secure enquiry intake) completion: approximately 57%**.
 - **Release 2 (advanced vendor qualification + commercial dashboard/OTS links): not started.**
 - **Release 3 (human-approved AI estimation): not started.**
 - These percentages are *management planning estimates* computed from weighted R1 workstreams. They are **not** objective code coverage, cost burn, or a claim that 44% of the entire three-release program is complete.
 - **Current review gate:** CEO visual feedback continues iteratively in parallel with connecting Sanity.
-- **Next engineering milestone:** connect the HEXA-owned Sanity project, configure roles, prove editing and publishing, then expand CMS coverage and previews.
+- **Next engineering milestone:** verify an editor-published Knowledge Centre article end to end (listing, detail page, global search), then Projects and Insights; confirm permissions and content-approval controls.
 
 ## Release 1 weighted completion score
 
@@ -75,12 +89,12 @@
 | Visual system, responsive UX | 15% | 85% | 12.75% | Iterative CEO review |
 | Page architecture and interactions | 15% | 90% | 13.50% | Global search / editorial redesign verified |
 | Approved reference projects and trust proof | 10% | 35% | 3.50% | Placeholders and draft claims |
-| Connected Sanity CMS / editorial freedom | 15% | 35% | 5.25% | Schemas, adapters and Studio built; project not connected |
+| Connected Sanity CMS / editorial freedom | 15% | 55% | 8.25% | Studio login and brand-accent publishing verified; content flows pending |
 | Knowledge Centre, Insights and SEO content | 10% | 55% | 5.50% | Routes/draft articles live; editorial still needed |
 | Arabic / English, RTL, localization | 10% | 0% | 0.00% | Not implemented |
 | Contact, secure RFQ and vendor intake | 10% | 10% | 1.00% | Contact UI exists, delivery/portal not launched |
 | Accessibility, security, QA and release sign-off | 5% | 50% | 2.50% | CI, deployment and global-search routes verified |
-| **Release 1** | **100%** | — | **54.00% ≈ 54%** | **In progress** |
+| **Release 1** | **100%** | — | **57.00% ≈ 57%** | **In progress** |
 
 **Method:** Each row's weight × estimated row completion. Revise only after accepted deliverables and release evidence. Release 2 and Release 3 are tracked separately.
 
