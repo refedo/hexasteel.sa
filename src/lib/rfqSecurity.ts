@@ -12,7 +12,11 @@ export type RfqLeadEvent = {
 
 /** The scanner must be an authorised private HTTPS service. No unscanned files are emailed. */
 export function rfqFileScanningAvailable():boolean {
- return Boolean(process.env.RFQ_FILE_SCAN_URL && process.env.RFQ_FILE_SCAN_TOKEN);
+ if(!process.env.RFQ_FILE_SCAN_URL||!process.env.RFQ_FILE_SCAN_TOKEN)return false;
+ try{
+  const endpoint=new URL(process.env.RFQ_FILE_SCAN_URL);
+  return endpoint.protocol==="https:"&&!endpoint.username&&!endpoint.password&&!!endpoint.hostname;
+ }catch{return false;}
 }
 export function rfqFileHash(bytes:Buffer):string {
  return createHash("sha256").update(bytes).digest("hex");

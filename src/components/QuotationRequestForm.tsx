@@ -1,5 +1,5 @@
 "use client";
-import {useMemo,useState} from "react";
+import {useMemo,useRef,useState} from "react";
 import {maxFiles,maxFileSize,maxUploadTotal,rfqServices,rfqServiceDetails,validRfqService} from "@/lib/rfq";
 type Props={initialService:string;whatsappBase:string;enabled:boolean;uploadsEnabled:boolean};
 type SubmitStatus="idle"|"sending"|"success"|"error";
@@ -8,7 +8,7 @@ export function QuotationRequestForm({initialService,whatsappBase,enabled,upload
  const [status,setStatus]=useState<SubmitStatus>("idle");
  const [message,setMessage]=useState("");
  const [reference,setReference]=useState("");
- const [acknowledgementAccepted,setAcknowledgementAccepted]=useState(false);
+ const submissionId=useRef("");
  const [quantity,setQuantity]=useState("");
  const [unit,setUnit]=useState("t");
  const [contact,setContact]=useState("");
@@ -51,26 +51,29 @@ export function QuotationRequestForm({initialService,whatsappBase,enabled,upload
   if(!enabled){window.location.assign(whatsapp);return;}
   setStatus("sending");setMessage("");setReference("");
   const data=new FormData(form);
+  // One UUID per unchanged enquiry; network retries cannot create duplicate RFQs.
+  if(!submissionId.current)submissionId.current=crypto.randomUUID();
+  data.set("submissionId",submissionId.current);
   try{
    const response=await fetch("/api/rfq",{method:"POST",body:data,headers:{Accept:"application/json"}});
-   const payload=await response.json() as {error?:string;reference?:string;acknowledgementAccepted?:boolean};
+   const payload=await response.json() as {error?:string;reference?:string;acknowledgementQueued?:boolean};
    if(!response.ok)throw new Error(payload.error||"Your request could not be sent.");
    if(!payload.reference)throw new Error("An RFQ reference was not returned. Contact our team.");
-   setReference(payload.reference);setAcknowledgementAccepted(payload.acknowledgementAccepted===true);setStatus("success");form.reset();setFiles([]);
+   setReference(payload.reference);submissionId.current="";setStatus("success");form.reset();setFiles([]);
   }catch(e){setStatus("error");setMessage(e instanceof Error?e.message:"Unable to send request. Please use WhatsApp.");}
  }
  if(status==="success")return <section className="rfq-confirmed" role="status">
    <span className="eyebrow">REQUEST ACCEPTED</span>
    <h2>Your request has been received.</h2>
-   <p>Our email provider has accepted the request for our sales team. Your reference number is:</p>
+   <p>Your enquiry has been securely recorded. Your reference number is:</p>
    <div className="rfq-reference">{reference}</div>
-   <p>{acknowledgementAccepted?"Keep this number for correspondence. An acknowledgement email has been requested for your address. Please check your inbox.":"Keep this reference number: Sales notification was accepted, but your acknowledgement email could not be submitted. Please contact our team using the reference."}</p>
+   <p>Keep this number for correspondence. Notifications to Sales and your email address are queued for delivery. A formal quotation follows technical review.</p>
    <div className="rfq-actions"><button type="button" className="button dark" onClick={()=>{setStatus("idle");setReference("")}}>Submit another request</button><a href={whatsapp} target="_blank" rel="noopener noreferrer" className="button rfq-alt-action">Chat with our team</a></div>
  </section>;
  return <div className="rfq-form-container">
-  <div className="rfq-form-header"><span className="eyebrow">SERVICE ENQUIRY / NO ACCOUNT REQUIRED</span><h2>Tell us what you need.</h2><p>{enabled?"Add the essentials, attach drawings, and receive an RFQ reference by email.":"Complete a brief enquiry below and send it directly to our team via WhatsApp. Attach drawings inside the chat."}</p></div>
+  <div className="rfq-form-header"><span className="eyebrow">SERVICE ENQUIRY / NO ACCOUNT REQUIRED</span><h2>Tell us what you need.</h2><p>{enabled?"Add your requirements, attach authorised drawings, and receive your RFQ reference on screen.":"Complete a brief enquiry below and send it directly to our team via WhatsApp. Attach drawings inside the chat."}</p></div>
   <div className="rfq-quick-contact"><div><strong>Prefer a direct conversation?</strong><p>Send the selected service to our sales team on WhatsApp.</p></div><a href={whatsapp} className="button rfq-whatsapp-button" target="_blank" rel="noopener noreferrer">Continue on WhatsApp</a></div>
-  <form className="rfq-form" onSubmit={submit} encType="multipart/form-data">
+  <form className="rfq-form" onSubmit={submit} encType="multipart/form-data" onChange={()=>{if(status==="error")submissionId.current="";}}>
    <div className="rfq-form-grid">
     <label className="rfq-field rfq-wide">01 / What can we manufacture for you?
      <select required name="service" value={service} onChange={e=>{setService(e.target.value);setTechnicalSpec("");setTechnicalDetail("");}}>
@@ -95,9 +98,9 @@ export function QuotationRequestForm({initialService,whatsappBase,enabled,upload
    </div>
    <label className="rfq-agreement"><input name="consent" required type="checkbox" value="yes"/> I consent to sharing these enquiry details with Hexa Steel® for quotation follow-up. WhatsApp is provided by a third party.</label>
    <label className="rfq-spam-field" aria-hidden="true">Your website<input tabIndex={-1} autoComplete="off" name="website"/></label>
-   <button disabled={status==="sending"} className="button dark rfq-submit" type="submit">{status==="sending"?"Submitting request…":enabled?"Send request & receive RFQ reference":"Continue to WhatsApp with my enquiry"}</button>
+   <button disabled={status==="sending"} className="button dark rfq-submit" type="submit">{status==="sending"?"Submitting request…":enabled?"Submit RFQ & receive reference":"Continue to WhatsApp with my enquiry"}</button>
    {message&&<p className="rfq-error" role="alert">{message}</p>}
-   <p className="rfq-note">{enabled?"No account required. We email you an RFQ reference after the submission is accepted. A formal quotation follows technical review.":"No account required. Clicking Continue opens WhatsApp with your enquiry pre-filled; send the message and attach drawings in the chat. No RFQ number or confirmation email is generated through WhatsApp."}</p>
+   <p className="rfq-note">{enabled?"No account required. Your RFQ and notifications are recorded before we confirm submission. A formal quotation follows technical review.":"No account required. Clicking Continue opens WhatsApp with your enquiry pre-filled; send the message and attach drawings in the chat. No RFQ number or confirmation email is generated through WhatsApp."}</p>
   </form>
  </div>;
 }

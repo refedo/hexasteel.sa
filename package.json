@@ -9,6 +9,8 @@
     "start": "next start",
     "check": "tsc --noEmit",
     "studio": "sanity dev",
+    "test:rfq-worker": "node --check scripts/process-rfq-outbox.mjs",
+    "test:rfq-store": "node scripts/test-rfq-store.mjs",
     "test:search": "node scripts/test-search-http.mjs",
     "generate:search": "node scripts/generate-public-search.mjs",
     "prebuild": "npm run generate:search"
@@ -20,8 +22,8 @@
     "sanity": "^4.0.0",
     "@sanity/vision": "^4.0.0",
     "next-sanity": "^11.0.0",
-    "pg": "^8.13.1",
-    "@aws-sdk/client-s3": "^3.800.0"
+    "pg": "^8.13.3",
+    "@aws-sdk/client-s3": "^3.821.0"
   },
   "devDependencies": {
     "typescript": "^5.7.3",

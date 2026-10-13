@@ -62,6 +62,7 @@ export async function persistRfq(input:{
  const client=await connection().connect();
  const uploaded:string[]=[];
  let committed=false;
+ let commitAttempted=false;
  try{
   await client.query("BEGIN");
   await client.query("SELECT pg_advisory_xact_lock(hashtext($1))",[input.idempotencyKey]);
@@ -81,7 +82,7 @@ export async function persistRfq(input:{
    await s3.send(new PutObjectCommand({
     Bucket:bucket,Key:key,Body:new Uint8Array(doc.bytes),ContentType:"application/octet-stream",
     ServerSideEncryption:"AES256",Metadata:{sha256:doc.sha256},
-   }));
+   }),{abortSignal:AbortSignal.timeout(15000)});
    uploaded.push(key);
    manifest.push({key,filename:doc.filename,bytes:doc.bytes.byteLength,sha256:doc.sha256});
   }
@@ -121,14 +122,22 @@ export async function persistRfq(input:{
       VALUES ($1,$2,$3,$4,$5,$6)`,
     [input.lead.reference,entry.kind,entry.address,entry.reply,entry.subject,entry.body]);
   }
+  commitAttempted=true;
   await client.query("COMMIT");committed=true;
   return {reference:input.lead.reference,replayed:false};
  }catch(e){
-  if(!committed)await client.query("ROLLBACK").catch(()=>{});
-  if(!committed&&uploaded.length){
+  // A connection failure during COMMIT is ambiguous; do not delete documents
+  // that may already be referenced by a committed RFQ. Handle orphans offline.
+  let rolledBack=false;
+  if(!committed&&!commitAttempted){try{await client.query("ROLLBACK");rolledBack=true;}catch{}}
+  if(rolledBack&&uploaded.length){
    await Promise.allSettled(uploaded.map(Key=>objectStorage().send(
     new DeleteObjectCommand({Bucket:process.env.RFQ_FILES_BUCKET!,Key}))));
   }
   throw e;
- }finally{client.release();}
+ }finally{
+  // An interrupted COMMIT can leave session state indeterminate.
+  // Destroy the connection instead of returning it to the reusable pool.
+  client.release(commitAttempted&&!committed);
+ }
 }
