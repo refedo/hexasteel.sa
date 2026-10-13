@@ -25,12 +25,12 @@ export const qualificationLogos:Record<string,{url:string;source:string}> = {
   source:"https://qiddiya.com/media-centre/media-centre-listing/qiddiya-announces-pioneering-sports-entertainment-and-culture-stadium-in-qiddiya-city/"
  },
  "New Murabba":{
-  url:"https://saudipedia.com/var/site/storage/images/3/6/8/5/1265863-1-eng-GB/b75f0b340b38-93682.jpg",
-  source:"https://saudipedia.com/en/new-murabba-development-company"
+  url:"https://idcs-f1b8ccae5d7d4c78afee5602a8f1e58b.identity.oraclecloud.com/storage/v1/public/images/202503100956/1741600599776/New_Murabba_logo_EN_RGB_SOLID.png",
+  source:"https://newmurabba.com/en/"
  },
  "MODON":{
-  url:"https://wsc.com.sa/media/nwriwybq/1-%D9%A1%D9%A5.jpg",
-  source:"https://www.wsc.com.sa/en/our-clients/"
+  url:"https://static.swapcard.com/public/images/14d3e70a20cb4d54894b31494c6f503c.png",
+  source:"https://sif.saudisf.com/event/sport-investment-forum/exhibitor/RXhoaWJpdG9yXzI0MzUzOTU%3D"
  },
  "Water Transmission Company (WTCO)":{
   url:"https://www.mewa.gov.sa/_layouts/MEWAHandler/MEWAHandler.ashx?height=690&imageUrl=%2Far%2FMinistry%2FAboutMinistry%2FMinistryOfficials%2FPublishingImages%2FLists%2FAgentInformation%2FAllItems%2FWTC-Logo.png.png&type=GetImage&width=1920",
