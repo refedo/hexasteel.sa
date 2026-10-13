@@ -1,8 +1,7 @@
 import Link from "next/link";
 import {brand, values, machines, insights, articles} from "@/content/site";
 import {DeliveryTimeline} from "@/components/DeliveryTimeline";
-
-const Photo = ()=> <div className="hero-photograph" role="img" aria-label="Crane and site crew installing structural steel beams on a multi-level steel frame"><div className="hero-photo-shade"/><div className="hero-photo-label">STRUCTURAL STEEL / PROJECT EXECUTION <span>ILLUSTRATIVE PHOTOGRAPH · XIAO LIANG / UNSPLASH</span></div></div>;
+import {HeroSlider} from "@/components/HeroSlider";
 
 export default function Home(){
 return <main>
@@ -12,10 +11,12 @@ return <main>
       <p className="hero-subtitle">Built for confidence.</p>
       <p className="hero-description">Structural steel and pre-engineered buildings backed by engineered solutions, documented quality, disciplined project management and controlled site execution.</p>
       <div className="hero-actions"><Link className="button signal" href="/request-quotation">Request a quotation ↗</Link><Link href="/projects" className="quiet-link">Explore our projects ↗</Link></div>
-    </div><Photo/>
+    </div><HeroSlider/>
   </div><div className="shell hero-stages"><span>ENGINEERING</span><span>OPERATIONS</span><span>SITE</span><small>7 ACTIVITIES · 3 INTEGRATED STAGES</small></div></section>
 
   <section className="trust-line" aria-label="Qualifications and industrial engagement"><div className="shell trust-line-inner"><div className="trust-line-heading"><small>OUR TRACK RECORD</small><strong>Trust, demonstrated.</strong></div><div className="trust-line-facts"><span>ARAMCO <small>Manufacturer Approval</small></span><span>MODON <small>Accredited · Projects Delivered</small></span><span>PIF AMP <small>Cohort #1 · 2024</small></span><span>ISO SYSTEMS <small>9001 · 14001 · 45001</small></span></div></div></section>
+
+  <section className="ambition-banner"><div className="shell ambition-banner-inner"><span>OUR AMBITION</span><strong>To become Saudi Arabia's #1 mid-sized steel fabrication company—through ambition, aspiration, quality, and continuous development.</strong></div></section>
 
   <section className="section" id="solutions"><div className="shell">
     <div className="section-intro"><p className="eyebrow">01 / OUR SOLUTIONS</p><h2>Built for complexity.<br/><span>Made for industry.</span></h2><p>Two equally important disciplines, supported by one engineering and delivery culture.</p></div>
@@ -40,7 +41,7 @@ return <main>
 
   <section className="section" id="machines"><div className="shell"><div className="section-intro"><p className="eyebrow">04 / STEEL SERVICES & MACHINERY</p><h2>Manufacturing<br/><span>by design.</span></h2><p>Laser cutting, automatic built-up welding and C/Z purlin forming bring speed, consistency and greater process control.</p></div>
   <div className="service-capability-grid">{machines.map((m,i)=><Link href={"/capabilities/machinery#"+m.slug} key={m.slug} className="service-capability"><span className="service-capability-index">0{i+1} / {m.type}</span><div className="service-capability-symbol" aria-hidden="true">{m.headline}</div><h3>{m.name}</h3><p>{m.service}</p><span className="capability-link">Explore service ↗</span></Link>)}</div>
-  <div className="feature-strip"><div><h3>Production, expressed in tonnes.</h3><p>Approximately 2,250 tonnes in 2025 (management-reported historic output, pending verification). Current sustainable monthly capacity varies by product mix, manpower, handling and coating bottlenecks; the confirmed rate will be published following a production capacity assessment.</p></div><Link href="/capabilities/machinery">Manufacturing capabilities ↗</Link></div>
+  <div className="feature-strip"><div><p className="eyebrow on-dark">CAPACITY THROUGH CAPABILITY</p><h3>People. Machinery. Processes.</h3><p>Our integrated engineering, fabrication and production teams—supported by precision manufacturing technology and managed workflows—enable Hexa Steel® to fabricate <strong>thousands of tonnes of structural steel every year</strong>, with production planned around each project's requirements and delivery commitments.</p></div><Link href="/capabilities/machinery">Explore what we manufacture ↗</Link></div>
   </div></section>
 
   <section className="section coating-teaser"><div className="shell coating-teaser-grid"><div><p className="eyebrow">05 / COATING & FIRE PROTECTION</p><h2>Protection specified.<br/>Execution controlled.</h2><p>Project-specific coating coordination across epoxy protective systems, intumescent fireproofing and cementitious fire protection, supported by surface-preparation controls and DFT verification.</p><Link className="text-link" href="/capabilities/coating">Explore coating solutions ↗</Link></div><div className="coating-stacks"><span>01 / EPOXY SYSTEMS</span><span>02 / INTUMESCENT PAINT</span><span>03 / CEMENTITIOUS FIRE PROTECTION</span><span>04 / INSPECTION & DOCUMENTATION</span></div></div></section>
