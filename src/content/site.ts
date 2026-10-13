@@ -105,7 +105,7 @@ export const articles=[
     ["Operations: Procurement to delivery","Align procurement lead times with cutting, fabrication, welding, inspection, coating, packing and planned dispatch dates."],
     ["Site: Erection and handover","Establish method statements, lifting plans, site access, survey controls, alignment, bolting and safety measures. Erection may be delivered by qualified subcontractors under Hexa management where contracted."],
     ["Managing constraints","Use progress tracking, RFIs, NCRs, critical-path reviews and evidence-based coordination to bring deviations to the surface early."]
-  ]}
+  ]},
   {slug:"steel-grades-traceability",category:"Materials & Quality Guide",title:"Steel Grades, Heat Numbers & Material Traceability",intro:"A practical guide to material standards, mill certificates, grade selection, yield strength, heat-number control and traceability in structural steel fabrication.",sections:[
     ["Understand grades before selecting material","Common structural steel specifications include ASTM A36 and A572, EN 10025 S235/S275/S355 and project-specific materials. These grades are not interchangeable without an engineering assessment of mechanical, chemical, welding and toughness requirements."],
     ["Yield strength versus tensile strength","Yield strength describes the stress at which permanent deformation begins; ultimate tensile strength describes the maximum stress before necking or fracture. Design codes specify how material properties are used with applicable resistance factors and load combinations."],
