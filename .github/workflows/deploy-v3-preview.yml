@@ -27,8 +27,8 @@ jobs:
       - name: Install, typecheck and build
         env:
           NEXT_PUBLIC_SITE_URL: https://hexasteel.sa
-          NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ vars.SANITY_PROJECT_ID }}
-          NEXT_PUBLIC_SANITY_DATASET: ${{ vars.SANITY_DATASET || 'production' }}
+          NEXT_PUBLIC_SANITY_PROJECT_ID: ik7morln
+          NEXT_PUBLIC_SANITY_DATASET: production
         run: |
           npm install --no-audit --no-fund
           npm run check
@@ -89,7 +89,7 @@ jobs:
             mkdir -p "$RELEASE"
             tar -xzf "$BUNDLE" -C "$RELEASE"
             test -f "$RELEASE/server.js"
-            export PORT=4500 HOSTNAME=127.0.0.1 NODE_ENV=production
+            export PORT=4500 HOSTNAME=127.0.0.1 NODE_ENV=production NEXT_PUBLIC_SANITY_PROJECT_ID=ik7morln NEXT_PUBLIC_SANITY_DATASET=production
             completed=no
             rollback() {
               if [ "$completed" != yes ]; then

@@ -8,7 +8,7 @@ export const accentOptions = [
 ] as const;
 const fallback="#C6D547";
 export async function getAccentColor(): Promise<string> {
-  const id=process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+  const id=process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "ik7morln";
   const dataset=process.env.NEXT_PUBLIC_SANITY_DATASET||"production";
   if(!id)return fallback;
   try{

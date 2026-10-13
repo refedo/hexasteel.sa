@@ -6,7 +6,7 @@ type Project = (typeof references)[number];
 type Insight = (typeof insights)[number];
 type Article = (typeof articles)[number];
 
-const projectId=process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+const projectId=process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "ik7morln";
 const dataset=process.env.NEXT_PUBLIC_SANITY_DATASET||"production";
 const client=projectId ? createClient({projectId,dataset,apiVersion:"2025-02-01",useCdn:true}) : null;
 const siteQuery='*[_type=="siteSettings" && _id=="siteSettings"][0]{ "heroHeadline":heroHeadline.en, "heroDescription":heroDescription.en, "ambition":ambition.en, "heroSlides":heroSlides[]{"src":asset.asset->url,"alt":alt,"title":title,"credit":credit} }';

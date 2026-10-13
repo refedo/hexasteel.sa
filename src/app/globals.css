@@ -675,3 +675,7 @@ p{line-height:1.65}
 .site-search-page-input button{padding:13px}
 }
 @media(prefers-reduced-motion:reduce){.capability-narrative-tabs button,.header-search,.site-search-result{transition:none}}
+
+/* Keep Sanity's editorial workspace isolated from the corporate navigation. */
+body:has(.hexa-studio) > .site-header,body:has(.hexa-studio) > .site-footer{display:none}
+.hexa-studio{min-height:100dvh;background:#fff}
