@@ -37,16 +37,16 @@ export const qualificationLogos:Record<string,{url:string;source:string}> = {
   source:"https://www.mewa.gov.sa/ar/Partners"
  },
  "Red Sea Global":{
-  url:"https://upload.wikimedia.org/wikipedia/commons/5/55/RSG_Logo.png",
-  source:"https://commons.wikimedia.org/wiki/File:RSG_Logo.png"
+  url:"https://www.redseaglobal.com/documents/d/guest/rsg_en_rgb_horizontal-png",
+  source:"https://www.redseaglobal.com/en/"
  },
  "Alfanar":{
-  url:"https://upload.wikimedia.org/wikipedia/commons/f/f7/Alfanar_brand_logo.png",
-  source:"https://commons.wikimedia.org/wiki/File:Alfanar_brand_logo.png"
+  url:"https://images.seeklogo.com/logo-png/54/1/al-fanar-company-logo-png_seeklogo-541300.png",
+  source:"https://seeklogo.com/vector-logo/541300/al-fanar-company"
  },
  "Saudi Electricity Company (SEC)":{
-  url:"https://upload.wikimedia.org/wikipedia/commons/5/5e/Logo_Saudi_Electric_Company.svg",
-  source:"https://commons.wikimedia.org/wiki/File:Logo_Saudi_Electric_Company.svg"
+  url:"https://saudipedia.com/en/saudipediaen/uploads/images/2024/05/29/60633.jpg",
+  source:"https://saudipedia.com/en/article/956/economy-and-business/companies/saudi-electricity-company"
  },
  "SEVEN Entertainment":{
   url:"https://images.seeklogo.com/logo-png/54/1/seven-saudi-entertainments-venture-logo-png_seeklogo-549975.png?v=1957817327588210208",
