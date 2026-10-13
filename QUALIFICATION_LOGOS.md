@@ -11,8 +11,8 @@ CMS-approved Sanity images supersede the initial sourced entries.
 | Maaden | Wikimedia Commons, historical company report logo | Confirm current identity before production |
 | National Water Company (NWC) | Wikimedia Commons, original official NWC site | Commons notes CC BY-SA 4.0, attribution and identity confirmation required |
 | Qiddiya | Qiddiya-owned Scene7 official brand image | Distinguish Qiddiya City brand from earlier Qiddiya Investment Company marks |
-| New Murabba | Saudipedia brand coverage | Confirm official brand version and usage rights |
-| MODON | Saudi construction partner WSC media site | Reconfirm current mark from MODON before production |
+| New Murabba | New Murabba official logo asset published via Oracle Cloud brand image | Confirm official brand version and usage rights |
+| MODON | Official Saudi MODON exhibitor artwork published via Swapcard | Correct Saudi MODON bilingual mark; confirm publication rights before production |
 | Water Transmission Company (WTCO) | Saudi Ministry of Environment, Water and Agriculture official partners page | Check image endpoint availability |
 | Red Sea Global | Wikimedia Commons, logo attributed to RSG | Verify brand currentness |
 | Alfanar | Wikimedia Commons, alfanar corporate mark | Commons CC BY-SA 4.0; source attribution required |
@@ -25,5 +25,5 @@ CMS-approved Sanity images supersede the initial sourced entries.
 - A logo does not establish supplier registration, manufacturer approval, or project award. Continue displaying company-reported relationship/scope beside each logo.
 - Before approval to deploy: visually check the actual files in a browser and validate use rights, particularly Saudi Aramco, and source/attribution obligations. We cannot independently authenticate private approval certificates.
 - A CMS-published logo requires `approvedForWeb`, `verifiedScope`, `logoUseAuthorized` and a Sanity image; approved uploads replace curated sources.
-- Re-host all approved masters in Sanity after rights/source verification to eliminate remote-link breakage. The initial candidate URLs are hotlinked public references, and **render checks do not establish remote-link uptime**.
+- Re-host all approved masters in Sanity after rights/source verification to eliminate remote-link breakage. The curated image URLs are remote references (mostly canonical image CDN URLs), and **render checks do not establish remote-link uptime**.
 - If any source is invalid or usage is not approved, withdraw that candidate and publish the corresponding text-only qualification until the correct artwork is cleared.
