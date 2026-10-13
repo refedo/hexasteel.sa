@@ -13,7 +13,8 @@
     "test:rfq-store": "node scripts/test-rfq-store.mjs",
     "test:search": "node scripts/test-search-http.mjs",
     "generate:search": "node scripts/generate-public-search.mjs",
-    "prebuild": "npm run generate:search"
+    "prebuild": "npm run generate:search",
+    "test:logos": "node scripts/test-logos-http.mjs"
   },
   "dependencies": {
     "next": "^15.5.0",
