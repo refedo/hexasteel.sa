@@ -1,0 +1,38 @@
+name: Diagnose HEXA CMS accent synchronization
+on:
+  push:
+    branches: [rebuild/website-v3]
+    paths: [.github/workflows/diagnose-cms-accent.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: Query published Sanity accent and public homepage
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fsSL --connect-timeout 8 --max-time 25 \
+            -G 'https://ik7morln.api.sanity.io/v2025-02-01/data/query/production' \
+            --data-urlencode 'query=*[_type=="siteSettings"]{_id,accentColor}' \
+            -o /tmp/sanity-settings.json
+          python3 - <<'PY'
+          import json
+          data=json.load(open('/tmp/sanity-settings.json'))
+          records=data.get("result",[])
+          print("Sanity published siteSettings:", [{"id": x.get("_id"),"accent":x.get("accentColor")} for x in records])
+          PY
+          for suffix in '' '?cms-review=1'; do
+            curl -fsSL --connect-timeout 8 --max-time 25 -D /tmp/home-headers -o /tmp/home-html "https://hexasteel.sa/$suffix"
+            python3 - <<'PY'
+          import re
+          html=open('/tmp/home-html').read()
+          print("Homepage inline body styles:",re.findall(r'<body[^>]*>',html)[:1])
+          for token in ['--signal:#CDD3D8','--signal:#C6D547','--signal:#cdd3d8','--signal:#c6d547']:
+              print(f"HTML token {token}: {token in html}")
+          PY
+            grep -iE '^(x-nextjs-cache|x-cache|cache-control|age):' /tmp/home-headers || true
+          done
