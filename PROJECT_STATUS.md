@@ -5,9 +5,9 @@
 **Repository:** [refedo/hexasteel.sa](https://github.com/refedo/hexasteel.sa)  
 **Working branch:** `rebuild/website-v3` (never merge to `main` without approval)  
 **Review domain:** https://hexasteel.sa (pre-launch)  
-**Last verified application release:** `d7c1f3d` (CMS theme cache improvement); [DigitalOcean deployment passed](https://github.com/refedo/hexasteel.sa/actions/runs/38426349900)  
-**External verification:** [Sanity theme matches live page; 30s cache confirmed](https://github.com/refedo/hexasteel.sa/actions/runs/38427221666)  
-**Current implementation baseline:** `d7c1f3d` (Sanity Studio, global search, editable theme and 30-second visual cache).
+**Last verified application release:** `a936a6f` (V3.8 corporate redesign); [DigitalOcean deployment passed](https://github.com/refedo/hexasteel.sa/actions/runs/38450949331)  
+**External verification:** [V3.8 pages and client confidentiality check passed](https://github.com/refedo/hexasteel.sa/actions/runs/38451975065)  
+**Current implementation baseline:** `a936a6f` (focused homepage, sticky dropdown menus, client-safe projects, new services, CMS field audit).
 
 ## Change log — V3.7 (2026-10-13)
 
@@ -72,9 +72,36 @@
 
 ---
 
+## Accepted V3.8 release — 13 October 2026
+
+**Application:** [a936a6f](https://github.com/refedo/hexasteel.sa/commit/a936a6f3692b88847ce0578c4e2422557bb651d8); **DigitalOcean activation:** [passed](https://github.com/refedo/hexasteel.sa/actions/runs/38450949331).  
+**Independent external test:** [passed](https://github.com/refedo/hexasteel.sa/actions/runs/38451975065), validating homepage, project status, no listed confidential names in the portfolio or query, Company and new services pages, coating C2/C3/C4/C5 and AISC/MBMA/AWS D1.1 information.
+
+**Delivered:**
+- Homepage significantly reduced to slider, trust indicators, company market-position statement, Why Hexa (agility / quality / speed / supply chain), and commercial CTA.
+- Company ranking published as **Hexa's corporate positioning**, not as an independently verified ranking. \`300+\` completed projects and annual production language are **management-reported statements** requiring supporting evidence before broader public claims.
+- Sticky responsive top navigation with desktop and mobile dropdowns, reorganized Products & Services, Company, Knowledge Centre.
+- Added missing \`/company\` landing page and Who We Are, Approvals and Careers. Added service pages for Supply Chain, Steel Design & Detailing, Steel Fabrication, Pipes & Vessels, and revised Coating & Galvanization page with C2–C5 as ISO 12944 environmental categories.
+- Portfolio anonymization extends across project index, individual cases, metadata, URL slugs and global search. Completed / Ongoing tags populated where reported; four older reference statuses still require project-owner confirmation.
+- New Knowledge Centre technical guide covering steel grades, strengths, heat numbers, MTCs, material traceability and project-specific AISC/MBMA/AWS D1.1 applicability.
+- Sanity models now provide publication-gated, anonymous project fields; optional CMS-driven trust indicators, header tagline, market statement and verified approval entries. Details in [CMS_FIELD_AUDIT.md](CMS_FIELD_AUDIT.md).
+- **Sanity public privacy check:** zero project records containing a populated legacy \`client\` field returned by external API query on 13 October 2026.
+- No merge to \`main\`. Independent browser/device visual acceptance still outstanding.
+
+**Open risks / not yet complete:**
+- Verify documentary basis for any market leader/ranking, \`300+\` total projects, approval/registration scopes and current certification validity.
+- Obtain genuine Hexa-approved project and event images, and decide which customer project information can be published, if any.
+- CMS coverage remains partial: insight/article cover images, SEO metadata, project galleries, testimonials, teams, generic pages and advanced service content are not fully published from Sanity.
+- Arabic/RTL, secure RFQ/email/vendor forms, recruitment intake, responsive QA and go-live permissions remain open.
+
+**Weighted Release 1 progress estimate: 61%** (provisional workstream estimates; adjusted only after successful deployment/verification).  
+**Next milestone:** editorial media and CMS publishing completion, then secure commercial forms.
+
+---
+
 ## One-page executive summary
 
-- **Release 1 (corporate website + CMS + secure enquiry intake) completion: approximately 57%**.
+- **Release 1 (corporate website + CMS + secure enquiry intake) completion: approximately 61%**.
 - **Release 2 (advanced vendor qualification + commercial dashboard/OTS links): not started.**
 - **Release 3 (human-approved AI estimation): not started.**
 - These percentages are *management planning estimates* computed from weighted R1 workstreams. They are **not** objective code coverage, cost burn, or a claim that 44% of the entire three-release program is complete.
@@ -85,16 +112,16 @@
 
 | Workstream | Weight | Estimated work completed | Weighted contribution | Status |
 |---|---:|---:|---:|---|
-| Strategy, sitemap, blueprint | 10% | 95% | 9.50% | Mostly complete |
-| Visual system, responsive UX | 15% | 85% | 12.75% | Iterative CEO review |
-| Page architecture and interactions | 15% | 90% | 13.50% | Global search / editorial redesign verified |
-| Approved reference projects and trust proof | 10% | 35% | 3.50% | Placeholders and draft claims |
-| Connected Sanity CMS / editorial freedom | 15% | 55% | 8.25% | Studio login and brand-accent publishing verified; content flows pending |
-| Knowledge Centre, Insights and SEO content | 10% | 55% | 5.50% | Routes/draft articles live; editorial still needed |
+| Strategy, sitemap, blueprint | 10% | 97% | 9.70% | IA revised, implementation in place |
+| Visual system, responsive UX | 15% | 90% | 13.50% | Editorial layout expanded, mobile CEO review pending |
+| Page architecture and interactions | 15% | 96% | 14.40% | Sticky dropdowns, services, company, search verified |
+| Approved reference projects and trust proof | 10% | 40% | 4.00% | Portfolio anonymized; claims/evidence still pending |
+| Connected Sanity CMS / editorial freedom | 15% | 60% | 9.00% | Brand, public project and qualifications schemas wired; media/SEO pending |
+| Knowledge Centre, Insights and SEO content | 10% | 60% | 6.00% | New material grades guide; media/meta editorial work pending |
 | Arabic / English, RTL, localization | 10% | 0% | 0.00% | Not implemented |
 | Contact, secure RFQ and vendor intake | 10% | 10% | 1.00% | Contact UI exists, delivery/portal not launched |
-| Accessibility, security, QA and release sign-off | 5% | 50% | 2.50% | CI, deployment and global-search routes verified |
-| **Release 1** | **100%** | — | **57.00% ≈ 57%** | **In progress** |
+| Accessibility, security, QA and release sign-off | 5% | 60% | 3.00% | Production/privacy route verification passed; mobile & policy QA pending |
+| **Release 1** | **100%** | — | **60.60% ≈ 61%** | **In progress** |
 
 **Method:** Each row's weight × estimated row completion. Revise only after accepted deliverables and release evidence. Release 2 and Release 3 are tracked separately.
 
