@@ -52,7 +52,7 @@ function findStories(node){
    const slug=ts.isStringLiteral(item.name)?item.name.text:item.name.getText(insightAst);
    const words=[];
    function collect(n){
-    if((ts.isStringLiteral(n)||ts.isNoSubstitutionTemplateLiteral(n))&&!rejectText(n.text))words.push(n.text.replace(/\\s+/g," ").trim());
+    if((ts.isStringLiteral(n)||ts.isNoSubstitutionTemplateLiteral(n))&&!rejectText(n.text))words.push(n.text.replace(/\s+/g," ").trim());
     ts.forEachChild(n,collect);
    }
    collect(item.initializer);
