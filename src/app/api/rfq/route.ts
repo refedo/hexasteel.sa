@@ -3,7 +3,8 @@ import {randomBytes} from "node:crypto";
 import {maxFileSize,maxFiles,maxUploadTotal,rfqServices,validRfqService} from "@/lib/rfq";
 import {handoffRfqLead,rfqFileHash,scanRfqAttachment,type RfqAttachmentMetadata} from "@/lib/rfqSecurity";
 export const runtime="nodejs";
-export const maxDuration=25;
+// Two sequential attachment scans + separated Sales/customer mail + optional CRM handoff.
+export const maxDuration=60;
 const MAX_REQUEST_BODY=9*1024*1024;
 const counters=new Map<string,{reset:number;count:number}>();
 function clean(value:FormDataEntryValue|null,limit:number){
