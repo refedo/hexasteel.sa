@@ -20,3 +20,4 @@ jobs:
       - run: npm run test:rfq-store
       - run: npm run test:rfq-worker
       - run: npm run test:search
+      - run: npm run test:logos
