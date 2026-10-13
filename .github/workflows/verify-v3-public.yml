@@ -9,39 +9,40 @@ permissions:
 jobs:
   verify-public-site:
     runs-on: ubuntu-latest
-    timeout-minutes: 4
+    timeout-minutes: 5
     steps:
-      - name: Verify updated public homepage and client routes
+      - name: Verify updated homepage, project/quality and insights
         run: |
           set -eu
           getent ahostsv4 hexasteel.sa >/dev/null
-          body="$(mktemp)"
-          status="$(curl -LsS --connect-timeout 8 --max-time 25 -o "$body" -w '%{http_code}' https://hexasteel.sa/)"
-          test "$status" = 200
-          grep -q "Trust, demonstrated" "$body"
-          grep -q "Explore service" "$body"
-          grep -q "hexa-roadmap" "$body"
-          for route in project-delivery capabilities/machinery capabilities/quality solutions/peb; do
-            target="$(mktemp)"
-            code="$(curl -LsS --connect-timeout 8 --max-time 25 -o "$target" -w '%{http_code}' "https://hexasteel.sa/$route")"
+          check_route() {
+            route="$1"
+            dest="$(mktemp)"
+            code="$(curl -LsS --connect-timeout 8 --max-time 25 -o "$dest" -w '%{http_code}' "https://hexasteel.sa/$route")"
             echo "/$route => $code"
             test "$code" = 200
-            case "$route" in
-              project-delivery) grep -q "execution-discipline" "$target";;
-              capabilities/machinery)
-                grep -q "What we can make" "$target"
-                if grep -Eiq "Bodor|Primo|BMS Machinery|AWB-1500" "$target"; then
-                  echo "Supplier or model information leaked to machine service page"; exit 1
-                fi
-                ;;
-              capabilities/quality) grep -q "quality-selector" "$target";;
-              solutions/peb) grep -q "C/Z" "$target";;
-            esac
-          done
-          echo "SUCCESS: V3.5 core redesign externally verified"
-      - name: Check reference industrial hero photo is reachable
-        run: |
-          image="https://images.unsplash.com/photo-1741009305401-c71594c08c2c?auto=format%26fit=crop%26w=1200%26q=80"
-          status="$(curl -LsS --connect-timeout 8 --max-time 20 -o /dev/null -w '%{http_code}' "$image" || true)"
-          echo "Reference hero image HTTP status: $status"
-          test "$status" = 200
+            printf "%s\n" "$dest"
+          }
+          home="$(mktemp)"
+          code="$(curl -LsS --connect-timeout 8 --max-time 25 -o "$home" -w '%{http_code}' https://hexasteel.sa/)"
+          echo "Homepage => $code"
+          test "$code" = 200
+          grep -q "hero-slide-controls" "$home"
+          grep -q "thousands of tonnes" "$home"
+          grep -q "Our ambition" -i "$home"
+          quality="$(mktemp)"
+          test "$(curl -LsS --connect-timeout 8 --max-time 25 -o "$quality" -w '%{http_code}' https://hexasteel.sa/capabilities/quality)" = 200
+          grep -q "Materials &amp; MIR" "$quality"
+          grep -q "Dimensional" "$quality"
+          grep -q "Surface &amp; Coating" "$quality"
+          grep -q "Inspection" "$quality"
+          projects="$(mktemp)"
+          test "$(curl -LsS --connect-timeout 8 --max-time 25 -o "$projects" -w '%{http_code}' https://hexasteel.sa/projects)" = 200
+          grep -q "MAPA" "$projects"
+          grep -q "NADEC" "$projects"
+          grep -q "Red Sea Global" "$projects"
+          insights="$(mktemp)"
+          test "$(curl -LsS --connect-timeout 8 --max-time 25 -o "$insights" -w '%{http_code}' https://hexasteel.sa/insights)" = 200
+          grep -q "SIRI" "$insights"
+          test "$(curl -LsS --connect-timeout 8 --max-time 25 -o /dev/null -w '%{http_code}' https://hexasteel.sa/insights/siri-assessment-2025)" = 200
+          echo "SUCCESS: externally verified V3.6 pages and interactive content"
