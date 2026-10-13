@@ -14,9 +14,9 @@ CMS-approved Sanity images supersede the initial sourced entries.
 | New Murabba | New Murabba official logo asset published via Oracle Cloud brand image | Confirm official brand version and usage rights |
 | MODON | Official Saudi MODON exhibitor artwork published via Swapcard | Correct Saudi MODON bilingual mark; confirm publication rights before production |
 | Water Transmission Company (WTCO) | Saudi Ministry of Environment, Water and Agriculture official partners page | Check image endpoint availability |
-| Red Sea Global | Wikimedia Commons, logo attributed to RSG | Verify brand currentness |
-| Alfanar | Wikimedia Commons, alfanar corporate mark | Commons CC BY-SA 4.0; source attribution required |
-| Saudi Electricity Company (SEC) | Wikimedia Commons, logo sourced from SEC contractor handbook | Verify brand currentness |
+| Red Sea Global | Red Sea Global's own corporate media logo asset | Verify brand currentness |
+| Alfanar | Alfanar corporate mark mirrored by Seeklogo | Commons CC BY-SA 4.0; source attribution required |
+| Saudi Electricity Company (SEC) | Saudi Electricity Company brand image from Saudipedia | Verify brand currentness |
 | SEVEN Entertainment | Seeklogo listing for SEVEN Saudi Entertainment Ventures | Confirm current mark, reproduction rights and image availability |
 
 ## Publishing and verification
