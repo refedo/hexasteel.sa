@@ -37,6 +37,7 @@ export function SiteNavigation(){
      {"children" in item && item.children?<><div className="hexa-nav-mobile-parent"><Link href={item.href} onClick={close}>{item.label}</Link><button type="button" aria-label={"Show "+item.label+" sections"} aria-expanded={sub===item.href} onClick={()=>setSub(v=>v===item.href?null:item.href)}>{sub===item.href?"−":"+"}</button></div>{sub===item.href&&<div className="hexa-nav-mobile-children">{item.children.map(child=><Link href={child.href} key={child.href} onClick={close}>{child.label}</Link>)}</div>}</>:
       <Link href={item.href} onClick={close} className="hexa-nav-mobile-direct">{item.label}</Link>}
    </div>)}
+   <Link className="hexa-nav-mobile-direct" href="/search" onClick={close}>Search website</Link>
    <Link className="hexa-nav-mobile-direct" href="/contact" onClick={close}>Contact Us</Link>
    <Link className="hexa-nav-mobile-rfq" href="/request-quotation" onClick={close}>Request a quotation</Link>
   </nav></>}

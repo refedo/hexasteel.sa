@@ -25,13 +25,13 @@ export default async function Home(){
      <h1>{settings.heroHeadline||<>ENGINEERED<br/>WITH <em>PRECISION.</em></>}</h1>
      <p className="hero-subtitle">Built for confidence.</p>
      <p className="hero-description">{settings.heroDescription||"Structural steel and pre-engineered buildings delivered with technical agility, premium quality and disciplined project execution."}</p>
-     <div className="hero-actions"><Link className="button signal" href="/request-quotation">Request a quotation ↗</Link><Link className="quiet-link" href="/products-services">Explore our services ↗</Link></div>
+     <div className="hero-actions"><Link className="button signal" href="/request-quotation">Request a quotation</Link><Link className="quiet-link" href="/products-services">Explore our services</Link></div>
    </div><HeroSlider slides={settings.heroSlides}/></div></section>
    <section className="home-trust" aria-label="HEXA Steel track record and capabilities">
     <div className="shell"><div className="home-section-heading"><p className="eyebrow">TRUST INDICATORS</p><h2>Built on capability.<br/><span>Measured by delivery.</span></h2></div>
       <div className="trust-proof-grid">{trustIndicators.map(item=><div className="trust-proof" key={item.symbol}><span className="trust-proof-n">{item.symbol}</span><strong>{item.figure}</strong><span className="trust-proof-unit">{item.unit}</span><p>{item.description}</p></div>)}</div>
       
-      <div className="trust-approval-link"><span>ARAMCO · MODON · MAADEN · NWC · QIDDIYA · NEW MURABBA</span><Link href="/company/approvals">Explore approvals & qualifications ↗</Link></div>
+      <div className="trust-approval-link"><span>ARAMCO · MODON · MAADEN · NWC · QIDDIYA · NEW MURABBA</span><Link href="/company/approvals">Explore approvals & qualifications</Link></div>
     </div>
    </section>
    <section className="home-market-position"><div className="shell">
@@ -44,7 +44,7 @@ export default async function Home(){
     <p>Our values are not wall statements. Science, Quality, Flexibility, Trust and Simplicity shape how we respond, manufacture and deliver.</p>
    </div>
    <div className="edge-editorial">{advantages.map(a=><article className="edge-row" key={a.number}><span className="edge-no">{a.number}</span><div><span className="eyebrow">{a.principle}</span><h3>{a.title}</h3></div><p>{a.description}</p></article>)}</div>
-   <div className="edge-links"><Link href="/company/about">Who we are ↗</Link><Link href="/project-delivery">Project delivery ↗</Link><Link href="/services/supply-chain">Supply chain ↗</Link><Link href="/capabilities/quality">Quality controls ↗</Link></div></div></section>
-   <section className="closing"><div className="shell closing-grid"><div><p className="eyebrow">YOUR NEXT STEEL PROJECT STARTS HERE</p><h2>Agility. Quality. On-time delivery.</h2></div><Link href="/request-quotation" className="button dark">Discuss your project ↗</Link></div></section>
+   <div className="edge-links"><Link href="/company/about">Who we are</Link><Link href="/project-delivery">Project delivery</Link><Link href="/services/supply-chain">Supply chain</Link><Link href="/capabilities/quality">Quality controls</Link></div></div></section>
+   <section className="closing"><div className="shell closing-grid"><div><p className="eyebrow">YOUR NEXT STEEL PROJECT STARTS HERE</p><h2>Agility. Quality. On-time delivery.</h2></div><Link href="/request-quotation" className="button dark">Discuss your project</Link></div></section>
  </main>;
 }
