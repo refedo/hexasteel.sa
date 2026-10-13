@@ -1,6 +1,7 @@
 import {NextResponse} from "next/server";
 import {randomBytes} from "node:crypto";
 import {maxFileSize,maxFiles,maxUploadTotal,rfqServices,validRfqService} from "@/lib/rfq";
+import {handoffRfqLead,rfqFileHash,scanRfqAttachment,type RfqAttachmentMetadata} from "@/lib/rfqSecurity";
 export const runtime="nodejs";
 export const maxDuration=25;
 const MAX_REQUEST_BODY=9*1024*1024;
@@ -86,11 +87,16 @@ export async function POST(request:Request){
  if(files.length>maxFiles||files.some(x=>x.size>maxFileSize)||
  files.reduce((sum,x)=>sum+x.size,0)>maxUploadTotal)return error("File limit exceeded: 2 files, max 5 MB each and 8 MB combined.",413);
  const attachments:{filename:string;content:string}[]=[];
+ const attachmentMetadata:RfqAttachmentMetadata[]=[];
  for(const [i,file] of files.entries()){
   const data=Buffer.from(await file.arrayBuffer());
   if(!validFile(file,data))return error("Unsupported file or invalid file format. Use PDF, DWG, DXF, XLSX or DOCX.",400);
+  const verdict=await scanRfqAttachment(file,data);
+  if(verdict==="unavailable")return error("Secure document scanning is temporarily unavailable. Please send your enquiry without files and contact Sales for a secure document channel.",503);
+  if(verdict==="blocked")return error("A document did not pass the security scan. Please contact Sales for an approved submission method.",422);
   const safeName=file.name.replace(/[^a-zA-Z0-9._ -]/g,"_").slice(0,90);
   attachments.push({filename:String(i+1)+"-"+safeName,content:data.toString("base64")});
+  attachmentMetadata.push({filename:safeName,sizeBytes:file.size,sha256:rfqFileHash(data)});
  }
  const reference="HX-RFQ-"+new Date().toISOString().slice(0,10).replaceAll("-","")+"-"+randomBytes(6).toString("hex").toUpperCase();
  const serviceName=rfqServices.find(x=>x.value===service)?.label||"Steel Service";
@@ -126,5 +132,11 @@ export async function POST(request:Request){
   });
  }catch{return error("Email delivery could not be confirmed. Please use WhatsApp or retry.",502);}
  if(!sent.ok)return error("We could not accept the request at this time. Please contact our sales team via WhatsApp.",502);
+ // A private CRM may be connected later; never expose customer information in Sanity or public routes.
+ const handoff=await handoffRfqLead({
+  schemaVersion:1,event:"rfq.received",reference,receivedAt:new Date().toISOString(),status:"Received",source:"website",serviceCode:service,serviceName,
+  customer:{name,company,email,phone},project:{description,quantity,unit,location,requiredDate},attachments:attachmentMetadata,
+ });
+ if(handoff==="failed")console.error("RFQ lead webhook unavailable; recover lead from Sales acknowledgement. Reference: "+reference);
  return NextResponse.json({ok:true,reference},{headers:{"Cache-Control":"no-store"}});
 }

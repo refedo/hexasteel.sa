@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "test:rfq": "node scripts/test-rfq-http.mjs",
     "start": "next start",
     "check": "tsc --noEmit",
     "studio": "sanity dev"

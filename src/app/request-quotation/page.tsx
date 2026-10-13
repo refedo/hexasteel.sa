@@ -2,6 +2,7 @@ import type {Metadata} from "next";
 import Link from "next/link";
 import {QuotationRequestForm} from "@/components/QuotationRequestForm";
 import {getPublicContact} from "@/lib/publicContact";
+import {rfqFileScanningAvailable} from "@/lib/rfqSecurity";
 export const metadata:Metadata={
  title:"Request a Quotation — Steel Services & PEB",
  description:"Request Hexa Steel® quotation for laser cutting, C/Z purlins, structural steel, PEB, fabrication and industrial steel components. Send your requirements and drawings.",
@@ -27,7 +28,7 @@ export default async function QuotationPage({searchParams}:Props){
      <p className="rfq-assurance">A formal estimation or quotation follows our technical and commercial review; the submission reference is not itself a price or contractual offer.</p>
      <Link className="text-link" href="/capabilities/machinery">Explore manufacturing services</Link>
     </div>
-    <QuotationRequestForm initialService={typeof query.service==="string"?query.service:""} whatsappBase={contact.whatsapp} enabled={enabled}/>
+    <QuotationRequestForm initialService={typeof query.service==="string"?query.service:""} whatsappBase={contact.whatsapp} enabled={enabled} uploadsEnabled={enabled&&rfqFileScanningAvailable()}/>
    </div></section>
  </main>;
 }

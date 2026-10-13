@@ -1,9 +1,9 @@
 "use client";
 import {useMemo,useState} from "react";
 import {maxFiles,maxFileSize,maxUploadTotal,rfqServices,validRfqService} from "@/lib/rfq";
-type Props={initialService:string;whatsappBase:string;enabled:boolean};
+type Props={initialService:string;whatsappBase:string;enabled:boolean;uploadsEnabled:boolean};
 type SubmitStatus="idle"|"sending"|"success"|"error";
-export function QuotationRequestForm({initialService,whatsappBase,enabled}:Props){
+export function QuotationRequestForm({initialService,whatsappBase,enabled,uploadsEnabled}:Props){
  const [service,setService]=useState(validRfqService(initialService)?initialService:"");
  const [status,setStatus]=useState<SubmitStatus>("idle");
  const [message,setMessage]=useState("");
@@ -15,12 +15,14 @@ export function QuotationRequestForm({initialService,whatsappBase,enabled}:Props
  const [scope,setScope]=useState("");
  const [location,setLocation]=useState("");
  const [company,setCompany]=useState("");
+ const [name,setName]=useState("");
  const [files,setFiles]=useState<File[]>([]);
  const whatsapp=useMemo(()=>{
   const current=rfqServices.find(item=>item.value===service);
   const msg=["Hello HEXA Steel®, I would like to request a quotation.",
    current?"Service: "+current.label:"Please advise on my steel requirements.",
    company?"Company: "+company:"",
+   name?"Contact person: "+name:"",
    contact?"Contact: "+contact:"",
    email?"Email: "+email:"",
    location?"Project location: "+location:"",
@@ -28,7 +30,7 @@ export function QuotationRequestForm({initialService,whatsappBase,enabled}:Props
    quantity?"Estimated quantity: "+quantity+" "+unit:"",
    "Please let me know how to send drawings and specifications."].filter(Boolean).join("\n");
   return whatsappBase+"?text="+encodeURIComponent(msg);
- },[service,company,contact,email,scope,location,quantity,unit,whatsappBase]);
+ },[service,company,name,contact,email,scope,location,quantity,unit,whatsappBase]);
  function updateFiles(list:FileList|null){
   const selected=Array.from(list||[]);
   setFiles(selected);
@@ -70,7 +72,7 @@ export function QuotationRequestForm({initialService,whatsappBase,enabled}:Props
       {rfqServices.map(item=><option key={item.value} value={item.value}>{item.label}</option>)}
      </select>
     </label>
-    <label className="rfq-field">Your name *<input required name="fullName" maxLength={120} autoComplete="name" placeholder="Contact person"/></label>
+    <label className="rfq-field">Your name *<input required name="fullName" maxLength={120} autoComplete="name" placeholder="Contact person" value={name} onChange={e=>setName(e.target.value)}/></label>
     <label className="rfq-field">Company *<input required name="company" maxLength={150} autoComplete="organization" placeholder="Organization" value={company} onChange={e=>setCompany(e.target.value)}/></label>
     <label className="rfq-field">Business email {enabled?"*":"(optional)"}<input required={enabled} name="email" type="email" maxLength={180} autoComplete="email" placeholder="name@company.com" value={email} onChange={e=>setEmail(e.target.value)}/></label>
     <label className="rfq-field">Mobile / WhatsApp *<input required name="phone" type="tel" maxLength={25} autoComplete="tel" placeholder="+966 …" value={contact} onChange={e=>setContact(e.target.value)}/></label>
@@ -79,9 +81,9 @@ export function QuotationRequestForm({initialService,whatsappBase,enabled}:Props
     <label className="rfq-field">Project location<input name="location" maxLength={120} placeholder="City, Saudi Arabia" value={location} onChange={e=>setLocation(e.target.value)}/></label>
     <label className="rfq-field">Required delivery date<input name="requiredDate" type="date"/></label>
     <label className="rfq-field rfq-wide">02 / Scope or instructions *<textarea required name="description" minLength={10} maxLength={3000} placeholder="Material, grade, dimensions, drawings, requested quantities and delivery constraints…" rows={5} value={scope} onChange={e=>setScope(e.target.value)}/></label>
-    {enabled?<label className="rfq-field rfq-wide">03 / Attach technical documents (optional)<input name="attachments" multiple type="file" accept=".pdf,.dwg,.dxf,.xlsx,.docx" onChange={e=>updateFiles(e.target.files)}/>
+    {enabled&&uploadsEnabled?<label className="rfq-field rfq-wide">03 / Attach technical documents (optional)<input name="attachments" multiple type="file" accept=".pdf,.dwg,.dxf,.xlsx,.docx" onChange={e=>updateFiles(e.target.files)}/>
      <small>PDF, DWG, DXF, XLSX or DOCX. Up to 2 files, 5 MB each, 8 MB total. Do not upload confidential files without authorization.</small>
-    </label>:<p className="rfq-file-guidance">Have drawings or a BOQ? Once WhatsApp opens, attach your PDF, DWG or other project files directly to the conversation.</p>}
+    </label>:<p className="rfq-file-guidance">Secure website uploads are not currently active. Submit the enquiry without attachments, then contact Sales to agree an approved document transfer method. You may use WhatsApp if authorised to share the files through that service.</p>}
    </div>
    <label className="rfq-agreement"><input name="consent" required type="checkbox" value="yes"/> I consent to sharing these enquiry details with Hexa Steel® for quotation follow-up. WhatsApp is provided by a third party.</label>
    <label className="rfq-spam-field" aria-hidden="true">Your website<input tabIndex={-1} autoComplete="off" name="website"/></label>

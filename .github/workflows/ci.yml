@@ -15,3 +15,4 @@ jobs:
       - run: npm install --no-audit --no-fund
       - run: npm run check
       - run: npm run build
+      - run: npm run test:rfq
