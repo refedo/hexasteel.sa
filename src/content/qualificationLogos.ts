@@ -17,8 +17,8 @@ export const qualificationLogos:Record<string,{url:string;source:string}> = {
   source:"https://commons.wikimedia.org/wiki/File:Ma%27aden.svg"
  },
  "National Water Company (NWC)":{
-  url:"https://upload.wikimedia.org/wikipedia/commons/2/21/National_Water_Company_Logo_2021.png",
-  source:"https://commons.wikimedia.org/wiki/File:National_Water_Company_Logo_2021.png"
+  url:"https://www.nwc.com.sa/Style%20Library/NWC2013/Images/files/nwc-logo_1.png",
+  source:"https://www.nwc.com.sa/"
  },
  "Qiddiya":{
   url:"https://s7g10.scene7.com/is/image/qic/Qiddiya%20City%20Dual%20Stacked",

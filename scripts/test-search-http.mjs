@@ -41,7 +41,7 @@ async function run(){
   }
   const approvals=await (await fetch(origin+"/company/approvals")).text();
   assert(approvals.includes("Saudi Aramco"),"Company-reported qualifications missing");
-  for(const org of ["Saudi_aramco_logo.svg","Ma%27aden.svg","National_Water_Company_Logo_2021.png","Qiddiya%20City%20Dual%20Stacked","387013_0.png","60633.jpg","seven-saudi-entertainments-venture"]){
+  for(const org of ["Saudi_aramco_logo.svg","Ma%27aden.svg","nwc-logo_1.png","Qiddiya%20City%20Dual%20Stacked","387013_0.png","60633.jpg","seven-saudi-entertainments-venture"]){
    assert(approvals.includes(org),"Missing curated organization logo: "+org);
   }
   assert.equal((approvals.match(/class="approval-logo-slot"/g)||[]).length,11,"Every reported organization must render a logo slot");

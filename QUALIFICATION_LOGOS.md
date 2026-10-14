@@ -9,7 +9,7 @@ CMS-approved Sanity images supersede the initial sourced entries.
 | --- | --- | --- |
 | Saudi Aramco | Wikimedia Commons / Saudi Aramco attribution | The official [Aramco media terms](https://www.aramco.com/en/news-media/resources-for-journalists) restrict logo use to approved third parties under their agreement; verify Hexa's right to display before production |
 | Maaden | Wikimedia Commons, historical company report logo | Confirm current identity before production |
-| National Water Company (NWC) | Wikimedia Commons, original official NWC site | Commons notes CC BY-SA 4.0, attribution and identity confirmation required |
+| National Water Company (NWC) | National Water Company official website logo source | Commons notes CC BY-SA 4.0, attribution and identity confirmation required |
 | Qiddiya | Qiddiya-owned Scene7 official brand image | Distinguish Qiddiya City brand from earlier Qiddiya Investment Company marks |
 | New Murabba | New Murabba official logo asset published via Oracle Cloud brand image | Confirm official brand version and usage rights |
 | MODON | Official Saudi MODON exhibitor artwork published via Swapcard | Correct Saudi MODON bilingual mark; confirm publication rights before production |
