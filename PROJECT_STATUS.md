@@ -1,3 +1,19 @@
+## V3.12 — Deployed and independently verified (14 October 2026)
+
+**Release status:** Developed → CI tested → deployed to `https://hexasteel.sa` → automated operational smoke tests passed. **CEO visual/brand-use acceptance remains separate.**
+
+- **Authorized scope:** Internal site-search coverage and official-identity logo display for the eleven organizations listed on Approvals. Original release isolated from unapproved V3.11 RFQ/CRM work; no RFQ route, form, database, outbox or CRM changes were deployed.
+- **Deployed application SHA:** [`1ff7d4d4423fdb6b7b8da4a9e4070f6659b5b424`](https://github.com/refedo/hexasteel.sa/commit/1ff7d4d4423fdb6b7b8da4a9e4070f6659b5b424), from isolated `feature/v312-release-search-logos-only` based on prior integration `00abfd0b`.
+- **Release CI:** [all checks passed](https://github.com/refedo/hexasteel.sa/actions/runs/38510140999): eleven logo image URL checks, generated public-page search corpus, TypeScript, Next.js build and HTTP search regressions.
+- **DigitalOcean:** [deployment and rollback-aware activation passed](https://github.com/refedo/hexasteel.sa/actions/runs/38510388261), with server readiness and public-domain health checks.
+- **Independent production evidence:** [V3.12 live verification passed](https://github.com/refedo/hexasteel.sa/actions/runs/38510789147). From an external GitHub runner, all returned HTTP 200: `/api/search`, `/search`, `/solutions/structural-steel` and `/company/approvals`. Confirmed relevant structural-steel search results for `poultr`, `poultry farms`, `mezzanine`, `metal works` and `industrial platforms`. The approvals HTML rendered eleven logo slots, all eleven organization names, and a trademark/non-endorsement disclaimer.
+- **Workflow:** `rebuild/website-v3` production branch; `main` unchanged. The subsequent workflow-only commit `f21adcfc` adds reproducible production verification and does not trigger another app deployment.
+- **Remaining controls:** Remote logo images may change independently of the build; replace them with authorized HEXA-hosted/CMS originals after formal rights/provenance checks. Current supplier/registration claims remain company reported and subject to documentary scope review. CEO mobile visual and logo correctness review remain open. Internal website search is distinct from external Google/Bing indexing.
+- **Official release progress:** **R1 = 60.60% ≈ 61%**, unchanged pending broader operational acceptance. R2/R3 separately tracked as not started.
+- **Exact stopping point:** V3.12 production deployed and external tests green. Next recommended milestone: return to the separately isolated V3.11 RFQ operations/OTS™ decision, without inadvertently activating the RFQ workflow.
+
+---
+
 ## V3.12 — CEO-authorized release candidate (14 October 2026)
 
 **Approval:** CEO expressly approved deployment of the V3.12 website search and qualification logos on hexasteel.sa via the existing GitHub–DigitalOcean pipeline. This approval does **not** include unaccepted V3.11 RFQ / CRM work.
