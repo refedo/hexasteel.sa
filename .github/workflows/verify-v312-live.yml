@@ -1,0 +1,56 @@
+name: Verify V3.12 live search and approval logos
+on:
+  push:
+    branches: [rebuild/website-v3]
+    paths: [.github/workflows/verify-v312-live.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check production search and approval logos
+        run: |
+          set -euo pipefail
+          base=https://hexasteel.sa
+          temp="$(mktemp -d)"
+          echo "Checking V3.12 production pages"
+          for term in 'poultr' 'poultry farms' 'mezzanine' 'metal works' 'industrial platforms'; do
+            code="$(curl -sSGL --retry 3 --retry-delay 2 --retry-all-errors --connect-timeout 8 --max-time 30 -o "$temp/search.json" -w '%{http_code}' "$base/api/search" --data-urlencode "q=$term")"
+            echo "API query [$term] => $code"
+            test "$code" = 200
+            python3 - "$temp/search.json" "$term" <<'PY'
+          import json,sys
+          data=json.load(open(sys.argv[1]))
+          target=[r for r in data.get("results",[]) if str(r.get("href","")).startswith("/solutions/structural-steel")]
+          if not target:
+              raise SystemExit("FAIL: no structural steel result for "+sys.argv[2])
+          print("PASS:",sys.argv[2],"->",target[0].get("href"))
+          PY
+          done
+          code="$(curl -sSL --retry 3 --retry-delay 2 --retry-all-errors --connect-timeout 8 --max-time 30 -o "$temp/results" -w '%{http_code}' "$base/search?q=poultry%20farms")"
+          echo "/search?q=poultry%20farms => $code"
+          test "$code" = 200
+          grep -q '/solutions/structural-steel' "$temp/results"
+          code="$(curl -sSL --retry 3 --retry-delay 2 --retry-all-errors --connect-timeout 8 --max-time 30 -o "$temp/structural" -w '%{http_code}' "$base/solutions/structural-steel")"
+          echo "/solutions/structural-steel => $code"
+          test "$code" = 200
+          grep -q 'Mezzanine structures' "$temp/structural"
+          grep -q 'Poultry farm structures' "$temp/structural"
+          code="$(curl -sSL --retry 3 --retry-delay 2 --retry-all-errors --connect-timeout 8 --max-time 30 -o "$temp/approvals" -w '%{http_code}' "$base/company/approvals")"
+          echo "/company/approvals => $code"
+          test "$code" = 200
+          python3 - "$temp/approvals" <<'PY'
+          import re,sys
+          html=open(sys.argv[1]).read()
+          n=len(re.findall(r'class="approval-logo-slot"',html))
+          print("Logos present in server-rendered HTML:",n)
+          if n!=11:raise SystemExit("FAIL: expected 11 approval-logo-slot elements")
+          for name in ["Saudi Aramco","Maaden","National Water Company","Qiddiya","New Murabba","MODON","Water Transmission Company","Red Sea Global","Alfanar","Saudi Electricity Company","SEVEN Entertainment"]:
+              if name not in html:raise SystemExit("Missing organization: "+name)
+          if "does not imply endorsement" not in html:raise SystemExit("Logo identification disclaimer missing")
+          print("PASS: eleven names/logos and non-endorsement disclaimer")
+          PY
+          echo "SUCCESS: V3.12 verified on hexasteel.sa"
