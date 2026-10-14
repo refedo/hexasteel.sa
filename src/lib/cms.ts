@@ -1,5 +1,6 @@
 import {createClient} from "next-sanity";
 import {articles,insights,references} from "@/content/site";
+import {qualificationLogos} from "@/content/qualificationLogos";
 import type {SearchResult} from "@/lib/searchIndex";
 
 type Project = (typeof references)[number];
@@ -56,13 +57,36 @@ export async function getCmsSearchEntries():Promise<SearchResult[]>{
  const [projects,stories,guides]=await Promise.all([getCmsProjects(),getCmsInsights(),getCmsArticles()]);
  return [
  ...projects.map(x=>({title:x.title,description:x.description,category:"Projects",href:"/projects/"+x.slug,keywords:x.category})),
- ...stories.map(x=>({title:x.title,description:x.summary,category:"Insights",href:"/insights/"+x.slug,keywords:x.category+" "+x.date})),
- ...guides.map(x=>({title:x.title,description:x.intro,category:"Knowledge",href:"/knowledge/"+x.slug,keywords:x.category+" "+x.sections.map(s=>s.heading).join(" ")}))
+ ...stories.map(x=>({title:x.title,description:x.summary,category:"Insights",href:"/insights/"+x.slug,keywords:x.category+" "+x.date+" "+(x.sections||[]).map(s=>s.heading+" "+s.body).join(" ")})),
+ ...guides.map(x=>({title:x.title,description:x.intro,category:"Knowledge",href:"/knowledge/"+x.slug,keywords:x.category+" "+x.sections.map(s=>s.heading+" "+s.body).join(" ")}))
  ];
 }
-export async function getQualifications(){
+export type PublicQualification={name:string;detail:string;logoUrl?:string;logoAlt?:string;logoSource?:string};
+export async function getQualifications():Promise<PublicQualification[]>{
  const {reportedQualifications}=await import("@/content/site");
- const live=await safeFetch<{name:string;detail:string}>('*[_type=="publicQualification" && approvedForWeb==true && verifiedScope==true]{name,detail}');
- return live.length?live.filter(x=>x.name&&x.detail):[...reportedQualifications];
+ // Keep the public, management-reported list intact when CMS has only a subset.
+ const byName=new Map<string,PublicQualification>(reportedQualifications.map(x=>{
+  const image=qualificationLogos[x.name];
+  return [x.name.toLowerCase(),{...x,logoUrl:image?.url,logoSource:image?.source,logoAlt:x.name+" official logo"}];
+ }));
+ const live=await safeFetch<{name:string;detail:string;logoUrl?:string;logoAlt?:string}>(
+  '*[_type=="publicQualification" && approvedForWeb==true && verifiedScope==true]{name,detail,"logoUrl":select(logoUseAuthorized==true=>logo.asset->url,""),logoAlt}'
+ );
+ for(const record of live){
+  if(!record.name?.trim()||!record.detail?.trim())continue;
+  const name=record.name.trim(),fallback=byName.get(name.toLowerCase());
+  // Prefer an explicitly-cleared, original CMS asset. Never accept arbitrary
+  // CMS-hosted remote URL fields or files from restricted datasets.
+  const cmsLogo=record.logoUrl?.startsWith("https://cdn.sanity.io/images/ik7morln/production/")
+   ?record.logoUrl:undefined;
+  const chosen=cmsLogo||fallback?.logoUrl;
+  byName.set(name.toLowerCase(),{
+   name,detail:record.detail,logoUrl:chosen,
+   logoSource:cmsLogo?undefined:fallback?.logoSource,
+   logoAlt:record.logoAlt?.trim()||name+" official logo"
+  });
+ }
+ return [...byName.values()];
 }
+
 export const cmsConfigured=Boolean(projectId);

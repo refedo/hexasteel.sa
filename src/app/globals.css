@@ -1033,3 +1033,15 @@ body:has(.hexa-studio) > .site-header,body:has(.hexa-studio) > .site-footer{disp
  .rfq-form-header h2{font-size:27px}
  .site-header .wordmark-reg{font-size:7px}
 }
+
+/* V3.12 — consent-gated organizational logos; preserve the text-only fallback. */
+.approval-entry.has-logo{grid-template-columns:58px minmax(110px,175px) minmax(160px,.9fr) minmax(180px,1fr) 165px;gap:20px}
+.approval-logo-slot{height:88px;width:100%;display:flex;align-items:center;justify-content:center;padding:14px;background:#fff;border:1px solid #d8e1e5}
+.approval-logo-slot img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+@media(max-width:1100px){.approval-entry.has-logo{grid-template-columns:46px minmax(100px,150px) 1fr 1fr}.approval-entry.has-logo .approval-indicator{grid-column:3/-1;text-align:left}}
+@media(max-width:720px){.approval-entry.has-logo{grid-template-columns:34px 96px minmax(0,1fr);gap:12px}.approval-entry.has-logo .approval-logo-slot{height:74px;padding:9px}.approval-entry.has-logo h3{grid-column:3;min-width:0;font-size:clamp(19px,4vw,25px)}.approval-entry.has-logo p,.approval-entry.has-logo .approval-indicator{grid-column:2/-1}.approval-entry.has-logo .approval-indicator{padding-top:2px}}
+
+/* V3.12: qualification source/rights note and deep-linked steel range. */
+.approvals-mark-disclaimer{margin:25px 0 0;color:#657b87;font-size:12px;line-height:1.7;max-width:920px}
+.component-glossary article[id]{scroll-margin-top:110px}
+.component-glossary article:target{outline:2px solid #68879b;outline-offset:4px}

@@ -177,6 +177,9 @@ const publicQualification=defineType({name:"publicQualification",title:"Public Q
  defineField({name:"name",type:"string",validation:r=>r.required()}),
  defineField({name:"category",type:"string",options:{list:["Manufacturer Approval","Supplier Registration","Prequalification","Accreditation","Certification","Other"]},validation:r=>r.required()}),
  defineField({name:"detail",type:"string",title:"Public Scope and Status",validation:r=>r.required()}),
+ defineField({name:"logo",type:"image",title:"Official Organization Logo",options:{hotspot:false},description:"Upload a genuine, source-verified logo. Logos are not automatically published."}),
+ defineField({name:"logoAlt",type:"string",title:"Logo alternative text",description:"e.g., Saudi Aramco logo"}),
+ defineField({name:"logoUseAuthorized",type:"boolean",title:"Logo rights and publication clearance confirmed",initialValue:false,description:"Obtain permission or confirm applicable nominative use and brand guidelines. Never imply endorsement or an approval beyond the supported scope."}),
  defineField({name:"verifiedScope",type:"boolean",initialValue:false,description:"Scope and current status verified against official documentation."}),
  defineField({name:"approvedForWeb",type:"boolean",initialValue:false,description:"Cleared for public release."})
 ]});
