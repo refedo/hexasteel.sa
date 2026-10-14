@@ -1,4 +1,18 @@
-## V3.13 — Relocate Supply Chain under Project Delivery (14 October 2026)
+## V3.13 — Deployed and externally verified (14 October 2026)
+
+**Authorized release:** The CEO approved direct deployment of the V3.13 Supply Chain relocation to `hexasteel.sa`, without merging to `main`.
+
+- **Planned vs. delivered:** The standalone Procurement/Supply Chain item was removed from the main Products & Services navigation, the services catalogue and footer. Its four substantive sections (Strategic Sourcing, Project Procurement, Quality at Receipt and Logistics) were moved into `/project-delivery#procurement`. Homepage and site-search links now point there; the retired `/services/supply-chain` route responds with permanent HTTP 308 redirect; sitemap excludes the retired URL.
+- **Branch/PR:** [PR #15](https://github.com/refedo/hexasteel.sa/pull/15) integrated **only into** `rebuild/website-v3`. Deployed application commit: [`6f9a7d3`](https://github.com/refedo/hexasteel.sa/commit/6f9a7d345d1aff84e541fe393f3902b5a62b1e42). `main` was not touched.
+- **Testing:** [Production-branch CI passed](https://github.com/refedo/hexasteel.sa/actions/runs/38511613010), including TypeScript, Next.js build, unit tests, HTTP full-site search regressions, and V3.12 logo checks. [DigitalOcean activation passed](https://github.com/refedo/hexasteel.sa/actions/runs/38511612999), including rollback-safe deployment, server readiness and direct-domain health verification. [Independent production verification passed](https://github.com/refedo/hexasteel.sa/actions/runs/38511951704): public HTTP 308 redirect and correct Location, live procurement page and four content panels, services navigation/catalogue removal, homepage canonical link, search result, sitemap, and continued V3.12 search/eleven approval-logo slots.
+- **Release state:** Developed ✓ → Tested ✓ → Integrated into `rebuild/website-v3` ✓ → Deployed to `hexasteel.sa` ✓ → Automated live checks ✓. Final CEO device/visual and commercial/editorial sign-off is **not yet recorded**.
+- **Pending:** Visual checks on physical mobile/tablet devices (including mobile menu behavior); broader V3.12 qualification-logo provenance/right-to-use approvals. V3.11 RFQ and CRM work in PR #12 remains separate and is not approved by V3.13.
+- **R1 official progress:** **60.60% ≈ 61%, unchanged**; R2/R3 have not started. No unapproved percentage increase based on information architecture correction.
+- **Exact stopping point and next recommended milestone:** V3.13 live and automated smoke-verified. Obtain CEO visual acceptance in normal website review, then resume the separately scoped R1 RFQ/OTS™ CRM integration decision. Retain rollback to the previous DigitalOcean release.
+
+---
+
+## V3.13 — Development handover (superseded by the verified release above)
 
 - **Owner decision:** Supply Chain/Procurement is an integrated operations capability, not a standalone service available for purchase.
 - **Base:** latest `rebuild/website-v3` at `1ff7d4d` (incorporates V3.12 search and qualification logo updates; those changes preserved).
