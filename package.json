@@ -7,7 +7,11 @@
     "build": "next build",
     "start": "next start",
     "check": "tsc --noEmit",
-    "studio": "sanity dev"
+    "studio": "sanity dev",
+    "generate:search": "node scripts/generate-public-search.mjs",
+    "prebuild": "npm run generate:search",
+    "test:search": "node scripts/test-search-http.mjs",
+    "test:logos": "node scripts/test-logos-http.mjs"
   },
   "dependencies": {
     "next": "^15.5.0",

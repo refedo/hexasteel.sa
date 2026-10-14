@@ -1,3 +1,19 @@
+## V3.12 — CEO-authorized release candidate (14 October 2026)
+
+**Approval:** CEO expressly approved deployment of the V3.12 website search and qualification logos on hexasteel.sa via the existing GitHub–DigitalOcean pipeline. This approval does **not** include unaccepted V3.11 RFQ / CRM work.
+
+**Release branch:** `feature/v312-release-search-logos-only`, based on the deployed integration SHA `00abfd0b0daa7bc3771690da4a6d3ab95d8cc2f4`. Only V3.12 files and tests are in scope. RFQ routes, email, forms and database/worker code remain unchanged.
+
+**Planned and implemented:** Search across public static sitemap routes and CMS content, with shared Structural Steel narratives and product sections indexed (metal works, poultry farms, mezzanine); direct anchored results; structured rankings and CMS/static index merge. Display eleven sourced logo candidates beside accurately described qualification relationships, with Sanity logo upload/approval override, disclaimers and image health verification.
+
+**Acceptance:** Run isolated CI (image health, TypeScript, Next production build, search HTTP regression), then push tested commit onto `rebuild/website-v3` with compare-and-swap lease after explicit authorization. Verify DigitalOcean deployment/rollback and live API search and rendered qualification images.
+
+**Editorial note:** Sourced public brand images are nominative identifiers, not proof of endorsement. Image URL validity is separately tested; trademark-use conditions and documentary approval scope remain subject to management review.
+
+**Official R1:** 60.60% ≈ 61% unchanged pending deployed operational verification; R2/R3 separately tracked.
+
+---
+
 # HEXA Steel® — Website V3 Delivery Dashboard
 
 **Baseline:** 13 October 2026  
