@@ -1,12 +1,6 @@
-import type {Metadata} from "next";
-import {PageHero,CallToAction} from "@/components/PageBlocks";
-import {CapabilityNarrative} from "@/components/CapabilityNarrative";
-export const metadata:Metadata={title:"Procurement & Supply Chain"};
-const scenes=[
- {label:"Strategic Sourcing",eyebrow:"01 / SOURCING",headline:"Materials sourced for reliability.",description:"Our supplier network supports approved steel specifications, availability and project-driven procurement plans.",outcomes:["Broad domestic and international supplier coordination","Material-grade and specification control","Alternative sourcing and continuity planning"],href:"/knowledge/steel-grades-traceability",cta:"Explore material controls",symbol:"STEEL"},
- {label:"Project Procurement",eyebrow:"02 / CRITICAL PATH",headline:"Procurement aligned to delivery.",description:"Material purchase orders and long-lead items are coordinated with drawings, fabrication sequencing and project milestones.",outcomes:["Bills of Materials (BOM)","Lead-time monitoring and expediting","Schedule-linked purchasing"],href:"/project-delivery",cta:"Explore delivery planning",symbol:"BOM"},
- {label:"Quality at Receipt",eyebrow:"03 / MATERIAL CONTROL",headline:"Traceable from the start.",description:"Receiving control includes approved mill certificates, material identification, MIR and project-specific inspection criteria.",outcomes:["Mill Test Certificates (MTC)","Heat-number traceability","Material Inspection Requests (MIR)"],href:"/capabilities/quality",cta:"Explore QA/QC",symbol:"MTC"},
- {label:"Logistics",eyebrow:"04 / PROJECT INTERFACES",headline:"From supply to site.",description:"Loading, transport, packing, material handling and site delivery arrangements are managed with production and execution programs.",outcomes:["Handling and loading plans","Supplier and workshop coordination","Dispatch and transportation control"],href:"/project-delivery",cta:"Explore site delivery",symbol:"SITE"}
-];
-export default function SupplyChain(){return <main><PageHero eyebrow="SERVICES / SUPPLY CHAIN" title="A strong supply chain. A stronger delivery commitment." intro="Hexa Steel® combines strategic supplier relationships, disciplined procurement and traceable material controls to reduce avoidable supply and manufacturing disruption."/>
-<section className="section capability-story-section"><div className="shell"><div className="section-intro"><p className="eyebrow">FROM SOURCING TO DISPATCH</p><h2>Source. Verify.<br/><span>Plan. Deliver.</span></h2><p>Supply-chain control is integrated into our seven-stage project delivery model.</p></div><CapabilityNarrative scenes={scenes} kicker="SUPPLY CHAIN"/></div></section><CallToAction heading="Discuss your material and project requirements."/></main>}
+import {permanentRedirect} from "next/navigation";
+
+// Preserve external links; procurement now belongs to Project Delivery.
+export default function SupplyChainLegacyRoute(){
+ permanentRedirect("/project-delivery#procurement");
+}

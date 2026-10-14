@@ -3,7 +3,7 @@ import {getProjects,getInsights,getKnowledgeArticles} from "@/lib/cms";
 const base="https://hexasteel.sa";
 const routes=[
 "/","/products-services","/solutions/structural-steel","/solutions/peb",
-"/services/design-detailing","/services/fabrication","/services/pipes-vessels","/services/supply-chain",
+"/services/design-detailing","/services/fabrication","/services/pipes-vessels",
 "/products/sheeting","/products/steel-accessories",
 "/capabilities/quality","/capabilities/coating","/capabilities/machinery",
 "/company","/company/about","/company/approvals","/company/operational-excellence","/company/people","/company/careers",

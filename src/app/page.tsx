@@ -44,7 +44,7 @@ export default async function Home(){
     <p>Our values are not wall statements. Science, Quality, Flexibility, Trust and Simplicity shape how we respond, manufacture and deliver.</p>
    </div>
    <div className="edge-editorial">{advantages.map(a=><article className="edge-row" key={a.number}><span className="edge-no">{a.number}</span><div><span className="eyebrow">{a.principle}</span><h3>{a.title}</h3></div><p>{a.description}</p></article>)}</div>
-   <div className="edge-links"><Link href="/company/about">Who we are</Link><Link href="/project-delivery">Project delivery</Link><Link href="/services/supply-chain">Supply chain</Link><Link href="/capabilities/quality">Quality controls</Link></div></div></section>
+   <div className="edge-links"><Link href="/company/about">Who we are</Link><Link href="/project-delivery">Project delivery</Link><Link href="/project-delivery#procurement">Supply chain</Link><Link href="/capabilities/quality">Quality controls</Link></div></div></section>
    <section className="closing"><div className="shell closing-grid"><div><p className="eyebrow">YOUR NEXT STEEL PROJECT STARTS HERE</p><h2>Agility. Quality. On-time delivery.</h2></div><Link href="/request-quotation" className="button dark">Discuss your project</Link></div></section>
  </main>;
 }

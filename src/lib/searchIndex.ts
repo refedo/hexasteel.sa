@@ -9,7 +9,7 @@ const core:SearchResult[]=[
  {title:"Who We Are",description:"Hexa Steel mission, values, supply chain and manufacturing philosophy.",href:"/company/about",category:"Company"},
  {title:"Careers",description:"Hexa Steel career enquiries and recruitment.",href:"/company/careers",category:"Company"},
  {title:"Approvals & Qualifications",description:"Company-reported manufacturer approvals, accreditation and supplier registration.",href:"/company/approvals",category:"Company",keywords:reportedQualifications.map(x=>x.name+" "+x.detail).join(" ")},
- {title:"Supply Chain & Procurement",description:"Strategic sourcing, approved material, vendor coordination, MTC, lead time planning and logistics.",href:"/services/supply-chain",category:"Services"},
+ {title:"Procurement & Supply Chain — Project Delivery",description:"Strategic sourcing, approved material, vendor coordination, MTC, lead-time planning and logistics as part of contractual steel project delivery.",href:"/project-delivery#procurement",category:"Project Delivery"},
  {title:"Design & Detailing",description:"Structural engineering, design codes AISC, MBMA, 3D detailing, shop drawings.",href:"/services/design-detailing",category:"Services"},
  {title:"Pipes & Vessels",description:"Piping supports, fabricated tanks and vessels under project-specific engineering requirements.",href:"/services/pipes-vessels",category:"Services"},
  {title:"PEB Frame Types",description:"Illustrated single-span, multi-span, multi-gable, lean-to, cantilever and curved PEB framing systems.",href:"/knowledge/peb-frame-systems",category:"Knowledge"},

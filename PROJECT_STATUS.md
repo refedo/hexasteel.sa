@@ -1,4 +1,17 @@
-## V3.12 — Deployed and independently verified (14 October 2026)
+## V3.13 — Relocate Supply Chain under Project Delivery (14 October 2026)
+
+- **Owner decision:** Supply Chain/Procurement is an integrated operations capability, not a standalone service available for purchase.
+- **Base:** latest `rebuild/website-v3` at `1ff7d4d` (incorporates V3.12 search and qualification logo updates; those changes preserved).
+- **Branch:** `feature/v313-supply-chain-relocation`, PR #15.
+- **Developed:** moved all four panels (strategic sourcing, project procurement, receiving QC, logistics) to `/project-delivery#procurement`. Removed the Products & Services card and header/footer entry, updated homepage and full-site search result, excluded old route from sitemap, and permanently redirected old route (HTTP 308) to the new section.
+- **Verification gates:** TypeScript, production build, automated regression tests, and existing V3.12 search/logo checks in GitHub CI; after CEO-approved integration/deployment, verify live page, 308 redirect, menus, search, image assets and mobile layout. Retain rollback.
+- **State:** feature branch and PR prepared. CI run and production deployment status must be tracked separately. No unapproved integration or production deployment; no merge to `main`.
+- **Official R1 completion:** 61% (unchanged). R2/R3 remain not started.
+- **Next milestone:** integration and live QA only after explicit CEO deployment approval. RFQ PR #12 remains separate.
+
+---
+
+### V3.12 — Deployed and independently verified (14 October 2026)
 
 **Release status:** Developed → CI tested → deployed to `https://hexasteel.sa` → automated operational smoke tests passed. **CEO visual/brand-use acceptance remains separate.**
 

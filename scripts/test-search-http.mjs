@@ -36,9 +36,22 @@ async function run(){
    assert(result.results.length>0,"Existing content regression for "+term);
   }
   const sitemap=await (await fetch(origin+"/sitemap.xml")).text();
-  for(const route of ["/solutions/structural-steel","/company/approvals","/services/supply-chain"]){
+  for(const route of ["/solutions/structural-steel","/company/approvals","/project-delivery"]){
    assert(sitemap.includes("https://hexasteel.sa"+route),"Sitemap missing "+route);
   }
+  assert(!sitemap.includes("https://hexasteel.sa/services/supply-chain"),"Retired Supply Chain route must be excluded from sitemap");
+  const legacy=await fetch(origin+"/services/supply-chain",{redirect:"manual"});
+  assert.equal(legacy.status,308,"Legacy Supply Chain route must permanently redirect");
+  const location=new URL(legacy.headers.get("location")||"",origin);
+  assert.equal(location.pathname+location.hash,"/project-delivery#procurement","Legacy link must redirect to Procurement section");
+  const delivery=await (await fetch(origin+"/project-delivery")).text();
+  assert(delivery.includes('id="procurement"'),"Project Delivery must contain a Procurement anchor");
+  for(const label of ["Strategic Sourcing","Project Procurement","Quality at Receipt","Logistics"]){
+   assert(delivery.includes(label),"Project Delivery missing "+label);
+  }
+  const procurement=(await (await fetch(origin+"/api/search?q=procurement")).json()).results;
+  assert(procurement.some(x=>x.href==="/project-delivery#procurement"),"Search should direct procurement to Project Delivery");
+  assert(!procurement.some(x=>x.href==="/services/supply-chain"),"Search should not recommend retired Supply Chain route");
   const approvals=await (await fetch(origin+"/company/approvals")).text();
   assert(approvals.includes("Saudi Aramco"),"Company-reported qualifications missing");
   for(const org of ["Saudi_aramco_logo.svg","Ma%27aden.svg","500px-National_Water_Company_Logo_2021.png","Qiddiya%20City%20Dual%20Stacked","387013_0.png","60633.jpg","seven-saudi-entertainments-venture"]){
@@ -46,7 +59,7 @@ async function run(){
   }
   assert.equal((approvals.match(/class="approval-logo-slot"/g)||[]).length,11,"Every reported organization must render a logo slot");
   assert(approvals.includes("does not imply endorsement"),"Missing logo ownership disclaimer");
-  console.log("V3.12 search smoke checks passed: structural subcategories, synonyms, CMS fallback, and sitemap.");
+  console.log("V3.12/V3.13 search smoke checks passed: structural subcategories, synonyms, procurement redirect, and sitemap.");
  }finally{child.kill("SIGTERM");}
 }
 await run();

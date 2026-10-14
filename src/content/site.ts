@@ -14,8 +14,7 @@ export const navigation = [
   {label:"Pipes & Vessels",href:"/services/pipes-vessels"},
   {label:"Sheeting & Cladding",href:"/products/sheeting"},
   {label:"Steel Accessories",href:"/products/steel-accessories"},
-  {label:"Coating & Galvanization",href:"/capabilities/coating"},
-  {label:"Supply Chain & Procurement",href:"/services/supply-chain"}
+  {label:"Coating & Galvanization",href:"/capabilities/coating"}
  ]},
  {label:"Project Delivery",href:"/project-delivery"},
  {label:"Projects",href:"/projects"},
