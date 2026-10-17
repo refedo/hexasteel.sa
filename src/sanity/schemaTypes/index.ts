@@ -37,6 +37,7 @@ const project=defineType({name:"project",title:"Public Project Case Study",type:
   defineField({name:"quantityDisplay",type:"string",title:"Approved Tonnage"}),
   defineField({name:"deliveryStatus",type:"string",title:"Delivery Status",options:{list:["Completed","Ongoing","Status to confirm"]},initialValue:"Status to confirm",validation:r=>r.required()}),
   defineField({name:"coverImage",type:"image",options:{hotspot:true},description:"Authorized original photography overrides the illustrative fallback. Never upload restricted customer images."}),
+  defineField({name:"illustrativeUrl",type:"url",title:"Previous illustrative card image",readOnly:true,description:"External illustrative photograph shown until an approved HEXA photo is uploaded. This is not a verified project image."}),
   defineField({name:"completionYear",type:"number"}),
   defineField({name:"scope",type:"text",title:"Public Scope Details"}),
   defineField({name:"photos",title:"Approved Project Gallery",description:"Images appear on the public project detail page only after approval. Never upload confidential material.",type:"array",of:[{type:"image",options:{hotspot:true},fields:[{name:"alt",type:"string",title:"Image description"}]}]}),
