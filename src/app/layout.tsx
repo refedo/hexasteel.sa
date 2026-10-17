@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { BrandTransitionNotice } from "@/components/BrandTransitionNotice";
 import {ContactShortcuts} from "@/components/ContactShortcuts";
 import "./globals.css";
 import {getAccentColor} from "@/lib/siteSettings";
@@ -19,5 +20,5 @@ export const revalidate = 30;
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const accent=await getAccentColor();
   const themeStyle={"--signal":accent} as CSSProperties;
-  return <html lang="en"><body style={themeStyle}><SiteHeader/>{children}<SiteFooter/><ContactShortcuts/></body></html>;
+  return <html lang="en"><body style={themeStyle}><SiteHeader/><BrandTransitionNotice/>{children}<SiteFooter/><ContactShortcuts/></body></html>;
 }

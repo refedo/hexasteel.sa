@@ -1,16 +1,29 @@
-## V3.15 — Sanity Studio editorial usability corrective milestone (17 October 2026; FEATURE BRANCH, NOT DEPLOYED)
+## V3.15 — Sanity Studio import usability correction (17 October 2026; pending verification and deployment)
 
-**Reason:** CEO iPhone screenshots show existing collections empty and importer controls almost below the fold with low contrast; V3.14 did not include running authenticated content import. This is a real operational-acceptance gap, not proof of a disconnected project.
+**CEO authorization:** Approved corrective V3.15 importer integration/deployment to `hexasteel.sa` after successful CI, separately from the already deployed website welcome notice. The integration branch advanced to `be2f3f2` after the original PR #18 fork; reconcile existing welcome code through a two-parent feature merge without reverting it.
 
-- **Baseline:** `rebuild/website-v3` `ea962e6` (only docs after deployed V3.14 `ae735ac3`); Studio endpoint and CORS were already HTTP verified. Previous RFQ PR #12 stays deferred.
-- **V3.15 working branch:** `feature/v315-studio-import-usability`, not integrated into production.
-- **Planned/implemented:** readable, one-click top-of-page importer; record counts/progress/errors; non-destructive raw-draft handling; seed full source Insight narratives and reference image URLs; organise connected and unconnected Studio collections; automated regression tests; preserve existing current live source fallbacks.
-- **Explicit content limitation:** The import creates editor-managed drafts after an **authorized editor clicks the button**. Simply deploying does not populate Sanity. Studio cannot yet edit all long-form page-body components. Authentic HEXA photographs and qualified public claims still require editor clearance.
-- **Acceptance:** feature CI success, explicit CEO deployment approval, deployment/HTTP smoke tests, authenticated Studio import + measured document counts, editorial media changes and live page/search proof. Until then only **developed / tested** stages may be claimed.
-- **Official R1 completion:** 60.60% ≈ 61%, unchanged; R2/R3 not started. The former 65% is an unapproved provisional estimate.
-- **Exact stopping point:** V3.15 feature-branch corrective work, pending PR test/review and CEO authorization; no `main` or `rebuild/website-v3` write, no DigitalOcean deployment.
+- **Starting point:** `rebuild/website-v3` `be2f3f2`, with production DigitalOcean deployment and CI confirmed for the welcome notice, and prior V3.14 import screen live but unpopulated.
+- **Scope:** Repair high-contrast iPhone import UI, add document counts and completion/error reporting, draft-aware non-destructive record creation, preserve public illustrations and import full source Insight story sections, clarify which schemas are editorially connected. Retain all V3.15 welcome/beta-notice changes and separate RFQ PR #12.
+- **Stage gate:** Await reconciled branch CI, integration branch CI, DigitalOcean release and independent live Studio checks. Authenticated import and editorial publication remain **unverified**, regardless of deployment success.
+- **Progress:** Official R1 60.60% ≈ 61% until operational acceptance. R2/R3 not started. No `main` merge, staging domain or unapproved CRM work.
+- **Source of truth:** [PR #18](https://github.com/refedo/hexasteel.sa/pull/18) and `CMS_V315_HANDOVER.md`.
 
 ---
+
+## V3.15 — New website welcome & beta notice (17 October 2026; FEATURE BRANCH — NOT DEPLOYED)
+
+**Corporate identity:** HEXA Steel® has always been the company name. The previous domain was only an old website address. Neither visitor-facing copy nor structured company identity should suggest a renamed business.
+
+- **Previous stopping point:** V3.14 Sanity content activation was CEO-authorized, integrated and deployed to `hexasteel.sa`; TypeScript, build, CI, DigitalOcean and HTTP checks passed. The authenticated CMS content import and editorial/visual acceptance remain outstanding.
+- **Current starting point:** Latest `rebuild/website-v3` application/deployment branch, after V3.14, with V3.11 RFQ / OTS™ CRM work still separately deferred. The V3.15 welcome was developed only on `feature/v315-brand-transition-welcome`.
+- **Planned versus developed:** Premium navy new-website welcome for identified visitors from the previous domain; no former-company-name claims; dismissible responsive beta notice across the website; session-based dismissal, accessible focus, and neutral `?from=previous-site` detection plus exact old-domain referrer fallback. Tracking identification is internal only.
+- **Release gate:** PR #17 must pass updated CI after reconciliation with deployed V3.14 documentation. No changes to Sanity imports, RFQ/CRM, `main`, existing DigitalOcean deployment triggers or production. Obtain CEO approval for integration and deployment.
+- **External dependency:** Confirm permanent SiteGround redirect behavior for both old hostnames and important indexed deep paths. A neutral arrival marker is needed where browser referrers are unavailable; avoid rewriting all old URLs to homepage.
+- **Official progress:** R1 60.60% ≈ 61% unchanged; R2 and R3 not started.
+- **Exact stopping point:** Reconciled feature branch and updated PR awaiting checks and CEO integration/deployment approval; after approved rollout verify redirect welcome behavior, layout on mobile, dismissal and beta notice on `hexasteel.sa`.
+
+---
+
 ## V3.14 — Authorized deployment and live verification (17 October 2026)
 
 **CEO approval:** Authorized direct deployment of V3.14 Sanity editorial activation on `hexasteel.sa`. No merge into `main`; RFQ/OTS™ CRM draft PR #12 remains deferred.
