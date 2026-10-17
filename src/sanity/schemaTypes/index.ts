@@ -34,10 +34,10 @@ const project=defineType({name:"project",title:"Public Project Case Study",type:
   defineField({name:"publicSummary",type:"text",title:"Public Scope Summary",rows:4,validation:r=>r.required()}),
   defineField({name:"quantityDisplay",type:"string",title:"Approved Tonnage"}),
   defineField({name:"deliveryStatus",type:"string",title:"Delivery Status",options:{list:["Completed","Ongoing","Status to confirm"]},initialValue:"Status to confirm",validation:r=>r.required()}),
-  defineField({name:"coverImage",type:"image",options:{hotspot:true},description:"Approved project image, no confidential client identification."}),
+  defineField({name:"coverImage",type:"image",options:{hotspot:true},description:"Authorized original photography overrides the illustrative fallback. Never upload restricted customer images."}),
   defineField({name:"completionYear",type:"number"}),
   defineField({name:"scope",type:"text",title:"Public Scope Details"}),
-  defineField({name:"photos",type:"array",of:[{type:"image",options:{hotspot:true}}]}),
+  defineField({name:"photos",title:"Approved Project Gallery",description:"Images appear on the public project detail page only after approval. Never upload confidential material.",type:"array",of:[{type:"image",options:{hotspot:true},fields:[{name:"alt",type:"string",title:"Image description"}]}]}),
   defineField({name:"approvedForWeb",type:"boolean",initialValue:false,description:"Management reviewed all facts, photos and figures."}),
   defineField({name:"identityClearedForWeb",type:"boolean",initialValue:false,description:"Confirmed title, slug, imagery and copy contain no restricted identities."})
  ],
@@ -101,9 +101,10 @@ const siteSettings=defineType({
   defineField({name:"symbol",type:"string",title:"Index / Symbol"}),
   defineField({name:"approvedForWeb",type:"boolean",initialValue:false,description:"Evidence checked and release approved."})
  ]}]}),
-    defineField({name:"heroSlides",type:"array",title:"Homepage Hero Images",description:"Upload genuine HEXA Steel® factory or project photos with permission. Max six.",
+    defineField({name:"heroSlides",type:"array",title:"Homepage Hero Images",description:"Up to six slides. Imported Unsplash sources remain clearly credited as illustrative until replaced with approved images.",
        validation:r=>r.max(6),of:[{type:"object",fields:[
-        defineField({name:"asset",type:"image",options:{hotspot:true},validation:r=>r.required()}),
+        defineField({name:"asset",type:"image",options:{hotspot:true},description:"Upload a HEXA-authorized photograph to replace the illustrative source."}),
+        defineField({name:"illustrativeUrl",type:"url",title:"Existing illustrative photo URL",description:"Legacy Unsplash references only, until replaced by an approved HEXA upload.",validation:r=>r.custom(value=>!value||/^https:\/\/images\.unsplash\.com\/photo-[a-z0-9-]+/.test(value)?"": "Only the existing Unsplash illustration host is allowed.")}),
         defineField({name:"title",type:"string",validation:r=>r.required()}),
         defineField({name:"alt",type:"string",title:"Accessible image description",validation:r=>r.required()}),
         defineField({name:"credit",type:"string"})

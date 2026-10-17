@@ -1045,3 +1045,12 @@ body:has(.hexa-studio) > .site-header,body:has(.hexa-studio) > .site-footer{disp
 .approvals-mark-disclaimer{margin:25px 0 0;color:#657b87;font-size:12px;line-height:1.7;max-width:920px}
 .component-glossary article[id]{scroll-margin-top:110px}
 .component-glossary article:target{outline:2px solid #68879b;outline-offset:4px}
+
+/* Studio is a workspace, not a customer-facing page. Never cover editor controls. */
+body:has(.hexa-studio) > .contact-shortcuts{display:none!important}
+/* Permissioned photography on case-study pages. */
+.project-detail-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;padding-bottom:35px}
+.project-detail-gallery figure{margin:0;background:#edf2f4}
+.project-detail-gallery img{display:block;aspect-ratio:16/10;width:100%;height:auto;object-fit:cover}
+.project-detail-gallery figcaption{padding:10px 14px;color:#45606d;font-size:12px}
+@media(max-width:700px){.project-detail-gallery{grid-template-columns:1fr}}

@@ -1,13 +1,9 @@
 "use client";
 import {useCallback,useEffect,useState} from "react";
 export type HeroSlide={src:string;alt:string;title:string;credit?:string};
-const defaults:HeroSlide[]=[
-  {src:"https://images.unsplash.com/photo-1748956628042-b73331e0b479?auto=format&fit=crop&w=1500&q=84",alt:"Steel-frame structure under construction with a tower crane",title:"STRUCTURAL STEEL / SITE EXECUTION",credit:"Illustrative photograph · Jaeman Jung / Unsplash"},
-  {src:"https://images.unsplash.com/photo-1649587597799-4c227640f4f8?auto=format&fit=crop&w=1500&q=84",alt:"Large pre-engineered industrial steel building during erection",title:"PRE-ENGINEERED BUILDINGS / INDUSTRIAL",credit:"Illustrative photograph · David Griffiths / Unsplash"},
-  {src:"https://images.unsplash.com/photo-1781156771445-404a80d7ee7a?auto=format&fit=crop&w=1500&q=84",alt:"Industrial steel facility interior showing steel roof framing and overhead crane",title:"MANUFACTURING / INDUSTRIAL STRUCTURES",credit:"Illustrative photograph · Declan Sun / Unsplash"},
-];
+import {defaultHeroSlides} from "@/content/cmsSeed";
 export function HeroSlider({slides:provided}:{slides?:HeroSlide[]}){
- const slides=provided?.length?provided:defaults;
+ const slides=provided?.length?provided:defaultHeroSlides;
  const [active,setActive]=useState(0);
  const index=active%slides.length;
  const next=useCallback(()=>setActive(i=>(i+1)%slides.length),[slides.length]);

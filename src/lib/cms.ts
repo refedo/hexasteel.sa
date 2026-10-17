@@ -1,21 +1,22 @@
 import {createClient} from "next-sanity";
 import {articles,insights,references} from "@/content/site";
 import {qualificationLogos} from "@/content/qualificationLogos";
+import {isSafePublicImage} from "@/content/cmsSeed";
 import type {SearchResult} from "@/lib/searchIndex";
 
-type Project = (typeof references)[number];
+type Project = (typeof references)[number] & {gallery?:{src:string;alt:string}[];scope?:string};
 type Insight = (typeof insights)[number];
 type Article = (typeof articles)[number];
 
 const projectId=process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "ik7morln";
 const dataset=process.env.NEXT_PUBLIC_SANITY_DATASET||"production";
 const client=projectId ? createClient({projectId,dataset,apiVersion:"2025-02-01",useCdn:true}) : null;
-const siteQuery='*[_type=="siteSettings" && _id=="siteSettings"][0]{ "heroHeadline":heroHeadline.en, "heroDescription":heroDescription.en, "marketPositioning":marketPositioning.en, "headerTagline":headerTagline.en, "contactMobile":contactMobile, "whatsappEnabled":whatsappEnabled, "trustIndicators":trustIndicators[approvedForWeb==true]{figure,unit,description,"symbol":coalesce(symbol,"01")}, "heroSlides":heroSlides[]{"src":asset.asset->url,"alt":alt,"title":title,"credit":credit} }';
+const siteQuery='*[_type=="siteSettings" && _id=="siteSettings"][0]{ "heroHeadline":heroHeadline.en, "heroDescription":heroDescription.en, "marketPositioning":marketPositioning.en, "headerTagline":headerTagline.en, "contactMobile":contactMobile, "whatsappEnabled":whatsappEnabled, "trustIndicators":trustIndicators[approvedForWeb==true]{figure,unit,description,"symbol":coalesce(symbol,"01")}, "heroSlides":heroSlides[]{"src":coalesce(asset.asset->url,illustrativeUrl),"alt":alt,"title":title,"credit":credit} }';
 type HomeSettings={heroHeadline?:string|null;heroDescription?:string|null;marketPositioning?:string|null;headerTagline?:string|null;contactMobile?:string|null;whatsappEnabled?:boolean|null;trustIndicators?:{figure:string;unit:string;description:string;symbol:string}[];heroSlides?:{src:string;alt:string;title:string;credit:string}[]};
-type CmsProject={slug:string;title:string;category:string;description:string;year?:string;size?:string;status?:string;image?:string};
+type CmsProject={slug:string;title:string;category:string;description:string;year?:string;size?:string;status?:string;image?:string;gallery?:{src:string;alt?:string}[];scope?:string};
 type CmsInsight={slug:string;title:string;summary:string;category:string;date:string;sections?:{heading:string;body:string}[]};
 type CmsArticle={slug:string;title:string;intro:string;category:string;sections:{heading:string;body:string}[]};
-const projectQuery='*[_type=="project" && approvedForWeb==true && identityClearedForWeb==true && defined(publicSlug.current)]{ "slug":publicSlug.current,"title":publicTitle.en,"category":sector,"description":publicSummary,"year":string(completionYear),"size":quantityDisplay,"status":deliveryStatus,"image":coverImage.asset->url }';
+const projectQuery='*[_type=="project" && approvedForWeb==true && identityClearedForWeb==true && defined(publicSlug.current)]{ "slug":publicSlug.current,"title":publicTitle.en,"category":sector,"description":publicSummary,"year":string(completionYear),"size":quantityDisplay,"status":deliveryStatus,"image":coverImage.asset->url,"gallery":photos[]{"src":asset->url,"alt":alt},"scope":scope }';
 const insightQuery='*[_type=="companyUpdate" && approvedForWeb==true && defined(slug.current)]{ "slug":slug.current,"title":title.en,"summary":summary.en,"category":category,"date":displayDate,"sections":sections[]{"heading":heading.en,"body":body.en} }';
 const knowledgeQuery='*[_type=="knowledgeArticle" && approvedForWeb==true && defined(slug.current)]{ "slug":slug.current,"title":title.en,"intro":intro.en,"category":category,"sections":sections[]{"heading":heading.en,"body":body.en} }';
 
@@ -30,7 +31,7 @@ function combine<T extends {slug:string}>(fallback:readonly T[],cms:T[]):T[]{
  return [...bySlug.values()];
 }
 export async function getCmsProjects():Promise<CmsProject[]>{
- return (await safeFetch<CmsProject>(projectQuery)).filter(x=>x.slug&&x.title&&x.description).map(x=>({...x,category:x.category||"Structural Steel",year:x.year||"",size:x.size||"",status:x.status||"Status to confirm",image:x.image?.startsWith("https://cdn.sanity.io/")?x.image:""}));
+ return (await safeFetch<CmsProject>(projectQuery)).filter(x=>x.slug&&x.title&&x.description).map(x=>({...x,category:x.category||"Structural Steel",year:x.year||"",size:x.size||"",status:x.status||"Status to confirm",image:isSafePublicImage(x.image)?x.image:"",gallery:(x.gallery||[]).filter(p=>isSafePublicImage(p.src)).map(p=>({src:p.src,alt:p.alt||x.title+" approved project photograph"}))}));
 }
 export async function getProjects():Promise<Project[]> {return combine(references,await getCmsProjects() as Project[])}
 export async function getCmsInsights():Promise<CmsInsight[]>{
@@ -48,7 +49,7 @@ export async function getHomeSettings():Promise<HomeSettings>{
  try {
  const result=await client.fetch<HomeSettings|null>(siteQuery,{}, {next:{revalidate:120}});
  if(!result)return {};
- const heroSlides=(result.heroSlides||[]).filter(x=>x.src?.startsWith("https://cdn.sanity.io/")&&x.title&&x.alt).slice(0,6);
+ const heroSlides=(result.heroSlides||[]).filter(x=>isSafePublicImage(x.src)&&x.title&&x.alt).slice(0,6);
  return {...result,heroSlides};
  } catch {return {}}
 }

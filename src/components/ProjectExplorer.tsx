@@ -3,11 +3,7 @@ import {useMemo,useState} from "react";
 import Link from "next/link";
 import {references} from "@/content/site";
 type Project=typeof references[number];
-const visuals=[
- "https://images.unsplash.com/photo-1748956628042-b73331e0b479?auto=format&fit=crop&w=1100&q=80",
- "https://images.unsplash.com/photo-1649587597799-4c227640f4f8?auto=format&fit=crop&w=1100&q=80",
- "https://images.unsplash.com/photo-1781156771445-404a80d7ee7a?auto=format&fit=crop&w=1100&q=80",
-];
+import {projectIllustrations,isIllustrativeImage} from "@/content/cmsSeed";
 export function ProjectExplorer({projects=references}:{projects?:Project[]}){
  const [category,setCategory]=useState("All Projects");const [term,setTerm]=useState("");
  const categories=["All Projects",...new Set(projects.map(x=>x.category))];
@@ -17,8 +13,8 @@ export function ProjectExplorer({projects=references}:{projects?:Project[]}){
    <div className="project-showcase">
     {filtered.map(p=><article className="project-showcase-card" key={p.slug}>
       <Link className="project-showcase-image" href={"/projects/"+p.slug} aria-label={"Explore "+p.title}>
-       <span className="project-cover-photo" style={{backgroundImage:'linear-gradient(to bottom,rgba(20,37,49,.03),rgba(20,37,49,.42)),url("'+(p.image||visuals[projects.indexOf(p)%visuals.length])+'")'}}/>
-       {!p.image&&<span className="project-photo-caption">ILLUSTRATIVE INDUSTRIAL PHOTOGRAPHY</span>}
+       <span className="project-cover-photo" style={{backgroundImage:'linear-gradient(to bottom,rgba(20,37,49,.03),rgba(20,37,49,.42)),url("'+(p.image||projectIllustrations[projects.indexOf(p)%projectIllustrations.length])+'")'}}/>
+       {(!p.image||isIllustrativeImage(p.image))&&<span className="project-photo-caption">ILLUSTRATIVE INDUSTRIAL PHOTOGRAPHY</span>}
        {p.size&&<span className="project-mass">{p.size}<small>PROJECT STEELWORK REFERENCE</small></span>}
       </Link>
       <div className="project-showcase-meta"><span>{p.category}</span><span>{p.year||"SELECTED REFERENCE"}</span></div>
