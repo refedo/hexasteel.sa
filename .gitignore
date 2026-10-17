@@ -1,40 +1,8 @@
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# local env files
-.env*.local
+node_modules
+.next
 .env
-
-# vercel
-.vercel
-
-# typescript
+.env.local
+.env.*.local
+.sanity
+.DS_Store
 *.tsbuildinfo
-next-env.d.ts
-
-/generated/prisma
-
-# uploads - ignore uploaded files but keep directory
-/public/uploads/*
-!/public/uploads/.gitkeep

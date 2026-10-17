@@ -1,39 +1,21 @@
-name: CI
-
+name: V3 foundation checks
 on:
-  pull_request:
-    branches:
-      - main
   push:
-    branches-ignore:
-      - main
-
+    branches: ["rebuild/**", "feature/**"]
+  pull_request:
+    branches: [main, "rebuild/**"]
 jobs:
-  lint-and-test:
+  validate:
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run linter
-        run: npm run lint
-
-      - name: Check TypeScript
-        run: npx tsc --noEmit
-
-      - name: Build application
-        run: npm run build
-        env:
-          DATABASE_URL: postgresql://test:test@localhost:5432/test
-          NEXTAUTH_SECRET: test-secret
-          NEXTAUTH_URL: http://localhost:3000
+          node-version: "22"
+      - run: npm install --no-audit --no-fund
+      - run: npm run test:logos
+      - run: npm run generate:search
+      - run: npm run check
+      - run: npm run test
+      - run: npm run build
+      - run: npm run test:search
