@@ -1,7 +1,7 @@
 ## V3.14 CURRENT STATUS — 17 October 2026 (supersedes the stale setup snapshot below)
-Sanity project `ik7morln` / `production` is already connected and authenticated. Website Settings publishing has been verified previously. The empty Studio collections reflect **unseeded records**, not a disconnected Sanity account. V3.14 implementation is isolated on a feature branch and not deployed.
+Sanity project `ik7morln` / `production` is already connected and authenticated. Website Settings publishing has been verified previously. The empty Studio collections reflect **unseeded records**, not a disconnected Sanity account. V3.14 application is deployed to hexasteel.sa and live HTTP checks passed; the authenticated editor import and publication exercises are still pending.
 
-**After CI and CEO deployment authorization only:**
+**Current editor acceptance steps (after successful authorized deployment):**
 1. Open https://hexasteel.sa/studio with an authorized Sanity editor account.
 2. Select **Import Current Website Content**, review the explanation, and choose **Create missing editable drafts**. The importer creates drafts for 21 page introductions, anonymous public projects, Knowledge Centre, Insights, and qualification entries. It prepares a draft of existing homepage settings and illustrative hero slide URLs, preserving currently published settings.
 3. Open **Website Settings** → **Homepage Hero Images**; current photographs are illustrative Unsplash references with credits. Replace each with your own authorized factory/project upload in its **asset** field, verify the alt text and title, and publish the settings.

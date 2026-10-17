@@ -1,4 +1,4 @@
-## V3.14 CMS Editorial Migration — 17 October 2026 (feature branch, not deployed)
+## V3.14 CMS Editorial Migration — 17 October 2026 (deployed; authenticated editor import pending)
 
 | Scope | V3.14 code position | Publishing conditions |
 |---|---|---|
@@ -12,7 +12,7 @@
 | Search | Approved CMS page intros included in existing static+CMS search merge | No unapproved draft indexing |
 | Other schemas | Credential, initiative, capability service, testimonial and team profile still mostly disconnected | Do not populate invented or personally sensitive records |
 
-**Acceptance still outstanding:** complete TypeScript/build/test CI on the final PR, authorized deployment, signed-in Studio import/CRUD, photograph rights verification, live page/hero/gallery/search checks, mobile visual QA and formal editorial sign-off. Official R1 remains **60.60% ≈ 61%**. R2/R3 have not started.
+**Automated gates completed:** Production CI/build, approved integration and DigitalOcean deployment, Studio HTTP 200 and Sanity API/CORS, V3.12/V3.13 regression checks. **Still outstanding:** signed-in Studio import/CRUD, real-photo permissions, verified live hero/gallery/page publication/search, mobile visual QA and CEO editorial sign-off. Official R1 remains **60.60% ≈ 61%**. R2/R3 have not started.
 
 ---
 

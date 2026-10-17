@@ -1,4 +1,19 @@
-## V3.14 — Sanity content activation (17 October 2026; FEATURE BRANCH — NOT DEPLOYED)
+## V3.14 — Authorized deployment and live verification (17 October 2026)
+
+**CEO approval:** Authorized direct deployment of V3.14 Sanity editorial activation on `hexasteel.sa`. No merge into `main`; RFQ/OTS™ CRM draft PR #12 remains deferred.
+
+- **Planned vs delivered:** Authenticated Studio content import action; editable drafts for 21 existing page titles/introductions, anonymous projects, Knowledge, Insights, qualifications and homepage hero metadata; approved CMS page title/intro overrides; user-uploaded hero/project imagery and project gallery rendering; website search of published CMS page leads; no consumer contact overlay over Studio. The importer is **available but has not been run by an authenticated editor**.
+- **Integration / PR:** [PR #16](https://github.com/refedo/hexasteel.sa/pull/16) was automatically recognized as merged after an authorized **fast-forward of only** `rebuild/website-v3` to release SHA [`ae735ac3`](https://github.com/refedo/hexasteel.sa/commit/ae735ac377be0012184fa78ee188c626129f2ac6). `main` untouched. Any subsequent documentation-only branch SHA is **not** the deployed application SHA.
+- **Testing:** [Production branch CI passed](https://github.com/refedo/hexasteel.sa/actions/runs/39064602130) (TypeScript, full Next.js build, automated tests including V3.14, logo URL and search regressions). [DO preflight passed](https://github.com/refedo/hexasteel.sa/actions/runs/39064602184). [DigitalOcean deploy and rollback-capable server/domain smoke checks passed](https://github.com/refedo/hexasteel.sa/actions/runs/39064602201). Previous release retained for rollback.
+- **Independent live verification (rerun after deployment):** [Studio GET 200, embedded editor shell and public Sanity CORS/API 200](https://github.com/refedo/hexasteel.sa/actions/runs/38424091525); [V3.12 logos/search and V3.13 relocation live regressions passed](https://github.com/refedo/hexasteel.sa/actions/runs/38511951704).
+- **Stage:** Developed ✓ → Tested ✓ → Integrated into `rebuild/website-v3` ✓ → Deployed ✓ → HTTP/live automated checks ✓. **Authenticated import, editor CRUD, publishing genuine photo assets, and CEO visual/editorial operational acceptance still pending**. The Studio collections remain empty until authorized import or manual creation.
+- **Official R1:** **60.60% ≈ 61%, unchanged**; R2/R3 not started. The earlier provisional 65% is not accepted. A deployed import UI does not prove CMS editorial operations are accepted.
+- **Outstanding limitations:** Full page-body section editing and some Studio document types remain disconnected; project source photography is still illustrative; never infer logo endorsement, verification or photographic publication consent.
+- **Exact stopping point:** V3.14 app live; next action is for the authorized HEXA editor to visit `https://hexasteel.sa/studio`, select **Import Current Website Content**, click **Create missing editable drafts**, verify counts and current published settings, then edit/publish one permission-cleared hero, one anonymous case-study cover/gallery and one page lead. Verify changes and withholding of drafts on the production site/search. Preserve production rollback capability.
+
+---
+
+## V3.14 — Development record (superseded by deployed release above)
 
 **CEO priority decision:** Postpone V3.11 RFQ and any OTS™ CRM integration; do not change draft PR #12. Activate the existing Sanity Studio and migrate current website content into editable, permissioned public CMS documents, prioritizing homepage hero imagery and anonymous project cases.
 

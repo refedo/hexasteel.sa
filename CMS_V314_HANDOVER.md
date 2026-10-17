@@ -21,15 +21,14 @@ V3.13 was deployed and automated verified 14 October 2026 at app SHA `6f9a7d3`; 
 Sanity `production` is a public dataset. Draft imports are not equivalent to private storage. Do not enter sensitive customer names, RFQ drawings, staff records, unpublished endorsements or restricted site imagery. Project documents require `approvedForWeb` and `identityClearedForWeb`; qualifications require their scope verification and logo-use clearance. Any legacy sensitive data in a public dataset must be audited and removed separately.
 
 ## Stage gate
-**Developed:** code committed to feature branch.  
-**Tested:** pending final GitHub CI completion at time of writing; report the actual run in PR.  
-**Integrated:** no.  
-**Deployed:** no.  
-**Operationally accepted:** no; signed-in CMS editing and actual asset import can only be checked after deployment.
+**Developed:** source committed as `ae735ac3`.  
+**Tested:** production and PR CI successful; TypeScript, Next.js build, automated tests, logos and HTTP search checks.  
+**Integrated:** yes, fast-forwarded into `rebuild/website-v3` via CEO-approved PR #16; `main` untouched.  
+**Deployed:** yes, DigitalOcean pipeline passed with rollback and domain smoke tests.  
+**Independent live tests:** rerun Studio HTTP/Sanity CORS test passed and existing site search/logo/relocation regression passed.  
+**Operationally accepted:** not yet for new Studio import, verified real imagery and CMS publishing.
 
 ## Remaining tasks
-- Review CI on feature branch; TypeScript, build, automated test and HTTP search/logo tests.
-- CEO deployment authorization followed by existing GitHub–DigitalOcean pipeline and production smoke verification.
 - Editor opens `/studio` and invokes Import Current Website Content; verifies draft quantities and existing published settings remain intact.
 - Edit, approve and publish one actual HEXA hero photograph (title, accessible alt, rights); confirm visible on homepage and refresh works.
 - Edit and publish one anonymous project with a genuine cover/gallery image; verify listing/detail/search, status and privacy gates.
@@ -38,4 +37,6 @@ Sanity `production` is a public dataset. Draft imports are not equivalent to pri
 - Later milestone: full section-level editor, image/SEO fields for Knowledge & Insights, navigation, services, testimonials and people; avoid publishing fabricated claims.
 
 **R1 official completion:** 60.60% ≈ 61%, unchanged pending operational acceptance. R2/R3 not started.  
-**Exact stopping point:** V3.14 proposed editorial activation on feature branch, awaiting CI and CEO release gate. No new stage domain; no main-branch merge; no DigitalOcean deployment without CEO approval.
+**Exact stopping point:** V3.14 deployed and automatically verified on `hexasteel.sa` with live app SHA `ae735ac3`. Authenticated editor import and proof-of-publishing remain to be accepted; `main` untouched. Rollback release retained.
+
+**Evidence:** [CI](https://github.com/refedo/hexasteel.sa/actions/runs/39064602130) · [Deployment](https://github.com/refedo/hexasteel.sa/actions/runs/39064602201) · [Studio live](https://github.com/refedo/hexasteel.sa/actions/runs/38424091525) · [Live regressions](https://github.com/refedo/hexasteel.sa/actions/runs/38511951704) · [PR #16](https://github.com/refedo/hexasteel.sa/pull/16)
