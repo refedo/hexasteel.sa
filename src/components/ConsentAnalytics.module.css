@@ -1,0 +1,44 @@
+.banner {
+  position: fixed;
+  z-index: 1000;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  max-width: 840px;
+  margin: 0 auto;
+  background: #fff;
+  color: #2c3e50;
+  border: 1px solid #d8e0e6;
+  border-radius: 12px;
+  box-shadow: 0 12px 36px rgba(21, 37, 52, .22);
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+.copy { flex: 1; min-width: 0; }
+.copy strong { font-size: 14px; font-weight: 700; }
+.copy p { margin: 5px 0 0; font-size: 13px; line-height: 1.5; }
+.actions { display: flex; gap: 8px; flex-shrink: 0; }
+.actions button { font: inherit; font-weight: 600; font-size: 13px; border-radius: 5px; padding: 9px 13px; cursor: pointer; }
+.secondary { background: white; color: #2c3e50; border: 1px solid #b8c5ce; }
+.primary { background: #2c3e50; color: white; border: 1px solid #2c3e50; }
+.preferences {
+  position: fixed;
+  z-index: 999;
+  bottom: 6px;
+  left: 10px;
+  background: rgba(255,255,255,.94);
+  border: 1px solid #c7d0d7;
+  color: #2c3e50;
+  border-radius: 4px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+  padding: 4px 8px;
+}
+.banner button:focus-visible, .preferences:focus-visible { outline: 3px solid #9cae2b; outline-offset: 2px; }
+@media (max-width: 600px) {
+  .banner { align-items: stretch; flex-direction: column; gap: 12px; padding: 14px; }
+  .actions { justify-content: flex-end; }
+}
