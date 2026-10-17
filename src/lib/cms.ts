@@ -91,3 +91,15 @@ export async function getQualifications():Promise<PublicQualification[]>{
 }
 
 export const cmsConfigured=Boolean(projectId);
+
+/** Explicit public page overrides; unapproved drafts never enter the website. */
+export async function getEditorialPage(route:string):Promise<{title:string;intro:string}|null>{
+ if(!client)return null;
+ try{
+  const data=await client.fetch<{title?:string;intro?:string}|null>(
+   '*[_type=="page" && approvedForWeb==true && slug.current==$route][0]{"title":title.en,"intro":intro.en}',
+   {route},{next:{revalidate:120}}
+  );
+  return data?.title&&data?.intro?{title:data.title,intro:data.intro}:null;
+ }catch{return null}
+}

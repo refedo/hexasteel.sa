@@ -4,6 +4,7 @@ import {useState} from "react";
 import {useClient} from "sanity";
 import {references,articles,insights,reportedQualifications} from "../../content/site";
 import {defaultHeroSlides,homeCopy} from "../../content/cmsSeed";
+import {publicPageDefaults} from "../../content/cmsPages";
 
 /**
  * One-time, idempotent editorial onboarding. Runs in the authenticated Studio
@@ -19,11 +20,22 @@ export function ImportWebsiteContent(){
   setBusy(true);setError("");setReport("");
   try{
    const existing=await client.fetch<Array<{_type:string;name?:string;slug?:{current:string};publicSlug?:{current:string}}>>(
-    '*[_type in ["project","knowledgeArticle","companyUpdate","publicQualification"]]{_type,name,slug,publicSlug}'
+    '*[_type in ["project","knowledgeArticle","companyUpdate","publicQualification","page"]]{_type,name,slug,publicSlug}'
    );
    const known=new Set(existing.map(doc=>doc._type+":"+(doc.publicSlug?.current||doc.slug?.current||doc.name||"").toLowerCase()));
    const tx=client.transaction();
-   let newProjects=0,newArticles=0,newInsights=0,newQualifications=0;
+   let newProjects=0,newArticles=0,newInsights=0,newQualifications=0,newPages=0;
+   for(const p of publicPageDefaults){
+    const routeKey=p.route.replaceAll("/","--");
+    if(known.has("page:"+routeKey))continue;
+    tx.createIfNotExists({
+     _id:"drafts.hexa-page-"+routeKey,_type:"page",
+     title:{_type:"localizedText",en:p.title},intro:{_type:"localizedText",en:p.intro},
+     slug:{_type:"slug",current:routeKey},
+     approvedForWeb:false,sections:[]
+    });
+    newPages++;
+   }
    for(const p of references){
     if(known.has("project:"+p.slug))continue;
     tx.createIfNotExists({
@@ -74,7 +86,7 @@ export function ImportWebsiteContent(){
     });
     newQualifications++;
    }
-   if(newProjects+newArticles+newInsights+newQualifications>0)await tx.commit();
+   if(newProjects+newArticles+newInsights+newQualifications+newPages>0)await tx.commit();
    const defaultFields={
     heroHeadline:{_type:"localizedText",en:homeCopy.heroHeadline},
     heroDescription:{_type:"localizedText",en:homeCopy.heroDescription},
@@ -100,7 +112,7 @@ export function ImportWebsiteContent(){
      accentColor:(safeCopy.accentColor as string|undefined)||"#C6D547"
     });
    }
-   setReport("Created editable drafts: "+newProjects+" projects, "+newArticles+" articles, "+newInsights+" insights, "+newQualifications+" qualifications. Existing records were left untouched. Homepage settings are saved as a draft; you must review and publish them to update the website.");
+   setReport("Created editable drafts: "+newPages+" website pages, "+newProjects+" projects, "+newArticles+" articles, "+newInsights+" insights, "+newQualifications+" qualifications. Existing records were left untouched. Homepage settings are saved as a draft; you must review and publish them to update the website.");
   }catch(cause){
    setError(cause instanceof Error?cause.message:"Import failed. Check your editorial permissions and retry.");
   }finally{setBusy(false);}
@@ -109,7 +121,7 @@ export function ImportWebsiteContent(){
   <p style={{fontSize:12,fontWeight:800,letterSpacing:1}}>HEXA STEEL® / CONTENT MANAGEMENT</p>
   <h1 style={{fontSize:32,margin:"12px 0"}}>Import existing website content</h1>
   <p>Sanity is connected, but the public website currently contains several built-in editorial records. Import them as drafts so you can edit the actual live content in Studio without retyping it.</p>
-  <p>The import includes the homepage headline and existing illustrative hero images, anonymous project references, technical articles, Insights and qualifications. It never overwrites existing documents or automatically publishes changes.</p>
+  <p>The import includes the homepage headline and existing illustrative hero images, website page introductions, anonymous project references, technical articles, Insights and qualifications. It never overwrites existing documents or automatically publishes changes.</p>
   <div style={{borderLeft:"3px solid #2C3E50",padding:"12px 18px",background:"#edf2f4",margin:"24px 0"}}>
    <strong>Before you publish:</strong>
    <p style={{marginBottom:0}}>Replace illustrative Unsplash images with approved HEXA photography. Confirm anonymous project descriptions, permissions, quantities, qualifications and logo rights. Drafts and unapproved records remain outside public CMS queries.</p>
@@ -119,6 +131,6 @@ export function ImportWebsiteContent(){
   </button>
   {report&&<p role="status" style={{marginTop:24,whiteSpace:"pre-wrap"}}>{report}</p>}
   {error&&<p role="alert" style={{marginTop:24,color:"#a32020"}}>{error}</p>}
-  <p style={{marginTop:28,fontSize:13}}>After import: open Website Settings → Homepage Hero Images, or Public Project Case Study → select a draft → upload cover/gallery images → review publication flags → Publish. New approved records automatically replace matching built-in entries after cache refresh.</p>
+  <p style={{marginTop:28,fontSize:13}}>After import: open Website Settings → Homepage Hero Images, Website Page → select a page, or Public Project Case Study → select a draft → upload cover/gallery images → review publication flags → Publish. New approved records automatically replace matching built-in entries after cache refresh.</p>
  </div>;
 }

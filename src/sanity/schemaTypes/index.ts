@@ -21,6 +21,8 @@ const page = defineType({
     defineField({name:"title",type:"localizedText",validation:r=>r.required()}),
     defineField({name:"slug",type:"slug",options:{source:"title.en"},validation:r=>r.required()}),
     defineField({name:"seoDescription",type:"localizedText"}),
+    defineField({name:"intro",type:"localizedText",title:"Page Introduction"}),
+    defineField({name:"approvedForWeb",type:"boolean",title:"Approved for public website",initialValue:false}),
     defineField({name:"sections",type:"array",of:[{type:"contentSection"}]})
   ],
   preview:{select:{title:"title.en"}}
@@ -104,7 +106,7 @@ const siteSettings=defineType({
     defineField({name:"heroSlides",type:"array",title:"Homepage Hero Images",description:"Up to six slides. Imported Unsplash sources remain clearly credited as illustrative until replaced with approved images.",
        validation:r=>r.max(6),of:[{type:"object",fields:[
         defineField({name:"asset",type:"image",options:{hotspot:true},description:"Upload a HEXA-authorized photograph to replace the illustrative source."}),
-        defineField({name:"illustrativeUrl",type:"url",title:"Existing illustrative photo URL",description:"Legacy Unsplash references only, until replaced by an approved HEXA upload.",validation:r=>r.custom(value=>!value||/^https:\/\/images\.unsplash\.com\/photo-[a-z0-9-]+/.test(value)?"": "Only the existing Unsplash illustration host is allowed.")}),
+        defineField({name:"illustrativeUrl",type:"url",title:"Existing illustrative photo URL",description:"Legacy Unsplash references only, until replaced by an approved HEXA upload.",validation:r=>r.custom(value=>!value||/^https:\/\/images\.unsplash\.com\/photo-[a-z0-9-]+/.test(value)?true:"Only the existing Unsplash illustration host is allowed.")}),
         defineField({name:"title",type:"string",validation:r=>r.required()}),
         defineField({name:"alt",type:"string",title:"Accessible image description",validation:r=>r.required()}),
         defineField({name:"credit",type:"string"})
