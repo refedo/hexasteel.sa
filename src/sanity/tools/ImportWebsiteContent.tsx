@@ -1,10 +1,14 @@
 "use client";
 
-import {useState} from "react";
+import {useEffect,useState} from "react";
 import {useClient} from "sanity";
 import {references,articles,insights,reportedQualifications} from "../../content/site";
 import {defaultHeroSlides,homeCopy} from "../../content/cmsSeed";
 import {publicPageDefaults} from "../../content/cmsPages";
+import {projectIllustrations} from "../../content/cmsSeed";
+import {stories} from "../../content/insightStories";
+import {qualificationLogos} from "../../content/qualificationLogos";
+import styles from "./ImportWebsiteContent.module.css";
 
 /**
  * One-time, idempotent editorial onboarding. Runs in the authenticated Studio
@@ -16,11 +20,24 @@ export function ImportWebsiteContent(){
  const [busy,setBusy]=useState(false);
  const [report,setReport]=useState("");
  const [error,setError]=useState("");
+ const [counts,setCounts]=useState<Record<string,number>|null>(null);
+ const [phase,setPhase]=useState("");
+ useEffect(()=>{
+  let cancelled=false;
+  client.fetch<Record<string,number>>(`{
+    "pages":count(*[_type=="page"]),
+    "projects":count(*[_type=="project"]),
+    "knowledge":count(*[_type=="knowledgeArticle"]),
+    "insights":count(*[_type=="companyUpdate"]),
+    "qualifications":count(*[_type=="publicQualification"])
+  }`,{}, {perspective:"raw",useCdn:false}).then(data=>{if(!cancelled)setCounts(data)}).catch(()=>{if(!cancelled)setCounts(null)});
+  return ()=>{cancelled=true};
+ },[client]);
  async function importContent(){
-  setBusy(true);setError("");setReport("");
+  setBusy(true);setPhase("Preparing existing public records…");setError("");setReport("");
   try{
    const existing=await client.fetch<Array<{_type:string;name?:string;slug?:{current:string};publicSlug?:{current:string}}>>(
-    '*[_type in ["project","knowledgeArticle","companyUpdate","publicQualification","page"]]{_type,name,slug,publicSlug}'
+    '*[_type in ["project","knowledgeArticle","companyUpdate","publicQualification","page"]]{_type,name,slug,publicSlug}',{}, {perspective:"raw",useCdn:false}
    );
    const known=new Set(existing.map(doc=>doc._type+":"+(doc.publicSlug?.current||doc.slug?.current||doc.name||"").toLowerCase()));
    const tx=client.transaction();
@@ -36,13 +53,14 @@ export function ImportWebsiteContent(){
     });
     newPages++;
    }
-   for(const p of references){
+   for(const [index,p] of references.entries()){
     if(known.has("project:"+p.slug))continue;
     tx.createIfNotExists({
      _id:"drafts.hexa-public-project-"+p.slug,_type:"project",
      publicTitle:{_type:"localizedText",en:p.title},
      publicSlug:{_type:"slug",current:p.slug},sector:p.category,
      publicSummary:p.description,quantityDisplay:p.size||undefined,
+     illustrativeUrl:projectIllustrations[index%projectIllustrations.length],
      deliveryStatus:p.status,
      completionYear:p.year?Number(p.year):undefined,
      approvedForWeb:false,identityClearedForWeb:false
@@ -72,7 +90,11 @@ export function ImportWebsiteContent(){
      title:{_type:"localizedText",en:item.title},slug:{_type:"slug",current:item.slug},
      category:item.category,displayDate:item.date,
      summary:{_type:"localizedText",en:item.summary},
-     sections:[],approvedForWeb:false
+     sections:(stories[item.slug]?.sections||[]).map(([heading,body],i)=>({
+       _key:"section"+String(i+1),_type:"object",
+       heading:{_type:"localizedText",en:heading},
+       body:{_type:"localizedText",en:body}
+     })),approvedForWeb:false
     });
     newInsights++;
    }
@@ -82,11 +104,16 @@ export function ImportWebsiteContent(){
     tx.createIfNotExists({
      _id:"drafts.hexa-qualification-"+slug,_type:"publicQualification",
      name:item.name,category:"Other",detail:item.detail,
+     externalLogoReference:qualificationLogos[item.name]?.url,
      logoUseAuthorized:false,verifiedScope:false,approvedForWeb:false
     });
     newQualifications++;
    }
-   if(newProjects+newArticles+newInsights+newQualifications+newPages>0)await tx.commit();
+   if(newProjects+newArticles+newInsights+newQualifications+newPages>0){
+    setPhase("Creating editorial drafts in Sanity…");
+    await tx.commit();
+   }
+   setPhase("Preparing homepage media and settings…");
    const defaultFields={
     heroHeadline:{_type:"localizedText",en:homeCopy.heroHeadline},
     heroDescription:{_type:"localizedText",en:homeCopy.heroDescription},
@@ -122,25 +149,53 @@ export function ImportWebsiteContent(){
      accentColor:(safeCopy.accentColor as string|undefined)||"#C6D547"
     });
    }
+   const updated=await client.fetch<Record<string,number>>(`{
+    "pages":count(*[_type=="page"]),
+    "projects":count(*[_type=="project"]),
+    "knowledge":count(*[_type=="knowledgeArticle"]),
+    "insights":count(*[_type=="companyUpdate"]),
+    "qualifications":count(*[_type=="publicQualification"])
+   }`,{}, {perspective:"raw",useCdn:false});
+   setCounts(updated);
+   setPhase("");
    setReport("Created editable drafts: "+newPages+" website pages, "+newProjects+" projects, "+newArticles+" articles, "+newInsights+" insights, "+newQualifications+" qualifications. Existing records were left untouched. Homepage settings are saved as a draft; you must review and publish them to update the website.");
   }catch(cause){
    setError(cause instanceof Error?cause.message:"Import failed. Check your editorial permissions and retry.");
-  }finally{setBusy(false);}
+  }finally{setBusy(false);setPhase("");}
  }
- return <div style={{padding:"clamp(20px,4vw,44px)",maxWidth:780,color:"#2C3E50",fontFamily:"system-ui,sans-serif"}}>
-  <p style={{fontSize:12,fontWeight:800,letterSpacing:1}}>HEXA STEEL® / CONTENT MANAGEMENT</p>
-  <h1 style={{fontSize:32,margin:"12px 0"}}>Import existing website content</h1>
-  <p>Sanity is connected, but the public website currently contains several built-in editorial records. Import them as drafts so you can edit the actual live content in Studio without retyping it.</p>
-  <p>The import includes the homepage headline and existing illustrative hero images, website page introductions, anonymous project references, technical articles, Insights and qualifications. It never overwrites existing documents or automatically publishes changes.</p>
-  <div style={{borderLeft:"3px solid #2C3E50",padding:"12px 18px",background:"#edf2f4",margin:"24px 0"}}>
-   <strong>Before you publish:</strong>
-   <p style={{marginBottom:0}}>Replace illustrative Unsplash images with approved HEXA photography. Confirm anonymous project descriptions, permissions, quantities, qualifications and logo rights. Drafts and unapproved records remain outside public CMS queries.</p>
+ return <div className={styles.wrapper}>
+  <p className={styles.eyebrow}>HEXA STEEL® / SANITY EDITORIAL</p>
+  <h1 className={styles.title}>Populate existing website content</h1>
+  <p className={styles.lead}>The website is already online, but most content still lives in source code. Use this action to create its missing editable Sanity records.</p>
+  <div className={styles.action}>
+   <button className={styles.primary} type="button" disabled={busy} onClick={importContent}>
+    {busy?"Import in progress…":"Import existing website content"}
+   </button>
+   <span className={styles.note}>One-time import. Existing Sanity documents are preserved; changes are not published automatically.</span>
   </div>
-  <button type="button" disabled={busy} onClick={importContent} style={{background:"#2C3E50",color:"#fff",border:0,padding:"14px 22px",fontWeight:750,cursor:busy?"wait":"pointer"}}>
-   {busy?"Importing…":"Create missing editable drafts"}
-  </button>
-  {report&&<p role="status" style={{marginTop:24,whiteSpace:"pre-wrap"}}>{report}</p>}
-  {error&&<p role="alert" style={{marginTop:24,color:"#a32020"}}>{error}</p>}
-  <p style={{marginTop:28,fontSize:13}}>After import: open Website Settings → Homepage Hero Images, Website Page → select a page, or Public Project Case Study → select a draft → upload cover/gallery images → review publication flags → Publish. New approved records automatically replace matching built-in entries after cache refresh.</p>
+  {busy&&<p className={styles.progress} role="status">{phase}</p>}
+  {error&&<div className={styles.error} role="alert"><strong>Import did not finish.</strong><p>{error}</p><p>Nothing is auto-published. Check your Sanity editor permissions or connection and retry.</p></div>}
+  {report&&<div className={styles.success} role="status"><strong>Import finished.</strong><p>{report}</p><p>Return to the Studio document lists (top-left back arrow) to see the newly created drafts.</p></div>}
+  <h2 className={styles.subheading}>Existing records in Sanity</h2>
+  <div className={styles.grid}>
+   {([
+    ["Website pages","pages",publicPageDefaults.length],
+    ["Project references","projects",references.length],
+    ["Knowledge articles","knowledge",articles.length],
+    ["Insights","insights",insights.length],
+    ["Qualifications","qualifications",reportedQualifications.length]
+   ] as const).map(([name,key,target])=><div className={styles.metric} key={key}>
+      <span className={styles.metricNumber}>{counts?counts[key]:"—"} <small>/ {target} starting records</small></span>
+      <span className={styles.metricName}>{name}</span>
+   </div>)}
+  </div>
+  <p className={styles.note}>Counts include existing documents and drafts, not just newly created items. They refresh after import. A fresh Studio navigation may be needed to update document lists.</p>
+  <div className={styles.warning}>
+   <strong>Public-content safeguards</strong>
+   <p>Project titles and descriptions stay anonymous. Imported images are credited as illustrative, not HEXA project photographs. Replace them with authorized images and review accuracy, permissions, quantities and qualification status before publishing.</p>
+  </div>
+  <h2 className={styles.subheading}>What becomes editable</h2>
+  <p>Homepage hero photographs and settings, project summaries and galleries, 21 website page headlines/introductions, Knowledge articles, Insight stories and public qualifications. You can edit each record under its Studio category after importing.</p>
+  <p className={styles.note}>Full page-body layouts, some services, people profiles and other unconnected schemas remain a separate development milestone. Their empty folders do not mean the import failed.</p>
  </div>;
 }
