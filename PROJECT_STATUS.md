@@ -1,3 +1,15 @@
+## V3.16 — Public project record excluded by privacy-clearance gate (18 October 2026; LIVE ROOT CAUSE VERIFIED)
+
+- **Previous deployed baseline:** V3.15 importer on `hexasteel.sa` app SHA `a181e0f0`, integration branch `3bbb268`. No R2/R3 or RFQ changes.
+- **User-reported issue:** Published Airport Infrastructure Steelwork image and status in Sanity not reflected on `/projects`; homepage image updates work.
+- **Live evidence:** [Sanity public-readonly audit](https://github.com/refedo/hexasteel.sa/actions/runs/39073417376) found published project record, cover image reference, status **Completed**, `approvedForWeb=true`, but **`identityClearedForWeb=false`**.
+- **Root cause:** Public GROQ projects query requires both approval flags, intentionally discarding this record and showing the preexisting code fallback. **No app deployment is needed to resolve this record.**
+- **Immediate next action:** Editor reviews photo/client publication rights, enables **Identity Cleared for Web** and publishes; allow the existing ≤120-second revalidation window, verify public card/status and detail. Do not bypass privacy controls or claim automatic approval.
+- **Optional feature branch:** `feature/v316-project-cms-publishing` stages clearer project approval guidance and a faster project-only refresh, awaiting CI/PR and **separate deployment approval**. Do not modify `main` or deploy without approval.
+- **Progress:** Official R1 **60.60% ≈ 61%** unchanged until live publication verified; R2/R3 not started.
+
+---
+
 ## V3.16 — Project Sanity publication visibility correction (18 October 2026; FEATURE BRANCH)
 
 **Starting point:** V3.15 CMS importer repair deployed to `hexasteel.sa` at `a181e0f0`; documentation head `3bbb268`. Existing Studio homepage hero-image changes are reported by CEO to work. User screenshot shows published Airport Infrastructure Steelwork has a genuine cover image and Completed delivery status, but `/projects` still displays an Unsplash illustration and Status to confirm.
