@@ -1,3 +1,18 @@
+## V3.14 — Sanity content activation (17 October 2026; FEATURE BRANCH — NOT DEPLOYED)
+
+**CEO priority decision:** Postpone V3.11 RFQ and any OTS™ CRM integration; do not change draft PR #12. Activate the existing Sanity Studio and migrate current website content into editable, permissioned public CMS documents, prioritizing homepage hero imagery and anonymous project cases.
+
+- **Previously verified:** V3.13 Supply Chain relocation and V3.12 logo/search deployed and externally checked on 14 October; latest documented live app SHA `6f9a7d3`. `rebuild/website-v3` remains the integration branch. Prior source editor-publishing acceptance applies to the theme/settings singleton, **not** all document types.
+- **Working branch:** `feature/v314-sanity-content-activation` based on verified `rebuild/website-v3` at `0e6fe45`. No push to the integration branch, no `main` merge, and no deployment.
+- **Planned vs coded:** Non-destructive, authenticated Studio draft importer for 21 currently public page headers, anonymized projects, Knowledge articles, Insights, and qualifications; import homepage hero slides as explicitly labelled illustrative images; allow authorized Sanity upload to replace slide imagery; render approved project cover images and project detail galleries; connect approved CMS page titles/intros on 21 live routes and feed them into website search; hide public WhatsApp/Call controls in Studio.
+- **Publication safeguards:** Existing published settings are retained; imported objects are drafts and are not auto-approved. Only public-safe project fields may be stored in Sanity's public dataset. Do not treat illustrative imagery as genuine HEXA project photography. Unapproved or confidential data must remain outside public routes.
+- **Limitations:** Most long-form page sections and several existing Studio schemas are still source-managed/unconnected. No CMS auto-publishing, no new credentials, and no R2/R3 implementation. Authentic photo assets, permission evidence and final content editing require CEO/editorial action after authorized deployment.
+- **Tests and acceptance:** GitHub branch CI/PR checks will be recorded in the PR; production, import execution and CEO editorial validation remain **pending**. Full delivery handover is in `CMS_V314_HANDOVER.md`.
+- **Official R1:** 60.60% ≈ **61% unchanged**. The earlier provisional 65% is not accepted. R2/R3 not started.
+- **Next checkpoint:** CI pass → present PR to CEO → explicit approval → integrate into `rebuild/website-v3`, deploy to `hexasteel.sa`, verify live import/publishing and visual imagery. Do not merge to `main`.
+
+---
+
 ## V3.13 — Deployed and externally verified (14 October 2026)
 
 **Authorized release:** The CEO approved direct deployment of the V3.13 Supply Chain relocation to `hexasteel.sa`, without merging to `main`.

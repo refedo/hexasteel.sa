@@ -2,6 +2,7 @@ import {createClient} from "next-sanity";
 import {articles,insights,references} from "@/content/site";
 import {qualificationLogos} from "@/content/qualificationLogos";
 import {isSafePublicImage} from "@/content/cmsSeed";
+import {publicPageDefaults} from "@/content/cmsPages";
 import type {SearchResult} from "@/lib/searchIndex";
 
 type Project = (typeof references)[number] & {gallery?:{src:string;alt:string}[];scope?:string};
@@ -55,8 +56,10 @@ export async function getHomeSettings():Promise<HomeSettings>{
 }
 export async function getCmsSearchEntries():Promise<SearchResult[]>{
  if(!client)return [];
- const [projects,stories,guides]=await Promise.all([getCmsProjects(),getCmsInsights(),getCmsArticles()]);
+ const [projects,stories,guides,pages]=await Promise.all([getCmsProjects(),getCmsInsights(),getCmsArticles(),safeFetch<{slug:string;title:string;intro:string}>('*[_type=="page" && approvedForWeb==true]{"slug":slug.current,"title":title.en,"intro":intro.en}')]);
+ const routeByKey=new Map<string,string>(publicPageDefaults.map(p=>[p.route.replaceAll("/","--"),p.route]));
  return [
+ ...pages.filter(p=>routeByKey.has(p.slug)&&p.title&&p.intro).map(p=>({title:p.title,description:p.intro,category:"Pages",href:"/"+routeByKey.get(p.slug)!})),
  ...projects.map(x=>({title:x.title,description:x.description,category:"Projects",href:"/projects/"+x.slug,keywords:x.category})),
  ...stories.map(x=>({title:x.title,description:x.summary,category:"Insights",href:"/insights/"+x.slug,keywords:x.category+" "+x.date+" "+(x.sections||[]).map(s=>s.heading+" "+s.body).join(" ")})),
  ...guides.map(x=>({title:x.title,description:x.intro,category:"Knowledge",href:"/knowledge/"+x.slug,keywords:x.category+" "+x.sections.map(s=>s.heading+" "+s.body).join(" ")}))

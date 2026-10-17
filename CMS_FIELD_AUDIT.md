@@ -1,3 +1,21 @@
+## V3.14 CMS Editorial Migration — 17 October 2026 (feature branch, not deployed)
+
+| Scope | V3.14 code position | Publishing conditions |
+|---|---|---|
+| Homepage theme and hero | Existing published singleton preserved; imported hero slide URLs/images are managed as Studio draft fields | Image asset takes precedence over legacy attributed illustrative URL when settings published |
+| Website Page | 21 route titles/intros now have optional approved Sanity overrides and non-destructive draft import | `page.approvedForWeb=true` and published document; other page-body panels remain source-managed |
+| Public Project Case Study | Import anonymous project references, editable cover images, gallery, title, scope and public summary; project detail gallery now renders | Requires approvedForWeb and identityClearedForWeb, only safe public image URLs accepted |
+| Knowledge Centre | Existing approved CMS adapter preserved; seeded article drafts with sections | Approved and published only; cover image/SEO display still requires a later connection |
+| Insights | Existing approved CMS adapter preserved; seeded story drafts, with detail-section fallback retained when imported empty | Approved and published only; illustrations/SEO await later connection |
+| Public Qualification | Drafts seeded without asserting official verification | verifiedScope, approvedForWeb and logo-use authorization gate still apply |
+| Editorial workspace | Hide public WhatsApp/Call UI over Studio; import requires Sanity user authentication | No write API tokens shipped |
+| Search | Approved CMS page intros included in existing static+CMS search merge | No unapproved draft indexing |
+| Other schemas | Credential, initiative, capability service, testimonial and team profile still mostly disconnected | Do not populate invented or personally sensitive records |
+
+**Acceptance still outstanding:** complete TypeScript/build/test CI on the final PR, authorized deployment, signed-in Studio import/CRUD, photograph rights verification, live page/hero/gallery/search checks, mobile visual QA and formal editorial sign-off. Official R1 remains **60.60% ≈ 61%**. R2/R3 have not started.
+
+---
+
 # HEXA Steel® V3 — Sanity CMS Field Connection Audit
 
 Audit: 13 October 2026. Sanity project \`ik7morln\` dataset \`production\`. This is a public website content store. It must never contain confidential clients, production recipes, prices or personal HR records.
