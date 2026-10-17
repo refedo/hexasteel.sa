@@ -1,3 +1,16 @@
+## V3.15 — Sanity Studio editorial usability corrective milestone (17 October 2026; FEATURE BRANCH, NOT DEPLOYED)
+
+**Reason:** CEO iPhone screenshots show existing collections empty and importer controls almost below the fold with low contrast; V3.14 did not include running authenticated content import. This is a real operational-acceptance gap, not proof of a disconnected project.
+
+- **Baseline:** `rebuild/website-v3` `ea962e6` (only docs after deployed V3.14 `ae735ac3`); Studio endpoint and CORS were already HTTP verified. Previous RFQ PR #12 stays deferred.
+- **V3.15 working branch:** `feature/v315-studio-import-usability`, not integrated into production.
+- **Planned/implemented:** readable, one-click top-of-page importer; record counts/progress/errors; non-destructive raw-draft handling; seed full source Insight narratives and reference image URLs; organise connected and unconnected Studio collections; automated regression tests; preserve existing current live source fallbacks.
+- **Explicit content limitation:** The import creates editor-managed drafts after an **authorized editor clicks the button**. Simply deploying does not populate Sanity. Studio cannot yet edit all long-form page-body components. Authentic HEXA photographs and qualified public claims still require editor clearance.
+- **Acceptance:** feature CI success, explicit CEO deployment approval, deployment/HTTP smoke tests, authenticated Studio import + measured document counts, editorial media changes and live page/search proof. Until then only **developed / tested** stages may be claimed.
+- **Official R1 completion:** 60.60% ≈ 61%, unchanged; R2/R3 not started. The former 65% is an unapproved provisional estimate.
+- **Exact stopping point:** V3.15 feature-branch corrective work, pending PR test/review and CEO authorization; no `main` or `rebuild/website-v3` write, no DigitalOcean deployment.
+
+---
 ## V3.14 — Authorized deployment and live verification (17 October 2026)
 
 **CEO approval:** Authorized direct deployment of V3.14 Sanity editorial activation on `hexasteel.sa`. No merge into `main`; RFQ/OTS™ CRM draft PR #12 remains deferred.
