@@ -32,7 +32,7 @@ export async function generateMetadata({params}:Props):Promise<Metadata>{const {
 export default async function Insight({params}:Props){
  const {slug}=await params;const item=(await getInsights()).find(x=>x.slug===slug);if(!item)notFound();
  const live=(await getCmsInsights()).find(x=>x.slug===slug);
- const story=live?{lead:live.summary,sections:(live.sections||[]).map(s=>[s.heading,s.body] as [string,string])}:stories[slug];if(!story)notFound();
+ const story=live?{lead:live.summary,sections:live.sections?.length?live.sections.map(s=>[s.heading,s.body] as [string,string]):(stories[slug]?.sections||[])}:stories[slug];if(!story)notFound();
  return <main><PageHero eyebrow={item.category.toUpperCase()+" / "+item.date} title={item.title} intro={story.lead}/>
   <section className="section"><article className="shell article-body"><p className="eyebrow">HEXA STEEL® / INDUSTRIAL JOURNEY</p>
   {story.sections.map(([heading,copy],i)=><section key={heading}><p className="eyebrow">0{i+1} / DEVELOPMENT</p><h2>{heading}</h2><p>{copy}</p></section>)}
