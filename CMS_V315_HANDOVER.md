@@ -1,3 +1,15 @@
+## V3.15 R1-C EDITORIAL ACCEPTANCE UPDATE — 18 October 2026
+
+**Official R1: 65% — explicitly approved by the CEO.** This replaces the earlier 60.60% (rounded 61%) management progress figure in the historical handover below. R2 and R3 remain 0%/not started. This new figure belongs to R1 only.
+
+**Developed / tested / integrated / deployed:** V3.14–V3.15 CMS activation/importer running on `hexasteel.sa`, application release `a181e0f0`; production GitHub CI and deployment succeeded. **User-operational acceptance now includes** homepage hero-image editing and publishing plus the Airport Infrastructure Steelwork project cover-image and delivery-status edits reaching the public website. The project's missing publication clearance was diagnosed by [read-only live Sanity check](https://github.com/refedo/hexasteel.sa/actions/runs/39073417376) and addressed in Studio, without production code changes.
+
+**Partial, not general CMS acceptance:** Site-wide page-body content, all galleries, every qualification, people/team/testimonials, multilingual editorial workflows and the full release QA checklist are not yet verified. Separate optional draft [PR #19](https://github.com/refedo/hexasteel.sa/pull/19) for clearer approval switches is not merged/deployed. RFQ/CRM remains postponed. Do not convert these acceptance observations into claims that R1 itself or R2/R3 is complete.
+
+**Stopping point:** R1 official 65%, functional homepage hero and one project case study publishing confirmed; proceed to remaining CMS content-field coverage and project gallery acceptance, with security and publication permission gates preserved.
+
+---
+
 # HEXA Steel® V3.15 — Sanity Studio import usability and content seeding
 
 **Audit date:** 17 October 2026  

@@ -1,3 +1,21 @@
+## OFFICIAL RELEASE PROGRESS — CEO-APPROVED R1 UPDATE (18 October 2026)
+
+| Release | Official completion | Basis / stage |
+| --- | ---: | --- |
+| **R1 — Corporate Website, CMS & Lead Generation** | **65%** | CEO-approved management completion figure; V3.14–V3.15 CMS implemented/deployed, homepage image editing and one project's cover-image + delivery-status publishing operationally demonstrated |
+| **R2 — Commercial Platform & CRM** | **0%** | Not started; RFQ/OTS™ CRM integration postponed, with separate draft PR #12 |
+| **R3 — AI-Assisted Steel Estimation** | **0%** | Not started |
+
+**Supersedes prior R1 completion reporting:** 60.60% (rounded 61%) was the earlier documented baseline. The CEO explicitly **approved 65%** on 18 October 2026 in recognition of the significant Sanity CMS progress. This is a management-approved milestone assessment, **not** a recalculation from individually weighted features; it does not mean 65% of the overall R1+R2+R3 programme is complete. Previous 61% entries below remain historical handover snapshots only.
+
+**Operational evidence/limits:** The CEO confirmed that changing a homepage hero photograph in Sanity updates the live website, and separately confirmed the published *Airport Infrastructure Steelwork* cover photograph and **Completed** delivery status appeared on the public projects page after the `identityClearedForWeb` publication gate was satisfied. The [read-only Sanity diagnostic](https://github.com/refedo/hexasteel.sa/actions/runs/39073417376) had verified the exact original approval gate issue (published record, image present, status Completed, `approvedForWeb=true`, `identityClearedForWeb=false`). Current production is V3.15 app `a181e0f0` (DigitalOcean [deployment verified](https://github.com/refedo/hexasteel.sa/actions/runs/39070900174)); neither the proof-of-publishing nor this percentage update required a new application deployment.
+
+**Still open in R1:** Complete editing of source-managed page-body sections and remaining CMS schemas; project gallery end-to-end acceptance (cover is verified, not all gallery images); qualification/logo editorial permissions; broader Arabic/RTL, RFQ, security, SEO and final operational/visual acceptance. The optional V3.16 publishing-guidance/30-second-refresh [draft PR #19](https://github.com/refedo/hexasteel.sa/pull/19) remains **unmerged and undeployed**; do not bypass the existing two approval gates.
+
+**Change-control:** This entry records a CEO-authorized **status/documentation update only**. No merge to `main`, no new production deployment, and no change to the postponed RFQ/CRM scope. Future progress must be assessed from new verified work; do not reuse the historical 61% as the current official baseline.
+
+---
+
 ## V3.15 CMS Import Usability — authorized release deployed and verified (18 October 2026)
 
 **Owner approval:** Explicit authorization to release tested Sanity import usability repair to `hexasteel.sa`. The latest integration branch had advanced to the separately deployed welcome/beta release `be2f3f2`; PR #18 was safely reconciled against that baseline before a fast-forward of **only** `rebuild/website-v3`.
