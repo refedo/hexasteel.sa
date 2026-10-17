@@ -1,3 +1,4 @@
+import {getEditorialPage} from "@/lib/cms";
 import type {Metadata} from "next";
 import Link from "next/link";
 import {CapabilityNarrative} from "@/components/CapabilityNarrative";
@@ -10,8 +11,8 @@ const scenes=[
 {label:"C/Z Purlins",eyebrow:"03 / INTEGRATED SECONDARY STEEL",headline:"Secondary framing. In-house control.",description:"Our automatic C/Z forming capability supports roof purlins and wall girts for PEB and industrial structures, reducing interfaces between suppliers.",outcomes:["C and Z section manufacturing","Purlin and girt orders","Coordination with complete PEB packages"],href:"/capabilities/machinery#cz-purlins",cta:"Explore purlin capability",symbol:"C/Z"},
 {label:"Project Delivery",eyebrow:"04 / DESIGN THROUGH SITE",headline:"One delivery system.",description:"Planning ties engineering, procurement, primary and secondary steel, surface protection, dispatch and site interfaces together.",outcomes:["Project coordination and submittals","Inspection and delivery records","Site-supervised erection where contracted"],href:"/project-delivery",cta:"Explore project delivery",symbol:"SITE"},
 ];
-export default function PEB(){return <main>
- <PageHero eyebrow="SOLUTIONS / PRE-ENGINEERED BUILDINGS" title="Industrial buildings engineered around purpose." intro="Integrated PEB solutions for factories, warehouses and industrial expansions—with in-house primary framing and C/Z purlin capabilities."/>
+export default async function PEB(){const editorial=await getEditorialPage("solutions--peb");return <main>
+ <PageHero eyebrow="SOLUTIONS / PRE-ENGINEERED BUILDINGS" title={editorial?.title||"Industrial buildings engineered around purpose."} intro={editorial?.intro||"Integrated PEB solutions for factories, warehouses and industrial expansions—with in-house primary framing and C/Z purlin capabilities."}/>
  <section className="section editorial-capability-intro"><div className="shell editorial-statement"><div><p className="eyebrow">A CORE HEXA STEEL DISCIPLINE</p><h2>Efficient buildings.<br/><span>Controlled delivery.</span></h2></div><p>PEB and Structural Steel are equal core solutions. Our project teams coordinate the structural system, primary steel, secondary elements, coating and site installation scope.</p></div></section>
  <section className="section capability-story-section"><div className="shell"><div className="section-intro"><p className="eyebrow">EXPLORE OUR PRE-ENGINEERED BUILDING CAPABILITY</p><h2>Purpose-led systems.<br/><span>Manufacturing control.</span></h2><p>Discover our industrial building approach—from primary framing to C/Z purlin manufacturing.</p></div><CapabilityNarrative scenes={scenes} kicker="PRE-ENGINEERED BUILDINGS"/></div></section>
  <section className="section"><div className="shell"><div className="section-intro"><p className="eyebrow">PEB FRAME DESIGN OPTIONS</p><h2>Every span has<br/><span>its own solution.</span></h2><p>Explore single-span, multi-span, multi-gable, lean-to, cantilever and curved industrial framing systems.</p></div><PEBFrames compact/><Link className="text-link" href="/knowledge/peb-frame-systems">Read the illustrated PEB frame guide</Link></div></section>
