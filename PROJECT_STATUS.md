@@ -1,3 +1,31 @@
+## V3.16 — Public project record excluded by privacy-clearance gate (18 October 2026; LIVE ROOT CAUSE VERIFIED)
+
+- **Previous deployed baseline:** V3.15 importer on `hexasteel.sa` app SHA `a181e0f0`, integration branch `3bbb268`. No R2/R3 or RFQ changes.
+- **User-reported issue:** Published Airport Infrastructure Steelwork image and status in Sanity not reflected on `/projects`; homepage image updates work.
+- **Live evidence:** [Sanity public-readonly audit](https://github.com/refedo/hexasteel.sa/actions/runs/39073417376) found published project record, cover image reference, status **Completed**, `approvedForWeb=true`, but **`identityClearedForWeb=false`**.
+- **Root cause:** Public GROQ projects query requires both approval flags, intentionally discarding this record and showing the preexisting code fallback. **No app deployment is needed to resolve this record.**
+- **Immediate next action:** Editor reviews photo/client publication rights, enables **Identity Cleared for Web** and publishes; allow the existing ≤120-second revalidation window, verify public card/status and detail. Do not bypass privacy controls or claim automatic approval.
+- **Optional feature branch:** `feature/v316-project-cms-publishing` stages clearer project approval guidance and a faster project-only refresh, awaiting CI/PR and **separate deployment approval**. Do not modify `main` or deploy without approval.
+- **Progress:** Official R1 **60.60% ≈ 61%** unchanged until live publication verified; R2/R3 not started.
+
+---
+
+## V3.16 — Project Sanity publication visibility correction (18 October 2026; FEATURE BRANCH)
+
+**Starting point:** V3.15 CMS importer repair deployed to `hexasteel.sa` at `a181e0f0`; documentation head `3bbb268`. Existing Studio homepage hero-image changes are reported by CEO to work. User screenshot shows published Airport Infrastructure Steelwork has a genuine cover image and Completed delivery status, but `/projects` still displays an Unsplash illustration and Status to confirm.
+
+**Cause verified in repository:** Public project query requires both `approvedForWeb==true` and `identityClearedForWeb==true` in addition to publishing, and only approved CMS projects override built-in public references by slug. Its project fetch uses Sanity CDN and a 120-second Next.js revalidation window. Exact live checkbox values could not be independently fetched, so root cause remains conditional until the editor verifies both.
+
+**Correction developed:** Move both independently necessary approval toggles just beneath the project's URL field, with explicit publication instructions and visible hidden/eligible status in Studio's project list. Keep both privacy checks intact. Bypass Sanity CDN only for public project reads and use a 30-second cache interval instead of 120 seconds; other CMS fetch policies unchanged. Add regression tests for field placement, approval checks, image preference, project-only refresh and general cache defaults.
+
+**Stages:** Developed on `feature/v316-project-cms-publishing` pending CI and CEO deployment approval; `rebuild/website-v3` and `main` remain unchanged. Separate welcome/beta, RFQ and CRM work preserved.
+
+**Acceptance:** CI TypeScript/build/tests; after explicit approval deploy via existing DigitalOcean pipeline; open the Airport Infrastructure Steelwork record, confirm both approval switches true and Publish; verify `/projects` card and project detail reflect Completed, the image and year within 30–60 seconds (assuming successful cache refresh); confirm an unapproved project stays hidden. Do not treat photo approval or client privacy as automatic.
+
+**Official progress:** R1 60.60% ≈ 61% pending operational acceptance; R2/R3 not started.
+
+---
+
 ## V3.15 CMS Import Usability — authorized release deployed and verified (18 October 2026)
 
 **Owner approval:** Explicit authorization to release tested Sanity import usability repair to `hexasteel.sa`. The latest integration branch had advanced to the separately deployed welcome/beta release `be2f3f2`; PR #18 was safely reconciled against that baseline before a fast-forward of **only** `rebuild/website-v3`.

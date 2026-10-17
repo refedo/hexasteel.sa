@@ -21,10 +21,13 @@ const projectQuery='*[_type=="project" && approvedForWeb==true && identityCleare
 const insightQuery='*[_type=="companyUpdate" && approvedForWeb==true && defined(slug.current)]{ "slug":slug.current,"title":title.en,"summary":summary.en,"category":category,"date":displayDate,"sections":sections[]{"heading":heading.en,"body":body.en} }';
 const knowledgeQuery='*[_type=="knowledgeArticle" && approvedForWeb==true && defined(slug.current)]{ "slug":slug.current,"title":title.en,"intro":intro.en,"category":category,"sections":sections[]{"heading":heading.en,"body":body.en} }';
 
-async function safeFetch<T>(query:string):Promise<T[]> {
+async function safeFetch<T>(query:string,options?:{fresh?:boolean;revalidate?:number}):Promise<T[]> {
  if(!client)return [];
- try {const result=await client.fetch<T[]>(query,{}, {next:{revalidate:120}});return Array.isArray(result)?result:[]}
- catch {return []}
+ try {
+  const source=options?.fresh?client.withConfig({useCdn:false}):client;
+  const result=await source.fetch<T[]>(query,{}, {next:{revalidate:options?.revalidate??120}});
+  return Array.isArray(result)?result:[];
+ }catch{return []}
 }
 function combine<T extends {slug:string}>(fallback:readonly T[],cms:T[]):T[]{
  const bySlug=new Map(fallback.map(x=>[x.slug,x]));
@@ -32,7 +35,7 @@ function combine<T extends {slug:string}>(fallback:readonly T[],cms:T[]):T[]{
  return [...bySlug.values()];
 }
 export async function getCmsProjects():Promise<CmsProject[]>{
- return (await safeFetch<CmsProject>(projectQuery)).filter(x=>x.slug&&x.title&&x.description).map(x=>({...x,category:x.category||"Structural Steel",year:x.year||"",size:x.size||"",status:x.status||"Status to confirm",image:isSafePublicImage(x.image)?x.image:"",gallery:(x.gallery||[]).filter(p=>isSafePublicImage(p.src)).map(p=>({src:p.src,alt:p.alt||x.title+" approved project photograph"}))}));
+ return (await safeFetch<CmsProject>(projectQuery,{fresh:true,revalidate:30})).filter(x=>x.slug&&x.title&&x.description).map(x=>({...x,category:x.category||"Structural Steel",year:x.year||"",size:x.size||"",status:x.status||"Status to confirm",image:isSafePublicImage(x.image)?x.image:"",gallery:(x.gallery||[]).filter(p=>isSafePublicImage(p.src)).map(p=>({src:p.src,alt:p.alt||x.title+" approved project photograph"}))}));
 }
 export async function getProjects():Promise<Project[]> {return combine(references,await getCmsProjects() as Project[])}
 export async function getCmsInsights():Promise<CmsInsight[]>{

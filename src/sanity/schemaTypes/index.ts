@@ -32,6 +32,8 @@ const project=defineType({name:"project",title:"Public Project Case Study",type:
  fields:[
   defineField({name:"publicTitle",type:"localizedText",title:"Anonymous Project Title",description:"No customer names or restricted project identifiers.",validation:r=>r.required()}),
   defineField({name:"publicSlug",type:"slug",title:"Anonymous URL",options:{source:"publicTitle.en"},validation:r=>r.required()}),
+  defineField({name:"approvedForWeb",title:"1. Approved for Public Website",type:"boolean",initialValue:false,description:"Required for website updates. Management confirms descriptions, delivery status, images, quantities and publication rights. Enable BOTH approval switches, then Publish."}),
+  defineField({name:"identityClearedForWeb",title:"2. Client and Image Privacy Cleared",type:"boolean",initialValue:false,description:"Required separately: no restricted client names, locations, technical documents or unlicensed photographs. Both switches must be enabled in a Published document to appear on hexasteel.sa."}),
   defineField({name:"sector",type:"string",title:"Sector"}),
   defineField({name:"publicSummary",type:"text",title:"Public Scope Summary",rows:4,validation:r=>r.required()}),
   defineField({name:"quantityDisplay",type:"string",title:"Approved Tonnage"}),
@@ -41,10 +43,9 @@ const project=defineType({name:"project",title:"Public Project Case Study",type:
   defineField({name:"completionYear",type:"number"}),
   defineField({name:"scope",type:"text",title:"Public Scope Details"}),
   defineField({name:"photos",title:"Approved Project Gallery",description:"Images appear on the public project detail page only after approval. Never upload confidential material.",type:"array",of:[{type:"image",options:{hotspot:true},fields:[{name:"alt",type:"string",title:"Image description"}]}]}),
-  defineField({name:"approvedForWeb",type:"boolean",initialValue:false,description:"Management reviewed all facts, photos and figures."}),
-  defineField({name:"identityClearedForWeb",type:"boolean",initialValue:false,description:"Confirmed title, slug, imagery and copy contain no restricted identities."})
+
  ],
- preview:{select:{title:"publicTitle.en",subtitle:"deliveryStatus"}}
+ preview:{select:{title:"publicTitle.en",status:"deliveryStatus",approved:"approvedForWeb",cleared:"identityClearedForWeb"},prepare({title,status,approved,cleared}){return {title:title||"Untitled project",subtitle:approved&&cleared?"PUBLIC FLAGS CLEARED · Publish to go live · "+(status||"Status pending"):"HIDDEN FROM WEBSITE · Both public approval switches required"};}}
 });
 const machine=defineType({name:"machine",title:"Machine Capability",type:"document",fields:[
   defineField({name:"name",type:"string",validation:r=>r.required()}),
