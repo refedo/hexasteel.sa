@@ -1,3 +1,19 @@
+## V3.15 CMS Import Usability — authorized release deployed and verified (18 October 2026)
+
+**Owner approval:** Explicit authorization to release tested Sanity import usability repair to `hexasteel.sa`. The latest integration branch had advanced to the separately deployed welcome/beta release `be2f3f2`; PR #18 was safely reconciled against that baseline before a fast-forward of **only** `rebuild/website-v3`.
+
+- **Planned versus delivered:** Responsive high-contrast top-positioned Studio import action, editor-visible import progress/errors/success, counts of draft/published records, draft-aware non-destructive import, full previously hardcoded Insight narratives, existing public project illustrations, qualification logo candidate references and connected-vs-unconnected Studio document organization. Existing welcome notice, logo/search and supply chain work were preserved.
+- **GitHub:** [PR #18](https://github.com/refedo/hexasteel.sa/pull/18), application release [`a181e0f0`](https://github.com/refedo/hexasteel.sa/commit/a181e0f0874cb8483141e0dcbaca2c3da8914d52), merged only into `rebuild/website-v3` via verified fast-forward. `main` remained untouched; RFQ/CRM PR #12 deferred.
+- **Testing:** [Feature/PR CI passed](https://github.com/refedo/hexasteel.sa/actions/runs/39070699975) and [production CI passed](https://github.com/refedo/hexasteel.sa/actions/runs/39070900175): TypeScript, automated tests, production Next.js build, site-search regressions and URL checks for eleven legacy logo assets. [DigitalOcean readiness passed](https://github.com/refedo/hexasteel.sa/actions/runs/39070900209). [Production deployment successful](https://github.com/refedo/hexasteel.sa/actions/runs/39070900174), including rollback-safe activation, server route checks and HTTPS domain health.
+- **Independent live checks:** Re-ran [Studio HTTP/CORS smoke test](https://github.com/refedo/hexasteel.sa/actions/runs/38424091525) and [V3.12/V3.13 public site regressions](https://github.com/refedo/hexasteel.sa/actions/runs/38511951704) **after deployment**; both passed. These are HTTP/public API checks, not authenticated Sanity CRUD or device-level visual tests.
+- **Status:** Developed ✓ → CI tested ✓ → Integrated ✓ → Deployed ✓ → Automated live smoke verification ✓ → **CMS import/publishing operational acceptance pending**. Deployment does *not* create Sanity records on its own; it exposes an editor action that must be run under an authorized Sanity login.
+- **Next verification:** Editor visits `https://hexasteel.sa/studio`, selects **Import Current Website Content**, presses **Import existing website content**, and confirms success plus expected draft counts. Open the Studio lists, verify current published homepage values are preserved and import contents are anonymous/public-safe. Then edit and publish one cleared hero photograph, one anonymized project/gallery and one page introduction; confirm live/search behavior. Retain rollback release.
+- **Official R1:** **60.60% ≈ 61%**, unchanged until genuine CMS editorial acceptance; previous 65% was provisional, not approved. R2/R3 have not started. Full page-body CMS wiring still incomplete.
+
+**Exact stopping point:** V3.15 importer repair deployed with automated evidence; importer execution/editor workflow and full page-body control remain open R1-C work. Do not claim operational acceptance based on route HTTP 200.
+
+---
+
 ## V3.15 — Sanity Studio import usability correction (17 October 2026; pending verification and deployment)
 
 **CEO authorization:** Approved corrective V3.15 importer integration/deployment to `hexasteel.sa` after successful CI, separately from the already deployed website welcome notice. The integration branch advanced to `be2f3f2` after the original PR #18 fork; reconcile existing welcome code through a two-parent feature merge without reverting it.

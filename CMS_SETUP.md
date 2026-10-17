@@ -1,3 +1,9 @@
+## V3.15 — Studio importer deployed, editorial action pending (18 October 2026)
+
+Release `a181e0f0` deployed on `hexasteel.sa`. Go to `/studio` → **Import Current Website Content**. The high-contrast primary **Import existing website content** action appears at the top of the importer. Its record counters show current Sanity documents; after successful import, all missing source-based drafts should appear in the appropriate lists. No public content is changed automatically, and imports must be run by an authenticated editor. Never upload restricted project or customer materials to the public dataset. Actual import and publishing remain to be verified by HEXA's editor.
+
+---
+
 ## V3.14 CURRENT STATUS — 17 October 2026 (supersedes the stale setup snapshot below)
 Sanity project `ik7morln` / `production` is already connected and authenticated. Website Settings publishing has been verified previously. The empty Studio collections reflect **unseeded records**, not a disconnected Sanity account. V3.14 application is deployed to hexasteel.sa and live HTTP checks passed; the authenticated editor import and publication exercises are still pending.
 

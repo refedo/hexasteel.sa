@@ -28,7 +28,11 @@ The Sanity production dataset is public; document drafts and `approvedForWeb` fl
 - [ ] Capture screenshot/evidence of actual Sanity CRUD and publish flow.
 - [ ] Keep previous DigitalOcean release and rollback option intact.
 
-## Status / handover
+## Deployment closure (18 October 2026)
+
+Production deployment and independent HTTP checks passed. [PR #18](https://github.com/refedo/hexasteel.sa/pull/18) integrated into `rebuild/website-v3` without touching `main` or deferring PR #12. Release commit [`a181e0f0`](https://github.com/refedo/hexasteel.sa/commit/a181e0f0874cb8483141e0dcbaca2c3da8914d52). [Production CI](https://github.com/refedo/hexasteel.sa/actions/runs/39070900175) · [DigitalOcean activation](https://github.com/refedo/hexasteel.sa/actions/runs/39070900174) · [Studio availability/CORS](https://github.com/refedo/hexasteel.sa/actions/runs/38424091525) · [Public website regression](https://github.com/refedo/hexasteel.sa/actions/runs/38511951704). These checks did not authenticate or click the import button; live record population, edits and CEO visual acceptance remain pending. Official R1 is still 60.60% ≈ 61%; R2/R3 not started.
+
+## Original pre-deployment development record (superseded above)
 **Developed:** code committed on feature branch; tests running (check final PR).  
 **Tested:** awaiting final workflow result and post-release editor exercises.  
 **Merged/deployed:** not done; no production change authorized in this milestone yet.  
