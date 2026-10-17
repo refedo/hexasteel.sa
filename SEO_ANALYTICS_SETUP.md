@@ -11,7 +11,7 @@ Existing baseline: `rebuild/website-v3` at `0e6fe45` (deployed V3.13 app commit 
 
 - Public static service landing pages for CNC laser cutting, cold-formed C/Z purlins/profiles, Tekla steel detailing, puddle flanges and feasibility review of gooseneck flanges.
 - Canonical metadata and unique commercial-page OpenGraph data; sitemap entries and Products & Services contextual internal links.
-- Corporate Organization/WebSite JSON-LD, including `HexaMetals` only as a historic/alternate company identity. No false ratings, certifications, ranking or approval markup.
+- Corporate Organization/WebSite JSON-LD, identifying only HEXA Steel® as the company. The earlier domain is a traffic-migration asset, not a former corporate name. No false ratings, certifications, ranking or approval markup.
 - GA4 optional script behind affirmative visitor consent, with Accept/Decline and preference control; `page_view`, `whatsapp_click`, `call_click`, `email_click` and `rfq_cta_click`. These are click-intent metrics, **not confirmed RFQs or qualified sales leads**. The component excludes arbitrary URL parameters and never sends phone numbers, form fields or customer drawing details.
 - Node regression tests for service pages, sitemap, privacy gating and brand continuity.
 
@@ -25,13 +25,13 @@ Existing baseline: `rebuild/website-v3` at `0e6fe45` (deployed V3.13 app commit 
 6. Make a documented cookie/analytics privacy disclosure and review it against Saudi PDPL and any other applicable rules before activating optional measurement. Do not presume that installing GA4 itself creates compliance. Keep any later session-recording product disabled until masking, consent and review are done.
 7. In GA4 measure users, engaged sessions, bounce rate, landing pages, country, device, source/medium and campaign. Compare bounce rate by channel and page, not one global number. **Do not promote CTA-click events as lead conversions**; use distinct real successful RFQ and CRM events only after that workflow is activated and validated.
 
-### HexaMetals → HEXA Steel® migration — mandatory owner-side tasks
+### hexametals.com → hexasteel.sa domain transition — mandatory owner-side tasks
 
 - Confirm rights/control and hosting/DNS for `hexametals.com` and `www.hexametals.com`. Before changing redirects, collect old-domain URLs and inbound backlinks from verified old Search Console, existing logs and sitemap.
 - Maintain **one-to-one permanent 301/308 redirects** from each relevant old URL to the closest equivalent new page on `hexasteel.sa`, preserving relevant content and avoiding redirect-all-to-home. Retain redirects long term (Google recommends at least one year; indefinitely when possible). Verify HTTPS, www, non-www and query/path behavior.
 - Verify old and new domain Search Console properties; complete Google's **Change of Address** procedure when applicable. Monitor old/new indexing, traffic, crawl errors and inbound links. This is different from updating Google Maps.
 - For the **existing** eligible Google Business Profile, keep the same genuine business record rather than duplicating it, and align its actual trading name, URL, telephone, logo, categories and services with real-world HEXA Steel branding. Business names must match actual signage/branding and should not be stuffed with service keywords.
-- Update LinkedIn (`brand.linkedIn` currently points to a hexametals path), directories, procurement portals, press materials and customer-facing profiles. Preserve historic brand references for discovery without implying that the former business is a separate company.
+- Update LinkedIn (`brand.linkedIn` currently points to a hexametals path), directories, procurement portals, press materials and customer-facing profiles. The corporate name has always been HEXA Steel®; do not describe HexaMetals as a former name. Track the old domain technically, not in public company-name content.
 
 ### Target terms and matching intent
 
@@ -43,7 +43,7 @@ Existing baseline: `rebuild/website-v3` at `0e6fe45` (deployed V3.13 app commit 
 | Cutting | CNC laser cutting; steel plate laser cutting | قص ليزر حديد؛ قص صفائح حديد | /services/laser-cutting |
 | Engineering | Tekla detailing services; steel shop drawings | تفصيل هياكل حديدية؛ رسومات تيكلا | /services/tekla-detailing |
 | Flanges | puddle flanges; gooseneck flanges; custom steel flanges | فلنجات مانعة لتسرب المياه؛ فلنجات خاصة | /products/puddle-flanges |
-| Brand | Hexa Steel; HexaMetals; Hexa Metals | هيكسا ستيل؛ هيكسا ميتالز | / |
+| Brand/domain transition | Hexa Steel; visits originating from hexametals.com | هيكسا ستيل | / |
 
 **Do not auto-publish Arabic doorway translations:** actual Arabic localized pages and correct hreflang belong to the separate R1-E localization acceptance scope. Verify exact technical product terms against real HEXA sales language before paid campaign launch.
 
