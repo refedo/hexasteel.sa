@@ -106,8 +106,18 @@ export function ImportWebsiteContent(){
    }else{
     const live=settings.find(d=>d._id==="siteSettings");
     const safeCopy=Object.fromEntries(Object.entries(live||{}).filter(([key])=>!["_id","_rev","_createdAt","_updatedAt"].includes(key)));
+    // Preserve genuine editorial content, but populate absent/empty source-driven
+    // fields so the current homepage does not appear blank in Studio.
+    const selected=(key:"heroHeadline"|"heroDescription"|"marketPositioning")=>{
+     const value=safeCopy[key] as {en?:string}|undefined;
+     return value?.en?.trim()?value:defaultFields[key];
+    };
     await client.createIfNotExists({
      ...defaultFields,...safeCopy,
+     heroHeadline:selected("heroHeadline"),
+     heroDescription:selected("heroDescription"),
+     marketPositioning:selected("marketPositioning"),
+     heroSlides:Array.isArray(safeCopy.heroSlides)&&safeCopy.heroSlides.length>0?safeCopy.heroSlides:defaultFields.heroSlides,
      _id:"drafts.siteSettings",_type:"siteSettings",
      accentColor:(safeCopy.accentColor as string|undefined)||"#C6D547"
     });
