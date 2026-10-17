@@ -40,12 +40,12 @@ test("analytics script requires a configured GA4 ID and affirmative opt-in", () 
   assert.match(read("src/app/layout.tsx"), /ConsentAnalytics/);
 });
 
-test("corporate schema identifies the historic brand and site correctly", () => {
+test("corporate schema correctly identifies HEXA Steel without naming an obsolete company identity", () => {
   const schema = read("src/lib/structuredData.ts");
-  assert.match(schema, /HexaMetals/);
+  assert.doesNotMatch(schema, /HexaMetals/);
   assert.match(schema, /https:\/\/hexasteel\.sa/);
   assert.match(schema, /Organization/);
-  assert.match(read("src/app/company/about/page.tsx"), /HexaMetals/);
+  assert.doesNotMatch(read("src/app/company/about/page.tsx"), /HexaMetals/);
 });
 
 test("existing public crawler policy remains available", () => {
