@@ -1,3 +1,17 @@
+## V3.15 — New website welcome & beta notice (17 October 2026; FEATURE BRANCH — NOT DEPLOYED)
+
+**Corporate identity:** HEXA Steel® has always been the company name. The previous domain was only an old website address. Neither visitor-facing copy nor structured company identity should suggest a renamed business.
+
+- **Previous stopping point:** V3.14 Sanity content activation was CEO-authorized, integrated and deployed to `hexasteel.sa`; TypeScript, build, CI, DigitalOcean and HTTP checks passed. The authenticated CMS content import and editorial/visual acceptance remain outstanding.
+- **Current starting point:** Latest `rebuild/website-v3` application/deployment branch, after V3.14, with V3.11 RFQ / OTS™ CRM work still separately deferred. The V3.15 welcome was developed only on `feature/v315-brand-transition-welcome`.
+- **Planned versus developed:** Premium navy new-website welcome for identified visitors from the previous domain; no former-company-name claims; dismissible responsive beta notice across the website; session-based dismissal, accessible focus, and neutral `?from=previous-site` detection plus exact old-domain referrer fallback. Tracking identification is internal only.
+- **Release gate:** PR #17 must pass updated CI after reconciliation with deployed V3.14 documentation. No changes to Sanity imports, RFQ/CRM, `main`, existing DigitalOcean deployment triggers or production. Obtain CEO approval for integration and deployment.
+- **External dependency:** Confirm permanent SiteGround redirect behavior for both old hostnames and important indexed deep paths. A neutral arrival marker is needed where browser referrers are unavailable; avoid rewriting all old URLs to homepage.
+- **Official progress:** R1 60.60% ≈ 61% unchanged; R2 and R3 not started.
+- **Exact stopping point:** Reconciled feature branch and updated PR awaiting checks and CEO integration/deployment approval; after approved rollout verify redirect welcome behavior, layout on mobile, dismissal and beta notice on `hexasteel.sa`.
+
+---
+
 ## V3.14 — Authorized deployment and live verification (17 October 2026)
 
 **CEO approval:** Authorized direct deployment of V3.14 Sanity editorial activation on `hexasteel.sa`. No merge into `main`; RFQ/OTS™ CRM draft PR #12 remains deferred.
