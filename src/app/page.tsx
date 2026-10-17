@@ -3,7 +3,7 @@ import Link from "next/link";
 import {HeroSlider} from "@/components/HeroSlider";
 import {getHomeSettings} from "@/lib/cms";
 
-export const metadata=seoMetadata({"path":"/","title":"HEXA Steel® | Structural Steel & PEB Manufacturer Saudi Arabia","description":"HEXA Steel® (formerly known as HexaMetals) provides structural steel fabrication, PEB buildings, laser cutting, C/Z purlins, Tekla detailing and industrial steel services in Saudi Arabia."});
+export const metadata=seoMetadata({"path":"/","title":"HEXA Steel® | Structural Steel & PEB Manufacturer Saudi Arabia","description":"HEXA Steel® provides structural steel fabrication, PEB buildings, laser cutting, C/Z purlins, Tekla detailing and industrial steel services in Saudi Arabia."});
 const defaultClaims=[
  {figure:"THOUSANDS",unit:"OF TONNES / YEAR",description:"Steel production enabled by integrated teams and manufacturing systems",symbol:"01"},
  {figure:"300+",unit:"PROJECTS ACCOMPLISHED",description:"Management-reported project track record",symbol:"02"},
