@@ -1,8 +1,8 @@
-import type {Metadata} from "next";
+import {seoMetadata} from "@/lib/seoMetadata";
 import Link from "next/link";
 import {machines} from "@/content/site";
 import {PageHero,CallToAction} from "@/components/PageBlocks";
-export const metadata:Metadata={title:"Steel Manufacturing Services & Capabilities"};
+export const metadata=seoMetadata({"path":"/capabilities/machinery","title":"Laser Cutting, Steel Fabrication & C/Z Purlin Manufacturing","description":"Explore HEXA Steel® precision laser cutting, built-up steel sections, structural fabrication and C/Z cold-formed purlin production in Saudi Arabia."});
 export default function Machinery(){return <main>
 <PageHero eyebrow="CAPABILITIES / STEEL SERVICES" title="What we can make. How precisely we deliver." intro="Our manufacturing capabilities help customers move from approved drawings to fabricated steel—with flexibility across precision cutting, built-up members, purlins and structural assemblies."/>
 <section className="section services-section"><div className="shell">
