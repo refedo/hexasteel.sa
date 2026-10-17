@@ -13,7 +13,13 @@ export default defineConfig({
    S.listItem().title("Import Current Website Content").child(S.component(ImportWebsiteContent).title("Import existing content")),
    S.listItem().title("Website Settings").id("siteSettings").child(S.document().schemaType("siteSettings").documentId("siteSettings")),
    S.divider(),
-   ...S.documentTypeListItems().filter(x=>x.getId()!=="siteSettings")
+   ...["page","project","knowledgeArticle","companyUpdate","publicQualification"].map(type=>S.documentTypeListItem(type)),
+   S.divider(),
+   S.listItem().title("Other Schemas — Not Yet Connected to Website").child(
+    S.list().title("Not Yet Connected").items(
+     ["credential","initiative","testimonial","teamProfile","capabilityService"].map(type=>S.documentTypeListItem(type))
+    )
+   )
   ])}),
   visionTool()
  ],

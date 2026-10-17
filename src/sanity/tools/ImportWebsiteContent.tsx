@@ -7,6 +7,7 @@ import {defaultHeroSlides,homeCopy} from "../../content/cmsSeed";
 import {publicPageDefaults} from "../../content/cmsPages";
 import {projectIllustrations} from "../../content/cmsSeed";
 import {stories} from "../../content/insightStories";
+import {qualificationLogos} from "../../content/qualificationLogos";
 import styles from "./ImportWebsiteContent.module.css";
 
 /**
@@ -103,6 +104,7 @@ export function ImportWebsiteContent(){
     tx.createIfNotExists({
      _id:"drafts.hexa-qualification-"+slug,_type:"publicQualification",
      name:item.name,category:"Other",detail:item.detail,
+     externalLogoReference:qualificationLogos[item.name]?.url,
      logoUseAuthorized:false,verifiedScope:false,approvedForWeb:false
     });
     newQualifications++;
