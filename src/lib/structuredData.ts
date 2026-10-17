@@ -6,7 +6,7 @@ export const corporateStructuredData = {
       "@type": "Organization",
       "@id": "https://hexasteel.sa/#organization",
       name: "HEXA Steel®",
-      alternateName: ["Hexa Steel", "HexaMetals", "Hexa Metals"],
+      alternateName: ["Hexa Steel", "HEXA Steel"],
       url: "https://hexasteel.sa",
       description: "Saudi steel engineering and manufacturing company providing structural steel, pre-engineered buildings, detailing and fabrication services.",
       foundingDate: "2020",
