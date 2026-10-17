@@ -1,7 +1,7 @@
-import type {Metadata} from "next";
+import {seoMetadata} from "@/lib/seoMetadata";
 import {PageHero,CallToAction} from "@/components/PageBlocks";
 import {CapabilityNarrative} from "@/components/CapabilityNarrative";
-export const metadata:Metadata={title:"Steel Design & Detailing"};
+export const metadata=seoMetadata({"path":"/services/design-detailing","title":"Structural Steel Design & Tekla Detailing Services Saudi Arabia","description":"Steel structure design, Tekla Structures modelling, shop drawings, BIM coordination, connection detailing and fabrication data for Saudi industrial projects."});
 const scenes=[
  {label:"Structural Design",eyebrow:"01 / ENGINEERING",headline:"Designed around structural duty.",description:"Engineering inputs, load cases, global analysis and member specifications are developed or coordinated under contract-defined design responsibilities.",outcomes:["Structural analysis and design calculations","Specified AISC standards and project codes","Constructability and cross-discipline coordination"],href:"/project-delivery",cta:"Explore the delivery process",symbol:"AISC"},
  {label:"PEB Engineering",eyebrow:"02 / INDUSTRIAL BUILDINGS",headline:"Engineered for industrial functions.",description:"PEB design coordination considers roof loading, environmental actions, portal framing, clear spans, crane duty and secondary structural systems.",outcomes:["MBMA guidance where contractually applicable","Primary and secondary structural framing","Factory, warehouse and industrial expansion configurations"],href:"/solutions/peb",cta:"Explore PEB solutions",symbol:"MBMA"},
