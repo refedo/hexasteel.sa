@@ -32,7 +32,7 @@ jobs:
           assert project.get("approved") and project.get("cleared"),"Public clearance missing — do not bypass it"
           cover=project.get("cover")
           assert isinstance(cover,str) and cover.startswith("https://cdn.sanity.io/images/ik7morln/production/"),"No authorized Sanity cover"
-          gallery=[x.get("src") for x in project.get("gallery",[]) if x and x.get("src")]
+          gallery=[x.get("src") for x in (project.get("gallery") or []) if x and x.get("src")]
           print("Approved cover count: 1; gallery item count:",len(gallery))
           public_html=html.unescape(read("https://hexasteel.sa/projects/"+slug))
           assert "Project image gallery" in public_html,"New project gallery heading missing from live HTML"
