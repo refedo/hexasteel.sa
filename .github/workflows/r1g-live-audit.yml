@@ -1,0 +1,57 @@
+name: R1-G independent public SEO and security audit
+on:
+  push:
+    branches: [feature/r1g02-search-consent-audit]
+    paths: [.github/workflows/r1g-live-audit.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Inspect official live domain (read only)
+        run: |
+          python3 - <<'PY'
+          import urllib.request, urllib.error, re
+          from html.parser import HTMLParser
+          ROOT="https://hexasteel.sa"
+          class Tags(HTMLParser):
+              def __init__(self):
+                  super().__init__(); self.canonicals=[]; self.jsonld=0
+              def handle_starttag(self,tag,attrs):
+                  attrs=dict(attrs)
+                  if tag=="link" and attrs.get("rel")=="canonical": self.canonicals.append(attrs.get("href"))
+                  if tag=="script" and attrs.get("type")=="application/ld+json": self.jsonld+=1
+          def get(path):
+              req=urllib.request.Request(ROOT+path,headers={"User-Agent":"HEXA-R1G-read-only-production-audit/1.0","Accept":"text/html,application/xml,text/plain"})
+              with urllib.request.urlopen(req,timeout=24) as r:
+                  body=r.read().decode("utf-8",errors="replace")
+                  print(path, "HTTP",r.status,"bytes",len(body),"X-Robots-Tag:",r.headers.get("X-Robots-Tag","(missing)"))
+                  assert r.status==200,(path,r.status)
+                  return body,r.headers
+          home,h=get("/")
+          parsed=Tags();parsed.feed(home)
+          print("Home canonical:",parsed.canonicals,"JSON-LD:",parsed.jsonld,"GTM marker:",("GTM-N7QJSQTB" in home))
+          assert parsed.canonicals==[ROOT+"/"],parsed.canonicals
+          assert parsed.jsonld>=1,"Missing JSON-LD"
+          assert "GTM-N7QJSQTB" in home,"GTM container ID absent from HTML"
+          for header in ["X-Content-Type-Options","X-Frame-Options","Referrer-Policy","Permissions-Policy","Strict-Transport-Security"]:
+              print(header,":",h.get(header,"(missing)"));assert h.get(header),header
+          assert "includeSubDomains" not in h.get("Strict-Transport-Security",""),"Do not set OTS HSTS scope"
+          for path in ["/solutions/structural-steel","/solutions/peb","/projects/airport-infrastructure-steel","/knowledge","/insights"]:
+              html,headers=get(path);p=Tags();p.feed(html)
+              assert p.canonicals==[ROOT+path],(path,p.canonicals)
+          robots,_=get("/robots.txt")
+          assert "Disallow: /studio" in robots and "Disallow: /api/" in robots,robots[:300]
+          assert "Sitemap: https://hexasteel.sa/sitemap.xml" in robots
+          sitemap,_=get("/sitemap.xml")
+          assert "<loc>https://hexasteel.sa/solutions/peb</loc>" in sitemap
+          assert "<loc>https://hexasteel.sa/solutions/structural-steel</loc>" in sitemap
+          assert "<loc>https://ots.hexasteel.sa" not in sitemap,"OTS must not be in corporate sitemap"
+          for path in ["/studio","/api/search?q=peb","/search?q=peb"]:
+              _,headers=get(path)
+              assert "noindex" in headers.get("X-Robots-Tag","").lower(),path
+          print("PASS: verified production canonical, index controls, structured data, GTM, headers, sitemap")
+          PY
