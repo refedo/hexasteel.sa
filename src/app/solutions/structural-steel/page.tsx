@@ -1,10 +1,11 @@
 import {getEditorialPage} from "@/lib/cms";
 import type {Metadata} from "next";
+import {publicPageMetadata} from "@/lib/seo";
 import Link from "next/link";
 import {CapabilityNarrative} from "@/components/CapabilityNarrative";
 import {structuralSteelScenes,structuralSteelProducts} from "@/content/structuralSteel";
 import {CallToAction,PageHero} from "@/components/PageBlocks";
-export const metadata:Metadata={title:"Structural Steel"};
+export const metadata:Metadata=publicPageMetadata("/solutions/structural-steel","Structural Steel Fabrication & Engineering","Structural steel fabrication and engineering for industrial buildings, mezzanines, pipe racks, platforms and commercial structures in Saudi Arabia.");
 export default async function StructuralSteel(){const editorial=await getEditorialPage("solutions--structural-steel");return <main>
  <PageHero eyebrow="SOLUTIONS / STRUCTURAL STEEL" title={editorial?.title||"Complex steel. Deliberately delivered."} intro={editorial?.intro||"Hexa's structural steel practice combines engineering, fabrication, quality assurance and contractual project execution for industrial, commercial and infrastructure projects."}/>
  <section className="section editorial-capability-intro"><div className="shell editorial-statement"><div><p className="eyebrow">A CORE HEXA STEEL DISCIPLINE</p><h2>Engineering detail.<br/><span>Industrial scale.</span></h2></div><p>Structural steel is a principal business pillar—not a subsidiary of PEB. We bring manufacturing resources, multidisciplinary teams and deliberate project control to demanding steelwork packages.</p></div></section>

@@ -5,9 +5,11 @@ import {references} from "@/content/site";
 import {CallToAction,PageHero} from "@/components/PageBlocks";
 import {getProjects} from "@/lib/cms";
 import {ProjectImages} from "@/components/ProjectImages";
+import {publicPageMetadata} from "@/lib/seo";
+import {isIllustrativeImage,isSafePublicImage} from "@/content/cmsSeed";
 type Props={params:Promise<{slug:string}>};
 export function generateStaticParams(){return references.map(x=>({slug:x.slug}))}
-export async function generateMetadata({params}:Props):Promise<Metadata>{const{slug}=await params;const p=(await getProjects()).find(x=>x.slug===slug);return{title:p?p.title:"Project"}}
+export async function generateMetadata({params}:Props):Promise<Metadata>{const{slug}=await params;const p=(await getProjects()).find(x=>x.slug===slug);if(!p)return{title:"Project not found",robots:{index:false,follow:false}};const image=isSafePublicImage(p.image)&&!isIllustrativeImage(p.image)?p.image:undefined;return publicPageMetadata("/projects/"+encodeURIComponent(slug),p.title,p.description,image)}
 export default async function Project({params}:Props){
  const{slug}=await params;const p=(await getProjects()).find(x=>x.slug===slug);if(!p)notFound();
  return <main><PageHero eyebrow={"PROJECT REFERENCE / "+p.category.toUpperCase()} title={p.title} intro={p.description}/>

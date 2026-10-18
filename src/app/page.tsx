@@ -1,6 +1,9 @@
 import Link from "next/link";
 import {HeroSlider} from "@/components/HeroSlider";
 import {getHomeSettings} from "@/lib/cms";
+import type {Metadata} from "next";
+import {publicPageMetadata} from "@/lib/seo";
+export const metadata:Metadata={...publicPageMetadata("/","HEXA STEEL® | Structural Steel & PEB Manufacturer Saudi Arabia","HEXA Steel® provides structural steel fabrication, pre-engineered buildings, C/Z purlins, precision laser cutting, steel detailing and project delivery in Saudi Arabia."),title:{absolute:"HEXA STEEL® | Structural Steel & PEB Manufacturer Saudi Arabia"}};
 
 const defaultClaims=[
  {figure:"THOUSANDS",unit:"OF TONNES / YEAR",description:"Steel production enabled by integrated teams and manufacturing systems",symbol:"01"},

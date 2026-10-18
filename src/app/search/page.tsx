@@ -2,7 +2,7 @@ import type {Metadata} from "next";
 import Link from "next/link";
 import {staticSearchIndex,rankSearch,mergeSearchEntries} from "@/lib/searchIndex";
 import {getCmsSearchEntries} from "@/lib/cms";
-export const metadata:Metadata={title:"Search HEXA Steel"};
+export const metadata:Metadata={title:"Search HEXA Steel",robots:{index:false,follow:true}};
 type Props={searchParams:Promise<{q?:string}>};
 export default async function SearchPage({searchParams}:Props){
  const {q:raw}=await searchParams;const q=(raw||"").trim().slice(0,100);

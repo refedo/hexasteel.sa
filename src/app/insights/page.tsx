@@ -1,9 +1,10 @@
 import type {Metadata} from "next";
+import {publicPageMetadata} from "@/lib/seo";
 import Link from "next/link";
 import {PageHero} from "@/components/PageBlocks";
 import {InsightsExplorer} from "@/components/InsightsExplorer";
 import {getInsights,getEditorialPage} from "@/lib/cms";
-export const metadata:Metadata={title:"Insights, News & Milestones"};
+export const metadata:Metadata=publicPageMetadata("/insights","News, Industrial Insights & Milestones","Read HEXA Steel® updates on industrial development, manufacturing, quality and operational excellence.");
 export default async function Insights(){const editorial=await getEditorialPage("insights");const entries=await getInsights();return <main>
  <PageHero eyebrow="INSIGHTS / HEXA STEEL®" title={editorial?.title||"Progress worth documenting."} intro={editorial?.intro||"The investments, achievements, people and ideas behind our industrial development—from manufacturing approvals to technology, improvement and participation in Saudi industry."}/>
  <section className="section insights-redesign"><div className="shell"><div className="section-intro"><p className="eyebrow">MILESTONES / INITIATIVES / INDUSTRIAL KNOWLEDGE</p><h2>Our journey.<br/><span>Our next benchmark.</span></h2><p>Browse the progress we make in operational excellence, manufacturing capability, talent development and industry engagement.</p></div><InsightsExplorer entries={entries}/></div></section>

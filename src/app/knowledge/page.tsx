@@ -1,9 +1,10 @@
 import type {Metadata} from "next";
+import {publicPageMetadata} from "@/lib/seo";
 import Link from "next/link";
 import {articles,faqs} from "@/content/site";
 import {PageHero,CallToAction} from "@/components/PageBlocks";
 import {getKnowledgeArticles,getEditorialPage} from "@/lib/cms";
-export const metadata:Metadata={title:"Knowledge Centre"};
+export const metadata:Metadata=publicPageMetadata("/knowledge","Steel Engineering Knowledge Centre","Guides to steel grades, structural steel, PEB frame systems, fabrication quality and industrial project delivery.");
 export default async function KnowledgePage(){const editorial=await getEditorialPage("knowledge");const entries=await getKnowledgeArticles();return <main><PageHero eyebrow="KNOWLEDGE CENTRE / SPREADING KNOWLEDGE" title={editorial?.title||"Knowledge that builds industry."} intro={editorial?.intro||"Practical engineering explanations, project delivery insights, manufacturing practices and steel quality resources—openly shared as part of our mission."}/>
 <section className="section"><div className="shell"><p className="eyebrow">ENGINEERING / QUALITY / OPERATIONS</p><div className="editorial-grid">{entries.map((a,i)=><article key={a.slug} className={i===0?"editorial-feature":"editorial-card"}><span>{a.category}</span><h3>{a.title}</h3><p>{a.intro}</p><Link href={"/knowledge/"+a.slug}>Read article</Link></article>)}</div></div></section>
 <section className="section"><div className="shell"><p className="eyebrow">ILLUSTRATED KNOWLEDGE / PEB</p><div className="editorial-grid"><article className="editorial-card"><span>FRAME DESIGN</span><h3>PEB Frame Types & Applications</h3><p>Single-span, multi-span, multi-gable, lean-to, canopy and curved roof geometries.</p><Link href="/knowledge/peb-frame-systems">Explore frame guide</Link></article><article className="editorial-card"><span>BUILDING ANATOMY</span><h3>PEB Building Components</h3><p>Eave and ridge height, rafters, primary and secondary beams, purlins, girts, sag rods, struts and cladding.</p><Link href="/knowledge/peb-building-components">Explore component guide</Link></article></div></div></section>

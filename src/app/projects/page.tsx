@@ -1,8 +1,9 @@
 import type {Metadata} from "next";
+import {publicPageMetadata} from "@/lib/seo";
 import {PageHero,CallToAction} from "@/components/PageBlocks";
 import {ProjectExplorer} from "@/components/ProjectExplorer";
 import {getProjects,getEditorialPage} from "@/lib/cms";
-export const metadata:Metadata={title:"Selected Projects & References"};
+export const metadata:Metadata=publicPageMetadata("/projects","Selected Structural Steel Projects","Explore selected HEXA Steel® structural steel, industrial buildings and specialty fabrication project references.");
 export default async function Projects(){const editorial=await getEditorialPage("projects");const projects=await getProjects();return <main>
   <PageHero eyebrow="PROJECTS / ENGINEERING · FABRICATION · DELIVERY" title={editorial?.title||"Proven through execution."} intro={editorial?.intro||"Explore structural steel, industrial facilities and selected fabrication packages delivered or undertaken by Hexa Steel® for demanding customers and developments."}/>
 <section className="section project-showcase-section"><div className="shell"><div className="section-intro"><p className="eyebrow">SELECTED PROJECT EXPERIENCE</p><h2>Built for demanding<br/><span>project conditions.</span></h2><p>Our portfolio is built on complex structures, detailed fabrication, controlled inspections and coordinated delivery. Explore by project type and status without disclosing confidential client identities.</p></div><ProjectExplorer projects={projects}/></div></section>
