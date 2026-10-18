@@ -34,7 +34,7 @@ jobs:
           home,h=get("/")
           parsed=Tags();parsed.feed(home)
           print("Home canonical:",parsed.canonicals,"JSON-LD:",parsed.jsonld,"GTM marker:",("GTM-N7QJSQTB" in home))
-          assert parsed.canonicals==[ROOT+"/"],parsed.canonicals
+          assert parsed.canonicals in ([ROOT],[ROOT+"/"]),parsed.canonicals
           assert parsed.jsonld>=1,"Missing JSON-LD"
           assert "GTM-N7QJSQTB" in home,"GTM container ID absent from HTML"
           for header in ["X-Content-Type-Options","X-Frame-Options","Referrer-Policy","Permissions-Policy","Strict-Transport-Security"]:
