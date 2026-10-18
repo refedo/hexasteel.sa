@@ -4,11 +4,12 @@ import {notFound} from "next/navigation";
 import {insights} from "@/content/site";
 import {PageHero,CallToAction} from "@/components/PageBlocks";
 import {getInsights,getCmsInsights} from "@/lib/cms";
+import {publicPageMetadata} from "@/lib/seo";
 type Props={params:Promise<{slug:string}>};
 import {stories} from "@/content/insightStories";
 
 export function generateStaticParams(){return insights.map(x=>({slug:x.slug}))}
-export async function generateMetadata({params}:Props):Promise<Metadata>{const {slug}=await params;return {title:(await getInsights()).find(x=>x.slug===slug)?.title||"Insights"}}
+export async function generateMetadata({params}:Props):Promise<Metadata>{const {slug}=await params;const a=(await getInsights()).find(x=>x.slug===slug);return a?publicPageMetadata("/insights/"+encodeURIComponent(slug),a.title,a.summary):{title:"Insight not found",robots:{index:false,follow:false}}}
 export default async function Insight({params}:Props){
  const {slug}=await params;const item=(await getInsights()).find(x=>x.slug===slug);if(!item)notFound();
  const live=(await getCmsInsights()).find(x=>x.slug===slug);

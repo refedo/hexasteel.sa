@@ -1,10 +1,11 @@
 import {getEditorialPage} from "@/lib/cms";
 import type {Metadata} from "next";
+import {publicPageMetadata} from "@/lib/seo";
 import Link from "next/link";
 import {CapabilityNarrative} from "@/components/CapabilityNarrative";
 import {CallToAction,PageHero} from "@/components/PageBlocks";
 import {PEBFrames} from "@/components/PEBFrames";
-export const metadata:Metadata={title:"Pre-Engineered Buildings"};
+export const metadata:Metadata=publicPageMetadata("/solutions/peb","Pre-Engineered Buildings (PEB)","PEB manufacturing for factories, industrial warehouses and logistics facilities in Saudi Arabia, including built-up frames and C/Z purlins.");
 const scenes=[
 {label:"Industrial Buildings",eyebrow:"01 / MODON & INDUSTRY",headline:"Made for the industrial future.",description:"Factories, warehouses, logistics facilities and expansions demand efficient structural framing, buildability and reliable delivery.",outcomes:["Factory and production buildings","Warehousing and industrial logistics","MODON development and expansion projects"],href:"/projects",cta:"Explore project references",symbol:"PEB"},
 {label:"Primary Framing",eyebrow:"02 / BUILT-UP STEEL SYSTEMS",headline:"Primary steel, built to fit.",description:"Built-up columns and rafters are coordinated through design, accurate plate cutting, welding, dimensional checks and appropriate protective systems.",outcomes:["Project-specific steel framing","Controlled fabrication and welding","Integrated inspection and coating coordination"],href:"/capabilities/machinery#built-up-sections",cta:"Explore manufacturing services",symbol:"FRAME"},

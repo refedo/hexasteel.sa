@@ -1,3 +1,25 @@
+## R1-G01 — Google Tag Manager container installation (19 October 2026; feature branch)
+
+- **Request and implementation:** Add owner-supplied `GTM-N7QJSQTB` across the HEXA Steel® Next.js site. Site-wide `src/app/layout.tsx` now places the official bootstrap in an early head script using `next/script` `beforeInteractive`, and matching no-JavaScript iframe immediately inside the opening body. Distinct OTS™ deployment remains untouched.
+- **GitHub:** Existing `feature/r1g01-technical-seo-security` branch and [PR #22](https://github.com/refedo/hexasteel.sa/pull/22), targeting only `rebuild/website-v3`. This milestone does not merge PR #22 or deploy production.
+- **Quality gates:** New deterministic regression `tests/google-tag-manager.test.mjs`, plus existing TypeScript, Node tests, build, and search/SEO checks. CI status and post-approval live Tag Assistant verification to be recorded separately; do not claim success until observed.
+- **Measurement/privacy limits:** GTM container installation alone does not create a GA4 property, publish analytics/conversion tags, confirm Search Console, or establish consent compliance. Configure required consent controls before enabling measurement tags.
+- **Official release completion:** R1 **65%**, R2 **0%**, R3 **0%**, unchanged pending deployment and operational acceptance.
+- **Next:** Confirm PR CI; obtain explicit approval before integration/deployment; verify on `hexasteel.sa` through Tag Assistant and browser inspection. Preserve rollback and assess duplicates/consent on live.
+  
+---
+
+## R1-G01 — Technical SEO and security baseline (19 October 2026; isolated feature branch)
+
+- **Previous stopping point:** V3.17 gallery on `hexasteel.sa` deployed and cover/watermark independently verified; PR #20 updated official R1 completion to **65%**, integration branch at `9261acd`.
+- **Starting point:** Source audit of `rebuild/website-v3` at `9261acd`; PR #12 RFQ and PR #19 optional CMS publishing UX remain unmerged; the production app version is V3.17 `9b780cd`.
+- **Current milestone:** R1-G01 adds canonical/metadata for priority SEO pages, published-page structured data and verification hooks, Studio/API/search crawler hygiene, cautious baseline HTTP security headers and deterministic regression tests. Existing external-logo CI now distinguishes Wikimedia HTTP 429 throttling from genuinely broken URLs without falsely claiming the logo verified. Google/Bing account verification, analytics consent, performance/security acceptance and final indexed visibility **not yet achieved**.
+- **Branch:** `feature/r1g01-technical-seo-security`; CI/PR review pending. No source integration, main merge or deployment permitted before separate CEO approval.
+- **Official status:** R1 **65%** unchanged (management-approved estimate); R2/R3 not started. Developer implementation does not establish operational acceptance.
+- **Next:** CI, CEO PR approval, production rollout through existing GitHub–DigitalOcean pipeline, post-release live verification, followed by Google/Bing/GA4 account linking and consent/measurement acceptance. See `R1G01_HANDOVER.md`.
+
+---
+
 ## OFFICIAL RELEASE PROGRESS — CEO-APPROVED R1 UPDATE (18 October 2026)
 
 | Release | Official completion | Basis / stage |
