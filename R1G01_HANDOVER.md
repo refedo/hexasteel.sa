@@ -14,6 +14,7 @@
 4. Improved `robots.txt` exclusion for Studio root and API. Meta + response-header noindex for search and Studio/API; search is not blocked in robots so crawlers can observe the noindex directive.
 5. Production-oriented baseline headers: `nosniff`, SAMEORIGIN frame policy, controlled referrers, browser feature restrictions and six-month HSTS **without includeSubDomains** to protect independent OTS™ hosting. No speculative CSP, analytics cookies, GA4 or tracking pixels: CSP and consent require dedicated browser testing.
 6. Deterministic regression tests for canonical metadata, crawler exclusions, published-image descriptions, security headers and verification placeholders.
+7. Unblocked flaky historical external-logo CI: third-party HTTP 429 is explicitly logged as **inconclusive/not verified**, while confirmed bad HTTP statuses, nonimages and network errors still fail the check. The NWC logo image URL is not changed or declared healthy by a rate-limited response.
 
 ## Scope and operating decisions
 - No external site registration or dashboard can be claimed without access to Google/Bing or signed ownership. No new domain, staging or analytics account invented.
@@ -23,7 +24,7 @@
 - Do not mark a feature deployed based on CI. No changes to `main`, `rebuild/website-v3`, customer contacts, RFC/CRM pipelines or deployed site in this patch.
 
 ## CI and acceptance gates
-- Feature CI: npm install, static logo HTTP checks, TypeScript, unit tests, Next.js production build, search regressions.
+- Feature CI: npm install, static logo HTTP checks (429 documented as unverified), TypeScript, unit tests, Next.js production build, search regressions. The former repeated failure was a third-party Wikimedia 429; do not present that asset as verified until a successful external fetch.
 - Post-approval: integrate only into `rebuild/website-v3`, deploy with existing DigitalOcean pipeline; check canonical URLs for three route types, JSON-LD, robots and sitemap, Studio/API X-Robots-Tag, response headers and browser tests. Keep rollback.
 - Remaining R1-G: Google domain verification through Cloudflare DNS or approved tags; Bing verification / property import, submit XML sitemap, verify indexing and crawl health; GA4 and consent/privacy settings; acquisition and conversion events; performance/Lighthouse/Core Web Vitals; security headers/CSP testing, dependencies, forms and uploads, accessibility WCAG checks, mobile QA, content verification, alerts and SEO operational acceptance.
 - **Official completion stays R1 65%** (R2/R3 0%) until tested, deployed and owner-accepted. This milestone is only the first R1-G tranche.
