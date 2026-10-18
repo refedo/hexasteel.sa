@@ -1,3 +1,33 @@
+## OFFICIAL RELEASE PROGRESS — CEO-APPROVED R1 UPDATE (18 October 2026)
+
+| Release | Official completion | Basis / stage |
+| --- | ---: | --- |
+| **R1 — Corporate Website, CMS & Lead Generation** | **65%** | CEO-approved management completion figure; V3.14–V3.15 CMS implemented/deployed, homepage image editing and one project's cover-image + delivery-status publishing operationally demonstrated |
+| **R2 — Commercial Platform & CRM** | **0%** | Not started; RFQ/OTS™ CRM integration postponed, with separate draft PR #12 |
+| **R3 — AI-Assisted Steel Estimation** | **0%** | Not started |
+
+**Supersedes prior R1 completion reporting:** 60.60% (rounded 61%) was the earlier documented baseline. The CEO explicitly **approved 65%** on 18 October 2026 in recognition of the significant Sanity CMS progress. This is a management-approved milestone assessment, **not** a recalculation from individually weighted features; it does not mean 65% of the overall R1+R2+R3 programme is complete. Previous 61% entries below remain historical handover snapshots only.
+
+**Operational evidence/limits:** The CEO confirmed that changing a homepage hero photograph in Sanity updates the live website, and separately confirmed the published *Airport Infrastructure Steelwork* cover photograph and **Completed** delivery status appeared on the public projects page after the `identityClearedForWeb` publication gate was satisfied. The [read-only Sanity diagnostic](https://github.com/refedo/hexasteel.sa/actions/runs/39073417376) had verified the exact original approval gate issue (published record, image present, status Completed, `approvedForWeb=true`, `identityClearedForWeb=false`). V3.15 provided the original verified Sanity publishing capability; V3.17 has since been deployed to `hexasteel.sa` at [`9b780cd`](https://github.com/refedo/hexasteel.sa/commit/9b780cdeffb95414173df55554aa34caabdd23d0) ([successful deployment](https://github.com/refedo/hexasteel.sa/actions/runs/39161291906)). Updating this **documentation** does not require another application deployment.
+
+**Still open in R1:** Complete editing of source-managed page-body sections and remaining CMS schemas; multi-photo project gallery end-to-end acceptance (V3.17 gallery and cover/watermark render live, but the audited airport project had zero extra uploaded gallery images); qualification/logo editorial permissions; broader Arabic/RTL, RFQ, security, SEO and final operational/visual acceptance. The optional V3.16 publishing-guidance/30-second-refresh [draft PR #19](https://github.com/refedo/hexasteel.sa/pull/19) remains **unmerged and undeployed**; do not bypass the existing two approval gates.
+
+**Change-control:** This entry records a CEO-authorized **status/documentation update only**. No merge to `main`, no new production deployment, and no change to the postponed RFQ/CRM scope. Future progress must be assessed from new verified work; do not reuse the historical 61% as the current official baseline.
+
+
+---
+
+## V3.17 — Approved gallery deployment and independent live verification (18 October 2026)
+
+- **Planned versus delivered:** Cover-first project image galleries, every approved attached photo, deduplication, responsive presentation and the existing HEXA STEEL® typographic watermark overlay on uploaded assets. Original Sanity files remain unchanged. Illustrative external photos are not rebranded as genuine project images.
+- **GitHub and deployment:** [PR #21](https://github.com/refedo/hexasteel.sa/pull/21) merged by the owner **only into `rebuild/website-v3`**. Release [`9b780cd`](https://github.com/refedo/hexasteel.sa/commit/9b780cdeffb95414173df55554aa34caabdd23d0). [Feature CI passed](https://github.com/refedo/hexasteel.sa/actions/runs/39108002269), [DigitalOcean deployment and rollback-safe activation passed](https://github.com/refedo/hexasteel.sa/actions/runs/39161291906), and [independent live Sanity/website verification passed](https://github.com/refedo/hexasteel.sa/actions/runs/39161761535).
+- **Acceptance boundary:** The live airport project has a permission-cleared Sanity cover image, displayed in the gallery with watermark. At verification, **zero additional gallery photos** were attached/published; multi-image editorial and mobile-device acceptance remain outstanding. Both `approvedForWeb` and `identityClearedForWeb` must remain required.
+- **CI limitation:** Some post-merge general checks initially failed because a previously referenced third-party National Water Company logo endpoint returned HTTP 429; this is unrelated to the V3.17 gallery changes. Feature branch and deployment compilation/build checks passed. Do not treat the unrelated image-host throttling as a gallery regression.
+- **Official release progress:** R1 **65%** CEO-approved management estimate (supersedes historical 60.60%/61% below). R2/R3 **0%**, not started. This is not an overall-program completion percentage.
+- **Stopping point / next:** Documentation re-baselined after V3.17; authorized Sanity editor must attach multiple permission-cleared project photographs and verify order, watermark and mobile appearance. Continue remaining R1-C CMS long-form content, R1-E localization and R1-F/G acceptance work; R2/R3 deferred.
+
+---
+
 ## V3.17 — Project image gallery + HEXA Steel® watermark (18 October 2026; feature branch only)
 
 - **Previous verified milestone:** V3.15 CMS importer repair application `a181e0f0` released and live smoke-tested; authenticated CMS editorial acceptance remains pending. Integration documentation head `3bbb268`.
