@@ -30,3 +30,13 @@
 - **Official completion stays R1 65%** (R2/R3 0%) until tested, deployed and owner-accepted. This milestone is only the first R1-G tranche.
 
 **Exact stopping point:** Feature PR awaiting CI and CEO approval; no deploy. Next R1-G02 should establish verified Google/Bing/GA4 ownership and a privacy-compliant measurement baseline; R1-G03 expands security/performance/accessibility testing.
+
+## GTM site-wide installation — 19 October 2026 (added to open PR #22)
+
+- **User-provided container:** `GTM-N7QJSQTB` (Google Tag Manager).
+- **Implemented in shared Next.js root layout:** an early `next/script` `beforeInteractive` GTM bootstrap inside `<head>`, plus the matching hidden `<noscript><iframe>` immediately inside the opening `<body>`. Single placement covers every route rendered by the shared layout, including locale-specific routes if added to that tree. Does not instrument the separate OTS™ application.
+- **Regression test:** `tests/google-tag-manager.test.mjs` checks the single GTM container, script strategy and placement, no-JS fallback placement, and preservation of common page chrome/metadata.
+- **Boundaries:** Installation of a GTM container does **not** configure or publish a GA4 measurement tag, conversions, consent mode, cookie policy, or Search Console property. Google Tag Assistant/Preview and browser network inspection must confirm GTM loads on the **live** site *after approved deployment*. Configure consent requirements before enabling analytics/advertising tags, as applicable.
+- **Change control:** This extends the existing open R1-G01 feature branch/PR #22 only. No integration-branch merge, DigitalOcean deployment, `main` change or operational-acceptance claim. CI and live validation still required. Existing R1-G01 SEO/security scope unchanged. Official R1 remains **65%** (R2/R3 **0%**).
+- **Acceptance:** TypeScript, tests and Next build pass; one GTM bootstrap and one matching noscript iframe in page output; Tag Assistant connects to `GTM-N7QJSQTB` on a public page without duplicate installation; no browser regression. Rollback through existing release pipeline.
+
