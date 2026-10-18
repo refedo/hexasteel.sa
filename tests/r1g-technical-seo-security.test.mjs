@@ -53,3 +53,11 @@ test("public structured data and search verification hooks do not invent credent
  assert.match(layout,/BING_SITE_VERIFICATION/);
  assert.doesNotMatch(layout,/G-[A-Z0-9]{8,}/);
 });
+
+test("rate-limited external logo CDNs are reported as inconclusive, while actual errors still fail CI",()=>{
+ const script=read("scripts/test-logos-http.mjs");
+ assert.match(script,/response\.status===429/);
+ assert.match(script,/throttled\.push/);
+ assert.match(script,/if\(!response\.ok\|\|!mime\.toLowerCase\(\)\.startsWith\("image\/"\)\)invalid\.push/);
+ assert.match(script,/process\.exitCode=1/);
+});
