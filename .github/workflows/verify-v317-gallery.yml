@@ -1,0 +1,47 @@
+name: V3.17 live project gallery verification (read only)
+on:
+  push:
+    branches: [feature/v317-live-gallery-verification]
+    paths: [.github/workflows/verify-v317-gallery.yml]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Verify live project gallery and public Sanity approvals
+        run: |
+          python3 - <<'PY'
+          import html, json, re, urllib.parse, urllib.request
+          slug = "airport-infrastructure-steel"
+          query = '*[_type=="project" && publicSlug.current==$slug]{"id":_id,"approved":approvedForWeb==true,"cleared":identityClearedForWeb==true,"cover":coverImage.asset->url,"gallery":photos[]{"src":asset->url}}'
+          api = "https://ik7morln.api.sanity.io/v2025-02-01/data/query/production?" + urllib.parse.urlencode({"query":query,"$slug":json.dumps(slug),"perspective":"published"})
+          def read(url):
+              request = urllib.request.Request(url, headers={"User-Agent":"HEXA-V317-Release-Verification/1.0"})
+              with urllib.request.urlopen(request, timeout=25) as response:
+                  if response.status != 200:
+                      raise AssertionError("HTTP "+str(response.status)+" from "+url)
+                  return response.read().decode("utf-8")
+          records=json.loads(read(api)).get("result",[])
+          print("Published Sanity matching project records:",len(records))
+          assert len(records)==1,"Expected exactly one published airport project"
+          project=records[0]
+          assert not project.get("id","").startswith("drafts."),"Draft must not become public"
+          print("Approved for website:",project.get("approved"),"identity cleared:",project.get("cleared"))
+          assert project.get("approved") and project.get("cleared"),"Public clearance missing — do not bypass it"
+          cover=project.get("cover")
+          assert isinstance(cover,str) and cover.startswith("https://cdn.sanity.io/images/ik7morln/production/"),"No authorized Sanity cover"
+          gallery=[x.get("src") for x in project.get("gallery",[]) if x and x.get("src")]
+          print("Approved cover count: 1; gallery item count:",len(gallery))
+          public_html=html.unescape(read("https://hexasteel.sa/projects/"+slug))
+          assert "Project image gallery" in public_html,"New project gallery heading missing from live HTML"
+          assert "PROJECT COVER" in public_html,"Cover image not shown in live gallery"
+          assert "ProjectWatermark_watermark__" in public_html,"HEXA watermark overlay missing from live page"
+          assert cover in public_html,"Live project gallery does not show the published Sanity cover"
+          for source in set(gallery):
+              if source.startswith("https://cdn.sanity.io/images/ik7morln/production/"):
+                  assert source in public_html,"Published approved gallery photo missing from live HTML"
+          print("PASS: live project page shows CMS cover, approved gallery images and HEXA watermark")
+          print("PASS: publication and identity-clearance gates met")
+          PY
