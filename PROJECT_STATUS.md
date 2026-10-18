@@ -1,3 +1,16 @@
+## V3.17 — Project image gallery + HEXA Steel® watermark (18 October 2026; feature branch only)
+
+- **Previous verified milestone:** V3.15 CMS importer repair application `a181e0f0` released and live smoke-tested; authenticated CMS editorial acceptance remains pending. Integration documentation head `3bbb268`.
+- **Current starting point:** `rebuild/website-v3` at `3bbb268`, with distinct open PR #19 on project-publication flags and draft RFQ PR #12 deferred. This V3.17 work starts from that verified integration commit without incorporating unapproved PR #19.
+- **Planned versus developed:** Ensure every approved project detail displays its Sanity cover first plus its complete deduplicated image gallery; add responsive image presentation and existing HEXA STEEL® wordmark watermark overlays to uploaded assets on both detail and project listing cards. Illustrative stock photos remain clearly marked and are not branded as original HEXA photography.
+- **GitHub:** `feature/v317-project-gallery-watermark`; feature PR targets only `rebuild/website-v3`. **No merge to integration/main, no deployment.**
+- **Validation:** Feature CI (TypeScript, tests, build) and user acceptance pending release checks. Watermarks are website overlays, **not** embedded into Sanity asset bytes.
+- **Project data dependency:** Published airport project currently lacks `identityClearedForWeb=true` (documented in PR #19). No bypass of `approvedForWeb` / identity clearance; editor approval and Sanity publication must precede live gallery visibility.
+- **Official completion:** R1 **60.60% ≈61%** unchanged; R2/R3 not started. New feature is developed, not yet tested/deployed/accepted.
+- **Exact stopping point:** Complete isolated V3.17 gallery review and CI; obtain separate approval before integrating/deploying. See `PROJECT_GALLERY_V317_HANDOVER.md`.
+
+---
+
 ## V3.15 CMS Import Usability — authorized release deployed and verified (18 October 2026)
 
 **Owner approval:** Explicit authorization to release tested Sanity import usability repair to `hexasteel.sa`. The latest integration branch had advanced to the separately deployed welcome/beta release `be2f3f2`; PR #18 was safely reconciled against that baseline before a fast-forward of **only** `rebuild/website-v3`.
