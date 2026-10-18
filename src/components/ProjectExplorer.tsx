@@ -4,6 +4,7 @@ import Link from "next/link";
 import {references} from "@/content/site";
 type Project=typeof references[number];
 import {projectIllustrations,isIllustrativeImage} from "@/content/cmsSeed";
+import {ProjectWatermark} from "@/components/ProjectWatermark";
 export function ProjectExplorer({projects=references}:{projects?:Project[]}){
  const [category,setCategory]=useState("All Projects");const [term,setTerm]=useState("");
  const categories=["All Projects",...new Set(projects.map(x=>x.category))];
@@ -15,6 +16,7 @@ export function ProjectExplorer({projects=references}:{projects?:Project[]}){
       <Link className="project-showcase-image" href={"/projects/"+p.slug} aria-label={"Explore "+p.title}>
        <span className="project-cover-photo" style={{backgroundImage:'linear-gradient(to bottom,rgba(20,37,49,.03),rgba(20,37,49,.42)),url("'+(p.image||projectIllustrations[projects.indexOf(p)%projectIllustrations.length])+'")'}}/>
        {(!p.image||isIllustrativeImage(p.image))&&<span className="project-photo-caption">ILLUSTRATIVE INDUSTRIAL PHOTOGRAPHY</span>}
+       {Boolean(p.image&&!isIllustrativeImage(p.image))&&<ProjectWatermark/>}
        {p.size&&<span className="project-mass">{p.size}<small>PROJECT STEELWORK REFERENCE</small></span>}
       </Link>
       <div className="project-showcase-meta"><span>{p.category}</span><span>{p.year||"SELECTED REFERENCE"}</span></div>

@@ -6,7 +6,8 @@
 
 **Partial, not general CMS acceptance:** Site-wide page-body content, all galleries, every qualification, people/team/testimonials, multilingual editorial workflows and the full release QA checklist are not yet verified. Separate optional draft [PR #19](https://github.com/refedo/hexasteel.sa/pull/19) for clearer approval switches is not merged/deployed. RFQ/CRM remains postponed. Do not convert these acceptance observations into claims that R1 itself or R2/R3 is complete.
 
-**Stopping point:** R1 official 65%, functional homepage hero and one project case study publishing confirmed; proceed to remaining CMS content-field coverage and project gallery acceptance, with security and publication permission gates preserved.
+**Stopping point:** R1 official 65%, functional homepage hero and one project case study publishing confirmed; proceed to remaining CMS content-field coverage and multi-image project gallery acceptance (V3.17 gallery and approved cover are live; additional photos still need publication), with security and publication permission gates preserved.
+
 
 ---
 
