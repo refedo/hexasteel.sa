@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { BrandTransitionNotice } from "@/components/BrandTransitionNotice";
@@ -25,5 +26,26 @@ export const revalidate = 30;
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const accent=await getAccentColor();
   const themeStyle={"--signal":accent} as CSSProperties;
-  return <html lang="en"><body style={themeStyle}><SiteStructuredData/><SiteHeader/><BrandTransitionNotice/>{children}<SiteFooter/><ContactShortcuts/></body></html>;
+  return (
+    <html lang="en">
+      <head>
+        <Script id="google-tag-manager" strategy="beforeInteractive">
+          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-N7QJSQTB');`}
+        </Script>
+      </head>
+      <body style={themeStyle}>
+        <noscript><iframe title="Google Tag Manager" src="https://www.googletagmanager.com/ns.html?id=GTM-N7QJSQTB" height="0" width="0" style={{display:"none",visibility:"hidden"}} /></noscript>
+        <SiteStructuredData/>
+        <SiteHeader/>
+        <BrandTransitionNotice/>
+        {children}
+        <SiteFooter/>
+        <ContactShortcuts/>
+      </body>
+    </html>
+  );
 }
