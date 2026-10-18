@@ -1,3 +1,13 @@
+## R1-G02 — Search visibility and analytics consent (19 October 2026; feature branch)
+
+- **Previous verified milestone:** PR #22 integrated to `rebuild/website-v3` `b01c324`, DigitalOcean deployment and independent production SEO/security/GTM audit passed.
+- **Current verified starting point:** Connected Search Console (domain property) and GA4 property, but GA4 17–19 Oct reporting had zero rows. Corporate Search Console baseline had no reported corporate URLs yet. Independent live audit read-only workflow passed.
+- **Current milestone:** Introduce visitor Google Consent Mode v2 default-denied and explicit analytics opt-in/opt-out; preserve the single GTM container, remove unconsented no-JS fallback, add privacy/analytics settings page, and maintain SEO/security regression checks.
+- **Release status:** Isolated on `feature/r1g02-search-consent-audit`, CI and editorial/legal/Tag Assistant review pending, not integrated, not deployed. See `R1G02_HANDOVER.md`.
+- **R1 officially 65%** unchanged; R2/R3 0%. No `main` changes. **Next:** CI, PR review, explicit approval, direct production deployment and browser verification; submit corporate XML sitemap and validate GA4 measurement in GTM.
+
+---
+
 ## R1-G01 — Google Tag Manager container installation (19 October 2026; feature branch)
 
 - **Request and implementation:** Add owner-supplied `GTM-N7QJSQTB` across the HEXA Steel® Next.js site. Site-wide `src/app/layout.tsx` now places the official bootstrap in an early head script using `next/script` `beforeInteractive`, and matching no-JavaScript iframe immediately inside the opening body. Distinct OTS™ deployment remains untouched.

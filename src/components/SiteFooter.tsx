@@ -9,7 +9,7 @@ return <footer className="site-footer"><div className="shell footer-content">
   <Link href="/project-delivery">Project Delivery</Link><Link href="/projects">Projects</Link>
   <Link href="/capabilities/machinery">Machinery</Link><Link href="/capabilities/coating">Coating</Link>
   <Link href="/capabilities/quality">Quality</Link><Link href="/company/operational-excellence">Operational Excellence</Link>
-  <Link href="/knowledge">Knowledge Centre</Link><Link href="/insights">Insights</Link><Link href="/contact">Contact</Link>
+  <Link href="/knowledge">Knowledge Centre</Link><Link href="/insights">Insights</Link><Link href="/contact">Contact</Link><Link href="/privacy">Privacy &amp; Analytics</Link>
   <a href={brand.linkedIn} target="_blank" rel="noopener noreferrer">LinkedIn</a>
   </div>
   <small>© {new Date().getFullYear()} HEXA STEEL® · Saudi Arabia · V3 Pre-launch review</small>

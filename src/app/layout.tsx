@@ -8,6 +8,7 @@ import "./globals.css";
 import {getAccentColor} from "@/lib/siteSettings";
 import type {CSSProperties} from "react";
 import {SiteStructuredData} from "@/components/SiteStructuredData";
+import {AnalyticsConsentBanner} from "@/components/AnalyticsConsent";
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://hexasteel.sa"),
   title: { default: "HEXA STEEL® | Structural Steel & PEB Manufacturer Saudi Arabia", template: "%s | HEXA STEEL®" },
@@ -29,6 +30,13 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
   return (
     <html lang="en">
       <head>
+        <Script id="google-consent-default" strategy="beforeInteractive">
+          {`window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+var hexAnalytics='denied';
+try{if(window.localStorage.getItem('hexa_analytics_consent_v1')==='granted')hexAnalytics='granted';}catch(e){}
+gtag('consent','default',{analytics_storage:hexAnalytics,ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait_for_update:500});`}
+        </Script>
         <Script id="google-tag-manager" strategy="beforeInteractive">
           {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -38,11 +46,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </Script>
       </head>
       <body style={themeStyle}>
-        <noscript><iframe title="Google Tag Manager" src="https://www.googletagmanager.com/ns.html?id=GTM-N7QJSQTB" height="0" width="0" style={{display:"none",visibility:"hidden"}} /></noscript>
         <SiteStructuredData/>
         <SiteHeader/>
         <BrandTransitionNotice/>
         {children}
+        <AnalyticsConsentBanner/>
         <SiteFooter/>
         <ContactShortcuts/>
       </body>

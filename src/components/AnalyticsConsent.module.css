@@ -1,0 +1,16 @@
+.banner{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:65;width:min(1060px,calc(100% - 36px));background:#fff;color:#243747;border:1px solid #cbd5db;box-shadow:0 12px 42px rgba(21,39,53,.22);padding:22px 25px;display:flex;align-items:center;justify-content:space-between;gap:26px}
+.copy{max-width:650px}
+.copy strong{display:block;font-size:15px;font-weight:800;color:#2C3E50}
+.copy p{font-size:12px;line-height:1.7;margin:7px 0 0;color:#435a68}
+.copy a{text-decoration:underline;text-underline-offset:3px}
+.actions{display:flex;gap:9px;flex-shrink:0;flex-wrap:wrap}
+.actions button{min-height:42px;padding:10px 16px;border:1px solid #2C3E50;font-weight:750;font-size:12px;cursor:pointer}
+.primary{background:#2C3E50;color:#fff}
+.secondary{background:white;color:#2C3E50}
+.primary:hover{background:#203240}
+.secondary:hover{background:#eef2f5}
+.actions button:focus-visible{outline:3px solid #91a946;outline-offset:3px}
+.settings{padding:22px 0;border-top:1px solid #d2dce1}
+.settings h2{font-size:23px;margin:0 0 12px;color:#2C3E50}
+.settings p{font-size:13px;color:#435a68;margin:0 0 18px}
+@media(max-width:740px){.banner{bottom:10px;padding:17px 16px;align-items:stretch;flex-direction:column;gap:14px}.actions{width:100%}.actions button{flex:1;min-width:120px}.copy p{font-size:12px}}
