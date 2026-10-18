@@ -20,7 +20,7 @@ function useConsent(){
  const [choice,setChoice]=useState<Choice|null>(null);
  const [ready,setReady]=useState(false);
  useEffect(()=>{
-  const sync=()=>{setChoice(savedChoice());setReady(true);};
+  const sync=(event?:Event)=>{const incoming=event instanceof CustomEvent?event.detail:null;setChoice(incoming==="granted"||incoming==="denied"?incoming:savedChoice());setReady(true);};
   sync();
   window.addEventListener(CHANGE_EVENT,sync);
   window.addEventListener("storage",sync);
@@ -38,7 +38,7 @@ function useConsent(){
    ad_personalization:"denied"
   });
   setChoice(next);
-  window.dispatchEvent(new Event(CHANGE_EVENT));
+  window.dispatchEvent(new CustomEvent(CHANGE_EVENT,{detail:next}));
  }
  return {choice,ready,change};
 }
@@ -46,7 +46,7 @@ function useConsent(){
 export function AnalyticsConsentBanner(){
  const pathname=usePathname();
  const {choice,ready,change}=useConsent();
- if(!ready||choice!==null||pathname.startsWith("/studio"))return null;
+ if(!ready||choice!==null||(pathname.startsWith("/studio")||pathname==="/privacy"))return null;
  return <section className={styles.banner} aria-label="Analytics privacy choices">
   <div className={styles.copy}>
    <strong>Your privacy matters.</strong>
