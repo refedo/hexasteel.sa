@@ -1,0 +1,73 @@
+name: Verify R1-G02 live privacy and SEO (read-only)
+on:
+  push:
+    branches: [audit/r1g02-live-verification]
+    paths: [.github/workflows/verify-r1g02-live.yml]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Verify live HEXA site without changes
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import re,urllib.request,urllib.error,time
+          from html.parser import HTMLParser
+
+          origin="https://hexasteel.sa"
+          def get(path):
+              for attempt in range(3):
+                  try:
+                      req=urllib.request.Request(origin+path,headers={"User-Agent":"HEXA-R1G02-Live-ReadOnly/1.0"})
+                      with urllib.request.urlopen(req,timeout=22) as res:
+                          assert res.status==200,(path,res.status)
+                          html=res.read().decode("utf-8","replace")
+                          return html,res.headers
+                  except (urllib.error.URLError,TimeoutError):
+                      if attempt==2:raise
+                      time.sleep(2)
+          class Meta(HTMLParser):
+              def __init__(self):super().__init__();self.canonicals=[];self.jsonld=0
+              def handle_starttag(self,tag,attributes):
+                  attrs=dict(attributes)
+                  if tag=="link" and attrs.get("rel")=="canonical":self.canonicals.append(attrs.get("href"))
+                  if tag=="script" and attrs.get("type")=="application/ld+json":self.jsonld+=1
+          def canonical(source):
+              parsed=Meta();parsed.feed(source);return parsed
+
+          page,headers=get("/")
+          print("home canonical",canonical(page).canonicals)
+          assert canonical(page).canonicals in ([origin],[origin+"/"])
+          assert canonical(page).jsonld>0
+          assert "GTM-N7QJSQTB" in page
+          assert "google-consent-default" in page
+          assert "google-tag-manager" in page
+          assert page.index("google-consent-default")<page.index("google-tag-manager"),"Consent script must precede GTM"
+          assert "analytics_storage" in page and "denied" in page
+          assert "googletagmanager.com/ns.html" not in page,"No noscript tracking before opt-in"
+          for key in ["X-Content-Type-Options","X-Frame-Options","Referrer-Policy","Permissions-Policy","Strict-Transport-Security"]:
+              print("security",key,headers.get(key))
+              assert headers.get(key),(key,"missing")
+          assert "includeSubDomains" not in headers.get("Strict-Transport-Security","")
+
+          privacy,_=get("/privacy")
+          assert "Privacy &amp; analytics" in privacy or "Privacy & analytics" in privacy or "Privacy &amp; Analytics" in privacy, "Privacy page title missing"
+          assert "Analytics preferences" in privacy
+          assert "Reject analytics" in privacy and "Accept analytics" in privacy
+          assert canonical(privacy).canonicals==[origin+"/privacy"]
+
+          robots,_=get("/robots.txt")
+          assert "Disallow: /studio" in robots and "Disallow: /api/" in robots
+          sitemap,_=get("/sitemap.xml")
+          assert "<loc>https://hexasteel.sa/privacy</loc>" in sitemap
+          assert "<loc>https://ots.hexasteel.sa" not in sitemap
+
+          for path in ["/studio","/search?q=peb","/api/search?q=peb"]:
+              _,h=get(path)
+              print(path,"X-Robots-Tag:",h.get("X-Robots-Tag"))
+              assert "noindex" in h.get("X-Robots-Tag","").lower(),path
+          print("PASS: post-deployment R1-G02 production HTML/SEO/header checks")
+          PY
