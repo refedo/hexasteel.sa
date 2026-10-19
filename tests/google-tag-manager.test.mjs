@@ -15,13 +15,9 @@ test("GTM is installed once in the shared Next.js root layout", () => {
   assert.equal(layout.split("'dataLayer','"+containerId+"'").length - 1, 1);
 });
 
-test("GTM noscript fallback is first inside body and uses the same container ID", () => {
-  const body = layout.slice(layout.indexOf("<body style={themeStyle}>"));
-  assert.match(body, /^<body style=\{themeStyle\}>\s*<noscript><iframe/);
-  assert.match(body, /<iframe title="Google Tag Manager" src="https:\/\/www\.googletagmanager\.com\/ns\.html\?id=GTM-N7QJSQTB" height="0" width="0"/);
-  assert.match(body, /style=\{\{display:"none",visibility:"hidden"\}\}/);
-  assert.ok(body.indexOf("<noscript>") < body.indexOf("<SiteHeader/>"));
-  assert.equal((body.match(/ns\.html\?id=GTM-N7QJSQTB/g) || []).length, 1);
+test("GTM no-JS iframe cannot bypass optional analytics consent", () => {
+  assert.doesNotMatch(layout,/googletagmanager\.com\/ns\.html\?id=/);
+  assert.match(layout, /<AnalyticsConsentBanner\/>/);
 });
 
 test("GTM leaves normal page metadata and component tree in place", () => {
