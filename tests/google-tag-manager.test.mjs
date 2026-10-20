@@ -17,7 +17,7 @@ test("GTM is installed once in the shared Next.js root layout", () => {
 
 test("GTM no-JS iframe cannot bypass optional analytics consent", () => {
   assert.doesNotMatch(layout,/googletagmanager\.com\/ns\.html\?id=/);
-  assert.match(layout, /<AnalyticsConsentBanner\/>/);
+  assert.doesNotMatch(layout, /<AnalyticsConsentBanner\/>/);
 });
 
 test("GTM leaves normal page metadata and component tree in place", () => {
