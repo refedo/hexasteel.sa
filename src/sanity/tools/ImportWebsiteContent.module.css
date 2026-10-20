@@ -21,3 +21,24 @@
 .success p,.error p{margin:7px 0 0}
 .progress{font-weight:650;margin:0 0 18px}
 @media(max-width:650px){.wrapper{padding:18px 16px 34px}.action{display:block}.primary{display:block;width:100%}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.action .note{display:block;margin-top:10px}.title{font-size:24px}}
+
+
+/* V3.19 — selective, authenticated project publication */
+.secondary{padding:11px 16px;background:transparent;color:inherit;border:1px solid #8ca4b5;border-radius:4px;min-height:44px;font-weight:700;font-size:13px;cursor:pointer}
+.secondary:hover:not(:disabled){background:rgba(125,145,162,.13)}
+.secondary:focus-visible,.selectionLabel:focus-within,.draftRow:focus-within,.confirmation:focus-within{outline:3px solid #8299ae;outline-offset:2px}
+.secondary:disabled{opacity:.55;cursor:wait}
+.selectionBar{display:flex;align-items:center;justify-content:space-between;gap:16px;background:rgba(125,145,162,.1);border:1px solid rgba(134,158,176,.3);padding:14px;margin:16px 0 0}
+.selectionBar strong{font-size:13px;white-space:nowrap}
+.selectionLabel{display:flex;gap:12px;align-items:center;font-size:14px;font-weight:750;cursor:pointer}
+.selectionLabel input,.draftRow input,.confirmation input{width:19px;height:19px;accent-color:#2c3e50;flex-shrink:0}
+.draftList{border:1px solid rgba(134,158,176,.3);max-height:430px;overflow-y:auto}
+.draftRow{display:flex;gap:14px;align-items:flex-start;border-bottom:1px solid rgba(134,158,176,.24);padding:12px 15px;cursor:pointer;min-width:0}
+.draftRow:hover{background:rgba(125,145,162,.08)}
+.draftRow:last-child{border-bottom:0}
+.draftInfo{display:flex;flex-direction:column;gap:4px;overflow-wrap:anywhere}
+.draftInfo strong{font-weight:700;font-size:14px}
+.draftInfo small{font-size:11px;opacity:.8}
+.confirmation{display:flex;gap:12px;align-items:flex-start;font-size:13px;font-weight:650;margin-top:16px;cursor:pointer}
+.empty{font-size:14px;margin:0;padding:18px;opacity:.8}
+@media(max-width:650px){.selectionBar{align-items:flex-start}.draftList{max-height:55vh}.draftRow{padding:13px 10px}}
