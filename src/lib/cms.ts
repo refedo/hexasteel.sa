@@ -3,9 +3,10 @@ import {articles,insights,references} from "@/content/site";
 import {qualificationLogos} from "@/content/qualificationLogos";
 import {isSafePublicImage} from "@/content/cmsSeed";
 import {publicPageDefaults} from "@/content/cmsPages";
+import type {PublicProject} from "@/content/projectTaxonomy";
 import type {SearchResult} from "@/lib/searchIndex";
 
-type Project = (typeof references)[number] & {gallery?:{src:string;alt:string}[];scope?:string};
+type Project = PublicProject;
 type Insight = (typeof insights)[number];
 type Article = (typeof articles)[number];
 
@@ -14,10 +15,10 @@ const dataset=process.env.NEXT_PUBLIC_SANITY_DATASET||"production";
 const client=projectId ? createClient({projectId,dataset,apiVersion:"2025-02-01",useCdn:true}) : null;
 const siteQuery='*[_type=="siteSettings" && _id=="siteSettings"][0]{ "heroHeadline":heroHeadline.en, "heroDescription":heroDescription.en, "marketPositioning":marketPositioning.en, "headerTagline":headerTagline.en, "contactMobile":contactMobile, "whatsappEnabled":whatsappEnabled, "trustIndicators":trustIndicators[approvedForWeb==true]{figure,unit,description,"symbol":coalesce(symbol,"01")}, "heroSlides":heroSlides[]{"src":coalesce(asset.asset->url,illustrativeUrl),"alt":alt,"title":title,"credit":credit} }';
 type HomeSettings={heroHeadline?:string|null;heroDescription?:string|null;marketPositioning?:string|null;headerTagline?:string|null;contactMobile?:string|null;whatsappEnabled?:boolean|null;trustIndicators?:{figure:string;unit:string;description:string;symbol:string}[];heroSlides?:{src:string;alt:string;title:string;credit:string}[]};
-type CmsProject={slug:string;title:string;category:string;description:string;year?:string;size?:string;status?:string;image?:string;gallery?:{src:string;alt?:string}[];scope?:string};
+type CmsProject=PublicProject;
 type CmsInsight={slug:string;title:string;summary:string;category:string;date:string;sections?:{heading:string;body:string}[]};
 type CmsArticle={slug:string;title:string;intro:string;category:string;sections:{heading:string;body:string}[]};
-const projectQuery='*[_type=="project" && approvedForWeb==true && identityClearedForWeb==true && defined(publicSlug.current)]{ "slug":publicSlug.current,"title":publicTitle.en,"category":sector,"description":publicSummary,"year":string(completionYear),"size":quantityDisplay,"status":deliveryStatus,"image":coalesce(coverImage.asset->url,illustrativeUrl),"gallery":photos[]{"src":asset->url,"alt":alt},"scope":scope }';
+const projectQuery='*[_type=="project" && approvedForWeb==true && identityClearedForWeb==true && defined(publicSlug.current)]{ "slug":publicSlug.current,"title":publicTitle.en,"category":sector,"description":publicSummary,"year":string(completionYear),"size":quantityDisplay,"status":deliveryStatus,"image":coalesce(coverImage.asset->url,illustrativeUrl),"gallery":photos[]{"src":asset->url,"alt":alt},"scope":scope,"industries":industries,"projectTypes":projectTypes,"steelSystem":steelSystem }';
 const insightQuery='*[_type=="companyUpdate" && approvedForWeb==true && defined(slug.current)]{ "slug":slug.current,"title":title.en,"summary":summary.en,"category":category,"date":displayDate,"sections":sections[]{"heading":heading.en,"body":body.en} }';
 const knowledgeQuery='*[_type=="knowledgeArticle" && approvedForWeb==true && defined(slug.current)]{ "slug":slug.current,"title":title.en,"intro":intro.en,"category":category,"sections":sections[]{"heading":heading.en,"body":body.en} }';
 
@@ -32,9 +33,9 @@ function combine<T extends {slug:string}>(fallback:readonly T[],cms:T[]):T[]{
  return [...bySlug.values()];
 }
 export async function getCmsProjects():Promise<CmsProject[]>{
- return (await safeFetch<CmsProject>(projectQuery)).filter(x=>x.slug&&x.title&&x.description).map(x=>({...x,category:x.category||"Structural Steel",year:x.year||"",size:x.size||"",status:x.status||"Status to confirm",image:isSafePublicImage(x.image)?x.image:"",gallery:(x.gallery||[]).filter(p=>isSafePublicImage(p.src)).map(p=>({src:p.src,alt:p.alt||x.title+" approved project photograph"}))}));
+ return (await safeFetch<CmsProject>(projectQuery)).filter(x=>x.slug&&x.title&&x.description).map(x=>({...x,category:x.category||"Structural Steel",year:x.year||"",size:x.size||"",status:x.status||"Status to confirm",image:isSafePublicImage(x.image)?x.image:"",industries:Array.isArray(x.industries)?x.industries.filter(Boolean):[],projectTypes:Array.isArray(x.projectTypes)?x.projectTypes.filter(Boolean):[],gallery:(x.gallery||[]).filter(p=>isSafePublicImage(p.src)).map(p=>({src:p.src,alt:p.alt||x.title+" approved project photograph"}))}));
 }
-export async function getProjects():Promise<Project[]> {return combine(references,await getCmsProjects() as Project[])}
+export async function getProjects():Promise<Project[]> {return combine<Project>(references,await getCmsProjects())}
 export async function getCmsInsights():Promise<CmsInsight[]>{
  return (await safeFetch<CmsInsight>(insightQuery)).filter(x=>x.slug&&x.title&&x.summary&&x.category).map(x=>({...x,date:x.date||"News"}));
 }
@@ -60,7 +61,7 @@ export async function getCmsSearchEntries():Promise<SearchResult[]>{
  const routeByKey=new Map<string,string>(publicPageDefaults.map(p=>[p.route.replaceAll("/","--"),p.route]));
  return [
  ...pages.filter(p=>routeByKey.has(p.slug)&&p.title&&p.intro).map(p=>({title:p.title,description:p.intro,category:"Pages",href:"/"+routeByKey.get(p.slug)!})),
- ...projects.map(x=>({title:x.title,description:x.description,category:"Projects",href:"/projects/"+x.slug,keywords:x.category})),
+ ...projects.map(x=>({title:x.title,description:x.description,category:"Projects",href:"/projects/"+x.slug,keywords:[x.category,x.steelSystem,...(x.industries||[]),...(x.projectTypes||[])].filter(Boolean).join(" ")})),
  ...stories.map(x=>({title:x.title,description:x.summary,category:"Insights",href:"/insights/"+x.slug,keywords:x.category+" "+x.date+" "+(x.sections||[]).map(s=>s.heading+" "+s.body).join(" ")})),
  ...guides.map(x=>({title:x.title,description:x.intro,category:"Knowledge",href:"/knowledge/"+x.slug,keywords:x.category+" "+x.sections.map(s=>s.heading+" "+s.body).join(" ")}))
  ];
