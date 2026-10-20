@@ -1152,3 +1152,5 @@ body:has(.hexa-studio) > .contact-shortcuts{display:none!important}
 .hexa-reveal-prepare{opacity:0;transform:translateY(18px)}
 .hexa-reveal-prepare.hexa-is-visible{opacity:1;transform:translateY(0);transition:opacity .65s ease,transform .65s cubic-bezier(.25,.8,.25,1)}
 @media(prefers-reduced-motion:reduce){.hexa-reveal-prepare{opacity:1!important;transform:none!important}.hexa-reveal-prepare.hexa-is-visible{transition:none!important}}
+
+.hexa-form-error{color:#7b2323;font-size:13px;padding:12px;background:#fff1f1;border-left:3px solid #a62f2f}
