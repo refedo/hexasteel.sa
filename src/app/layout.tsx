@@ -5,7 +5,6 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { BrandTransitionNotice } from "@/components/BrandTransitionNotice";
 import {ContactShortcuts} from "@/components/ContactShortcuts";
 import {SiteMotion} from "@/components/SiteMotion";
-import {CloudflareAnalytics} from "@/components/CloudflareAnalytics";
 import "./globals.css";
 import {getAccentColor} from "@/lib/siteSettings";
 import type {CSSProperties} from "react";
@@ -28,10 +27,6 @@ export const revalidate = 30;
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const accent=await getAccentColor();
   const themeStyle={"--signal":accent} as CSSProperties;
-  // Prefer automatic Cloudflare edge injection for proxied hexasteel.sa only.
-  // Explicit manual fallback is disabled unless configured. Never inject both.
-  const cloudflareBeaconToken=process.env.NEXT_PUBLIC_CLOUDFLARE_WEB_ANALYTICS_TOKEN?.trim()||"";
-  const enableCloudflareBeacon=process.env.CLOUDFLARE_WEB_ANALYTICS_MODE==="manual" && /^[a-f0-9]{32}$/i.test(cloudflareBeaconToken);
   return (
     <html lang="en">
       <head>
@@ -54,7 +49,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <SiteHeader/>
         <BrandTransitionNotice/>
         <SiteMotion/>
-        {enableCloudflareBeacon&&<CloudflareAnalytics token={cloudflareBeaconToken}/>}
         {children}
         <SiteFooter/>
         <ContactShortcuts/>
