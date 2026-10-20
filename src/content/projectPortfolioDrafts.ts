@@ -11,8 +11,8 @@ export const projectPortfolioDrafts: PortfolioDraft[] = [
     "projectTypes": [
       "Warehouse"
     ],
-    "steelSystem": "Structural Steel",
-    "publicSummary": "Structural Steel Warehouse project reference in Entertainment and Utilities. Scope, status and imagery pending verification."
+    "steelSystem": "Steel Structure",
+    "publicSummary": "Steel Structure Warehouse project reference in Entertainment and Utilities. Scope, status and imagery pending verification."
   },
   {
     "slug": "periodic-inspection-peb-warehouse",
@@ -35,8 +35,8 @@ export const projectPortfolioDrafts: PortfolioDraft[] = [
     "projectTypes": [
       "Warehouse"
     ],
-    "steelSystem": "Structural Steel",
-    "publicSummary": "Structural Steel Warehouse project reference in Oil & Gas. Scope, status and imagery pending verification."
+    "steelSystem": "Steel Structure",
+    "publicSummary": "Steel Structure Warehouse project reference in Oil & Gas. Scope, status and imagery pending verification."
   },
   {
     "slug": "ad-dawaa-pharmacy-warehouse",
@@ -47,8 +47,8 @@ export const projectPortfolioDrafts: PortfolioDraft[] = [
     "projectTypes": [
       "Warehouse"
     ],
-    "steelSystem": "Structural Steel",
-    "publicSummary": "Structural Steel Warehouse project reference in Commercial. Scope, status and imagery pending verification."
+    "steelSystem": "Steel Structure",
+    "publicSummary": "Steel Structure Warehouse project reference in Commercial. Scope, status and imagery pending verification."
   },
   {
     "slug": "green-pipes-factory-peb-warehouse",
@@ -83,8 +83,8 @@ export const projectPortfolioDrafts: PortfolioDraft[] = [
     "projectTypes": [
       "Other"
     ],
-    "steelSystem": "Structural Steel",
-    "publicSummary": "Structural Steel Other project reference in Utilities. Scope, status and imagery pending verification."
+    "steelSystem": "Steel Structure",
+    "publicSummary": "Steel Structure Other project reference in Utilities. Scope, status and imagery pending verification."
   },
   {
     "slug": "zakat-structural-steel",
@@ -95,8 +95,8 @@ export const projectPortfolioDrafts: PortfolioDraft[] = [
     "projectTypes": [
       "Other"
     ],
-    "steelSystem": "Structural Steel",
-    "publicSummary": "Structural Steel Other project reference in Utilities. Scope, status and imagery pending verification."
+    "steelSystem": "Steel Structure",
+    "publicSummary": "Steel Structure Other project reference in Utilities. Scope, status and imagery pending verification."
   },
   {
     "slug": "yamama-palace-warehouse",
@@ -107,8 +107,8 @@ export const projectPortfolioDrafts: PortfolioDraft[] = [
     "projectTypes": [
       "Warehouse"
     ],
-    "steelSystem": "Structural Steel",
-    "publicSummary": "Structural Steel Warehouse project reference in Utilities. Scope, status and imagery pending verification."
+    "steelSystem": "Steel Structure",
+    "publicSummary": "Steel Structure Warehouse project reference in Utilities. Scope, status and imagery pending verification."
   },
   {
     "slug": "hilton-hotel-steelwork",
@@ -119,8 +119,8 @@ export const projectPortfolioDrafts: PortfolioDraft[] = [
     "projectTypes": [
       "Hotel"
     ],
-    "steelSystem": "Structural Steel",
-    "publicSummary": "Structural Steel Hotel project reference in Hospitality. Scope, status and imagery pending verification."
+    "steelSystem": "Steel Structure",
+    "publicSummary": "Steel Structure Hotel project reference in Hospitality. Scope, status and imagery pending verification."
   },
   {
     "slug": "kempinski-hotel-steelwork",
@@ -131,8 +131,8 @@ export const projectPortfolioDrafts: PortfolioDraft[] = [
     "projectTypes": [
       "Hotel"
     ],
-    "steelSystem": "Structural Steel",
-    "publicSummary": "Structural Steel Hotel project reference in Hospitality. Scope, status and imagery pending verification."
+    "steelSystem": "Steel Structure",
+    "publicSummary": "Steel Structure Hotel project reference in Hospitality. Scope, status and imagery pending verification."
   },
   {
     "slug": "seven-riyadh-exit-10",
