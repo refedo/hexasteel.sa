@@ -1,3 +1,13 @@
+## V3.18 — Industry-classified projects and Warehouse filter (20 October 2026; feature branch)
+
+- **Previous stopping point:** R1-G02 PR #23 integrated to `rebuild/website-v3` at `36c70534`; CI and DigitalOcean deployment workflows passed. RFQ #12 and optional project-publishing UX #19 remain separate unmerged drafts.
+- **Current starting point:** Verified integration branch `36c70534`, preserving V3.17 project gallery/watermark and dual Sanity publication gates.
+- **Milestone (code developed on isolated branch):** 22 user-supplied public project candidates imported as protected, unpublished Sanity drafts through the existing editor action. Independent Industry / Project Type / Steel System fields and filters (including 8 Warehouse tags), searchable public CMS facets and detail views. Additional projects remain creatable through Sanity.
+- **GitHub:** `feature/v318-industry-project-portfolio` targets `rebuild/website-v3`; see `PROJECT_PORTFOLIO_V318_HANDOVER.md`. CI, integration, production, named-publication permissions and operational acceptance must be recorded separately. No merge/deployment authorization implied.
+- **Official completion:** R1 **65%** (management-approved), R2 **0%**, R3 **0%**. Unchanged; no blended programme percentage.
+
+---
+
 ## R1-G02 — Search visibility and analytics consent (19 October 2026; feature branch)
 
 - **Previous verified milestone:** PR #22 integrated to `rebuild/website-v3` `b01c324`, DigitalOcean deployment and independent production SEO/security/GTM audit passed.

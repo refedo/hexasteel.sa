@@ -1,4 +1,5 @@
 import {defineType,defineField} from "sanity";
+import {industrySectors,projectTypeOptions,steelSystemOptions} from "../../content/projectTaxonomy";
 
 const localizedText = defineType({
   name:"localizedText",title:"Localized Text",type:"object",
@@ -28,11 +29,14 @@ const page = defineType({
   preview:{select:{title:"title.en"}}
 });
 const project=defineType({name:"project",title:"Public Project Case Study",type:"document",
- description:"PUBLIC DATASET: never enter confidential client names, customer references or restricted documents. Use anonymous identifiers only.",
+ description:"PUBLIC DATASET: named project references require verified publication permission. Never include confidential customer data, restricted identifiers or documents.",
  fields:[
-  defineField({name:"publicTitle",type:"localizedText",title:"Anonymous Project Title",description:"No customer names or restricted project identifiers.",validation:r=>r.required()}),
-  defineField({name:"publicSlug",type:"slug",title:"Anonymous URL",options:{source:"publicTitle.en"},validation:r=>r.required()}),
-  defineField({name:"sector",type:"string",title:"Sector"}),
+  defineField({name:"publicTitle",type:"localizedText",title:"Public Project Title",description:"Customer and site names require documented publication rights; otherwise use anonymous titles.",validation:r=>r.required()}),
+  defineField({name:"publicSlug",type:"slug",title:"Public Project URL",options:{source:"publicTitle.en"},validation:r=>r.required()}),
+  defineField({name:"sector",type:"string",title:"Legacy Service Category",description:"Retained for existing projects. Use Industry and Project Type for new projects."}),
+  defineField({name:"industries",type:"array",title:"Industry Sectors",description:"Select multiple when relevant, e.g. Entertainment and Utilities.",of:[{type:"string"}],options:{list:industrySectors.map(value=>({title:value,value}))}}),
+  defineField({name:"projectTypes",type:"array",title:"Project Types",description:"Tag every warehouse as Warehouse, regardless of industry.",of:[{type:"string"}],options:{list:projectTypeOptions.map(value=>({title:value,value}))}}),
+  defineField({name:"steelSystem",type:"string",title:"Steel Structure System",description:"Use Steel Structure instead of SS; leave blank when unverified.",options:{list:steelSystemOptions.map(value=>({title:value,value}))}}),
   defineField({name:"publicSummary",type:"text",title:"Public Scope Summary",rows:4,validation:r=>r.required()}),
   defineField({name:"quantityDisplay",type:"string",title:"Approved Tonnage"}),
   defineField({name:"deliveryStatus",type:"string",title:"Delivery Status",options:{list:["Completed","Ongoing","Status to confirm"]},initialValue:"Status to confirm",validation:r=>r.required()}),
@@ -42,7 +46,7 @@ const project=defineType({name:"project",title:"Public Project Case Study",type:
   defineField({name:"scope",type:"text",title:"Public Scope Details"}),
   defineField({name:"photos",title:"Approved Project Gallery",description:"Images appear on the public project detail page only after approval. Never upload confidential material.",type:"array",of:[{type:"image",options:{hotspot:true},fields:[{name:"alt",type:"string",title:"Image description"}]}]}),
   defineField({name:"approvedForWeb",type:"boolean",initialValue:false,description:"Management reviewed all facts, photos and figures."}),
-  defineField({name:"identityClearedForWeb",type:"boolean",initialValue:false,description:"Confirmed title, slug, imagery and copy contain no restricted identities."})
+  defineField({name:"identityClearedForWeb",type:"boolean",initialValue:false,description:"Documented permission obtained for customer/site names in the title, URL, copy or imagery, or record fully anonymized."})
  ],
  preview:{select:{title:"publicTitle.en",subtitle:"deliveryStatus"}}
 });
