@@ -26,7 +26,7 @@ export function isHexaMetalsArrival(search: string, referrer: string): boolean {
 export function BrandTransitionNotice() {
   const pathname = usePathname();
   const [showLegacyWelcome, setShowLegacyWelcome] = useState(false);
-  const [showBetaNotice, setShowBetaNotice] = useState(true);
+  const [showBetaNotice, setShowBetaNotice] = useState(false);
 
   useEffect(() => {
     try {
@@ -34,7 +34,9 @@ export function BrandTransitionNotice() {
       if (arrived) window.sessionStorage.setItem(LEGACY_SESSION_KEY, "1");
       const previouslyArrived = window.sessionStorage.getItem(LEGACY_SESSION_KEY) === "1";
       setShowLegacyWelcome(previouslyArrived && window.sessionStorage.getItem(LEGACY_DISMISSED_KEY) !== "1");
-      setShowBetaNotice(window.sessionStorage.getItem(BETA_DISMISSED_KEY) !== "1");
+      const dismissed = window.localStorage.getItem(BETA_DISMISSED_KEY) === "1" || window.sessionStorage.getItem(BETA_DISMISSED_KEY) === "1";
+      if (dismissed) window.localStorage.setItem(BETA_DISMISSED_KEY, "1");
+      setShowBetaNotice(!dismissed);
     } catch {
       // Storage can be blocked. The marker still works for this page without persistence.
       setShowLegacyWelcome(isHexaMetalsArrival(window.location.search, document.referrer));
@@ -48,7 +50,7 @@ export function BrandTransitionNotice() {
 
   function dismissBeta() {
     setShowBetaNotice(false);
-    try { window.sessionStorage.setItem(BETA_DISMISSED_KEY, "1"); } catch {}
+    try { window.localStorage.setItem(BETA_DISMISSED_KEY, "1"); } catch {}
   }
 
   return <>
