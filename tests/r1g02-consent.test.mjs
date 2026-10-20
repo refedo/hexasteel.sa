@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import {readFileSync,existsSync} from "node:fs";
 const read=p=>readFileSync(p,"utf8");
 
-test("GTM and Google consent mode stay installed without analytics cookie storage",()=>{
+test("GTM remains installed with anonymous-first default-denied storage",()=>{
  const layout=read("src/app/layout.tsx");
  const consent=layout.indexOf('id="google-consent-default"');
  const gtm=layout.indexOf('id="google-tag-manager"');
@@ -17,7 +17,7 @@ test("GTM and Google consent mode stay installed without analytics cookie storag
  assert.doesNotMatch(layout,/G-JG2HQGQ2P3/);
 });
 
-test("No privacy route or analytics-consent controls are displayed",()=>{
+test("Prelaunch does not display a privacy page or analytics-consent controls",()=>{
  const layout=read("src/app/layout.tsx");
  assert.doesNotMatch(layout,/<AnalyticsConsentBanner\/>|<AnalyticsConsentSettings\/>/);
  assert.doesNotMatch(layout,/googletagmanager\.com\/ns\.html/);
