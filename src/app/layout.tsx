@@ -39,7 +39,6 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
           {`window.dataLayer=window.dataLayer||[];
 function gtag(){dataLayer.push(arguments);}
 var hexAnalytics='denied';
-try{if(window.localStorage.getItem('hexa_analytics_consent_v1')==='granted')hexAnalytics='granted';}catch(e){}
 gtag('consent','default',{analytics_storage:hexAnalytics,ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait_for_update:500});`}
         </Script>
         <Script id="google-tag-manager" strategy="beforeInteractive">
