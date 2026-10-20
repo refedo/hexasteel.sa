@@ -31,6 +31,6 @@ export async function SiteFooter(){
     <a className="hexa-footer-location" href="https://www.google.com/maps/search/?api=1&query=HEXA+Steel+Riyadh+Saudi+Arabia" target="_blank" rel="noopener noreferrer"><span className="hexa-map-pin" aria-hidden="true">⌾</span><span>HEXA Steel® · Riyadh<small>View on Google Maps ↗</small></span></a>
    </section>
   </div>
-  <div className="shell hexa-footer-bottom"><span>© {new Date().getFullYear()} HEXA Steel® · Saudi Arabia. All rights reserved.</span><div><Link href="/privacy">Privacy Policy</Link><Link href="/contact">Contact</Link></div></div>
+  <div className="shell hexa-footer-bottom"><span>© {new Date().getFullYear()} HEXA Steel® · Saudi Arabia. All rights reserved.</span><div><Link href="/contact">Contact</Link><Link href="/feedback">Customer Feedback</Link></div></div>
  </footer>;
 }
