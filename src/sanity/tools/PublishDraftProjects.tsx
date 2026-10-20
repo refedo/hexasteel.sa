@@ -109,9 +109,8 @@ export function PublishDraftProjects(){
    if(new Set(slugs).size!==slugs.length)throw new Error("Selected drafts contain duplicate public URLs.");
    const related=await client.fetch<ProjectIdentity[]>(RELATED_QUERY,{ids:publishedIds,slugs},{perspective:"raw",useCdn:false});
    for(const doc of related){
-    if(doc._id.startsWith(DRAFT_PREFIX))continue;
-    if(doc.slug&&slugs.includes(doc.slug)&&!selection.some(d=>getPublishedId(d)===doc._id))
-     throw new Error("A published project already uses the URL "+doc.slug+". Resolve the conflict in Studio.");
+    if(doc.slug&&slugs.includes(doc.slug)&&!selection.some(d=>d._id===doc._id||getPublishedId(d)===doc._id))
+     throw new Error("Another project already uses the URL "+doc.slug+". Resolve the conflict in Studio.");
    }
 
    for(let start=0;start<selection.length;start+=BATCH_SIZE){
