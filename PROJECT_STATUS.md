@@ -1,3 +1,13 @@
+## V3.19 — Sanity draft project selective/bulk publication (20 October 2026; isolated branch)
+
+- **Previous stopping point:** V3.18 PR #24 approved and merged only to `rebuild/website-v3` at `0c630d5`; feature/post-merge CI and DigitalOcean live deployment checks passed. The 22 management-supplied projects remained unpublished editable drafts requiring Studio import and publication rights.
+- **Current starting point:** Deployed V3.18 project filters, galleries, Sanity schemas and dual approval gates; no direct authenticated Sanity publication access from ChatGPT. PR #12 RFQ and optional PR #19 remain separate and unmerged.
+- **Current milestone (feature code):** User-requested **general** Studio draft project manager, not limited to 22 records: show all project drafts, select all or individual records, publish only selected with explicit factual/photo rights and customer-identity attestations, revision/slug conflict checks and clear results. New import action not required for future draft records.
+- **GitHub:** `feature/v319-bulk-project-publishing`; handover `PROJECT_PUBLISHING_V319_HANDOVER.md`. CI/PR/deployment and authenticated Studio acceptance must be verified separately. No `main` merge, unapproved integration or production change.
+- **Official releases:** R1 **65%**, R2 **0%**, R3 **0%**, unchanged pending operational acceptance.
+
+---
+
 ## V3.18 — Industry-classified projects and Warehouse filter (20 October 2026; feature branch)
 
 - **Previous stopping point:** R1-G02 PR #23 integrated to `rebuild/website-v3` at `36c70534`; CI and DigitalOcean deployment workflows passed. RFQ #12 and optional project-publishing UX #19 remain separate unmerged drafts.

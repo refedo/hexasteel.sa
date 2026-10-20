@@ -3,6 +3,7 @@ import {structureTool} from "sanity/structure";
 import {visionTool} from "@sanity/vision";
 import {schemaTypes} from "./src/sanity/schemaTypes";
 import {ImportWebsiteContent} from "./src/sanity/tools/ImportWebsiteContent";
+import {PublishDraftProjects} from "./src/sanity/tools/PublishDraftProjects";
 const projectId=process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "ik7morln";
 export default defineConfig({
  name:"default",title:"HEXA Steel® Content Studio",
@@ -11,6 +12,7 @@ export default defineConfig({
  plugins:[
   structureTool({structure:(S)=>S.list().title("HEXA Website Editorial").items([
    S.listItem().title("Import Current Website Content").child(S.component(ImportWebsiteContent).title("Import existing content")),
+   S.listItem().title("Bulk Publish Project Drafts").child(S.component(PublishDraftProjects).title("Select and publish project drafts")),
    S.listItem().title("Website Settings").id("siteSettings").child(S.document().schemaType("siteSettings").documentId("siteSettings")),
    S.divider(),
    ...["page","project","knowledgeArticle","companyUpdate","publicQualification"].map(type=>S.documentTypeListItem(type)),
