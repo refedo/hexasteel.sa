@@ -57,9 +57,10 @@ test("Footer uses HEXA contact details, official media and categorised navigatio
 });
 test("Customer feedback form never sends without verified server-side services and consent",()=>{
  const page=read("src/app/feedback/page.tsx");
+ const form=read("src/components/CustomerFeedbackForm.tsx");
  const route=read("src/app/api/feedback/route.ts");
- assert.match(page,/cf-turnstile/);
- assert.match(page,/privacyConsent/);
+ assert.match(form,/cf-turnstile/);
+ assert.match(form,/privacyConsent/);
  assert.match(page,/active\?/);
  assert.match(route,/TURNSTILE_SECRET_KEY/);
  assert.match(route,/RESEND_API_KEY/);
