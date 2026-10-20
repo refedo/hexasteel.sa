@@ -8,7 +8,6 @@ import "./globals.css";
 import {getAccentColor} from "@/lib/siteSettings";
 import type {CSSProperties} from "react";
 import {SiteStructuredData} from "@/components/SiteStructuredData";
-import {AnalyticsConsentBanner} from "@/components/AnalyticsConsent";
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://hexasteel.sa"),
   title: { default: "HEXA STEEL® | Structural Steel & PEB Manufacturer Saudi Arabia", template: "%s | HEXA STEEL®" },
@@ -50,7 +49,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <SiteHeader/>
         <BrandTransitionNotice/>
         {children}
-        <AnalyticsConsentBanner/>
         <SiteFooter/>
         <ContactShortcuts/>
       </body>
