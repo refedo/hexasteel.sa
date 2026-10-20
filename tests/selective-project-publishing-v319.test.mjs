@@ -10,7 +10,7 @@ test("Studio provides the bulk publishing manager without requiring the 22-proje
  assert.match(studio,/Bulk Publish Project Drafts/);
  assert.match(studio,/S\.component\(PublishDraftProjects\)/);
  assert.match(bulk,/const DRAFT_QUERY=/);
- assert.match(bulk,/\*_type=="project"/);
+ assert.match(bulk,/\[_type=="project"/);
  assert.doesNotMatch(bulk,/projectPortfolioDrafts|Publish all 22|hexa-public-project-/);
 });
 
