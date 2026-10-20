@@ -15,8 +15,8 @@ export async function SiteFooter(){
     <p>Engineering intelligence. Precision manufacturing. Controlled steel project delivery.</p>
     <p>Steel Structure · PEB · Industrial Fabrication</p>
     <div className="hexa-footer-social">
-     <a href={brand.linkedIn} target="_blank" rel="noopener noreferrer" aria-label="HEXA Steel LinkedIn profile">in <span className="sr-only">LinkedIn</span></a>
-     {contact.whatsappEnabled&&<a href={contact.whatsapp} target="_blank" rel="noopener noreferrer" aria-label="Chat with HEXA Steel on WhatsApp">WA <span className="sr-only">WhatsApp</span></a>}
+     <a href={brand.linkedIn} target="_blank" rel="noopener noreferrer" aria-label="HEXA Steel LinkedIn profile"><svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5.5 9H2.2v12h3.3V9Zm-1.65-6A1.95 1.95 0 1 0 3.85 6.9 1.95 1.95 0 0 0 3.85 3ZM9 9v12h3.3v-6.5c0-1.7.4-3.1 2.3-3.1s2 1.7 2 3.2V21H20v-7c0-3.7-1.9-5.4-4.5-5.4-2.1 0-3.1 1.1-3.5 1.9V9H9Z"/></svg></a>
+     {contact.whatsappEnabled&&<a href={contact.whatsapp} target="_blank" rel="noopener noreferrer" aria-label="Chat with HEXA Steel on WhatsApp"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 11.5a8.8 8.8 0 0 1-9 8.5 9 9 0 0 1-4.3-1.1L3 20l1.3-4.5A8.8 8.8 0 1 1 21 11.5Z"/><path d="M9 8.5c-.5.5-.4 1.6.2 2.6a9 9 0 0 0 3.7 3.7c1.1.6 2.1.7 2.6.1l.7-1.1-2.3-1.1-.9.8a7 7 0 0 1-2.6-2.6l.8-.8-1.1-2.3Z"/></svg></a>}
     </div>
    </section>
    {groups.map(group=><nav className="hexa-footer-column" key={group.title} aria-label={group.title}>
