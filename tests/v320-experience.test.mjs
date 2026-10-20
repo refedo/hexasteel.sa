@@ -27,7 +27,8 @@ test("Website keeps analytics denied without fixed consent prompts and remembers
  assert.doesNotMatch(layout,/<AnalyticsConsentBanner\/>/);
  assert.match(notice,/localStorage\.getItem\(BETA_DISMISSED_KEY\)/);
  assert.match(notice,/localStorage\.setItem\(BETA_DISMISSED_KEY/);
- assert.match(read("src/app/privacy/page.tsx"),/AnalyticsConsentSettings/);
+ assert.equal(existsSync("src/app/privacy/page.tsx"),false);
+ assert.doesNotMatch(read("src/components/SiteFooter.tsx"),/href="\/privacy"/);
 });
 test("Marketing pages preserve routes and have premium interactive additions",()=>{
  const site=read("src/content/site.ts");
