@@ -27,6 +27,11 @@ export const revalidate = 30;
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const accent=await getAccentColor();
   const themeStyle={"--signal":accent} as CSSProperties;
+  // Cloudflare Web Analytics measures anonymous aggregate usage without
+  // visitor-identifying analytics cookies. Do not add this beacon if Cloudflare
+  // already injects its own Web Analytics script at the edge.
+  const cloudflareBeaconToken=process.env.NEXT_PUBLIC_CLOUDFLARE_WEB_ANALYTICS_TOKEN?.trim()||"";
+  const enableCloudflareBeacon=/^[a-f0-9]{32}$/i.test(cloudflareBeaconToken);
   return (
     <html lang="en">
       <head>
@@ -50,6 +55,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <SiteHeader/>
         <BrandTransitionNotice/>
         <SiteMotion/>
+        {enableCloudflareBeacon&&<Script
+          id="cloudflare-web-analytics"
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          strategy="afterInteractive"
+          type="module"
+          data-cf-beacon={JSON.stringify({token:cloudflareBeaconToken})}
+        />}
         {children}
         <SiteFooter/>
         <ContactShortcuts/>
