@@ -24,7 +24,7 @@ export const navigation = [
   {label:"Quality & Certifications",href:"/capabilities/quality"},
   {label:"Operational Excellence & OTS™",href:"/company/operational-excellence"},
   {label:"People & Hexa Academy",href:"/company/people"},
-  {label:"Careers",href:"/company/careers"}
+  {label:"Join Our Team",href:"/company/careers"}
  ]},
  {label:"Knowledge Centre",href:"/knowledge",children:[
   {label:"Engineering Guides",href:"/knowledge"},
@@ -34,7 +34,7 @@ export const navigation = [
   {label:"Technical FAQs",href:"/knowledge#faq"}
  ]},
  {label:"Insights",href:"/insights"},
- {label:"Careers",href:"/company/careers"},
+ {label:"Join Our Team",href:"/company/careers"},
 ] as const;
 export const reportedQualifications=[
  {name:"Saudi Aramco",detail:"Manufacturer approval — subject to approved product scope"},
