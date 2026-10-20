@@ -1054,3 +1054,14 @@ body:has(.hexa-studio) > .contact-shortcuts{display:none!important}
 .project-detail-gallery img{display:block;aspect-ratio:16/10;width:100%;height:auto;object-fit:cover}
 .project-detail-gallery figcaption{padding:10px 14px;color:#45606d;font-size:12px}
 @media(max-width:700px){.project-detail-gallery{grid-template-columns:1fr}}
+
+
+/* V3.18 / Project portfolio taxonomy filters */
+.project-filter-group{display:flex;flex-direction:column;gap:10px;flex:1 1 590px;min-width:0}
+.project-filters-label{font-size:10px;font-weight:800;letter-spacing:.13em;color:#536b7a}
+.project-filter-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.project-industry-select select{min-width:172px;max-width:100%;background:#fff;border:1px solid #b5c5ce;color:#253b4a;padding:12px;font-size:12px}
+.project-filter-buttons button:focus-visible,.project-industry-select select:focus-visible,.project-search input:focus-visible{outline:3px solid #6889a0;outline-offset:2px}
+.project-results-count{color:#61727d;font-size:12px;margin:0 0 20px}
+.project-card-classification{color:#465e6d;font-size:11px;font-weight:700;line-height:1.5;margin:3px 0 9px}
+@media(max-width:800px){.project-filter-group,.project-filter-controls{width:100%}.project-industry-select,.project-industry-select select{width:100%}.project-filter-controls{flex-direction:column;align-items:stretch}}
