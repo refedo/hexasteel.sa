@@ -6,6 +6,7 @@ import {references,articles,insights,reportedQualifications} from "../../content
 import {defaultHeroSlides,homeCopy} from "../../content/cmsSeed";
 import {publicPageDefaults} from "../../content/cmsPages";
 import {projectIllustrations} from "../../content/cmsSeed";
+import {projectPortfolioDrafts} from "../../content/projectPortfolioDrafts";
 import {stories} from "../../content/insightStories";
 import {qualificationLogos} from "../../content/qualificationLogos";
 import styles from "./ImportWebsiteContent.module.css";
@@ -63,6 +64,21 @@ export function ImportWebsiteContent(){
      illustrativeUrl:projectIllustrations[index%projectIllustrations.length],
      deliveryStatus:p.status,
      completionYear:p.year?Number(p.year):undefined,
+     approvedForWeb:false,identityClearedForWeb:false
+    });
+    newProjects++;
+   }
+   // The 22 new references are only created as unpublished, editable drafts.
+   for(const p of projectPortfolioDrafts){
+    if(known.has("project:"+p.slug))continue;
+    tx.createIfNotExists({
+     _id:"drafts.hexa-public-project-"+p.slug,_type:"project",
+     publicTitle:{_type:"localizedText",en:p.title},
+     publicSlug:{_type:"slug",current:p.slug},
+     sector:p.steelSystem||"Project Reference",
+     industries:p.industries,projectTypes:p.projectTypes,
+     ...(p.steelSystem?{steelSystem:p.steelSystem}:{}),
+     publicSummary:p.publicSummary,deliveryStatus:"Status to confirm",
      approvedForWeb:false,identityClearedForWeb:false
     });
     newProjects++;
@@ -166,7 +182,7 @@ export function ImportWebsiteContent(){
  return <div className={styles.wrapper}>
   <p className={styles.eyebrow}>HEXA STEEL® / SANITY EDITORIAL</p>
   <h1 className={styles.title}>Populate existing website content</h1>
-  <p className={styles.lead}>The website is already online, but most content still lives in source code. Use this action to create its missing editable Sanity records.</p>
+  <p className={styles.lead}>Create missing editable Sanity records, including 22 industry-classified project references. Re-running preserves existing documents and images.</p>
   <div className={styles.action}>
    <button className={styles.primary} type="button" disabled={busy} onClick={importContent}>
     {busy?"Import in progress…":"Import existing website content"}
@@ -180,7 +196,7 @@ export function ImportWebsiteContent(){
   <div className={styles.grid}>
    {([
     ["Website pages","pages",publicPageDefaults.length],
-    ["Project references","projects",references.length],
+    ["Project references","projects",references.length+projectPortfolioDrafts.length],
     ["Knowledge articles","knowledge",articles.length],
     ["Insights","insights",insights.length],
     ["Qualifications","qualifications",reportedQualifications.length]
@@ -192,7 +208,7 @@ export function ImportWebsiteContent(){
   <p className={styles.note}>Counts include existing documents and drafts, not just newly created items. They refresh after import. A fresh Studio navigation may be needed to update document lists.</p>
   <div className={styles.warning}>
    <strong>Public-content safeguards</strong>
-   <p>Project titles and descriptions stay anonymous. Imported images are credited as illustrative, not HEXA project photographs. Replace them with authorized images and review accuracy, permissions, quantities and qualification status before publishing.</p>
+   <p>Existing fallback projects retain anonymous titles. The 22 new named references are unpublished drafts and require both documented identity clearance and management approval. Verify technical facts and rights before publishing.</p>
   </div>
   <h2 className={styles.subheading}>What becomes editable</h2>
   <p>Homepage hero photographs and settings, project summaries and galleries, 21 website page headlines/introductions, Knowledge articles, Insight stories and public qualifications. You can edit each record under its Studio category after importing.</p>
