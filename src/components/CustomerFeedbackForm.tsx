@@ -1,6 +1,5 @@
 "use client";
 import {useState,type FormEvent} from "react";
-import Link from "next/link";
 import Script from "next/script";
 export function CustomerFeedbackForm({siteKey}:{siteKey:string}){
  const [busy,setBusy]=useState(false);
@@ -29,7 +28,7 @@ export function CustomerFeedbackForm({siteKey}:{siteKey:string}){
    <div className="field full"><label htmlFor="feedback-rating">Overall experience *</label><select id="feedback-rating" name="rating" required defaultValue=""><option value="" disabled>Select a rating</option>{[5,4,3,2,1].map(x=><option key={x} value={x}>{x} — {x===5?"Excellent":x===4?"Good":x===3?"Acceptable":x===2?"Needs improvement":"Unsatisfactory"}</option>)}</select></div>
    <div className="field full"><label htmlFor="feedback-message">Your feedback *</label><textarea id="feedback-message" name="message" required minLength={20} maxLength={3000} placeholder="What went well, and what could HEXA Steel® improve?"/></div>
    <div hidden aria-hidden="true"><label htmlFor="feedback-website">Website</label><input id="feedback-website" name="website" tabIndex={-1} autoComplete="off"/></div>
-   <div className="field full"><label className="hexa-feedback-consent"><input name="privacyConsent" type="checkbox" value="yes" required/> I agree that HEXA Steel® may process the information I provide to review and respond to my feedback. Read the <Link href="/privacy">Privacy Policy</Link>.</label></div>
+   <div className="field full"><label className="hexa-feedback-consent"><input name="privacyConsent" type="checkbox" value="yes" required/> I agree that HEXA Steel® may use the information I submit to review my feedback and contact me about it. My feedback will not be published.</label></div>
    <div className="field full"><div className="cf-turnstile" data-sitekey={siteKey} data-theme="light" aria-label="Bot verification"/></div>
    <div className="field full"><button type="submit" className="button dark" disabled={busy}>{busy?"Submitting…":"Submit Feedback"}</button><p className="form-note">Feedback is sent privately to customer.feedback@hexasteel.sa and is not published publicly.</p></div>
    {error&&<div className="field full" role="alert"><p className="hexa-form-error">{error}</p></div>}
