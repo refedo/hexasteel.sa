@@ -36,7 +36,7 @@ const project=defineType({name:"project",title:"Public Project Case Study",type:
   defineField({name:"sector",type:"string",title:"Legacy Service Category",description:"Retained for existing projects. Use Industry and Project Type for new projects."}),
   defineField({name:"industries",type:"array",title:"Industry Sectors",description:"Select multiple when relevant, e.g. Entertainment and Utilities.",of:[{type:"string"}],options:{list:industrySectors.map(value=>({title:value,value}))}}),
   defineField({name:"projectTypes",type:"array",title:"Project Types",description:"Tag every warehouse as Warehouse, regardless of industry.",of:[{type:"string"}],options:{list:projectTypeOptions.map(value=>({title:value,value}))}}),
-  defineField({name:"steelSystem",type:"string",title:"Steel Structure System",description:"Use Structural Steel instead of SS; leave blank when unverified.",options:{list:steelSystemOptions.map(value=>({title:value,value}))}}),
+  defineField({name:"steelSystem",type:"string",title:"Steel Structure System",description:"Use Steel Structure instead of SS; leave blank when unverified.",options:{list:steelSystemOptions.map(value=>({title:value,value}))}}),
   defineField({name:"publicSummary",type:"text",title:"Public Scope Summary",rows:4,validation:r=>r.required()}),
   defineField({name:"quantityDisplay",type:"string",title:"Approved Tonnage"}),
   defineField({name:"deliveryStatus",type:"string",title:"Delivery Status",options:{list:["Completed","Ongoing","Status to confirm"]},initialValue:"Status to confirm",validation:r=>r.required()}),
