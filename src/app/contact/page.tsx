@@ -1,5 +1,6 @@
 import type {Metadata} from "next";
 import {getPublicContact} from "@/lib/publicContact";
+import Link from "next/link";
 export const metadata:Metadata={title:"Contact Hexa Steel®",description:"Contact Hexa Steel® in Saudi Arabia for structural steel, PEB, project management, steel fabrication and engineering services. Phone and WhatsApp."};
 export default async function ContactPage(){
  const contact=await getPublicContact();
@@ -11,6 +12,7 @@ export default async function ContactPage(){
    <div className="contact-detail-panel"><p className="eyebrow">DIRECT COMMUNICATION</p><h2>Speak with Hexa Steel®.</h2><p>Our commercial and technical teams coordinate structural steel, PEB, steel services and project-delivery enquiries.</p>
     <div className="contact-detail"><small>TELEPHONE</small><a href={contact.tel}>{contact.formatted}</a></div>
     {contact.whatsappEnabled&&<div className="contact-detail"><small>WHATSAPP</small><a href={contact.whatsapp} target="_blank" rel="noopener noreferrer">Start WhatsApp conversation</a></div>}
+    <div className="contact-detail"><small>CUSTOMER EXPERIENCE</small><Link href="/feedback">Share your feedback with our team</Link></div>
     <div className="contact-detail"><small>LOCATION</small><span>Riyadh, Saudi Arabia</span><a href="https://www.google.com/maps/search/?api=1&query=Hexa+Steel+Riyadh+Saudi+Arabia" target="_blank" rel="noopener noreferrer" className="contact-map-link">Find HEXA Steel® on Google Maps</a></div>
    </div>
    <div className="form-shell"><p className="eyebrow">GENERAL ENQUIRY</p><h2>How can we help?</h2>

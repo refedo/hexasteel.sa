@@ -1,3 +1,14 @@
+## V3.20 — Studio Editorial & Website Experience (21 October 2026 — Feature branch)
+
+- **Previous verified stopping point:** PR #25 V3.19 integrated and deployed to `hexasteel.sa` from `rebuild/website-v3` commit `6999184`; CI and DigitalOcean health checks passed. User screenshots confirm access to the editorial Studio menu but do not establish publication delivery. Open PR #12 RFQ and #19 editorial UX remain unmerged.
+- **Current verified baseline:** `rebuild/website-v3` at `6999184`, V3.19 Studio, project filters and photography/watermark preserved; `main` remains untouched.
+- **Current milestone:** V3.20 isolated `feature/v320-studio-ux-corporate-polish`. Implement: meaningful Studio labels; bulk project status; image-upload guidance; Join Our Team naming; persistent beta dismissal; existing GTM/Consent Mode preserved with no Privacy page or analytics-consent UI (deferred until full launch); rotating delivery/excellence panels, planning Gantt and site micro-motion; full Knowledge card navigation; project-tracking coming-soon; corporate footer; secure gated customer feedback to `customer.feedback@hexasteel.sa`.
+- **Progress reconciliation:** Previous **officially documented** R1 65%. The CEO authorized a progress reassessment after demonstrating live Studio navigation. **New R1 estimate 68%** reflects deployed and visually verified CMS editorial advancements, NOT any V3.20 code pending merge, bulk-publication acceptance or the RFQ. R2 0%, R3 0%; no blended completion figure.
+- **Development stage:** Feature-branch code and documentation, automated checks pending final confirmation, not merged, not deployed and not operationally accepted. Feedback live mail requires verified provider/anti-bot configuration before activating. No OTS™ customer tokens exist on the website.
+- **Handover and next step:** See `V320_HANDOVER.md`; complete CI, PR review, explicit CEO approval before integration into `rebuild/website-v3`. Deploy only through approved existing DigitalOcean workflow and verify production; do not merge into `main`.
+
+---
+
 ## V3.19 — Sanity draft project selective/bulk publication (20 October 2026; isolated branch)
 
 - **Previous stopping point:** V3.18 PR #24 approved and merged only to `rebuild/website-v3` at `0c630d5`; feature/post-merge CI and DigitalOcean live deployment checks passed. The 22 management-supplied projects remained unpublished editable drafts requiring Studio import and publication rights.

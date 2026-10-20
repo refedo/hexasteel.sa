@@ -41,5 +41,7 @@ test("Existing imagery and Insight narratives survive draft import",()=>{
 test("Studio distinguishes connected editorial types from disconnected schemas",()=>{
  const config=read("sanity.config.ts");
  assert.match(config,/Other Schemas — Not Yet Connected to Website/);
- assert.match(config,/"page","project","knowledgeArticle","companyUpdate","publicQualification"/);
+ assert.match(config,/Projects & Case Studies/);
+ assert.match(config,/Knowledge Centre/);
+ assert.match(config,/Client Approvals & Qualifications/);
 });

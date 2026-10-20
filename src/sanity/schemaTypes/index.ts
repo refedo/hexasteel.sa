@@ -40,11 +40,11 @@ const project=defineType({name:"project",title:"Public Project Case Study",type:
   defineField({name:"publicSummary",type:"text",title:"Public Scope Summary",rows:4,validation:r=>r.required()}),
   defineField({name:"quantityDisplay",type:"string",title:"Approved Tonnage"}),
   defineField({name:"deliveryStatus",type:"string",title:"Delivery Status",options:{list:["Completed","Ongoing","Status to confirm"]},initialValue:"Status to confirm",validation:r=>r.required()}),
-  defineField({name:"coverImage",type:"image",options:{hotspot:true},description:"Authorized original photography overrides the illustrative fallback. Never upload restricted customer images."}),
+  defineField({name:"coverImage",title:"Project Cover — 16:9",type:"image",options:{hotspot:true},description:"Recommended: landscape 1920×1080 px or larger (minimum 1600×900), JPEG/WebP/PNG, sRGB, ideally under 5 MB. Upload an authorized genuine project image. Avoid screenshots, logos, text overlays or confidential visuals."}),
   defineField({name:"illustrativeUrl",type:"url",title:"Previous illustrative card image",readOnly:true,description:"External illustrative photograph shown until an approved HEXA photo is uploaded. This is not a verified project image."}),
   defineField({name:"completionYear",type:"number"}),
   defineField({name:"scope",type:"text",title:"Public Scope Details"}),
-  defineField({name:"photos",title:"Approved Project Gallery",description:"Images appear on the public project detail page only after approval. Never upload confidential material.",type:"array",of:[{type:"image",options:{hotspot:true},fields:[{name:"alt",type:"string",title:"Image description"}]}]}),
+  defineField({name:"photos",title:"Approved Project Gallery",description:"Upload clear, authentic project photographs; landscape 1600×900 px or larger recommended, portrait at least 1200×1600. JPEG/WebP/PNG, sRGB, preferably under 5 MB each. Avoid duplicates, client-sensitive signs, drawings and confidential material. The public site adds the HEXA watermark.",type:"array",of:[{type:"image",options:{hotspot:true},fields:[{name:"alt",type:"string",title:"Image description / accessibility",description:"Describe what the photo depicts (e.g. fabricated roof trusses in factory). Avoid confidential site or customer identification.",validation:r=>r.required().max(160)}]}]}),
   defineField({name:"approvedForWeb",type:"boolean",initialValue:false,description:"Management reviewed all facts, photos and figures."}),
   defineField({name:"identityClearedForWeb",type:"boolean",initialValue:false,description:"Documented permission obtained for customer/site names in the title, URL, copy or imagery, or record fully anonymized."})
  ],
@@ -108,9 +108,9 @@ const siteSettings=defineType({
   defineField({name:"symbol",type:"string",title:"Index / Symbol"}),
   defineField({name:"approvedForWeb",type:"boolean",initialValue:false,description:"Evidence checked and release approved."})
  ]}]}),
-    defineField({name:"heroSlides",type:"array",title:"Homepage Hero Images",description:"Up to six slides. Imported Unsplash sources remain clearly credited as illustrative until replaced with approved images.",
+    defineField({name:"heroSlides",type:"array",title:"Homepage Hero Images",description:"Use genuine landscape imagery at 1920×1080 px or larger, 16:9, JPEG/WebP, sRGB, preferably under 5 MB. Keep focal subject away from text placement. Up to six slides. Existing Unsplash images remain illustrative until replaced.",
        validation:r=>r.max(6),of:[{type:"object",fields:[
-        defineField({name:"asset",type:"image",options:{hotspot:true},description:"Upload a HEXA-authorized photograph to replace the illustrative source."}),
+        defineField({name:"asset",type:"image",options:{hotspot:true},description:"Recommended 1920×1080 px, 16:9 wide composition, JPEG/WebP, ideally <5 MB; photograph must be cleared for public use. Set focal point using hotspot."}),
         defineField({name:"illustrativeUrl",type:"url",title:"Existing illustrative photo URL",description:"Legacy Unsplash references only, until replaced by an approved HEXA upload.",validation:r=>r.custom(value=>!value||/^https:\/\/images\.unsplash\.com\/photo-[a-z0-9-]+/.test(value)?true:"Only the existing Unsplash illustration host is allowed.")}),
         defineField({name:"title",type:"string",validation:r=>r.required()}),
         defineField({name:"alt",type:"string",title:"Accessible image description",validation:r=>r.required()}),

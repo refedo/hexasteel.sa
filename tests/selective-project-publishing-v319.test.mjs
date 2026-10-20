@@ -7,7 +7,7 @@ const bulk=read("src/sanity/tools/PublishDraftProjects.tsx");
 const cms=read("src/lib/cms.ts");
 
 test("Studio provides the bulk publishing manager without requiring the 22-project manifest",()=>{
- assert.match(studio,/Bulk Publish Project Drafts/);
+ assert.match(studio,/Publish Project Drafts/);
  assert.match(studio,/S\.component\(PublishDraftProjects\)/);
  assert.match(bulk,/const DRAFT_QUERY=/);
  assert.match(bulk,/\[_type=="project"/);
