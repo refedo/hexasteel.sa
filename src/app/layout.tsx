@@ -4,6 +4,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { BrandTransitionNotice } from "@/components/BrandTransitionNotice";
 import {ContactShortcuts} from "@/components/ContactShortcuts";
+import {SiteMotion} from "@/components/SiteMotion";
 import "./globals.css";
 import {getAccentColor} from "@/lib/siteSettings";
 import type {CSSProperties} from "react";
@@ -48,6 +49,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <SiteStructuredData/>
         <SiteHeader/>
         <BrandTransitionNotice/>
+        <SiteMotion/>
         {children}
         <SiteFooter/>
         <ContactShortcuts/>
