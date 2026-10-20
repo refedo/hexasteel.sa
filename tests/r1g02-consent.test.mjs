@@ -13,10 +13,10 @@ test("Google consent mode initializes denied before the unchanged GTM container"
  assert.match(layout,/GTM-N7QJSQTB/);
  assert.doesNotMatch(layout,/G-JG2HQGQ2P3/,"Do not duplicate GA4 in code; control it from GTM");
 });
-test("visitor has equally accessible accept and reject options and can change consent later",()=>{
+test("privacy controls remain accessible without a fixed opt-in banner",()=>{
  const cmp=read("src/components/AnalyticsConsent.tsx");
- assert.match(cmp,/Reject analytics/);
- assert.match(cmp,/Accept analytics/);
+ assert.match(cmp,/Enable optional website analytics/);
+ assert.doesNotMatch(read("src/app/layout.tsx"),/<AnalyticsConsentBanner\/>/);
  assert.match(cmp,/hexa_analytics_consent_v1/);
  assert.match(cmp,/gtag\?\.\("consent","update"/);
  assert.match(cmp,/storage",sync/);
@@ -26,7 +26,7 @@ test("visitor has equally accessible accept and reject options and can change co
 test("unconsented visitors do not invoke the no-JS tracking iframe",()=>{
  const layout=read("src/app/layout.tsx");
  assert.doesNotMatch(layout,/googletagmanager\.com\/ns\.html/);
- assert.match(layout,/<AnalyticsConsentBanner\/>/);
+ assert.doesNotMatch(layout,/<AnalyticsConsentBanner\/>/);
 });
 test("privacy entry is published as a real route, not a claim of legal sign-off",()=>{
  const sitemap=read("src/app/sitemap.ts");
