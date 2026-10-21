@@ -3,7 +3,7 @@ import nodemailer from "nodemailer";
 const destination = "inquiries@hexasteel.sa";
 
 function resendReady():boolean{
- return Boolean(process.env.RESEND_API_KEY&&process.env.CONTACT_FROM_EMAIL);
+ return Boolean(process.env.CONTACT_RESEND_API_KEY&&process.env.CONTACT_RESEND_FROM_EMAIL);
 }
 function smtpReady():boolean{
  const port = Number(process.env.SITEGROUND_SMTP_PORT || "465");
@@ -49,13 +49,13 @@ async function sendThroughResend(input:Enquiry):Promise<void>{
  const response=await fetch("https://api.resend.com/emails",{
   method:"POST",
   headers:{
-   Authorization:"Bearer "+process.env.RESEND_API_KEY!,
+   Authorization:"Bearer "+process.env.CONTACT_RESEND_API_KEY!,
    "Content-Type":"application/json",
   },
   cache:"no-store",
   signal:AbortSignal.timeout(15_000),
   body:JSON.stringify({
-   from:process.env.CONTACT_FROM_EMAIL!,
+   from:process.env.CONTACT_RESEND_FROM_EMAIL!,
    to:[destination],
    reply_to:input.email,
    subject:"HEXA Steel® website enquiry — "+input.topic,
