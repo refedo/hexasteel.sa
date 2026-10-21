@@ -16,6 +16,7 @@ export default defineConfig({
    S.listItem().title("Publish Project Drafts").child(S.component(PublishDraftProjects).title("Select and publish draft projects")),
    S.listItem().title("Bulk Update Project Status").child(S.component(BulkProjectStatus).title("Update selected project delivery statuses")),
    S.listItem().title("Website Theme & Settings").id("siteSettings").child(S.document().schemaType("siteSettings").documentId("siteSettings")),
+   S.listItem().title("Website Analytics").id("analyticsSettings").child(S.document().schemaType("analyticsSettings").documentId("analyticsSettings")),
    S.divider(),
    S.listItem().title("Website Pages").child(S.documentTypeList("page")),
    S.listItem().title("Projects & Case Studies").child(S.documentTypeList("project")),

@@ -1,3 +1,13 @@
+## V3.21 — Automatic Google Analytics and CMS-Editable Tracking IDs (21 October 2026; feature branch)
+
+- **Previous verified stop:** V3.20 PR #26 deployed at `adfe5ab` on `rebuild/website-v3`; CI and DigitalOcean health passed. Google Tag Manager `GTM-N7QJSQTB` retained; `analytics_storage` denied by default; no Privacy route or visitor analytics buttons.
+- **Starting baseline:** `adfe5ab` deployed integration branch, `main` unchanged.
+- **Feature scope:** Automatic GA4 measurement (`analytics_storage:granted`), advertising consent remains denied; a new **Website Analytics** Studio singleton edits validated GTM and GA4 IDs. The server loads these with 30-second revalidation and safe defaults, no arbitrary scripts. One-time GTM Data Layer Variable `hexa_ga4_measurement_id` configuration is needed for GA4 ID changes when using GTM-managed tracking; the alternative direct-loader mode requires explicit confirmation that GA4 tags were disabled in GTM.
+- **Development stage:** Source/tests/documentation on `feature/v321-ga4-default-measurement`; CI, integration, deployment and operational acceptance tracked separately. No unapproved production/main push.
+- **Official completion:** R1 **68%** existing management reassessment; R2 **0%**, R3 **0%**. Unmerged V3.21 not counted. See `V321_HANDOVER.md`.
+
+---
+
 ## V3.20 — Studio Editorial & Website Experience (21 October 2026 — Feature branch)
 
 - **Previous verified stopping point:** PR #25 V3.19 integrated and deployed to `hexasteel.sa` from `rebuild/website-v3` commit `6999184`; CI and DigitalOcean health checks passed. User screenshots confirm access to the editorial Studio menu but do not establish publication delivery. Open PR #12 RFQ and #19 editorial UX remain unmerged.
