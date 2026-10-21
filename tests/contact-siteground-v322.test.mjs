@@ -3,13 +3,17 @@ import assert from "node:assert/strict";
 import {readFileSync,existsSync} from "node:fs";
 const read=path=>readFileSync(path,"utf8");
 
-test("contact uses SiteGround SMTP rather than the disabled Resend placeholder",()=>{
+test("contact prefers HTTPS API and supports gated SiteGround SMTP instead of the disabled placeholder",()=>{
  const route=read("src/app/api/contact/route.ts");
  const mailer=read("src/lib/contactMail.ts");
  assert.doesNotMatch(route,/RESEND_API_KEY|after launch/);
  assert.match(route,/contactMailConfigured\(\)/);
  assert.match(route,/sendContactEnquiry\(/);
  assert.match(mailer,/nodemailer\.createTransport/);
+ assert.match(mailer,/resendReady\(\)/);
+ assert.match(mailer,/api\.resend\.com\/emails/);
+ assert.match(mailer,/reply_to:input\.email/);
+ assert.match(mailer,/if\(resendReady\(\)\)return sendThroughResend\(input\)/);
  assert.match(mailer,/requireTLS: port === 587/);
  assert.match(mailer,/secure: port === 465/);
  assert.match(mailer,/rejectUnauthorized: true/);
