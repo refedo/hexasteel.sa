@@ -1,11 +1,11 @@
-## V3.22 — SiteGround-powered contact enquiries (22 October 2026; isolated feature branch)
+## V3.22 — Deliver contact enquiries to SiteGround inbox (22 October 2026; isolated feature branch)
 
-- **Previous stopping point:** V3.21 PR #27 CEO-approved and merged to `rebuild/website-v3` at `0964ff92`; foundation CI, DigitalOcean preflight and deployment passed (21 October). Latest public contact endpoint returned the launch-disabled message because it only checked for **Resend** provider credentials.
-- **Current starting point:** Deployed V3.21 integration baseline `0964ff92eef09e778ac95198403dccdf815d483a`, keeping Sanity/Analytics/Studio intact. Unmerged RFQ PR #12 and optional publishing PR #19 remain independent.
-- **Current milestone:** Replace contact form's Resend dependency with authenticated SiteGround SMTP to `inquiries@hexasteel.sa`, add server-side Turnstile, consent, validation, rate control, bounded body, safe errors and a confirmation page. Existing RFQ and feedback endpoints remain unchanged. Source branch: `feature/v322-siteground-contact-enquiries`.
-- **Deployment prerequisites:** Private `$HOME/hexasteel-v3/.env.contact` with SiteGround SMTP credentials and Turnstile keys (file mode `0600`); DigitalOcean workflow checks for and loads it without putting secrets in the repo. Actual SMTP host/credentials are **not verified** from GitHub, so no live-delivery claim.
-- **Lifecycle stage:** Developed on feature branch; CI pending final verification, **not merged, not deployed, not operationally accepted**. Production changes require explicit owner approval. See `CONTACT_SITEGROUND_V322_HANDOVER.md`.
-- **Official releases:** R1 **68%** (management estimate already documented), R2 **0%**, R3 **0%**. No new completion credit before operational acceptance.
+- **Previous stopping point:** V3.21 PR #27 CEO-approved and merged to `rebuild/website-v3` at `0964ff92`. CI, DigitalOcean preflight and deployment passed (21 October). The live contact endpoint remained disabled because Resend credentials were not configured.
+- **Current starting point:** Deployed V3.21 integration baseline `0964ff92eef09e778ac95198403dccdf815d483a`, preserving Sanity, Analytics and Studio. RFQ PR #12 and optional CMS PR #19 are separate.
+- **Current milestone:** Make `/contact` submit to `inquiries@hexasteel.sa` via a verified HTTPS transactional email API (Resend) preferred, with an optional SiteGround SMTP fallback **only after proven DigitalOcean egress**. Add Turnstile, consent, server validation, bounded body, anti-abuse controls, clear confirmation and a fallback email link. DigitalOcean blocks outbound SMTP ports 25, 465 and 587 by default; a working SiteGround inbox does not mean the website can send mail directly via SMTP.
+- **Integration / deployment prerequisites:** Private `$HOME/hexasteel-v3/.env.contact` (mode `0600`), HTTPS API key plus verified sending domain OR explicitly verified SMTP egress with credentials, and Turnstile site/secret keys. GitHub workflows load server-side settings; no secrets in GitHub.
+- **Branch:** `feature/v322-siteground-contact-enquiries`; PR #28 targets `rebuild/website-v3`. **Not merged, not deployed, not operationally accepted.** See `CONTACT_SITEGROUND_V322_HANDOVER.md`.
+- **Official release estimate:** R1 **68%** management assessment, R2 **0%**, R3 **0%**; no completion credit for feature-only code.
 
 ---
 
