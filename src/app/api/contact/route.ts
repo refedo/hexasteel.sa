@@ -56,7 +56,7 @@ export async function POST(request:Request){
  const permittedOrigins=new Set([siteOrigin]);
  if(siteOrigin==="https://hexasteel.sa")permittedOrigins.add("https://www.hexasteel.sa");
  if(!permittedOrigins.has(request.headers.get("origin")||""))return error("Submission origin not accepted.",403);
- if(!contactMailConfigured()||!process.env.TURNSTILE_SECRET_KEY||!process.env.TURNSTILE_SITE_KEY)
+ if(!contactMailConfigured()||!process.env.CONTACT_TURNSTILE_SECRET_KEY||!process.env.CONTACT_TURNSTILE_SITE_KEY)
   return error("Online enquiries are temporarily unavailable. Please email inquiries@hexasteel.sa.",503);
  if(rateLimited(request))return error("Too many submissions. Please try again later.",429);
  const form=await boundedFormData(request);
@@ -75,7 +75,7 @@ export async function POST(request:Request){
  try{
   const verification=await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify",{
    method:"POST",
-   body:new URLSearchParams({secret:process.env.TURNSTILE_SECRET_KEY!,response:token}),
+   body:new URLSearchParams({secret:process.env.CONTACT_TURNSTILE_SECRET_KEY!,response:token}),
    cache:"no-store",
    signal:AbortSignal.timeout(8000),
   });
