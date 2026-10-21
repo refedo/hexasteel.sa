@@ -3,14 +3,17 @@ import assert from "node:assert/strict";
 import {readFileSync,existsSync} from "node:fs";
 const read=p=>readFileSync(p,"utf8");
 
-test("GTM remains installed with anonymous-first default-denied storage",()=>{
+test("GTM remains installed and standard analytics measurement is enabled by default",()=>{
  const layout=read("src/app/layout.tsx");
  const consent=layout.indexOf('id="google-consent-default"');
  const gtm=layout.indexOf('id="google-tag-manager"');
  assert.ok(consent>0&&gtm>consent);
  for(const field of ["analytics_storage","ad_storage","ad_user_data","ad_personalization"])
   assert.match(layout,new RegExp(field));
- assert.match(layout,/hexAnalytics='denied'/);
+ assert.match(layout,/analytics_storage:'granted'/);
+ assert.match(layout,/ad_storage:'denied'/);
+ assert.match(layout,/ad_user_data:'denied'/);
+ assert.match(layout,/ad_personalization:'denied'/);
  assert.match(layout,/gtag\('consent','default'/);
  assert.doesNotMatch(layout,/hexa_analytics_consent_v1/);
  assert.match(layout,/GTM-N7QJSQTB/);
