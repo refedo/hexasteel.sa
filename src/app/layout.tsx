@@ -7,6 +7,7 @@ import {ContactShortcuts} from "@/components/ContactShortcuts";
 import {SiteMotion} from "@/components/SiteMotion";
 import "./globals.css";
 import {getAccentColor} from "@/lib/siteSettings";
+import {getAnalyticsSettings} from "@/lib/analyticsSettings";
 import type {CSSProperties} from "react";
 import {SiteStructuredData} from "@/components/SiteStructuredData";
 export const metadata: Metadata = {
@@ -25,24 +26,34 @@ export const metadata: Metadata = {
 // Keep CMS-controlled visual settings fresh without disabling static rendering.
 export const revalidate = 30;
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const accent=await getAccentColor();
+  const [accent,analytics]=await Promise.all([getAccentColor(),getAnalyticsSettings()]);
   const themeStyle={"--signal":accent} as CSSProperties;
+  const gtmBootstrap=`window.dataLayer=window.dataLayer||[];
+function gtag(){dataLayer.push(arguments);}
+// GTM can use this data layer variable as its GA4 Measurement ID.
+window.dataLayer.push({hexa_ga4_measurement_id:${JSON.stringify(analytics.ga4MeasurementId)}});
+// Website measurement is enabled by default; advertising storage remains denied.
+gtag('consent','default',{analytics_storage:'granted',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});
+${analytics.directGa4Enabled?`gtag('js',new Date());gtag('config',${JSON.stringify(analytics.ga4MeasurementId)});`:""}`;
+  const gtmSnippet=`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer',${JSON.stringify(analytics.gtmContainerId)});`;
   return (
     <html lang="en">
       <head>
         <Script id="google-consent-default" strategy="beforeInteractive">
-          {`window.dataLayer=window.dataLayer||[];
-function gtag(){dataLayer.push(arguments);}
-// Default website analytics measurement enabled; advertising signals remain off.
-gtag('consent','default',{analytics_storage:'granted',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});`}
+          {gtmBootstrap}
         </Script>
         <Script id="google-tag-manager" strategy="beforeInteractive">
-          {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','GTM-N7QJSQTB');`}
+          {gtmSnippet}
         </Script>
+        {analytics.directGa4Enabled&&<Script
+          id="ga4-direct-library"
+          src={`https://www.googletagmanager.com/gtag/js?id=${analytics.ga4MeasurementId}`}
+          strategy="afterInteractive"
+        />}
       </head>
       <body style={themeStyle}>
         <SiteStructuredData/>
