@@ -102,7 +102,7 @@ jobs:
             : "${TURNSTILE_SECRET_KEY:?Missing Turnstile secret}"
             if [ -n "${RESEND_API_KEY:-}" ] && [ -n "${CONTACT_FROM_EMAIL:-}" ]; then
               echo "Contact email: HTTPS API configured"
-            elif [ -n "${SITEGROUND_SMTP_HOST:-}" ] && [ -n "${SITEGROUND_SMTP_USER:-}" ] && [ -n "${SITEGROUND_SMTP_PASSWORD:-}" ]; then
+            elif [ "${CONTACT_SMTP_EGRESS_VERIFIED:-}" = "true" ] && [ -n "${SITEGROUND_SMTP_HOST:-}" ] && [ -n "${SITEGROUND_SMTP_USER:-}" ] && [ -n "${SITEGROUND_SMTP_PASSWORD:-}" ]; then
               echo "Contact email: SMTP configured; independent reachability check required"
             else
               echo "Contact email: missing HTTPS API or SMTP provider configuration"
