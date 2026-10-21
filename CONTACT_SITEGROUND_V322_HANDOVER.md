@@ -1,56 +1,57 @@
-# HEXA Steel® V3.22 — Contact Form via SiteGround SMTP
+# HEXA Steel® V3.22 — Contact Enquiries Delivered to SiteGround Inbox
 
 Date: 22 October 2026
-Source branch: `feature/v322-siteground-contact-enquiries`
-Target branch: `rebuild/website-v3`
-Baseline commit: `0964ff92eef09e778ac95198403dccdf815d483a`
-Website: https://hexasteel.sa/contact
+Working branch: `feature/v322-siteground-contact-enquiries`
+Target: `rebuild/website-v3` (never `main`)
+Verified integration baseline: `0964ff92eef09e778ac95198403dccdf815d483a`
+Contact page: https://hexasteel.sa/contact
 
-## Starting position / verified defect
-- V3.21 PR #27 was approved and merged into `rebuild/website-v3`; its CI and DigitalOcean deployment passed at `0964ff92`.
-- `POST /api/contact` rejected every request unless `RESEND_API_KEY`, `CONTACT_FROM_EMAIL`, and `CONTACT_TO_EMAIL` were set. SiteGround mailbox operation **does not** provide those unrelated Resend environment variables.
-- The original page still warned that submissions were disabled. The form had no verification/consent controls and redirected only to `?submitted=1`.
-- R1 officially remains **68%**; R2 and R3 remain **0%**.
+## Previous stop and verified root cause
+- V3.21 PR #27 was approved and merged into the integration branch. Its CI and DigitalOcean deployment passed at `0964ff92`.
+- `/api/contact` formerly required Resend credentials (`RESEND_API_KEY`, `CONTACT_FROM_EMAIL`, `CONTACT_TO_EMAIL`), otherwise always returned the "Enquiry submission is not enabled yet" error. Activating a SiteGround mailbox **does not** automatically configure the website's outbound email.
+- The public form still said disabled and had no email-delivery confirmation, bot challenge or explicit consent.
+- Official R1 remains **68%**; R2/R3 **0%**.
 
-## Scope delivered in code
-1. Use authenticated SMTP (Nodemailer), explicit TLS, hostname/certificate verification, bounded timeouts; accept only ports 465 or 587.
-2. Deliver mail to fixed recipient `inquiries@hexasteel.sa`; authenticate and send from `SITEGROUND_SMTP_USER`; visitor email is Reply-To (prevents sender-domain spoofing).
-3. Require same-site request origin, bounded form body, server validation, simple rate limiting, Turnstile server verification, and explicit data-use consent. Send only text, no unscanned attachments.
-4. Display form only if SMTP and Turnstile configuration is present. Provide an email/telephone/WhatsApp fallback otherwise; preserve website identity.
-5. Redirect accepted enquiries to `/contact/received`. Wording reflects acceptance by SMTP relay, not guaranteed inbox delivery.
-6. Keep RFQ/feedback APIs independent; no CRM or R2 changes.
+## Infrastructure finding affecting implementation
+DigitalOcean's July/August 2026 documentation states outbound **SMTP ports 25, 465, and 587 are blocked on all Droplets by default**. SiteGround's normal outgoing SMTP port is 465. Therefore building **only** a SiteGround SMTP sender would be an unreliable or blocked solution. See:
+- https://docs.digitalocean.com/support/why-is-smtp-blocked/
+- https://docs.digitalocean.com/products/droplets/details/limits/
+- https://www.siteground.com/kb/how_to_configure_my_mail_client
 
-## Activation prerequisites (never place secrets in GitHub)
-SiteGround > Email > Mail Configuration > Manual Settings: find the **actual outgoing SMTP hostname and TLS port**. Use an existing active `@hexasteel.sa` mailbox username and its **SMTP password**, or a dedicated SiteGround mailbox approved for submissions. Working webmail/inbound email **does not** prove that the DigitalOcean server can authenticate to SiteGround's outbound SMTP relay.
+The destination remains the active SiteGround mailbox `inquiries@hexasteel.sa`. The preferred *outbound transport from DigitalOcean* is the existing **Resend HTTPS email API**, and an authenticated SiteGround SMTP fallback is available **only if actual Droplet outbound SMTP connectivity is confirmed**.
 
-Configure Cloudflare Turnstile public site key and private secret for `hexasteel.sa`. Do not reuse the Google Analytics or Cloudflare API token in these fields.
+## Developed on this isolated branch
+1. Dedicated server-side contact email module. Prefer HTTPS API when `RESEND_API_KEY` and verified `CONTACT_FROM_EMAIL` are configured; otherwise permit SMTP only if its credentials exist and outgoing connectivity is verified. Fixed recipient `inquiries@hexasteel.sa`; visitor email Reply-To; plain text content.
+2. Add origin verification, bounded 24 KB multipart form, required fields, consent and server-side Cloudflare Turnstile verification with explicit allowed hostnames. Best-effort per-process rate limit and a honeypot reject abusive requests.
+3. Show a submission form only when Turnstile and a mail provider are configured, otherwise display direct `mailto:`, telephone and WhatsApp. The form displays errors and disables the button during submission.
+4. A dedicated `/contact/received` page states **provider acceptance** rather than claiming confirmed inbox delivery.
+5. Preserve feedback route, RFQ draft PR #12, OTS™ integration, website analytics, project CMS and `main` unchanged.
+6. GitHub DigitalOcean release workflow loads a private root-owned-by-deployer configuration file outside the immutable release, on each activation and rollback, never from a public environment variable or repository commit.
 
-On DigitalOcean, create `$HOME/hexasteel-v3/.env.contact` with owner-only permission `chmod 600`:
+## Mandatory production setup
+The existing DigitalOcean deployment user must securely create `$HOME/hexasteel-v3/.env.contact`, with permissions `chmod 600`.
+
+**Preferred: HTTPS email API to SiteGround inbox.** Obtain an API key from Resend and verify the chosen HEXA Steel® sending domain/address, adding only the necessary DNS records in Cloudflare without replacing existing SiteGround MX/SPF/DKIM/DMARC records. Restrict the API key to transactional email where supported. Example private env file:
 ```sh
-SITEGROUND_SMTP_HOST='ACTUAL_SITEGROUND_OUTGOING_HOST'
-SITEGROUND_SMTP_PORT='465'
-SITEGROUND_SMTP_USER='SITEGROUND_EMAIL_MAILBOX@hexasteel.sa'
-SITEGROUND_SMTP_PASSWORD='THE_MAILBOX_PASSWORD'
-TURNSTILE_SITE_KEY='PUBLIC_TURNSTILE_SITE_KEY'
-TURNSTILE_SECRET_KEY='PRIVATE_TURNSTILE_SECRET_KEY'
+RESEND_API_KEY='PRIVATE_RESEND_API_KEY'
+CONTACT_FROM_EMAIL='HEXA Steel <verified-sender@hexasteel.sa>'
+TURNSTILE_SITE_KEY='PUBLIC_CLOUDFLARE_TURNSTILE_KEY'
+TURNSTILE_SECRET_KEY='PRIVATE_CLOUDFLARE_TURNSTILE_SECRET'
 ```
-Use shell-safe quoting for secrets, especially embedded apostrophes. Restrict file ownership to the existing deployment user; never print the file, commit it, attach it to CI, or paste the password into a chat. An existing deployment's Resend environment variables are unaffected.
+Turnstile must be provisioned for `hexasteel.sa`. Treat private key/password values as sensitive: never paste into PR, source control or chat. The SiteGround inbound mailbox remains unchanged; SMTP login is **not required** for HTTPS delivery.
 
-The existing DigitalOcean deployment workflow is adjusted to check for the private file and load it into the PM2 process environment before switching releases. Production activation MUST NOT be approved until valid SMTP credentials and Turnstile keys exist; a 503 fallback is intentional if they are absent. The deployment path does not alter `main` or use a separate domain.
+**Alternative only if directly verified**: configure `SITEGROUND_SMTP_HOST`, `SITEGROUND_SMTP_PORT=465`, `SITEGROUND_SMTP_USER`, `SITEGROUND_SMTP_PASSWORD` from SiteGround > Email > Accounts > Mail Configuration > Manual Settings, alongside Turnstile keys. Because DigitalOcean blocks these ports by default, do **not** authorize direct SMTP as the primary production route without an explicit connectivity test from the actual Droplet or confirmation of an exception. Do not infer hostnames from DNS.
 
-## Tests / acceptance gates
-- Developed: feature branch source, tests, documentation, deployment configuration.
-- Tested: CI TypeScript, build, Node tests, search tests; record actual check results at the final head rather than assuming success.
-- Merge / deployed / operationally accepted: **NO** until explicit CEO approval and subsequent production verification.
-- Before approval: confirm GitHub Actions checks green; configure DigitalOcean private file; check port connectivity from DO server to exact SiteGround SMTP host without printing secrets.
-- After approval and deployment: browse `/contact`; submit a valid Turnstile enquiry using a real external address; confirm successful redirect and actual arrival in `inquiries@hexasteel.sa` with correct Reply-To, topic and body; send a safe negative test (invalid origin or invalid token) and confirm rejection; review SMTP errors/logs, inbox/spam and possible bounce signals.
-- If SMTP/TLS/delivery fails: retain fallback, rollback through existing release symlink, and correct settings before acceptance.
+The existing workflow checks for the private configuration file, enforces mode `0600`, and loads it before PM2 starts. It requires Turnstile and **one** of the two email provider configurations. This does not insert secrets into GitHub or deploy before approval.
 
-## Non-goals / limitations
-- SiteGround SMTP credentials are not accessible through the GitHub connector and have **not** been provisioned or tested against the actual provider.
-- Per-process throttling is a best-effort guard, not a distributed limiter; Turnstile and infrastructure WAF are primary anti-bot controls. Production traffic monitoring and mail receipt verification are required.
-- No database or durable outbox exists for general enquiries. SMTP acceptance is not durable CRM lead tracking.
-- Deferred RFQ PR #12 and R2 OTS™ CRM remain unchanged.
+## Tests and release gates
+- Developed: code, form, provider transports, tests, docs and deployment plumbing.
+- Tested: CI TypeScript, build, Node tests and search tests; mark passed only after checking the final head.
+- Merged to integration: **NO**; requires explicit CEO approval.
+- Deployed: **NO**.
+- Operationally accepted: **NO**. Actual inbound delivery cannot be verified without configured credentials and real submission.
+- After approved rollout: submit test from an external mailbox on https://hexasteel.sa/contact, validate Turnstile, confirmation URL, subject/body and correct Reply-To **received at SiteGround**; test rejection of missing consent/invalid Turnstile and unauthorized origin. Monitor spam/bounce, ensure no duplicate mail or leaked credentials. Existing rollback symlink must be preserved.
+- Limitations: No durable general-enquiry database/outbox; email provider acceptance is not proof of inbox receipt; process-local limiter complements but does not replace Cloudflare WAF and Turnstile. RFQ/OTS CRM remains separate.
 
-## Exact stopping point
-Feature branch and PR ready for CI/review; await runtime credentials and explicit CEO deployment authorization. Retest the public form at `hexasteel.sa` and confirm mail receipt before operational acceptance. Official R1 **68%** remains unchanged until management reassessment.
+## Exact stopping point / next step
+PR for V3.22 against `rebuild/website-v3`; confirm final CI, configure HTTPS provider + Turnstile securely, obtain CEO deployment approval, then verify **actual SiteGround inbox arrival** after deployment. R1 **68%** unchanged until management accepts production functionality.
