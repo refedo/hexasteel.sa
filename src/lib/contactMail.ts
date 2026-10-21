@@ -8,6 +8,7 @@ function resendReady():boolean{
 function smtpReady():boolean{
  const port = Number(process.env.SITEGROUND_SMTP_PORT || "465");
  return Boolean(
+  process.env.CONTACT_SMTP_EGRESS_VERIFIED === "true" &&
   process.env.SITEGROUND_SMTP_HOST &&
   process.env.SITEGROUND_SMTP_USER &&
   process.env.SITEGROUND_SMTP_PASSWORD &&
