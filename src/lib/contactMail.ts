@@ -59,7 +59,7 @@ export async function sendContactEnquiry(input: {
   });
 
   // SMTP acceptance is not proof of inbox placement. Refuse success if the relay rejected our recipient.
-  if (!receipt.accepted.some(value => value.toLowerCase() === destination)) {
+  if (!receipt.accepted.some(value => (typeof value === "string" ? value : value.address).toLowerCase() === destination)) {
     throw new Error("SMTP relay did not accept the enquiry recipient.");
   }
 }
