@@ -17,9 +17,9 @@ test("contact prefers HTTPS API and supports gated SiteGround SMTP instead of th
  assert.match(mailer,/api\.resend\.com\/emails/);
  assert.match(mailer,/reply_to:input\.email/);
  assert.match(mailer,/if\(resendReady\(\)\)return sendThroughResend\(input\)/);
- assert.match(mailer,/requireTLS: port === 587/);
- assert.match(mailer,/secure: port === 465/);
- assert.match(mailer,/rejectUnauthorized: true/);
+ assert.match(mailer,/requireTLS:\s*port\s*===\s*587/);
+ assert.match(mailer,/secure:\s*port\s*===\s*465/);
+ assert.match(mailer,/rejectUnauthorized:\s*true/);
  assert.match(mailer,/inquiries@hexasteel\.sa/);
  assert.match(mailer,/replyTo:/);
  assert.match(mailer,/receipt\.accepted\.some/);
