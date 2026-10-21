@@ -18,7 +18,7 @@ DigitalOcean's July/August 2026 documentation states outbound **SMTP ports 25, 4
 - https://docs.digitalocean.com/products/droplets/details/limits/
 - https://www.siteground.com/kb/how_to_configure_my_mail_client
 
-The destination remains the active SiteGround mailbox `inquiries@hexasteel.sa`. The preferred *outbound transport from DigitalOcean* is the existing **Resend HTTPS email API**, and an authenticated SiteGround SMTP fallback is available **only if actual Droplet outbound SMTP connectivity is confirmed**.
+Contact credentials are intentionally namespaced so enabling general enquiries does **not** silently activate the separate customer feedback form or postponed RFQ. The destination remains the active SiteGround mailbox `inquiries@hexasteel.sa`. The preferred *outbound transport from DigitalOcean* is the existing **Resend HTTPS email API**, and an authenticated SiteGround SMTP fallback is available **only if actual Droplet outbound SMTP connectivity is confirmed**.
 
 ## Developed on this isolated branch
 1. Dedicated server-side contact email module. Prefer HTTPS API when `RESEND_API_KEY` and verified `CONTACT_FROM_EMAIL` are configured; otherwise permit SMTP only if its credentials exist and outgoing connectivity is verified. Fixed recipient `inquiries@hexasteel.sa`; visitor email Reply-To; plain text content.
@@ -33,10 +33,10 @@ The existing DigitalOcean deployment user must securely create `$HOME/hexasteel-
 
 **Preferred: HTTPS email API to SiteGround inbox.** Obtain an API key from Resend and verify the chosen HEXA Steel® sending domain/address, adding only the necessary DNS records in Cloudflare without replacing existing SiteGround MX/SPF/DKIM/DMARC records. Restrict the API key to transactional email where supported. Example private env file:
 ```sh
-RESEND_API_KEY='PRIVATE_RESEND_API_KEY'
-CONTACT_FROM_EMAIL='HEXA Steel <verified-sender@hexasteel.sa>'
-TURNSTILE_SITE_KEY='PUBLIC_CLOUDFLARE_TURNSTILE_KEY'
-TURNSTILE_SECRET_KEY='PRIVATE_CLOUDFLARE_TURNSTILE_SECRET'
+CONTACT_RESEND_API_KEY='PRIVATE_CONTACT_RESEND_API_KEY'
+CONTACT_RESEND_FROM_EMAIL='HEXA Steel <verified-sender@hexasteel.sa>'
+CONTACT_TURNSTILE_SITE_KEY='PUBLIC_CLOUDFLARE_TURNSTILE_KEY'
+CONTACT_TURNSTILE_SECRET_KEY='PRIVATE_CLOUDFLARE_TURNSTILE_SECRET'
 ```
 Turnstile must be provisioned for `hexasteel.sa`. Treat private key/password values as sensitive: never paste into PR, source control or chat. The SiteGround inbound mailbox remains unchanged; SMTP login is **not required** for HTTPS delivery.
 
