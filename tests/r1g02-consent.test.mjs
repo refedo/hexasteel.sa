@@ -18,7 +18,7 @@ test("GTM remains installed and standard analytics measurement is enabled by def
  assert.doesNotMatch(layout,/hexa_analytics_consent_v1/);
  assert.match(read("src/lib/analyticsSettings.ts"),/GTM-N7QJSQTB/);
  assert.match(read("src/lib/analyticsSettings.ts"),/G-JG2HQGQ2P3/);
- assert.match(layout,/JSON\\.stringify\\(analytics\\.gtmContainerId\\)/);
+ assert.match(layout,/JSON\.stringify\(analytics\.gtmContainerId\)/);
  assert.doesNotMatch(layout,/G-JG2HQGQ2P3/);
 });
 
