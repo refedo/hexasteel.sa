@@ -11,6 +11,9 @@ test("contact prefers HTTPS API and supports gated SiteGround SMTP instead of th
  assert.match(route,/sendContactEnquiry\(/);
  assert.match(mailer,/nodemailer\.createTransport/);
  assert.match(mailer,/resendReady\(\)/);
+ assert.match(mailer,/process\.env\.CONTACT_RESEND_API_KEY/);
+ assert.match(mailer,/process\.env\.CONTACT_RESEND_FROM_EMAIL/);
+ assert.doesNotMatch(mailer,/process\.env\.RESEND_API_KEY\b/);
  assert.match(mailer,/api\.resend\.com\/emails/);
  assert.match(mailer,/reply_to:input\.email/);
  assert.match(mailer,/if\(resendReady\(\)\)return sendThroughResend\(input\)/);
@@ -29,8 +32,9 @@ test("enquiry endpoint validates source, input size, bot challenge, and consent"
  assert.match(route,/MAX_BODY\s*=\s*24_000/);
  assert.match(route,/total>MAX_BODY/);
  assert.match(route,/rateLimited\(request\)/);
- assert.match(route,/TURNSTILE_SECRET_KEY/);
- assert.match(route,/TURNSTILE_SITE_KEY/);
+ assert.match(route,/CONTACT_TURNSTILE_SECRET_KEY/);
+ assert.doesNotMatch(route,/process\.env\.TURNSTILE_SECRET_KEY\b/);
+ assert.match(route,/CONTACT_TURNSTILE_SITE_KEY/);
  assert.match(route,/cf-turnstile-response/);
  assert.match(route,/siteverify/);
  assert.match(route,/data\.hostname/);
@@ -44,6 +48,7 @@ test("contact page exposes secure form only if runtime SMTP and Turnstile are co
  const page=read("src/app/contact/page.tsx");
  const form=read("src/components/ContactEnquiryForm.tsx");
  assert.match(page,/dynamic="force-dynamic"/);
+ assert.match(page,/CONTACT_TURNSTILE_SITE_KEY/);
  assert.match(page,/formActive\?<ContactEnquiryForm/);
  assert.match(page,/contactMailConfigured\(\)/);
  assert.match(page,/mailto:inquiries@hexasteel\.sa/);
