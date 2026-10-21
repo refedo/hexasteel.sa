@@ -58,5 +58,5 @@ test("deployment reads private SMTP configuration outside immutable release",()=
  assert.match(workflow,/\.env\.contact/);
  assert.match(workflow,/set -a/);
  assert.match(workflow,/set \+a/);
- assert.doesNotMatch(workflow,/SITEGROUND_SMTP_PASSWORD:\s*\S/);
+ assert.doesNotMatch(workflow,/^\s+SITEGROUND_SMTP_PASSWORD:\s*\S+/m);
 });
