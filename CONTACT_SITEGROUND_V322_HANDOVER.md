@@ -40,9 +40,9 @@ TURNSTILE_SECRET_KEY='PRIVATE_CLOUDFLARE_TURNSTILE_SECRET'
 ```
 Turnstile must be provisioned for `hexasteel.sa`. Treat private key/password values as sensitive: never paste into PR, source control or chat. The SiteGround inbound mailbox remains unchanged; SMTP login is **not required** for HTTPS delivery.
 
-**Alternative only if directly verified**: configure `SITEGROUND_SMTP_HOST`, `SITEGROUND_SMTP_PORT=465`, `SITEGROUND_SMTP_USER`, `SITEGROUND_SMTP_PASSWORD` from SiteGround > Email > Accounts > Mail Configuration > Manual Settings, alongside Turnstile keys. Because DigitalOcean blocks these ports by default, do **not** authorize direct SMTP as the primary production route without an explicit connectivity test from the actual Droplet or confirmation of an exception. Do not infer hostnames from DNS.
+**Alternative only if directly verified**: configure `CONTACT_SMTP_EGRESS_VERIFIED=true` **only after a successful connectivity check from the actual Droplet**, plus `SITEGROUND_SMTP_HOST`, `SITEGROUND_SMTP_PORT=465`, `SITEGROUND_SMTP_USER`, `SITEGROUND_SMTP_PASSWORD` from SiteGround > Email > Accounts > Mail Configuration > Manual Settings, alongside Turnstile keys. Because DigitalOcean blocks these ports by default, do **not** authorize direct SMTP as the primary production route without an explicit connectivity test from the actual Droplet or confirmation of an exception. Do not infer hostnames from DNS.
 
-The existing workflow checks for the private configuration file, enforces mode `0600`, and loads it before PM2 starts. It requires Turnstile and **one** of the two email provider configurations. This does not insert secrets into GitHub or deploy before approval.
+The existing workflow checks for the private configuration file, enforces mode `0600`, and loads it before PM2 starts. It requires Turnstile and **one** of the two email provider configurations (SMTP additionally requires the explicit verified-egress flag). This does not insert secrets into GitHub or deploy before approval.
 
 ## Tests and release gates
 - Developed: code, form, provider transports, tests, docs and deployment plumbing.
