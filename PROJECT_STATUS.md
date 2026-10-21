@@ -1,3 +1,14 @@
+## V3.22 — SiteGround-powered contact enquiries (22 October 2026; isolated feature branch)
+
+- **Previous stopping point:** V3.21 PR #27 CEO-approved and merged to `rebuild/website-v3` at `0964ff92`; foundation CI, DigitalOcean preflight and deployment passed (21 October). Latest public contact endpoint returned the launch-disabled message because it only checked for **Resend** provider credentials.
+- **Current starting point:** Deployed V3.21 integration baseline `0964ff92eef09e778ac95198403dccdf815d483a`, keeping Sanity/Analytics/Studio intact. Unmerged RFQ PR #12 and optional publishing PR #19 remain independent.
+- **Current milestone:** Replace contact form's Resend dependency with authenticated SiteGround SMTP to `inquiries@hexasteel.sa`, add server-side Turnstile, consent, validation, rate control, bounded body, safe errors and a confirmation page. Existing RFQ and feedback endpoints remain unchanged. Source branch: `feature/v322-siteground-contact-enquiries`.
+- **Deployment prerequisites:** Private `$HOME/hexasteel-v3/.env.contact` with SiteGround SMTP credentials and Turnstile keys (file mode `0600`); DigitalOcean workflow checks for and loads it without putting secrets in the repo. Actual SMTP host/credentials are **not verified** from GitHub, so no live-delivery claim.
+- **Lifecycle stage:** Developed on feature branch; CI pending final verification, **not merged, not deployed, not operationally accepted**. Production changes require explicit owner approval. See `CONTACT_SITEGROUND_V322_HANDOVER.md`.
+- **Official releases:** R1 **68%** (management estimate already documented), R2 **0%**, R3 **0%**. No new completion credit before operational acceptance.
+
+---
+
 ## V3.21 — Automatic Google Analytics and CMS-Editable Tracking IDs (21 October 2026; feature branch)
 
 - **Previous verified stop:** V3.20 PR #26 deployed at `adfe5ab` on `rebuild/website-v3`; CI and DigitalOcean health passed. Google Tag Manager `GTM-N7QJSQTB` retained; `analytics_storage` denied by default; no Privacy route or visitor analytics buttons.
