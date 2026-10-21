@@ -33,8 +33,8 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         <Script id="google-consent-default" strategy="beforeInteractive">
           {`window.dataLayer=window.dataLayer||[];
 function gtag(){dataLayer.push(arguments);}
-var hexAnalytics='denied';
-gtag('consent','default',{analytics_storage:hexAnalytics,ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait_for_update:500});`}
+// Default website analytics measurement enabled; advertising signals remain off.
+gtag('consent','default',{analytics_storage:'granted',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});`}
         </Script>
         <Script id="google-tag-manager" strategy="beforeInteractive">
           {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
