@@ -122,6 +122,32 @@ const siteSettings=defineType({
   ],
   preview:{prepare:()=>({title:"HEXA Website Theme & Settings"})}
 });
+/**
+ * Single editable public ID configuration — IDs are not credentials.
+ * No arbitrary JS, snippets, HTML, API keys or write tokens belong here.
+ */
+const analyticsSettings=defineType({
+ name:"analyticsSettings",title:"Website Analytics & Tag Manager",type:"document",
+ description:"Edit website GTM and GA4 IDs here, then Publish. Changes normally reach fresh website loads within about 30 seconds.",
+ fields:[
+  defineField({name:"gtmContainerId",title:"Google Tag Manager Container ID",type:"string",initialValue:"GTM-N7QJSQTB",
+   description:"Format: GTM-XXXXXXXX. Publishing a new value updates the website's GTM loader. This is the container ID, not an HTML script.",
+   validation:r=>r.required().regex(/^GTM-[A-Z0-9]{5,12}$/,{name:"GTM container ID"}).error("Use the GTM-XXXXXXXX format, with capital letters and numbers.")}),
+  defineField({name:"ga4MeasurementId",title:"Google Analytics 4 Measurement ID",type:"string",initialValue:"G-JG2HQGQ2P3",
+   description:"Format: G-XXXXXXXX. For GTM-managed GA4, this value is exposed to the data layer as hexa_ga4_measurement_id. Configure the GTM Google tag to use that variable once; otherwise its separately stored ID will not change.",
+   validation:r=>r.required().regex(/^G-[A-Z0-9]{6,16}$/,{name:"GA4 measurement ID"}).error("Use the G-XXXXXXXX format, with capital letters and numbers.")}),
+  defineField({name:"ga4Source",title:"Where GA4 is loaded",type:"string",initialValue:"gtm",options:{layout:"radio",list:[
+    {title:"Google Tag Manager — current setup (recommended)",value:"gtm"},
+    {title:"Directly from this website — only if GA4 tag is disabled in GTM",value:"direct"}
+   ]},description:"Keep GTM-managed unless you have disabled GA4 page-view tags inside GTM. Do not run both GA4 tags or visits will be counted twice.",
+   validation:r=>r.required()}),
+  defineField({name:"directGa4Confirmed",title:"I disabled GA4 page-view tags in GTM",type:"boolean",initialValue:false,
+   hidden:({document})=>document?.ga4Source!=="direct",
+   description:"Required only for website-direct GA4. This prevents accidentally adding a duplicate tracker alongside the existing GTM Google tag.",
+   validation:r=>r.custom((value,context)=>context.document?.ga4Source==="direct"&&value!==true?"Confirm that GTM no longer fires another GA4 Google tag before enabling direct measurement.":true)})
+ ],
+ preview:{prepare:()=>({title:"Website Analytics & Tag Manager",subtitle:"GTM / GA4 IDs — public settings only"})}
+});
 const testimonial=defineType({
   name:"testimonial",title:"Client Testimonial",type:"document",
   fields:[
@@ -192,4 +218,4 @@ const publicQualification=defineType({name:"publicQualification",title:"Public Q
  defineField({name:"verifiedScope",type:"boolean",initialValue:false,description:"Scope and current status verified against official documentation."}),
  defineField({name:"approvedForWeb",type:"boolean",initialValue:false,description:"Cleared for public release."})
 ]});
-export const schemaTypes=[localizedText,contentSection,page,project,credential,initiative,siteSettings,testimonial,teamProfile,knowledgeArticle,companyUpdate,capabilityService,publicQualification];
+export const schemaTypes=[localizedText,contentSection,page,project,credential,initiative,siteSettings,analyticsSettings,testimonial,teamProfile,knowledgeArticle,companyUpdate,capabilityService,publicQualification];
