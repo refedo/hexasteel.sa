@@ -54,6 +54,8 @@ jobs:
             test -L "$HOME/hexasteel-v3/current"
             test -f "$HOME/hexasteel-v3/current/server.js"
             pm2 describe hexasteel-v3-review >/dev/null 2>&1
+            test -r "$HOME/hexasteel-v3/.env.contact"
+            test "$(stat -c %a "$HOME/hexasteel-v3/.env.contact")" = "600"
             curl -fsS --max-time 8 http://127.0.0.1:4500/ >/dev/null
             if test "$(df -Pk "$HOME" | tail -1 | awk '{print $4}')" -lt 512000; then
               echo "Insufficient free disk for release"; exit 1
@@ -90,6 +92,17 @@ jobs:
             tar -xzf "$BUNDLE" -C "$RELEASE"
             test -f "$RELEASE/server.js"
             export PORT=4500 HOSTNAME=127.0.0.1 NODE_ENV=production NEXT_PUBLIC_SANITY_PROJECT_ID=ik7morln NEXT_PUBLIC_SANITY_DATASET=production
+            CONTACT_ENV="$APP/.env.contact"
+            test -r "$CONTACT_ENV"
+            test "$(stat -c %a "$CONTACT_ENV")" = "600"
+            set -a
+            . "$CONTACT_ENV"
+            set +a
+            : "${SITEGROUND_SMTP_HOST:?Missing contact SMTP hostname}"
+            : "${SITEGROUND_SMTP_USER:?Missing contact SMTP user}"
+            : "${SITEGROUND_SMTP_PASSWORD:?Missing contact SMTP password}"
+            : "${TURNSTILE_SITE_KEY:?Missing Turnstile site key}"
+            : "${TURNSTILE_SECRET_KEY:?Missing Turnstile secret}"
             completed=no
             rollback() {
               if [ "$completed" != yes ]; then
