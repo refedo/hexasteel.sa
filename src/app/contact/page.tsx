@@ -8,8 +8,8 @@ export const dynamic="force-dynamic";
 export const metadata:Metadata={title:"Contact Hexa Steel®",description:"Contact Hexa Steel® in Saudi Arabia for structural steel, PEB, project management, steel fabrication and engineering services. Phone and WhatsApp."};
 export default async function ContactPage(){
  const contact=await getPublicContact();
- const siteKey=process.env.TURNSTILE_SITE_KEY||"";
- const formActive=Boolean(siteKey&&process.env.TURNSTILE_SECRET_KEY&&contactMailConfigured());
+ const siteKey=process.env.CONTACT_TURNSTILE_SITE_KEY||"";
+ const formActive=Boolean(siteKey&&process.env.CONTACT_TURNSTILE_SECRET_KEY&&contactMailConfigured());
  return <main>
   <section className="inner-hero"><div className="shell"><p className="eyebrow on-dark">CONTACT / HEXA STEEL®</p><h1>Let's make the next project happen.</h1><p>Discuss your structural steel project, industrial building, manufacturing requirements or engineering enquiry directly with our team.</p>
    <div className="contact-direct-actions"><a className="button signal" href={contact.tel}>Call {contact.formatted}</a>{contact.whatsappEnabled&&<a className="button outline" target="_blank" rel="noopener noreferrer" href={contact.whatsapp}>Chat with us on WhatsApp</a>}</div>
