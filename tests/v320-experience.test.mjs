@@ -20,10 +20,11 @@ test("Editor-facing Sanity image upload guidance recommends real high resolution
  assert.match(schema,/JPEG\/WebP\/PNG/);
  assert.match(schema,/image rights|authorized|authorized genuine/i);
 });
-test("Website keeps analytics denied without fixed consent prompts and remembers beta dismissal on device",()=>{
+test("Website permits default analytics without fixed consent prompts and remembers beta dismissal on device",()=>{
  const layout=read("src/app/layout.tsx");
  const notice=read("src/components/BrandTransitionNotice.tsx");
- assert.match(layout,/hexAnalytics='denied'/);
+ assert.match(layout,/analytics_storage:'granted'/);
+ assert.match(layout,/ad_storage:'denied'/);
  assert.doesNotMatch(layout,/<AnalyticsConsentBanner\/>/);
  assert.match(notice,/localStorage\.getItem\(BETA_DISMISSED_KEY\)/);
  assert.match(notice,/localStorage\.setItem\(BETA_DISMISSED_KEY/);
