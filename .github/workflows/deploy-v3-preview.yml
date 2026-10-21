@@ -98,11 +98,16 @@ jobs:
             set -a
             . "$CONTACT_ENV"
             set +a
-            : "${SITEGROUND_SMTP_HOST:?Missing contact SMTP hostname}"
-            : "${SITEGROUND_SMTP_USER:?Missing contact SMTP user}"
-            : "${SITEGROUND_SMTP_PASSWORD:?Missing contact SMTP password}"
             : "${TURNSTILE_SITE_KEY:?Missing Turnstile site key}"
             : "${TURNSTILE_SECRET_KEY:?Missing Turnstile secret}"
+            if [ -n "${RESEND_API_KEY:-}" ] && [ -n "${CONTACT_FROM_EMAIL:-}" ]; then
+              echo "Contact email: HTTPS API configured"
+            elif [ -n "${SITEGROUND_SMTP_HOST:-}" ] && [ -n "${SITEGROUND_SMTP_USER:-}" ] && [ -n "${SITEGROUND_SMTP_PASSWORD:-}" ]; then
+              echo "Contact email: SMTP configured; independent reachability check required"
+            else
+              echo "Contact email: missing HTTPS API or SMTP provider configuration"
+              exit 1
+            fi
             completed=no
             rollback() {
               if [ "$completed" != yes ]; then
