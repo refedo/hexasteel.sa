@@ -98,9 +98,9 @@ jobs:
             set -a
             . "$CONTACT_ENV"
             set +a
-            : "${TURNSTILE_SITE_KEY:?Missing Turnstile site key}"
-            : "${TURNSTILE_SECRET_KEY:?Missing Turnstile secret}"
-            if [ -n "${RESEND_API_KEY:-}" ] && [ -n "${CONTACT_FROM_EMAIL:-}" ]; then
+            : "${CONTACT_TURNSTILE_SITE_KEY:?Missing Turnstile site key}"
+            : "${CONTACT_TURNSTILE_SECRET_KEY:?Missing Turnstile secret}"
+            if [ -n "${CONTACT_RESEND_API_KEY:-}" ] && [ -n "${CONTACT_RESEND_FROM_EMAIL:-}" ]; then
               echo "Contact email: HTTPS API configured"
             elif [ "${CONTACT_SMTP_EGRESS_VERIFIED:-}" = "true" ] && [ -n "${SITEGROUND_SMTP_HOST:-}" ] && [ -n "${SITEGROUND_SMTP_USER:-}" ] && [ -n "${SITEGROUND_SMTP_PASSWORD:-}" ]; then
               echo "Contact email: SMTP configured; independent reachability check required"
