@@ -39,7 +39,8 @@ async function boundedFormData(request:Request):Promise<FormData|null>{
 }
 function rateLimited(req:Request):boolean{
  // Per-process backstop only. The verified Turnstile token is the primary abuse control.
- const ip=req.headers.get("cf-connecting-ip")||req.headers.get("x-real-ip")||"shared";
+ const ip=req.headers.get("cf-connecting-ip")||req.headers.get("x-real-ip");
+ if(!ip)return false; // Avoid a site-wide shared throttle when a trusted client address is unavailable.
  const now=Date.now();
  if(requestWindow.size>2000)requestWindow.clear();
  const previous=requestWindow.get(ip);
