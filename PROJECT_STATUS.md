@@ -1,3 +1,14 @@
+## V3.23 — Supplier application portal (22 October 2026; isolated feature branch)
+
+- **Verified start:** V3.21 PR #27 integrated on `rebuild/website-v3` at `0964ff92`; GitHub CI and deployment preflight passed. V3.22 PR #28 contact intake is open and not yet approved for deployment. RFQ PR #12 and optional CMS PR #19 remain separate. `main` untouched.
+- **Developed:** Public `/become-a-supplier` product/service application; per-product country of origin, limited PDF uploads, consent/Turnstile and status tracker with one-time email codes, clarification and resubmission. All PII moves server-to-server to separately controlled OTS supplier-intake endpoints; no documents in Sanity or public website storage. Includes visible access via Company navigation/footer.
+- **Companion OTS branch:** `refedo/OTS:feature/ots-supplier-intake-v1` adds persisted applications, bounded private PDF scan/storage, restricted internal review, approval/decline/request changes, email code tracking; **OTS must be deployed before the website intake is activated**.
+- **Acceptance gates:** Both PRs, OTS database migration, private persistent storage and backups, operational malware scanner, service-key rotation and secure envs, Cloudflare Turnstile and HTTPS email provider must all be verified. Live URL remains disabled unless `SUPPLIER_REGISTRATION_ENABLED=true`. Cross-system smoke and document recovery testing required.
+- **Release accounting:** R1 **68%** documented baseline; R2/R3 **0%**. Unmerged code does not count as operational acceptance. No integration merge, no production deployment and no `main` merge authorized.
+- **Stop / next:** verify CI on final heads, review security and configure private provider infrastructure; request explicit CEO integration/deployment approval. See `SUPPLIER_V323_HANDOVER.md`.
+
+---
+
 ## V3.21 — Automatic Google Analytics and CMS-Editable Tracking IDs (21 October 2026; feature branch)
 
 - **Previous verified stop:** V3.20 PR #26 deployed at `adfe5ab` on `rebuild/website-v3`; CI and DigitalOcean health passed. Google Tag Manager `GTM-N7QJSQTB` retained; `analytics_storage` denied by default; no Privacy route or visitor analytics buttons.

@@ -1154,3 +1154,22 @@ body:has(.hexa-studio) > .contact-shortcuts{display:none!important}
 @media(prefers-reduced-motion:reduce){.hexa-reveal-prepare{opacity:1!important;transform:none!important}.hexa-reveal-prepare.hexa-is-visible{transition:none!important}}
 
 .hexa-form-error{color:#7b2323;font-size:13px;padding:12px;background:#fff1f1;border-left:3px solid #a62f2f}
+
+/* Supplier registration V3.23 — corporate layout, mobile-first and accessible. */
+.supplier-intro,.supplier-tracker-layout{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:clamp(30px,6vw,90px);align-items:start}
+.supplier-intro>div:first-child h2,.supplier-tracker-layout>div:first-child h2{font-size:clamp(30px,3.5vw,52px);line-height:1.14}
+.supplier-steps{display:grid;gap:12px;margin:32px 0}
+.supplier-steps span{background:#edf2f4;border-left:3px solid #2C3E50;color:#2C3E50;padding:14px 17px;font-weight:650;font-size:13px}
+.supplier-product{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;margin:12px 0;align-items:end;background:#fff;padding:12px}
+.supplier-product label{font-size:12px;color:#2C3E50;font-weight:700}
+.supplier-product input{display:block;width:100%;padding:12px;margin-top:7px;border:1px solid #b6c5cf;border-radius:0}
+.supplier-product button,.supplier-add{background:transparent;border:1px solid #8fa4ae;color:#2C3E50;padding:12px;cursor:pointer;font-size:12px}
+.supplier-add:focus-visible,.supplier-product button:focus-visible{outline:3px solid #355568;outline-offset:2px}
+.supplier-consent{display:flex;gap:12px;align-items:flex-start;line-height:1.6}
+.supplier-consent input{margin-top:4px;width:18px;height:18px}
+.supplier-reference{font-size:clamp(20px,3vw,30px);font-weight:800;letter-spacing:.02em;color:#2C3E50;overflow-wrap:anywhere}
+.supplier-track-extra{border-top:1px solid #c7d4da;padding-top:23px;margin-top:20px}
+.supplier-status{margin-top:24px;padding:22px;background:#ecf2f5;border-left:4px solid #2C3E50}
+.supplier-status h3{font-size:23px;margin:4px 0 12px}
+@media(max-width:900px){.supplier-intro,.supplier-tracker-layout{grid-template-columns:1fr}}
+@media(max-width:580px){.supplier-product{grid-template-columns:1fr}.supplier-product button{justify-self:start}}
