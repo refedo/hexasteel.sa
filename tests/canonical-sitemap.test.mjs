@@ -15,6 +15,13 @@ test("public sitemap uses the single HTTPS non-www origin",()=>{
  assert.equal(new Set(staticRoutes).size,staticRoutes.length,"static sitemap entries must be unique");
 });
 
+test("www host redirects permanently to the selected canonical domain",()=>{
+ const config=read("next.config.mjs");
+ assert.match(config,/type:"host",value:"www\\.hexasteel\\.sa"/);
+ assert.match(config,/destination:"https:\\/\\/hexasteel\\.sa\\/:path\\*"/);
+ assert.match(config,/permanent:true/);
+});
+
 test("every static sitemap page declares a self-referencing canonical",()=>{
  for(const route of staticRoutes){
   const page=route==="/"?"src/app/page.tsx":"src/app"+route+"/page.tsx";
