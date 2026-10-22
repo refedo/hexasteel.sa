@@ -2,7 +2,8 @@ import {getEditorialPage} from "@/lib/cms";
 import type {Metadata} from "next";
 import Link from "next/link";
 import {PageHero,CallToAction} from "@/components/PageBlocks";
-export const metadata:Metadata={title:"Company — Who We Are"};
+export const metadata:Metadata={
+  alternates:{canonical:"https://hexasteel.sa/company"},title:"Company — Who We Are"};
 const topics=[
  {number:"01",title:"Who We Are",tag:"IDENTITY & PHILOSOPHY",description:"Our vision, mission, core values, industrial mindset and journey.",href:"/company/about"},
  {number:"02",title:"Operational Excellence",tag:"CONTINUOUS IMPROVEMENT",description:"Standardization, SIRI assessment, OTS™, industrial technology and infrastructure.",href:"/company/operational-excellence"},

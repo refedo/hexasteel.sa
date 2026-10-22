@@ -1,6 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig={
  reactStrictMode:true,poweredByHeader:false,output:"standalone",
+ // Canonical host normalization when www requests reach the Next.js origin.
+ // Edge/DNS TLS and HTTP->HTTPS handling must also be verified on Cloudflare/Nginx.
+ async redirects(){
+  return [{
+   source:"/:path*",
+   has:[{type:"host",value:"www.hexasteel.sa"}],
+   destination:"https://hexasteel.sa/:path*",
+   permanent:true
+  }];
+ },
  async headers(){
   const noindex=[{key:"X-Robots-Tag",value:"noindex, nofollow, noarchive"}];
   return [

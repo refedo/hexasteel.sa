@@ -1,3 +1,14 @@
+## R1-G03 — Canonical URL / Search Console Duplicate Handling (22 October 2026; feature branch)
+
+- **Previous verified milestone:** V3.21 PR #27 merged to `rebuild/website-v3` at `0964ff92`; source verifies CMS-managed analytics. Production deployment/operational acceptance was not revalidated during this SEO audit. V3.22 PR #28 and V3.23 PR #29 remain separately open.
+- **Current verified starting point:** Integration branch `rebuild/website-v3` commit `0964ff92eef09e778ac95198403dccdf815d483a`. Existing SEO helper provides canonicals for six static sitemap entries and individual dynamic project/article details, but 21 public static routes lacked self-referencing canonicals.
+- **Google report:** Search Console email says `Duplicate without user-selected canonical`. Specific example URLs, Google-selected canonicals and live domain routing were not supplied or available, so the scope of Google's report is **not yet proven** to match each code change.
+- **Implemented on isolated branch:** `feature/r1g03-canonical-indexing-coverage`: self-referencing canonicals now declared across all **27** static sitemap routes; limited permanent `www` → `https://hexasteel.sa` redirect at the Next.js origin; regression tests for canonical/sitemap consistency and exclusion of private/search pages.
+- **Current milestone and gates:** Source committed; TypeScript/test/build and final CI pending verification. PR approval, integration, production deployment, external Cloudflare/Nginx redirects, exact Google Search Console inspection and indexed-result confirmation remain separate. No change to `main` or production.
+- **Official release progress:** R1 **68%** existing management estimate; R2 **0%** and R3 **0%**. This unmerged patch is not counted. Details: `R1G03_CANONICAL_INDEXING_HANDOVER.md`.
+
+---
+
 ## V3.21 — Automatic Google Analytics and CMS-Editable Tracking IDs (21 October 2026; feature branch)
 
 - **Previous verified stop:** V3.20 PR #26 deployed at `adfe5ab` on `rebuild/website-v3`; CI and DigitalOcean health passed. Google Tag Manager `GTM-N7QJSQTB` retained; `analytics_storage` denied by default; no Privacy route or visitor analytics buttons.

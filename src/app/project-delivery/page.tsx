@@ -5,7 +5,8 @@ import {PageHero,CallToAction} from "@/components/PageBlocks";
 import {DeliveryTimeline} from "@/components/DeliveryTimeline";
 import {ProjectPlanningVisual} from "@/components/ProjectPlanningVisual";
 import {CapabilityNarrative} from "@/components/CapabilityNarrative";
-export const metadata:Metadata={title:"Project Management & Site Execution"};
+export const metadata:Metadata={
+  alternates:{canonical:"https://hexasteel.sa/project-delivery"},title:"Project Management & Site Execution"};
 const procurementScenes=[
  {label:"Strategic Sourcing",eyebrow:"01 / SOURCING",headline:"Materials sourced for reliability.",description:"Our supplier network supports approved steel specifications, availability and project-driven procurement plans.",outcomes:["Broad domestic and international supplier coordination","Material-grade and specification control","Alternative sourcing and continuity planning"],href:"/knowledge/steel-grades-traceability",cta:"Explore material controls",symbol:"STEEL"},
  {label:"Project Procurement",eyebrow:"02 / CRITICAL PATH",headline:"Procurement aligned to delivery.",description:"Material purchase orders and long-lead items are coordinated with drawings, fabrication sequencing and project milestones.",outcomes:["Bills of Materials (BOM)","Lead-time monitoring and expediting","Schedule-linked purchasing"],href:"/knowledge/seven-activities-steel-project-delivery",cta:"Explore delivery planning",symbol:"BOM"},

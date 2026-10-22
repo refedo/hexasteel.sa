@@ -2,7 +2,8 @@ import {getEditorialPage} from "@/lib/cms";
 import type {Metadata} from "next";
 import {PageHero,CallToAction} from "@/components/PageBlocks";
 import {CapabilityNarrative} from "@/components/CapabilityNarrative";
-export const metadata:Metadata={title:"Steel Accessories & Industrial Structures"};
+export const metadata:Metadata={
+  alternates:{canonical:"https://hexasteel.sa/products/steel-accessories"},title:"Steel Accessories & Industrial Structures"};
 const scenes=[
  {label:"Access & Safety",eyebrow:"01 / PLATFORMS",headline:"Safe access is structural.",description:"Fabricated steel access components for industrial facilities, mezzanines and maintenance areas.",outcomes:["Grating, checkered plates and deck panels","Industrial stairs, handrails and guardrails","Catwalks and walkways"],href:"/request-quotation",cta:"Request fabricated access steel",symbol:"ACCESS"},
  {label:"Crane Systems",eyebrow:"02 / STRUCTURAL SUPPORTS",headline:"Ready for lifting loads.",description:"Crane runway beams, brackets and framing interfaces designed for the specific crane duty.",outcomes:["Crane support steel structures","Runway beams and brackets","Mezzanine and equipment platform framing"],href:"/solutions/structural-steel",cta:"Explore structural steel",symbol:"CRANE"},

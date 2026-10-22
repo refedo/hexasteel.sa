@@ -1,7 +1,8 @@
 import type {Metadata} from "next";
 import {getPublicContact} from "@/lib/publicContact";
 import Link from "next/link";
-export const metadata:Metadata={title:"Contact Hexa Steel®",description:"Contact Hexa Steel® in Saudi Arabia for structural steel, PEB, project management, steel fabrication and engineering services. Phone and WhatsApp."};
+export const metadata:Metadata={
+  alternates:{canonical:"https://hexasteel.sa/contact"},title:"Contact Hexa Steel®",description:"Contact Hexa Steel® in Saudi Arabia for structural steel, PEB, project management, steel fabrication and engineering services. Phone and WhatsApp."};
 export default async function ContactPage(){
  const contact=await getPublicContact();
  return <main>

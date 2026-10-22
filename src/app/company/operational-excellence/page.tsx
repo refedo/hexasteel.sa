@@ -3,7 +3,8 @@ import type {Metadata} from "next";
 import Link from "next/link";
 import {CapabilityNarrative} from "@/components/CapabilityNarrative";
 import {CallToAction,PageHero} from "@/components/PageBlocks";
-export const metadata:Metadata={title:"Operational Excellence & Innovation"};
+export const metadata:Metadata={
+  alternates:{canonical:"https://hexasteel.sa/company/operational-excellence"},title:"Operational Excellence & Innovation"};
 const scenes=[
 {label:"Standardization",eyebrow:"01 / OPERATIONAL SYSTEMS",headline:"Repeatability is a competitive advantage.",description:"Clear standard work, defined process owners, visual management and evidence-based reviews help deliver predictable quality and efficiency.",outcomes:["Standard Operating Procedures (SOPs)","Document and process control","Continuous-improvement routines"],href:"/capabilities/quality",cta:"See our controlled quality approach",symbol:"SOP"},
 {label:"Digitalization",eyebrow:"02 / OTS™",headline:"Digitizing the production-to-delivery chain.",description:"OTS™ is Hexa's internal operations tracking initiative, developed to improve the visibility of work orders, production records, project dependencies and quality evidence.",outcomes:["Tracking of work and delivery progress","Operational records and visibility","Integration of project and QC information"],href:"/project-delivery",cta:"Explore integrated delivery",symbol:"OTS™"},

@@ -3,6 +3,7 @@ import Link from "next/link";
 import {QuotationRequestForm} from "@/components/QuotationRequestForm";
 import {getPublicContact} from "@/lib/publicContact";
 export const metadata:Metadata={
+  alternates:{canonical:"https://hexasteel.sa/request-quotation"},
  title:"Request a Quotation — Steel Services & PEB",
  description:"Request Hexa Steel® quotation for laser cutting, C/Z purlins, structural steel, PEB, fabrication and industrial steel components. Send your requirements and drawings.",
  robots:{index:true,follow:true},

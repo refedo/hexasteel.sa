@@ -2,7 +2,8 @@ import {getEditorialPage} from "@/lib/cms";
 import type {Metadata} from "next";
 import Link from "next/link";
 import {PageHero,CallToAction} from "@/components/PageBlocks";
-export const metadata:Metadata={title:"Steel Fabrication & Processing"};
+export const metadata:Metadata={
+  alternates:{canonical:"https://hexasteel.sa/services/fabrication"},title:"Steel Fabrication & Processing"};
 const areas=[
  ["Cutting & Processing","Precision CNC laser cutting and profile processing of approved project material and component shapes."],
  ["Built-up Members","Assembled and welded structural sections manufactured to approved engineering and fabrication requirements."],
