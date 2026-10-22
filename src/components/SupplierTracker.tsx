@@ -7,7 +7,13 @@ type Tracking={reference:string;status:string;publicMessage:string|null;updatedA
 export function SupplierTracker({siteKey}:{siteKey:string}){
  const [reference,setReference]=useState("");const[email,setEmail]=useState("");const[code,setCode]=useState("");
  const [sent,setSent]=useState(false);const[tracking,setTracking]=useState<Tracking|null>(null);
- const[response,setResponse]=useState("");const[message,setMessage]=useState("");const[busy,setBusy]=useState(false);const[error,setError]=useState("");
+ const[response,setResponse]=useState("");
+ const [scope,setScope]=useState("PRODUCTS");
+ const [category,setCategory]=useState("");
+ const [products,setProducts]=useState<{name:string;origin:string}[]>([{name:"",origin:""}]);
+ const [services,setServices]=useState("");
+ const [capabilities,setCapabilities]=useState("");
+ const[message,setMessage]=useState("");const[busy,setBusy]=useState(false);const[error,setError]=useState("");
  async function submit(action:"request"|"verify"|"resubmit",e:FormEvent<HTMLFormElement>){
   e.preventDefault();setError("");setMessage("");setBusy(true);
   const data=new FormData(e.currentTarget);
