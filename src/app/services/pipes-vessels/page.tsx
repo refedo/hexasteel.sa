@@ -2,7 +2,8 @@ import {getEditorialPage} from "@/lib/cms";
 import type {Metadata} from "next";
 import {PageHero,CallToAction} from "@/components/PageBlocks";
 import {CapabilityNarrative} from "@/components/CapabilityNarrative";
-export const metadata:Metadata={title:"Pipes, Tanks & Vessels"};
+export const metadata:Metadata={
+  alternates:{canonical:"https://hexasteel.sa/services/pipes-vessels"},title:"Pipes, Tanks & Vessels"};
 const scenes=[
 {label:"Mechanical Steel",eyebrow:"01 / INDUSTRIAL STEELWORK",headline:"Fabrication for process environments.",description:"Industrial steel supports, equipment frames, platforms and related mechanical steelwork can be managed alongside structural fabrication requirements.",outcomes:["Puddle flanges for watertight wall penetrations","Fabricated pipe spools and flanged sections","Pipe supports and industrial platforms"],href:"/services/fabrication",cta:"Explore fabrication",symbol:"IND"},
 {label:"Tanks & Vessels",eyebrow:"02 / PROJECT-SPECIFIC PACKAGES",headline:"Scope verified before commitment.",description:"Tank and vessel fabrication opportunities are assessed against applicable engineering codes, approved drawings, process needs, inspection requirements and qualified subcontracting resources where necessary.",outcomes:["Project-specific scope and material review","Fabrication and inspection planning","Required welding / testing / third-party controls"],href:"/request-quotation",cta:"Submit technical requirements",symbol:"VESSEL"},
