@@ -33,7 +33,7 @@ export async function supplierProxy(path:"" | "/track",body:FormData) {
  try {url=new URL(configured);}catch{return NextResponse.json({error:"Supplier service is unavailable."},{status:503});}
  if(url.protocol!=="https:"||url.hostname!==allowedHost||url.pathname!=="/"||url.search||url.hash) return NextResponse.json({error:"Supplier service configuration is invalid."},{status:503});
  try{
-  const result=await fetch(url.origin+"/api/supplier-intake"+path,{method:"POST",headers:{"x-hexa-supplier-key":key},body,cache:"no-store",signal:AbortSignal.timeout(25000)});
+  const result=await fetch(url.origin+"/api/supplier-intake"+path,{method:"POST",headers:{"x-hexa-supplier-key":key},body,cache:"no-store",signal:AbortSignal.timeout(80000)});
   const json=await result.json().catch(()=>({error:"Supplier service did not respond correctly."}));
   // The OTS API only exposes public-safe fields for this interface.
   return NextResponse.json(json,{status:result.status,headers:{"Cache-Control":"no-store"}});
