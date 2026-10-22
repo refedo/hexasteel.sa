@@ -17,8 +17,8 @@ test("public sitemap uses the single HTTPS non-www origin",()=>{
 
 test("www host redirects permanently to the selected canonical domain",()=>{
  const config=read("next.config.mjs");
- assert.match(config,/type:"host",value:"www\\.hexasteel\\.sa"/);
- assert.match(config,/destination:"https:\\/\\/hexasteel\\.sa\\/:path\\*"/);
+ assert.match(config,/type:"host",value:"www\.hexasteel\.sa"/);
+ assert.match(config,/destination:"https:\/\/hexasteel\.sa\/:path\*"/);
  assert.match(config,/permanent:true/);
 });
 
