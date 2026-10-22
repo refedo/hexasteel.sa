@@ -3,7 +3,8 @@ import type {Metadata} from "next";
 import Link from "next/link";
 import {PageHero,CallToAction} from "@/components/PageBlocks";
 import {QualityExperience} from "@/components/QualityExperience";
-export const metadata:Metadata={title:"Quality Assurance & Control"};
+export const metadata:Metadata={
+  alternates:{canonical:"https://hexasteel.sa/capabilities/quality"},title:"Quality Assurance & Control"};
 export default async function Quality(){const editorial=await getEditorialPage("capabilities--quality");return <main>
 <PageHero eyebrow="QUALITY ASSURANCE / QUALITY CONTROL" title={editorial?.title||"Quality that can be demonstrated."} intro={editorial?.intro||"For demanding structural steel projects, assurance is not a checklist on a wall. It is a connected control system—from material identification to documented handover."}/>
 <section className="section quality-editorial-section"><div className="shell"><div className="section-intro"><p className="eyebrow">OUR QUALITY CONTROL SYSTEM</p><h2>Inspect the process.<br/><span>Not just the product.</span></h2><p>Explore the inspection checkpoints—from Material Inspection Requests (MIR) to dimensional verification, welding, blasting/coating controls and documented handover.</p></div><QualityExperience/></div></section>
