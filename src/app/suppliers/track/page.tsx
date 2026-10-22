@@ -2,7 +2,7 @@
 import type {Metadata} from "next";
 import Link from "next/link";
 import {SupplierTracker} from "@/components/SupplierTracker";
-export const metadata:Metadata={title:"Track Supplier Application | HEXA Steel®",description:"Securely check the review status of your HEXA Steel® supplier qualification application."};
+export const metadata:Metadata={title:"Track Supplier Application | HEXA Steel®",description:"Securely check the review status of your HEXA Steel® supplier qualification application.",robots:{index:false,follow:false}};
 export default function TrackSupplierPage(){
  const enabled=process.env.SUPPLIER_REGISTRATION_ENABLED==="true";
  const siteKey=process.env.NEXT_PUBLIC_SUPPLIER_TURNSTILE_SITE_KEY||"";
