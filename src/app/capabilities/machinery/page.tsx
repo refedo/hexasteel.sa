@@ -3,7 +3,8 @@ import type {Metadata} from "next";
 import Link from "next/link";
 import {machines} from "@/content/site";
 import {PageHero,CallToAction} from "@/components/PageBlocks";
-export const metadata:Metadata={title:"Steel Manufacturing Services & Capabilities"};
+export const metadata:Metadata={
+  alternates:{canonical:"https://hexasteel.sa/capabilities/machinery"},title:"Steel Manufacturing Services & Capabilities"};
 export default async function Machinery(){const editorial=await getEditorialPage("capabilities--machinery");return <main>
 <PageHero eyebrow="CAPABILITIES / STEEL SERVICES" title={editorial?.title||"What we can make. How precisely we deliver."} intro={editorial?.intro||"Our manufacturing capabilities help customers move from approved drawings to fabricated steel—with flexibility across precision cutting, built-up members, purlins and structural assemblies."}/>
 <section className="section services-section"><div className="shell">
