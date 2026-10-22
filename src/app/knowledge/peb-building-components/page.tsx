@@ -1,7 +1,8 @@
 import type {Metadata} from "next";
 import Link from "next/link";
 import {PageHero,CallToAction} from "@/components/PageBlocks";
-export const metadata:Metadata={title:"PEB Building Components & Terminology",description:"Eave height, ridge height, primary rafters, joists, purlins, girts, sag rods, struts, bracing and more."};
+export const metadata:Metadata={
+  alternates:{canonical:"https://hexasteel.sa/knowledge/peb-building-components"},title:"PEB Building Components & Terminology",description:"Eave height, ridge height, primary rafters, joists, purlins, girts, sag rods, struts, bracing and more."};
 const glossary=[
  ["Eave height","Vertical height to the specified roof/eave reference point at the building edge."],
  ["Ridge height","Height of the roof's highest intersection, measured using the agreed building datum."],
