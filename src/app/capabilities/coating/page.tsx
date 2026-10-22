@@ -1,7 +1,8 @@
 import {getEditorialPage} from "@/lib/cms";
 import type {Metadata} from "next";
 import {PageHero,CallToAction} from "@/components/PageBlocks";
-export const metadata:Metadata={title:"Coating, Surface Protection & Galvanization"};
+export const metadata:Metadata={
+  alternates:{canonical:"https://hexasteel.sa/capabilities/coating"},title:"Coating, Surface Protection & Galvanization"};
 const environments=[
 {type:"C2",label:"Low corrosivity",example:"Dry, low-pollution indoor environments"},
 {type:"C3",label:"Medium corrosivity",example:"Urban, industrial or coastal locations with moderate exposure"},
