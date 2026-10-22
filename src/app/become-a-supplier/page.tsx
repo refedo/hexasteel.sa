@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SupplierRegistrationForm } from "@/components/SupplierRegistrationForm";
 
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Become a Supplier | HEXA Steel®",
   description: "Apply to supply steel products, industrial materials, engineering and other services to HEXA Steel®. Secure registration and qualification.",
