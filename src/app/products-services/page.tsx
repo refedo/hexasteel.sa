@@ -2,7 +2,8 @@ import {getEditorialPage} from "@/lib/cms";
 import Link from "next/link";
 import type {Metadata} from "next";
 import {PageHero,CallToAction} from "@/components/PageBlocks";
-export const metadata:Metadata={title:"Products & Services"};
+export const metadata:Metadata={
+  alternates:{canonical:"https://hexasteel.sa/products-services"},title:"Products & Services"};
 const groups=[
  {label:"01 / PRODUCTS",title:"Structural Steel",description:"Engineered heavy and conventional steel for industrial, commercial and infrastructure works.",href:"/solutions/structural-steel",symbol:"STRUCTURES"},
  {label:"02 / PRODUCTS",title:"Pre-Engineered Buildings",description:"Integrated factory and warehouse systems with primary steel, secondary framing and managed project delivery.",href:"/solutions/peb",symbol:"PEB"},

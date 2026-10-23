@@ -1,11 +1,29 @@
-## V3.23 — Supplier application portal (22 October 2026; isolated feature branch)
+## V3.23 — Supplier intake integration (24 October 2026, isolated reconciliation)
 
-- **Verified start:** V3.21 PR #27 integrated on `rebuild/website-v3` at `0964ff92`; GitHub CI and deployment preflight passed. V3.22 PR #28 contact intake is open and not yet approved for deployment. RFQ PR #12 and optional CMS PR #19 remain separate. `main` untouched.
-- **Developed:** Public `/become-a-supplier` product/service application; per-product country of origin, limited PDF uploads, consent/Turnstile and status tracker with one-time email codes, clarification and resubmission. All PII moves server-to-server to separately controlled OTS supplier-intake endpoints; no documents in Sanity or public website storage. Includes visible access via Company navigation/footer.
-- **Companion OTS branch:** `refedo/OTS:feature/ots-supplier-intake-v1` adds persisted applications, bounded private PDF scan/storage, restricted internal review, approval/decline/request changes, email code tracking; **OTS must be deployed before the website intake is activated**.
-- **Acceptance gates:** Both PRs, OTS database migration, private persistent storage and backups, operational malware scanner, service-key rotation and secure envs, Cloudflare Turnstile and HTTPS email provider must all be verified. Live URL remains disabled unless `SUPPLIER_REGISTRATION_ENABLED=true`. Cross-system smoke and document recovery testing required.
-- **Release accounting:** R1 **68%** documented baseline; R2/R3 **0%**. Unmerged code does not count as operational acceptance. No integration merge, no production deployment and no `main` merge authorized.
-- **Stop / next:** verify CI on final heads, review security and configure private provider infrastructure; request explicit CEO integration/deployment approval. See `SUPPLIER_V323_HANDOVER.md`.
+- **Last verified production baseline:** `rebuild/website-v3` 6f482d7dbf5c; current website integration includes canonical/SEO updates and contact activation, which this conflict resolution preserves.
+- **Current milestone:** Rebase-by-merge supplier feature PR #29 against the verified integration head and run fresh CI. OTS companion PR #620 remains draft and is not merged into `main`.
+- **Release policy:** website integration and OTS production deploy only on explicitly approved workflow, with public supplier submission gated off until cross-system tests pass.
+- **Official status:** R1 68% documented baseline, R2 0%, R3 0%. No deployment or operational acceptance claimed for V3.23 yet.
+
+---
+## V3.22 — Contact enquiry activation (23 October 2026; conflict resolution on feature branch)
+
+- **Previous stopping point:** V3.22 PR #28 at `d27f411` passed TypeScript, Node tests, build and search checks but became unmergeable after R1-G03 PR #30 integrated. R1-G03 subsequently deployed to `hexasteel.sa` at `d2b4e0f` with successful CI, preflight and DigitalOcean deployment.
+- **Current verified baseline:** `rebuild/website-v3` `d2b4e0f739324c82c55c65c282d22b718b04ee1c`; V3.22 remains isolated to `feature/v322-siteground-contact-enquiries`. SEO canonical fixes are retained including the self-referencing `/contact` canonical and all 27 public sitemap pages.
+- **Operational prerequisites reported by management:** Resend `notify.hexasteel.sa` verified (Cloudflare DNS displays two DNS-only CNAME records and DKIM TXT). DigitalOcean root console shows `/root/hexasteel-v3/.env.contact` exists with mode `0600`. **The actual key values, Turnstile configuration, deployment SSH username / HOME and runtime mail delivery remain unverified**; no secrets copied to source.
+- **Current milestone:** Reconcile two conflicts (`src/app/contact/page.tsx`, `PROJECT_STATUS.md`) while retaining R1-G03 and V3.22. Feature branch only. Run CI on the resolution head; do not integrate, push auto-deploying branch or claim operational acceptance without separate approval.
+- **Progress:** R1 **68%** documented management estimate, R2 **0%**, R3 **0%**. New changes not counted until accepted. See `CONTACT_SITEGROUND_V322_HANDOVER.md`.
+
+---
+
+## R1-G03 — Canonical URL / Search Console Duplicate Handling (22 October 2026; feature branch)
+
+- **Previous verified milestone:** V3.21 PR #27 merged to `rebuild/website-v3` at `0964ff92`; source verifies CMS-managed analytics. Production deployment/operational acceptance was not revalidated during this SEO audit. V3.22 PR #28 and V3.23 PR #29 remain separately open.
+- **Current verified starting point:** Integration branch `rebuild/website-v3` commit `0964ff92eef09e778ac95198403dccdf815d483a`. Existing SEO helper provides canonicals for six static sitemap entries and individual dynamic project/article details, but 21 public static routes lacked self-referencing canonicals.
+- **Google report:** Search Console email says `Duplicate without user-selected canonical`. Specific example URLs, Google-selected canonicals and live domain routing were not supplied or available, so the scope of Google's report is **not yet proven** to match each code change.
+- **Implemented on isolated branch:** `feature/r1g03-canonical-indexing-coverage`: self-referencing canonicals now declared across all **27** static sitemap routes; limited permanent `www` → `https://hexasteel.sa` redirect at the Next.js origin; regression tests for canonical/sitemap consistency and exclusion of private/search pages.
+- **Current milestone and gates:** Source committed; TypeScript/test/build and final CI pending verification. PR approval, integration, production deployment, external Cloudflare/Nginx redirects, exact Google Search Console inspection and indexed-result confirmation remain separate. No change to `main` or production.
+- **Official release progress:** R1 **68%** existing management estimate; R2 **0%** and R3 **0%**. This unmerged patch is not counted. Details: `R1G03_CANONICAL_INDEXING_HANDOVER.md`.
 
 ---
 

@@ -2,7 +2,8 @@ import {getEditorialPage} from "@/lib/cms";
 import type {Metadata} from "next";
 import {PageHero,CallToAction} from "@/components/PageBlocks";
 import {CapabilityNarrative} from "@/components/CapabilityNarrative";
-export const metadata:Metadata={title:"Steel Sheeting & Cladding Accessories"};
+export const metadata:Metadata={
+  alternates:{canonical:"https://hexasteel.sa/products/sheeting"},title:"Steel Sheeting & Cladding Accessories"};
 const scenes=[
  {label:"Cladding Systems",eyebrow:"01 / BUILDING ENVELOPE",headline:"Specified for durability and performance.",description:"Single-skin profiled steel sheeting and insulated sandwich panel systems for industrial buildings, walls and roofing.",outcomes:["Single-skin roof and wall sheets","Insulated sandwich panels","Coordinated purlins and girt supports"],href:"/solutions/peb",cta:"Discover PEB solutions",symbol:"ROOF"},
  {label:"Deck Panels",eyebrow:"02 / INDUSTRIAL FLOORING",headline:"Profiled metal deck, coordinated with structure.",description:"Steel floor and roof decking selected for project-specific load and structural requirements.",outcomes:["Profiled steel deck panels","Mezzanine and industrial floors","Shear-stud and concrete design interfaces"],href:"/products/steel-accessories",cta:"Explore floor systems",symbol:"DECK"},
