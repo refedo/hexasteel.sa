@@ -33,7 +33,7 @@ export function SiteSearch(){
  },[open]);
  return <>
    <button type="button" className="header-search" aria-label="Search entire HEXA website" title="Search website (Ctrl/⌘ + K)" onClick={()=>setOpen(true)}>
-     <svg width="21" height="21" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.9" fill="none" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg><span>Search</span>
+     <svg width="21" height="21" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.9" fill="none" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></svg>
    </button>
    {open&&<div className="search-shroud" role="presentation" onMouseDown={e=>{if(e.target===e.currentTarget)close()}}>
      <div role="dialog" aria-modal="true" aria-label="Search HEXA Steel website" className="site-search-dialog">
