@@ -24,7 +24,8 @@ export const navigation = [
   {label:"Quality & Certifications",href:"/capabilities/quality"},
   {label:"Operational Excellence & OTS™",href:"/company/operational-excellence"},
   {label:"People & Hexa Academy",href:"/company/people"},
-  {label:"Join Our Team",href:"/company/careers"}
+  {label:"Join Our Team",href:"/company/careers"},
+  {label:"Become a Supplier",href:"/become-a-supplier"}
  ]},
  {label:"Knowledge Centre",href:"/knowledge",children:[
   {label:"Engineering Guides",href:"/knowledge"},

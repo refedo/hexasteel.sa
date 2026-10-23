@@ -7,7 +7,7 @@ const routes=[
 "/products/sheeting","/products/steel-accessories",
 "/capabilities/quality","/capabilities/coating","/capabilities/machinery",
 "/company","/company/about","/company/approvals","/company/operational-excellence","/company/people","/company/careers",
-"/project-delivery","/projects","/knowledge","/insights","/contact","/feedback","/request-quotation",
+"/project-delivery","/projects","/become-a-supplier","/knowledge","/insights","/contact","/feedback","/request-quotation",
 "/knowledge/peb-frame-systems","/knowledge/peb-building-components"
 ];
 export default async function sitemap():Promise<MetadataRoute.Sitemap>{

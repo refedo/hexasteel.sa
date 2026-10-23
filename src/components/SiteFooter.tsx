@@ -4,7 +4,7 @@ import {getPublicContact} from "@/lib/publicContact";
 export async function SiteFooter(){
  const contact=await getPublicContact();
  const groups=[
-  {title:"Company",links:[["About HEXA Steel®","/company/about"],["Projects","/projects"],["Approvals & Qualifications","/company/approvals"],["Join Our Team","/company/careers"],["Contact Us","/contact"]]},
+  {title:"Company",links:[["About HEXA Steel®","/company/about"],["Projects","/projects"],["Approvals & Qualifications","/company/approvals"],["Join Our Team","/company/careers"],["Become a Supplier","/become-a-supplier"],["Contact Us","/contact"]]},
   {title:"Products & Services",links:[["Steel Structure","/solutions/structural-steel"],["Pre-Engineered Buildings","/solutions/peb"],["Manufacturing Services","/capabilities/machinery"],["Engineering & Detailing","/services/design-detailing"],["Project Delivery","/project-delivery"]]},
   {title:"Knowledge & More",links:[["Knowledge Centre","/knowledge"],["Technical Insights","/insights"],["Operational Excellence","/company/operational-excellence"],["Track Your Project — Coming Soon","/project-tracking"],["Customer Feedback","/feedback"]]}
  ] as const;

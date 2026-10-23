@@ -1,3 +1,11 @@
+## V3.23 — Supplier intake integration (24 October 2026, isolated reconciliation)
+
+- **Last verified production baseline:** `rebuild/website-v3` 6f482d7dbf5c; current website integration includes canonical/SEO updates and contact activation, which this conflict resolution preserves.
+- **Current milestone:** Rebase-by-merge supplier feature PR #29 against the verified integration head and run fresh CI. OTS companion PR #620 remains draft and is not merged into `main`.
+- **Release policy:** website integration and OTS production deploy only on explicitly approved workflow, with public supplier submission gated off until cross-system tests pass.
+- **Official status:** R1 68% documented baseline, R2 0%, R3 0%. No deployment or operational acceptance claimed for V3.23 yet.
+
+---
 ## V3.22 — Contact enquiry activation (23 October 2026; conflict resolution on feature branch)
 
 - **Previous stopping point:** V3.22 PR #28 at `d27f411` passed TypeScript, Node tests, build and search checks but became unmergeable after R1-G03 PR #30 integrated. R1-G03 subsequently deployed to `hexasteel.sa` at `d2b4e0f` with successful CI, preflight and DigitalOcean deployment.

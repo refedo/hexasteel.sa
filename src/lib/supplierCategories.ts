@@ -1,0 +1,1 @@
+export const supplierProductCategories=["Structural steel plates & sheets","Hot-rolled sections","PEB components & cold-formed profiles","Fasteners & anchors","Welding consumables","Paints & coatings","Sheeting & cladding","Machinery & spare parts","Other industrial materials"];
