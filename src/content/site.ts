@@ -5,6 +5,13 @@ export const brand = {
   accentDefault: "#C6D547",
 };
 export const navigation = [
+ {label:"Company",href:"/company",children:[
+  {label:"Who We Are",href:"/company/about"},
+  {label:"Approvals & Qualifications",href:"/company/approvals"},
+  {label:"Quality & Certifications",href:"/capabilities/quality"},
+  {label:"Operational Excellence & OTS™",href:"/company/operational-excellence"},
+  {label:"People & Hexa Academy",href:"/company/people"}
+ ]},
  {label:"Products & Services",href:"/products-services",children:[
   {label:"Structural Steel",href:"/solutions/structural-steel"},
   {label:"Pre-Engineered Buildings (PEB)",href:"/solutions/peb"},
@@ -14,18 +21,10 @@ export const navigation = [
   {label:"Pipes & Vessels",href:"/services/pipes-vessels"},
   {label:"Sheeting & Cladding",href:"/products/sheeting"},
   {label:"Steel Accessories",href:"/products/steel-accessories"},
-  {label:"Coating & Galvanization",href:"/capabilities/coating"}
+  {label:"Coating & Galvanization",href:"/capabilities/coating"},
+  {label:"Project Management",href:"/project-delivery"}
  ]},
- {label:"Project Delivery",href:"/project-delivery"},
- {label:"Projects",href:"/projects"},
- {label:"Company",href:"/company",children:[
-  {label:"Who We Are",href:"/company/about"},
-  {label:"Approvals & Qualifications",href:"/company/approvals"},
-  {label:"Quality & Certifications",href:"/capabilities/quality"},
-  {label:"Operational Excellence & OTS™",href:"/company/operational-excellence"},
-  {label:"People & Hexa Academy",href:"/company/people"},
-  {label:"Join Our Team",href:"/company/careers"}
- ]},
+ {label:"Our Projects",href:"/projects"},
  {label:"Knowledge Centre",href:"/knowledge",children:[
   {label:"Engineering Guides",href:"/knowledge"},
   {label:"Steel Grades & Traceability",href:"/knowledge/steel-grades-traceability"},
@@ -33,8 +32,9 @@ export const navigation = [
   {label:"PEB Components",href:"/knowledge/peb-building-components"},
   {label:"Technical FAQs",href:"/knowledge#faq"}
  ]},
- {label:"Insights",href:"/insights"},
+ {label:"Insights & News",href:"/insights"},
  {label:"Join Our Team",href:"/company/careers"},
+ {label:"Contact Us",href:"/contact"}
 ] as const;
 export const reportedQualifications=[
  {name:"Saudi Aramco",detail:"Manufacturer approval — subject to approved product scope"},
