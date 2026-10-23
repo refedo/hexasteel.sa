@@ -19,3 +19,10 @@ V3.21 `0964ff92` integrated; workflow checks successful. PR #28 contact and PR #
 
 ## Change controls
 No new staging domain, no `main` merge. Only explicit CEO authorization permits integration into `rebuild/website-v3` and website rollout. This is developed code, **not deployed or accepted**. Run npm run check, npm test and npm run build in CI and verify final HEAD.
+
+## Shared secure intake pattern (24 October 2026)
+
+- `src/lib/intakeBoundary.ts` centralizes strict allowed-host Origin checks and streaming bounded multipart parsing before FormData, reused in supplier submission and OTP tracking. Useful pattern for later RFQ/CRM, **not authorization** to implement them yet.
+- Browser -> website API -> Turnstile validated -> scoped HTTPS OTS gateway -> OTS persisted application -> internal supply-chain review -> OTP status; CRM/RFQ should reuse the security boundary and contract discipline, with independent scope, explicit approval and separate release gates.
+- No public OTS application endpoints or credentials exposed in browser. Website and OTS deployment independently controlled; website main remains untouched.
+- OTS PR #620 merged at 7b114b85 and GitHub DigitalOcean deployment completed, but OTS supplier-specific live DB/permission/notification acceptance still needs evidence; controls remain disabled.

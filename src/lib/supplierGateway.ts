@@ -1,5 +1,6 @@
 
 import { NextResponse } from "next/server";
+import { trustedIntakeOrigin } from "@/lib/intakeBoundary";
 const allowedHost = "ots.hexasteel.sa";
 function supplierTurnstileSecret(){
  return process.env.SUPPLIER_TURNSTILE_SECRET_KEY || process.env.CONTACT_TURNSTILE_SECRET_KEY || "";
@@ -9,15 +10,7 @@ export function supplierConfigured(){
  Boolean(process.env.SUPPLIER_OTS_API_KEY) &&
  Boolean(supplierTurnstileSecret());
 }
-export function sameOrigin(request:Request){
- const origin=request.headers.get("origin");
- if(!origin) return false;
- try {
-  const u=new URL(origin);
-  const host=new URL(request.url).host;
-  return u.protocol==="https:" && u.host===host && (host==="hexasteel.sa"||host==="www.hexasteel.sa");
- } catch { return false; }
-}
+export const sameOrigin = trustedIntakeOrigin;
 export async function verifyTurnstile(token:string){
  if(!token||!supplierTurnstileSecret()) return false;
  const data=new URLSearchParams({secret:supplierTurnstileSecret(),response:token});

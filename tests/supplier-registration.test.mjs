@@ -16,3 +16,14 @@ test("status OTP and clarification are independent of public listing",()=>{
  const tracker=read("src/components/SupplierTracker.tsx");
  assert.match(tracker,/one-time-code/);assert.match(tracker,/resubmit/);
 });
+
+test("supplier and status APIs use bounded multipart parsing before forwarding",()=>{
+ const boundary=read("src/lib/intakeBoundary.ts");
+ assert.match(boundary,/readBoundedMultipart/);
+ assert.match(boundary,/getReader/);
+ assert.match(boundary,/total > maxBytes/);
+ assert.match(boundary,/allowedOrigins\.has\(origin\)/);
+ for(const path of ["src/app/api/supplier-applications/route.ts","src/app/api/supplier-applications/track/route.ts"]){
+  assert.match(read(path),/readBoundedMultipart\(request\)/);
+ }
+});
