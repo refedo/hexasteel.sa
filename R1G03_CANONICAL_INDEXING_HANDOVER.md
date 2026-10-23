@@ -32,3 +32,14 @@ Official progress unchanged: R1 68% (management estimate), R2 0%, R3 0%.
 - Next step: review final CI and PR, obtain explicit deployment approval, verify live URLs, then investigate any residual exact GSC examples before marking the Google alert resolved.
 
 Exact stopping point: feature branch prepared for CI and code review. Official R1 remains 68%, not increased by unmerged, undeployed technical SEO work.
+
+
+---
+
+## Deployment and technical SEO acceptance addendum — 23 October 2026
+
+- **Approved integration:** R1-G03 PR #30 merged into `rebuild/website-v3` at `d2b4e0f739324c82c55c65c282d22b718b04ee1c`. GitHub Actions foundation checks passed: https://github.com/refedo/hexasteel.sa/actions/runs/39765368392 . DigitalOcean deployment passed: https://github.com/refedo/hexasteel.sa/actions/runs/39765357618 .
+- **Preservation:** The later V3.22 contact merge at `6f482d7d` retained the `/contact` canonical and all **27** sitemap-listed static page canonicals. No `main` merge.
+- **Accepted scope:** Source-code canonical coverage, origin-level `www` redirect configuration, successful build/test/CI, and production deployment. **Search Console's Google-selected canonical and post-recrawl page indexing are not yet independently verified.** Likewise, external Cloudflare and Nginx host variant behaviors require direct browser/HTTP evidence. These remain R1-G SEO acceptance items.
+- **Progress:** One R1 management percentage point credited for deployed technical SEO coverage, paired with one for V3.22 operational inbox delivery. Updated R1 working management estimate **70%** from **68%** (CEO-directed reassessment; not feature-weighted). R2/R3 **0%**.
+- **Next:** Inspect examples in Google Search Console → Pages → Duplicate without user-selected canonical; compare live canonical in HTML, sitemap and HTTP/www normalization; request validation where appropriate and track Google's indexing results over time.
