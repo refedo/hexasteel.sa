@@ -1,6 +1,5 @@
-import {supplierProductCategories as categories} from "@/lib/supplierCategories";
-
 "use client";
+import {supplierProductCategories as categories} from "@/lib/supplierCategories";
 import {useState,type FormEvent} from "react";
 import Script from "next/script";
 type Editable={scope:string;category:string|null;products:{name:string;origin:string;category?:string}[];services:string|null;capabilities:string|null};
