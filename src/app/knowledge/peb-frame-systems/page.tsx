@@ -2,7 +2,8 @@ import type {Metadata} from "next";
 import Link from "next/link";
 import {PageHero,CallToAction} from "@/components/PageBlocks";
 import {PEBFrames} from "@/components/PEBFrames";
-export const metadata:Metadata={title:"PEB Frame Types & Applications",description:"Illustrated guide to single-span, multi-span, multi-gable, lean-to, cantilever and curved pre-engineered building frames."};
+export const metadata:Metadata={
+  alternates:{canonical:"https://hexasteel.sa/knowledge/peb-frame-systems"},title:"PEB Frame Types & Applications",description:"Illustrated guide to single-span, multi-span, multi-gable, lean-to, cantilever and curved pre-engineered building frames."};
 export default function Frames(){return <main>
  <PageHero eyebrow="KNOWLEDGE CENTRE / PEB FRAME SYSTEMS" title="A frame for every industrial purpose." intro="Explore popular pre-engineered steel building configurations and how their geometry influences space, fabrication, loads and site constraints."/>
  <section className="section"><div className="shell"><p className="eyebrow">ILLUSTRATED ENGINEERING GUIDE</p><h2>Frame forms.<br/><span>Explained visually.</span></h2><p>Conceptual illustrations; actual clear spans, column positions, member sizes and anchorage are determined by each project's design criteria.</p><PEBFrames/></div></section>

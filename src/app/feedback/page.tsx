@@ -3,7 +3,8 @@ import {CustomerFeedbackForm} from "@/components/CustomerFeedbackForm";
 import Link from "next/link";
 import {PageHero} from "@/components/PageBlocks";
 export const dynamic="force-dynamic";
-export const metadata:Metadata={title:"Customer Feedback",description:"Share your project, quality or service experience with HEXA Steel®."};
+export const metadata:Metadata={
+  alternates:{canonical:"https://hexasteel.sa/feedback"},title:"Customer Feedback",description:"Share your project, quality or service experience with HEXA Steel®."};
 export default function FeedbackPage(){
  const siteKey=process.env.TURNSTILE_SITE_KEY||"";
  const active=Boolean(siteKey&&process.env.TURNSTILE_SECRET_KEY&&process.env.RESEND_API_KEY&&process.env.CONTACT_FROM_EMAIL);

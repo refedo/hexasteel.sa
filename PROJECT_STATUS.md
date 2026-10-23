@@ -1,11 +1,21 @@
-## V3.22 — Deliver contact enquiries to SiteGround inbox (22 October 2026; isolated feature branch)
+## V3.22 — Contact enquiry activation (23 October 2026; conflict resolution on feature branch)
 
-- **Previous stopping point:** V3.21 PR #27 CEO-approved and merged to `rebuild/website-v3` at `0964ff92`. CI, DigitalOcean preflight and deployment passed (21 October). The live contact endpoint remained disabled because Resend credentials were not configured.
-- **Current starting point:** Deployed V3.21 integration baseline `0964ff92eef09e778ac95198403dccdf815d483a`, preserving Sanity, Analytics and Studio. RFQ PR #12 and optional CMS PR #19 are separate.
-- **Current milestone:** Make `/contact` submit to `inquiries@hexasteel.sa` via a verified HTTPS transactional email API (Resend) preferred, with an optional SiteGround SMTP fallback **only after proven DigitalOcean egress**. Add Turnstile, consent, server validation, bounded body, anti-abuse controls, clear confirmation and a fallback email link. DigitalOcean blocks outbound SMTP ports 25, 465 and 587 by default; a working SiteGround inbox does not mean the website can send mail directly via SMTP.
-- **Integration / deployment prerequisites:** Private `$HOME/hexasteel-v3/.env.contact` (mode `0600`), HTTPS API key plus verified sending domain OR explicitly verified SMTP egress with credentials, and Turnstile site/secret keys. GitHub workflows load server-side settings; no secrets in GitHub.
-- **Branch:** `feature/v322-siteground-contact-enquiries`; PR #28 targets `rebuild/website-v3`. **Not merged, not deployed, not operationally accepted.** See `CONTACT_SITEGROUND_V322_HANDOVER.md`.
-- **Official release estimate:** R1 **68%** management assessment, R2 **0%**, R3 **0%**; no completion credit for feature-only code.
+- **Previous stopping point:** V3.22 PR #28 at `d27f411` passed TypeScript, Node tests, build and search checks but became unmergeable after R1-G03 PR #30 integrated. R1-G03 subsequently deployed to `hexasteel.sa` at `d2b4e0f` with successful CI, preflight and DigitalOcean deployment.
+- **Current verified baseline:** `rebuild/website-v3` `d2b4e0f739324c82c55c65c282d22b718b04ee1c`; V3.22 remains isolated to `feature/v322-siteground-contact-enquiries`. SEO canonical fixes are retained including the self-referencing `/contact` canonical and all 27 public sitemap pages.
+- **Operational prerequisites reported by management:** Resend `notify.hexasteel.sa` verified (Cloudflare DNS displays two DNS-only CNAME records and DKIM TXT). DigitalOcean root console shows `/root/hexasteel-v3/.env.contact` exists with mode `0600`. **The actual key values, Turnstile configuration, deployment SSH username / HOME and runtime mail delivery remain unverified**; no secrets copied to source.
+- **Current milestone:** Reconcile two conflicts (`src/app/contact/page.tsx`, `PROJECT_STATUS.md`) while retaining R1-G03 and V3.22. Feature branch only. Run CI on the resolution head; do not integrate, push auto-deploying branch or claim operational acceptance without separate approval.
+- **Progress:** R1 **68%** documented management estimate, R2 **0%**, R3 **0%**. New changes not counted until accepted. See `CONTACT_SITEGROUND_V322_HANDOVER.md`.
+
+---
+
+## R1-G03 — Canonical URL / Search Console Duplicate Handling (22 October 2026; feature branch)
+
+- **Previous verified milestone:** V3.21 PR #27 merged to `rebuild/website-v3` at `0964ff92`; source verifies CMS-managed analytics. Production deployment/operational acceptance was not revalidated during this SEO audit. V3.22 PR #28 and V3.23 PR #29 remain separately open.
+- **Current verified starting point:** Integration branch `rebuild/website-v3` commit `0964ff92eef09e778ac95198403dccdf815d483a`. Existing SEO helper provides canonicals for six static sitemap entries and individual dynamic project/article details, but 21 public static routes lacked self-referencing canonicals.
+- **Google report:** Search Console email says `Duplicate without user-selected canonical`. Specific example URLs, Google-selected canonicals and live domain routing were not supplied or available, so the scope of Google's report is **not yet proven** to match each code change.
+- **Implemented on isolated branch:** `feature/r1g03-canonical-indexing-coverage`: self-referencing canonicals now declared across all **27** static sitemap routes; limited permanent `www` → `https://hexasteel.sa` redirect at the Next.js origin; regression tests for canonical/sitemap consistency and exclusion of private/search pages.
+- **Current milestone and gates:** Source committed; TypeScript/test/build and final CI pending verification. PR approval, integration, production deployment, external Cloudflare/Nginx redirects, exact Google Search Console inspection and indexed-result confirmation remain separate. No change to `main` or production.
+- **Official release progress:** R1 **68%** existing management estimate; R2 **0%** and R3 **0%**. This unmerged patch is not counted. Details: `R1G03_CANONICAL_INDEXING_HANDOVER.md`.
 
 ---
 

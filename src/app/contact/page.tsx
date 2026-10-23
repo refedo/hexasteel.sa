@@ -5,7 +5,7 @@ import {ContactEnquiryForm} from "@/components/ContactEnquiryForm";
 import Link from "next/link";
 
 export const dynamic="force-dynamic";
-export const metadata:Metadata={title:"Contact Hexa Steel®",description:"Contact Hexa Steel® in Saudi Arabia for structural steel, PEB, project management, steel fabrication and engineering services. Phone and WhatsApp."};
+export const metadata:Metadata={alternates:{canonical:"https://hexasteel.sa/contact"},title:"Contact Hexa Steel®",description:"Contact Hexa Steel® in Saudi Arabia for structural steel, PEB, project management, steel fabrication and engineering services. Phone and WhatsApp."};
 export default async function ContactPage(){
  const contact=await getPublicContact();
  const siteKey=process.env.CONTACT_TURNSTILE_SITE_KEY||"";
