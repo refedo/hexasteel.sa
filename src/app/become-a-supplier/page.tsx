@@ -5,6 +5,7 @@ import { SupplierRegistrationForm } from "@/components/SupplierRegistrationForm"
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
+  alternates: {canonical: "https://hexasteel.sa/become-a-supplier"},
   title: "Become a Supplier | HEXA Steel®",
   description: "Apply to supply steel products, industrial materials, engineering and other services to HEXA Steel®. Secure registration and qualification.",
 };
