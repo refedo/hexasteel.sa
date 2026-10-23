@@ -1,3 +1,13 @@
+## V3.22 — Contact enquiry activation (23 October 2026; conflict resolution on feature branch)
+
+- **Previous stopping point:** V3.22 PR #28 at `d27f411` passed TypeScript, Node tests, build and search checks but became unmergeable after R1-G03 PR #30 integrated. R1-G03 subsequently deployed to `hexasteel.sa` at `d2b4e0f` with successful CI, preflight and DigitalOcean deployment.
+- **Current verified baseline:** `rebuild/website-v3` `d2b4e0f739324c82c55c65c282d22b718b04ee1c`; V3.22 remains isolated to `feature/v322-siteground-contact-enquiries`. SEO canonical fixes are retained including the self-referencing `/contact` canonical and all 27 public sitemap pages.
+- **Operational prerequisites reported by management:** Resend `notify.hexasteel.sa` verified (Cloudflare DNS displays two DNS-only CNAME records and DKIM TXT). DigitalOcean root console shows `/root/hexasteel-v3/.env.contact` exists with mode `0600`. **The actual key values, Turnstile configuration, deployment SSH username / HOME and runtime mail delivery remain unverified**; no secrets copied to source.
+- **Current milestone:** Reconcile two conflicts (`src/app/contact/page.tsx`, `PROJECT_STATUS.md`) while retaining R1-G03 and V3.22. Feature branch only. Run CI on the resolution head; do not integrate, push auto-deploying branch or claim operational acceptance without separate approval.
+- **Progress:** R1 **68%** documented management estimate, R2 **0%**, R3 **0%**. New changes not counted until accepted. See `CONTACT_SITEGROUND_V322_HANDOVER.md`.
+
+---
+
 ## R1-G03 — Canonical URL / Search Console Duplicate Handling (22 October 2026; feature branch)
 
 - **Previous verified milestone:** V3.21 PR #27 merged to `rebuild/website-v3` at `0964ff92`; source verifies CMS-managed analytics. Production deployment/operational acceptance was not revalidated during this SEO audit. V3.22 PR #28 and V3.23 PR #29 remain separately open.
