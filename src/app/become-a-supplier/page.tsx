@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 export default function BecomeASupplierPage() {
   const enabled = process.env.SUPPLIER_REGISTRATION_ENABLED === "true";
-  const siteKey = process.env.NEXT_PUBLIC_SUPPLIER_TURNSTILE_SITE_KEY || "";
+  const siteKey = (process.env.SUPPLIER_TURNSTILE_SITE_KEY || process.env.CONTACT_TURNSTILE_SITE_KEY) || "";
   return <main>
     <section className="inner-hero"><div className="shell">
       <p className="eyebrow on-dark">SUPPLY CHAIN / SUPPLIER RELATIONSHIPS</p>

@@ -1,10 +1,13 @@
 
 import { NextResponse } from "next/server";
 const allowedHost = "ots.hexasteel.sa";
+function supplierTurnstileSecret(){
+ return process.env.SUPPLIER_TURNSTILE_SECRET_KEY || process.env.CONTACT_TURNSTILE_SECRET_KEY || "";
+}
 export function supplierConfigured(){
  return process.env.SUPPLIER_REGISTRATION_ENABLED === "true" &&
  Boolean(process.env.SUPPLIER_OTS_API_KEY) &&
- Boolean(process.env.SUPPLIER_TURNSTILE_SECRET_KEY);
+ Boolean(supplierTurnstileSecret());
 }
 export function sameOrigin(request:Request){
  const origin=request.headers.get("origin");
@@ -16,8 +19,8 @@ export function sameOrigin(request:Request){
  } catch { return false; }
 }
 export async function verifyTurnstile(token:string){
- if(!token||!process.env.SUPPLIER_TURNSTILE_SECRET_KEY) return false;
- const data=new URLSearchParams({secret:process.env.SUPPLIER_TURNSTILE_SECRET_KEY,response:token});
+ if(!token||!supplierTurnstileSecret()) return false;
+ const data=new URLSearchParams({secret:supplierTurnstileSecret(),response:token});
  try {
   const response=await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify",{method:"POST",body:data,cache:"no-store",signal:AbortSignal.timeout(8000)});
   if(!response.ok) return false;
