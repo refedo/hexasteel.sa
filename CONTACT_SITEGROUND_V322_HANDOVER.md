@@ -55,3 +55,15 @@ The existing workflow checks for the private configuration file, enforces mode `
 
 ## Exact stopping point / next step
 PR for V3.22 against `rebuild/website-v3`; confirm final CI, configure HTTPS provider + Turnstile securely, obtain CEO deployment approval, then verify **actual SiteGround inbox arrival** after deployment. R1 **68%** unchanged until management accepts production functionality.
+
+
+---
+
+## Operational acceptance addendum — 23 October 2026
+
+- **GitHub:** PR #28 merged by CEO authorization only into `rebuild/website-v3`, final commit `6f482d7dbf5c16f52c291bc00396fe897760bf5c`. `main` unchanged. Post-merge TypeScript/test/build/search CI passed: https://github.com/refedo/hexasteel.sa/actions/runs/40019403575
+- **Deployment:** Successful existing DigitalOcean pipeline: https://github.com/refedo/hexasteel.sa/actions/runs/40019403827 ; runtime confirmed HTTPS provider setup, with existing rollback release preserved.
+- **Operationally VERIFIED (scope-limited):** Management's real live form test delivered **two messages** to the existing SiteGround/Outlook recipient inbox. Screenshot dated 23 October 2026 shows `HEXA Steel® website enquiry — Structural Steel` and the submitted name, company, enquiry type and message body. Screenshot and customer's personally identifying data are deliberately **not published to GitHub**. This establishes the live site-to-inbox path; no assertion about all future deliverability or durable CRM storage.
+- **Outstanding minor improvements:** Current notification is text-only; create HEXA Steel® branded HTML email as a **separate** future milestone. Explicitly inspect Reply-To header and negative security test scenarios when next running mail QA. These are not evidence of failed inbox delivery.
+- **Progress management reassessment:** R1 **70%** (previous 68%; +1 percentage point verified contact delivery and +1 deployed technical SEO coverage). R2 **0%**, R3 **0%**. See leading 23 October 2026 status entry in `PROJECT_STATUS.md`.
+- **Next stopping point:** R1 technical SEO Search Console recrawl/URL inspections and remaining R1 acceptance work. Avoid claiming the separate RFQ, feedback or OTS™ CRM features were accepted.
