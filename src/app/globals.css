@@ -1218,3 +1218,21 @@ body:has(.hexa-studio) > .contact-shortcuts{display:none!important}
 @media(max-width:1000px){.supplier-qualification-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:900px){.supplier-hero-grid{grid-template-columns:1fr}.supplier-hero-panel{max-width:560px}}
 @media(max-width:580px){.supplier-qualification-grid{grid-template-columns:1fr}.supplier-hero-actions{align-items:flex-start;flex-direction:column}}
+
+/* V3.24 — structured supplier application and document feedback */
+.supplier-steps li>span{background:transparent;border:0;padding:0}
+.supplier-form-shell h2{font-size:clamp(25px,2.6vw,34px);color:#2C3E50;margin-bottom:12px}
+.supplier-form-intro{font-size:14px;line-height:1.65;color:#52626e;margin-bottom:23px}
+.supplier-form-section{min-width:0;border:0;margin:0 0 7px;padding:0;border-top:1px solid #d9e3e8}
+.supplier-form-section legend{padding:22px 0 16px;font-size:16px;font-weight:750;color:#2C3E50}
+.supplier-form-section legend span{margin-right:11px;font-weight:800;color:#688092;font-size:12px;letter-spacing:.04em}
+.supplier-form-section>.form-grid{min-width:0}
+.supplier-form-section input,.supplier-form-section textarea,.supplier-form-section select{min-width:0;max-width:100%}
+.supplier-form-section input[type=file]{width:100%}
+.supplier-selected-files{margin:12px 0 0;padding:0;list-style:none;border:1px solid #ccd8dd}
+.supplier-selected-files li{display:flex;gap:12px;justify-content:space-between;align-items:baseline;padding:11px 13px;border-bottom:1px solid #e2e8eb;overflow-wrap:anywhere;font-size:13px}
+.supplier-selected-files li:last-child{border-bottom:0}
+.supplier-selected-files li small{color:#657681;white-space:nowrap}
+.supplier-submit-area button{min-width:220px}
+.supplier-success .supplier-reference{background:#ecf2f5;padding:14px;display:block;margin:16px 0}
+@media(max-width:580px){.supplier-selected-files li{flex-direction:column;gap:4px}.supplier-submit-area button{width:100%;min-width:0}}
