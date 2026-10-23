@@ -12,7 +12,7 @@ test("Supply Chain is no longer a standalone service", () => {
     assert.doesNotMatch(content, /\/services\/supply-chain/);
   }
   assert.doesNotMatch(catalogue, /title:"Procurement & Supply Chain"/);
-  assert.match(navigation, /label:"Project Delivery",href:"\/project-delivery"/);
+  assert.match(navigation, /label:"Project Management",href:"\/project-delivery"/);
 });
 
 test("All procurement panels are available under Project Delivery", () => {
