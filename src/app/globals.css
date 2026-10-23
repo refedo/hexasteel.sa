@@ -1173,3 +1173,9 @@ body:has(.hexa-studio) > .contact-shortcuts{display:none!important}
 .supplier-status h3{font-size:23px;margin:4px 0 12px}
 @media(max-width:900px){.supplier-intro,.supplier-tracker-layout{grid-template-columns:1fr}}
 @media(max-width:580px){.supplier-product{grid-template-columns:1fr}.supplier-product button{justify-self:start}}
+
+/* Per-product category + country-of-origin rows */
+.supplier-product{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) auto}
+.supplier-product select{display:block;width:100%;padding:12px;margin-top:7px;border:1px solid #b6c5cf;border-radius:0;background:#fff}
+@media(max-width:760px){.supplier-product{grid-template-columns:1fr 1fr}}
+@media(max-width:580px){.supplier-product{grid-template-columns:1fr}}

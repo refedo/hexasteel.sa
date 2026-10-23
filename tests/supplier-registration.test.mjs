@@ -27,3 +27,12 @@ test("supplier and status APIs use bounded multipart parsing before forwarding",
   assert.match(read(path),/readBoundedMultipart\(request\)/);
  }
 });
+
+test("supplier products can span multiple categories with per-product manufacturing origin",()=>{
+ const form=read("src/components/SupplierRegistrationForm.tsx");
+ const tracker=read("src/components/SupplierTracker.tsx");
+ assert.match(form,/Category of product/);
+ assert.match(form,/category:p.category/);
+ assert.match(tracker,/Corrected category of product/);
+ assert.match(read("src/lib/supplierCategories.ts"),/Fasteners & anchors/);
+});

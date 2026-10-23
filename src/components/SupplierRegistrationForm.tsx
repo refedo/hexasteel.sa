@@ -3,10 +3,10 @@
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import Script from "next/script";
-type Product = {name:string;origin:string};
-const categories=["Structural steel plates & sheets","Hot-rolled sections","PEB components & cold-formed profiles","Fasteners & anchors","Welding consumables","Paints & coatings","Sheeting & cladding","Machinery & spare parts","Other industrial materials"];
+type Product = {name:string;origin:string;category:string};
+import {supplierProductCategories as categories} from '@/lib/supplierCategories';
 export function SupplierRegistrationForm({siteKey}:{siteKey:string}){
- const [products,setProducts]=useState<Product[]>([{name:"",origin:""}]);
+ const [products,setProducts]=useState<Product[]>([{name:"",origin:"",category:categories[0]}]);
  const [scope,setScope]=useState("PRODUCTS");
  const [pending,setPending]=useState(false);
  const [error,setError]=useState("");
@@ -15,7 +15,7 @@ export function SupplierRegistrationForm({siteKey}:{siteKey:string}){
   e.preventDefault();setError("");
   if(scope!=="SERVICES" && products.some(p=>!p.name.trim()||!p.origin.trim())){setError("Give each product a name and country of origin.");return;}
   const data=new FormData(e.currentTarget);
-  data.set("products",JSON.stringify(scope==="SERVICES"?[]:products.map(p=>({name:p.name.trim(),origin:p.origin.trim()}))));
+  data.set("products",JSON.stringify(scope==="SERVICES"?[]:products.map(p=>({name:p.name.trim(),origin:p.origin.trim(),category:p.category}))));
   data.set("scope",scope);
   setPending(true);
   try{
@@ -42,11 +42,12 @@ export function SupplierRegistrationForm({siteKey}:{siteKey:string}){
    <label htmlFor="supplierCategory">Primary product category *</label><select name="category" id="supplierCategory" required>{categories.map(c=><option key={c}>{c}</option>)}</select>
    <p className="form-note">List each specific product and its own country of origin.</p>
    {products.map((p,i)=><div className="supplier-product" key={i}>
+    <label>Category<select aria-label={"Category of product "+(i+1)} value={p.category} onChange={e=>setProducts(v=>v.map((item,j)=>j===i?{...item,category:e.target.value}:item))}>{categories.map(c=><option key={c}>{c}</option>)}</select></label>
     <label>Product {i+1}<input aria-label={"Product "+(i+1)} maxLength={160} required value={p.name} onChange={e=>setProducts(v=>v.map((item,j)=>j===i?{...item,name:e.target.value}:item))} placeholder="e.g. S355 steel plates"/></label>
     <label>Country of origin<input aria-label={"Origin of product "+(i+1)} maxLength={100} required value={p.origin} onChange={e=>setProducts(v=>v.map((item,j)=>j===i?{...item,origin:e.target.value}:item))} placeholder="Manufacturing origin"/></label>
     {i>0&&<button type="button" onClick={()=>setProducts(v=>v.filter((_,j)=>j!==i))}>Remove</button>}
    </div>)}
-   {products.length<12&&<button type="button" className="supplier-add" onClick={()=>setProducts(v=>[...v,{name:"",origin:""}])}>Add another product</button>}
+   {products.length<12&&<button type="button" className="supplier-add" onClick={()=>setProducts(v=>[...v,{name:"",origin:"",category:categories[0]}])}>Add another product</button>}
   </div>}
   {scope!=="PRODUCTS"&&<div className="field full"><label htmlFor="supplierServices">Specific services offered *</label><textarea name="services" id="supplierServices" required maxLength={1800} placeholder="e.g. structural engineering, Tekla detailing, NDT, galvanizing, erection"/></div>}
   <div className="field full"><label htmlFor="supplierCapacity">Specifications / capabilities (optional)</label><textarea name="capabilities" id="supplierCapacity" maxLength={1800} placeholder="Grades, standards, processing range, capacity, certifications and service regions"/></div>

@@ -26,3 +26,5 @@ No new staging domain, no `main` merge. Only explicit CEO authorization permits 
 - Browser -> website API -> Turnstile validated -> scoped HTTPS OTS gateway -> OTS persisted application -> internal supply-chain review -> OTP status; CRM/RFQ should reuse the security boundary and contract discipline, with independent scope, explicit approval and separate release gates.
 - No public OTS application endpoints or credentials exposed in browser. Website and OTS deployment independently controlled; website main remains untouched.
 - OTS PR #620 merged at 7b114b85 and GitHub DigitalOcean deployment completed, but OTS supplier-specific live DB/permission/notification acceptance still needs evidence; controls remain disabled.
+
+- User-requested product depth: suppliers can now list multiple distinct product categories and specify each product's manufacturing country of origin; OTS retains the category on each JSON product item and displays it in the internal review. Compatible with earlier records lacking per-item category.

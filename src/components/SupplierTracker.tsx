@@ -1,8 +1,9 @@
+import {supplierProductCategories as categories} from "@/lib/supplierCategories";
 
 "use client";
 import {useState,type FormEvent} from "react";
 import Script from "next/script";
-type Editable={scope:string;category:string|null;products:{name:string;origin:string}[];services:string|null;capabilities:string|null};
+type Editable={scope:string;category:string|null;products:{name:string;origin:string;category?:string}[];services:string|null;capabilities:string|null};
 type Tracking={reference:string;status:string;publicMessage:string|null;updatedAt:string;editable?:Editable};
 export function SupplierTracker({siteKey}:{siteKey:string}){
  const [reference,setReference]=useState("");const[email,setEmail]=useState("");const[code,setCode]=useState("");
@@ -10,7 +11,7 @@ export function SupplierTracker({siteKey}:{siteKey:string}){
  const[response,setResponse]=useState("");
  const [scope,setScope]=useState("PRODUCTS");
  const [category,setCategory]=useState("");
- const [products,setProducts]=useState<{name:string;origin:string}[]>([{name:"",origin:""}]);
+ const [products,setProducts]=useState<{name:string;origin:string;category?:string}[]>([{name:"",origin:"",category:categories[0]}]);
  const [services,setServices]=useState("");
  const [capabilities,setCapabilities]=useState("");
  const[message,setMessage]=useState("");const[busy,setBusy]=useState(false);const[error,setError]=useState("");
@@ -21,7 +22,7 @@ export function SupplierTracker({siteKey}:{siteKey:string}){
   data.set("code",code.trim());
   if(action==="resubmit"){
    data.set("response",response);data.set("scope",scope);data.set("category",category);
-   data.set("products",JSON.stringify(scope==="SERVICES"?[]:products));
+   data.set("products",JSON.stringify(scope==="SERVICES"?[]:products.map(p=>({...p,category:p.category||category||categories[0]}))));
    data.set("services",services);data.set("capabilities",capabilities);
   }
   try {
@@ -32,7 +33,7 @@ export function SupplierTracker({siteKey}:{siteKey:string}){
     const a=json.application as Tracking;setTracking(a);
     if(a.editable){
      setScope(a.editable.scope);setCategory(a.editable.category||"");
-     setProducts(a.editable.products?.length?a.editable.products:[{name:"",origin:""}]);
+     setProducts(a.editable.products?.length?a.editable.products:[{name:"",origin:"",category:categories[0]}]);
      setServices(a.editable.services||"");setCapabilities(a.editable.capabilities||"");
     }
    }
@@ -54,11 +55,12 @@ export function SupplierTracker({siteKey}:{siteKey:string}){
    <div className="field full"><label htmlFor="correctedCategory">Product category *</label><input id="correctedCategory" value={category} onChange={e=>setCategory(e.target.value)} maxLength={120} required/></div>
    <div className="field full"><label>Specific products and country of origin</label>
     {products.map((p,i)=><div key={i} className="supplier-product">
+     <label>Category<select aria-label={"Corrected category of product "+(i+1)} value={p.category||category||categories[0]} onChange={e=>setProducts(v=>v.map((x,j)=>j===i?{...x,category:e.target.value}:x))}>{categories.map(c=><option key={c}>{c}</option>)}</select></label>
      <label>Product {i+1}<input aria-label={"Corrected product "+(i+1)} value={p.name} onChange={e=>setProducts(v=>v.map((x,j)=>j===i?{...x,name:e.target.value}:x))} maxLength={160} required/></label>
      <label>Country of origin<input aria-label={"Corrected country of origin "+(i+1)} value={p.origin} onChange={e=>setProducts(v=>v.map((x,j)=>j===i?{...x,origin:e.target.value}:x))} maxLength={100} required/></label>
      {i>0&&<button type="button" onClick={()=>setProducts(v=>v.filter((_,j)=>i!==j))}>Remove</button>}
     </div>)}
-    {products.length<12&&<button type="button" className="supplier-add" onClick={()=>setProducts(v=>[...v,{name:"",origin:""}])}>Add product</button>}
+    {products.length<12&&<button type="button" className="supplier-add" onClick={()=>setProducts(v=>[...v,{name:"",origin:"",category:categories[0]}])}>Add product</button>}
    </div>
   </>}
   {scope!=="PRODUCTS"&&<div className="field full"><label htmlFor="correctedServices">Professional services offered *</label><textarea id="correctedServices" value={services} onChange={e=>setServices(e.target.value)} maxLength={1800} required/></div>}
