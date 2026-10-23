@@ -32,7 +32,7 @@ test("supplier products can span multiple categories with per-product manufactur
  const form=read("src/components/SupplierRegistrationForm.tsx");
  const tracker=read("src/components/SupplierTracker.tsx");
  assert.match(form,/Category of product/);
- assert.match(form,/category:p.category/);
+ assert.match(form,/category:\s*p\.category/);
  assert.match(tracker,/Corrected category of product/);
  assert.match(read("src/lib/supplierCategories.ts"),/Fasteners & anchors/);
 });

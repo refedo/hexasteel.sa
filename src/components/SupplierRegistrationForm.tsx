@@ -16,7 +16,7 @@ function validateDocuments(files: File[]): string {
   }
   for (const file of files) {
     if (!file.name.toLowerCase().endsWith(".pdf") ||
-      (file.type !== "" && file.type !== "application/pdf")) {
+      file.type !== "application/pdf") {
       return "Only PDF documents are accepted.";
     }
     if (file.size < 20 || file.size > MAX_FILE_BYTES) {
@@ -50,7 +50,7 @@ export function SupplierRegistrationForm({ siteKey }: { siteKey: string }) {
     if (pending) return;
     setError("");
 
-    if (scope !== "SERVICES" && products.some(p => !p.name.trim() || !p.origin.trim() || !p.category.trim())) {
+    if (scope !== "SERVICES" && products.some(p => p.name.trim().length < 2 || p.origin.trim().length < 2 || !p.category.trim())) {
       setError("Each product requires a category, name and manufacturing country of origin.");
       return;
     }
@@ -117,13 +117,13 @@ export function SupplierRegistrationForm({ siteKey }: { siteKey: string }) {
             <p className="form-note">List each product separately, including its manufacturing origin. You can select different categories for individual products.</p>
             {products.map((p,i) => <div className="supplier-product" key={i}>
               <label>Product category<select aria-label={"Category of product "+(i+1)} value={p.category} onChange={event => setProducts(items => items.map((item,j) => j === i ? {...item,category:event.target.value} : item))}>{categories.map(c => <option key={c}>{c}</option>)}</select></label>
-              <label>Product {i+1}<input aria-label={"Product "+(i+1)} maxLength={160} required value={p.name} onChange={event => setProducts(items => items.map((item,j) => j === i ? {...item,name:event.target.value} : item))} placeholder="e.g. S355 steel plates" /></label>
-              <label>Country of origin<input aria-label={"Origin of product "+(i+1)} maxLength={100} required value={p.origin} onChange={event => setProducts(items => items.map((item,j) => j === i ? {...item,origin:event.target.value} : item))} placeholder="Manufacturing country" /></label>
+              <label>Product {i+1}<input aria-label={"Product "+(i+1)} minLength={2} maxLength={160} required value={p.name} onChange={event => setProducts(items => items.map((item,j) => j === i ? {...item,name:event.target.value} : item))} placeholder="e.g. S355 steel plates" /></label>
+              <label>Country of origin<input aria-label={"Origin of product "+(i+1)} minLength={2} maxLength={100} required value={p.origin} onChange={event => setProducts(items => items.map((item,j) => j === i ? {...item,origin:event.target.value} : item))} placeholder="Manufacturing country" /></label>
               {i>0 && <button type="button" aria-label={"Remove product "+(i+1)} onClick={() => setProducts(items => items.filter((_,j) => j !== i))}>Remove</button>}
             </div>)}
             {products.length < 12 && <button type="button" className="supplier-add" onClick={() => setProducts(items => [...items,{name:"",origin:"",category:categories[0]}])}>Add another product</button>}
           </div>}
-          {scope !== "PRODUCTS" && <div className="field full"><label htmlFor="supplierServices">Specific services offered *</label><textarea name="services" id="supplierServices" required maxLength={1800} placeholder="e.g. structural engineering, Tekla detailing, NDT, galvanizing, erection" /></div>}
+          {scope !== "PRODUCTS" && <div className="field full"><label htmlFor="supplierServices">Specific services offered *</label><textarea name="services" id="supplierServices" minLength={3} required maxLength={1800} placeholder="e.g. structural engineering, Tekla detailing, NDT, galvanizing, erection" /></div>}
           <div className="field full"><label htmlFor="supplierCapacity">Specifications and capabilities (optional)</label><textarea name="capabilities" id="supplierCapacity" maxLength={1800} placeholder="Material grades, standards, processing range, capacity, certifications and service regions" /></div>
         </div>
       </fieldset>
