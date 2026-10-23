@@ -1,3 +1,27 @@
+## R1 ACCEPTANCE UPDATE — CONTACT ENQUIRIES + TECHNICAL SEO (23 October 2026)
+
+**Previous verified stopping point:** R1-G03 PR #30 approved/merged to `rebuild/website-v3` at `d2b4e0f739324c82c55c65c282d22b718b04ee1c`, with successful automated tests and direct DigitalOcean deployment. V3.22 PR #28 subsequently approved/merged and deployed from `rebuild/website-v3` commit `6f482d7dbf5c16f52c291bc00396fe897760bf5c`. Both release pipelines passed, including TypeScript, tests and production build. No `main` merge.
+
+**Current starting point:** Website production/review domain `https://hexasteel.sa` at verified deployment commit `6f482d7d` (DigitalOcean workflow [#40019403827](https://github.com/refedo/hexasteel.sa/actions/runs/40019403827)); post-merge CI passed ([#40019403575](https://github.com/refedo/hexasteel.sa/actions/runs/40019403575)). Unmerged supplier registration PR #29, RFQ PRs #11/#12 and optional project-editor PR #19 remain separate and are **not credited to R1 progress**.
+
+**Operational acceptance — V3.22 contact form:** **VERIFIED for website submission → Resend HTTPS API → SiteGround recipient inbox.** On 23 October 2026, management submitted live test enquiries through the website; an Outlook/SiteGround inbox screenshot displays two received messages titled `HEXA Steel® website enquiry — Structural Steel` with the structured sender name, topic and submitted message. Production logs confirmed `Contact email: HTTPS API configured`. This verifies receipt, not just the provider's acceptance. The screenshot is kept in the private conversation, **not committed** to the public repository. The email currently uses plain-text formatting. A premium HEXA Steel® HTML notification and an explicit Reply-To header test are optional follow-ups; neither prevents acceptance of observed inbound delivery. This does **not** accept the separate RFQ intake, customer feedback workflow, OTS™ CRM, or automatic lead persistence.
+
+**Technical SEO acceptance — R1-G03:** **DEPLOYED / CODE & CI VERIFIED.** PR #30 closed the missing-source-canonical gap across all **27 sitemap-listed static public routes** and added the intended origin-level `www` redirect policy. GitHub CI and DigitalOcean deployment passed. **Not yet verified as resolved in Google Search Console**: inspect actual affected URLs, Google-selected canonical, public `www`/edge redirects and post-recrawl indexing before declaring the Google duplication alert resolved or organic visibility improved. No claim that search engine indexing is complete.
+
+**Updated R1 management completion estimate: 70%** (previous documented **68%** + **1 percentage point** for contact form live delivery acceptance + **1 percentage point** for deployed/CI-verified technical SEO coverage). This is the CEO-requested **management reassessment**, not a mathematically weighted feature-by-feature calculation or overall programme completion. Unverified SEO outcomes are excluded from any additional uplift.
+
+| Release | Updated management estimate | Basis |
+| --- | ---: | --- |
+| **R1 — Corporate Website, CMS & Lead Generation** | **70%** | Two newly recognized R1 deliverables above; remaining release gates still pending |
+| **R2 — Commercial Platform & CRM** | **0%** | No R2 acceptance |
+| **R3 — AI-Assisted Steel Estimation** | **0%** | No R3 acceptance |
+
+**Current milestone / remaining acceptance:** Continue R1-G Google Search Console example/URL inspection and actual redirects/canonical validation; then complete remaining R1 Arabic/RTL, RFQ/lead workflow, broad CMS publishing and overall performance/security/accessibility sign-off. Separately, improve contact notification email from plain text to professionally branded HTML (do not re-open the verified delivery milestone). Keep current production behavior intact. Record this management acceptance in this **documentation-only** branch; no application source changes, no integration merge and no production deployment are implied by the documentation update.
+
+**Authoritative interpretation:** This entry supersedes earlier 68% snapshots and prior pending-acceptance statements below for V3.22/R1-G03. Historical entries remain unchanged for auditability.
+
+---
+
 ## V3.22 — Contact enquiry activation (23 October 2026; conflict resolution on feature branch)
 
 - **Previous stopping point:** V3.22 PR #28 at `d27f411` passed TypeScript, Node tests, build and search checks but became unmergeable after R1-G03 PR #30 integrated. R1-G03 subsequently deployed to `hexasteel.sa` at `d2b4e0f` with successful CI, preflight and DigitalOcean deployment.
