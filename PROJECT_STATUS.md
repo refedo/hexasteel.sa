@@ -1,3 +1,15 @@
+## Official progress reconciliation — 24 October 2026 (CEO confirmation; V3.24 branch)
+
+| Release | Current management progress | Basis |
+| --- | ---: | --- |
+| **R1 — Corporate Website, CMS & Lead Generation** | **70%** | CEO-confirmed management estimate, as documented in [PR #31](https://github.com/refedo/hexasteel.sa/pull/31): operational contact inbox delivery and deployed technical canonical SEO work |
+| **R2 — Commercial Platform & CRM** | **0%** | Not started / deferred |
+| **R3 — AI-Assisted Steel Estimation** | **0%** | Not started |
+
+**Reconciliation:** Historical 65% and 68% entries below are superseded for current management reporting by the 70% figure confirmed by the CEO. PR #31 is the separate acceptance-record branch; this entry records the same figure on V3.24 without claiming PR #31 has been merged into the integration branch. Google indexing confirmation and branded email formatting remain open. The V3.24 navigation changes on `feature/v324-navigation-header` / [PR #32](https://github.com/refedo/hexasteel.sa/pull/32) are committed but not yet CI-verified, integrated, deployed or operationally accepted; they do not increase the 70% figure. No change to `main` or production.
+
+---
+
 ## V3.22 — Contact enquiry activation (23 October 2026; conflict resolution on feature branch)
 
 - **Previous stopping point:** V3.22 PR #28 at `d27f411` passed TypeScript, Node tests, build and search checks but became unmergeable after R1-G03 PR #30 integrated. R1-G03 subsequently deployed to `hexasteel.sa` at `d2b4e0f` with successful CI, preflight and DigitalOcean deployment.
