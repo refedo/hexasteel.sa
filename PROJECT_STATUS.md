@@ -1,3 +1,13 @@
+## V3.24 — Become a Supplier experience and deployment safeguards (24 October 2026)
+
+- **Previous stopping point:** V3.23 Supplier Registration PR #29 merged to `rebuild/website-v3` as `f8fbbb0423d3a20762963678a6bfc7ed7f3026c6`. Merge commit passed website foundation CI (#40031761231 / #40031754468) but DigitalOcean rollout #40031754305 **failed** while shell-sourcing persistent `.env.contact`: line 10 `Supplier: command not found`. Previous website release `6f482d7d` was preserved; V3.23 cannot be claimed deployed or accepted.
+- **Current starting point:** Integration branch `rebuild/website-v3` `f8fbbb04`, website `main` unchanged at `8502ecf7`. OTS PR #620 merged `7b114b85`; follow-up PR #621 merged `f8734f52` and DigitalOcean deployment #40031896526 succeeded. OTS logged MySQL migration error 1045 during prior rollout; supplier table existence and private end-to-end functional acceptance remain **unverified**.
+- **Current milestone:** Isolated feature branch `feature/v324-supplier-experience-hardening` from verified website integration head. Premium navy supplier landing page; evidence-based qualification criteria; structured accessible form; per-product categories and manufacturing origin; PDF count/MIME/size preflight; consistent error feedback and Turnstile reset; deployment preflight rejects invalid persistent env lines without printing credentials.
+- **Acceptance criteria:** TypeScript checks, website tests, search/logo check and Next production build all pass in CI; no unrelated page regressions. Independent confirmation of persistent env fix, live website version, OTS supplier schema, page and form integration before enabling supplier submission. Feature development does not imply activation or operational acceptance.
+- **Release accounting:** Documented management baseline **R1 68%**, R2/R3 0%. V3.24 developed on feature branch only. No deployment, merge into integration or production acceptance claimed for this milestone.
+
+---
+
 ## V3.23 — Supplier intake integration (24 October 2026, isolated reconciliation)
 
 - **Last verified production baseline:** `rebuild/website-v3` 6f482d7dbf5c; current website integration includes canonical/SEO updates and contact activation, which this conflict resolution preserves.
