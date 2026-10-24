@@ -1,8 +1,9 @@
+import {getContactFormSettings} from "@/lib/contactFormSettings";
 import {NextResponse} from "next/server";
 import {contactMailConfigured, sendContactEnquiry} from "@/lib/contactMail";
 
 export const runtime = "nodejs";
-const topics = new Set(["Structural Steel","Pre-Engineered Buildings","Project Management","Steel Services","Vendor Registration","General Enquiry"]);
+
 const MAX_BODY = 24_000;
 const requestWindow = new Map<string,{expires:number,count:number}>();
 
@@ -62,6 +63,8 @@ export async function POST(request:Request){
  const form=await boundedFormData(request);
  if(!form)return error("Invalid form or request too large.",413);
  if(clean(form.get("website"),200))return error("Invalid submission.",400);
+ const settings=await getContactFormSettings();
+ const topics=new Set(settings.topics);
  const fullName=clean(form.get("fullName"),120);
  const email=clean(form.get("email"),250);
  const organization=clean(form.get("organization"),160);
@@ -83,7 +86,7 @@ export async function POST(request:Request){
   const data=await verification.json() as {success?:boolean;hostname?:string};
   if(!data.success||!["hexasteel.sa","www.hexasteel.sa"].includes(data.hostname||""))
    return error("Verification failed. Refresh and try again.",403);
-  await sendContactEnquiry({fullName,email,organization,topic,message});
+  await sendContactEnquiry({fullName,email,organization,topic,message},settings);
   return NextResponse.redirect(
    new URL("/contact/received",process.env.NEXT_PUBLIC_SITE_URL||"https://hexasteel.sa"),303
   );

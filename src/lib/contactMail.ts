@@ -1,3 +1,5 @@
+import {renderContactEmail,type Enquiry} from "./contactEmail";
+import {contactFormDefaults,type ContactFormSettings} from "./contactFormSettings";
 import nodemailer from "nodemailer";
 
 const destination = "inquiries@hexasteel.sa";
@@ -23,29 +25,7 @@ export function contactMailConfigured():boolean{
  return resendReady() || smtpReady();
 }
 
-type Enquiry={
- fullName:string;
- email:string;
- organization:string;
- topic:string;
- message:string;
-};
-
-function mailBody(input:Enquiry):string{
- return [
-  "New website enquiry — HEXA Steel®",
-  "",
-  "Name: "+input.fullName,
-  "Email: "+input.email,
-  "Company: "+(input.organization||"Not provided"),
-  "Topic: "+input.topic,
-  "",
-  "Message:",
-  input.message,
- ].join("\n");
-}
-
-async function sendThroughResend(input:Enquiry):Promise<void>{
+async function sendThroughResend(input:Enquiry,settings:ContactFormSettings=contactFormDefaults):Promise<void>{
  const response=await fetch("https://api.resend.com/emails",{
   method:"POST",
   headers:{
@@ -59,13 +39,13 @@ async function sendThroughResend(input:Enquiry):Promise<void>{
    to:[destination],
    reply_to:input.email,
    subject:"HEXA Steel® website enquiry — "+input.topic,
-   text:mailBody(input),
+   ...renderContactEmail(input,settings),
   }),
  });
  if(!response.ok)throw new Error("Email API did not accept contact enquiry.");
 }
 
-async function sendThroughSiteGroundSmtp(input:Enquiry):Promise<void>{
+async function sendThroughSiteGroundSmtp(input:Enquiry,settings:ContactFormSettings=contactFormDefaults):Promise<void>{
  const host=process.env.SITEGROUND_SMTP_HOST!;
  const port=Number(process.env.SITEGROUND_SMTP_PORT||"465");
  const user=process.env.SITEGROUND_SMTP_USER!;
@@ -88,15 +68,15 @@ async function sendThroughSiteGroundSmtp(input:Enquiry):Promise<void>{
   to:destination,
   replyTo:{name:input.fullName,address:input.email},
   subject:"HEXA Steel® website enquiry — "+input.topic,
-  text:mailBody(input),
+  ...renderContactEmail(input,settings),
  });
  if(!receipt.accepted.some(value=>(typeof value==="string"?value:value.address).toLowerCase()===destination)){
   throw new Error("SMTP relay did not accept the enquiry recipient.");
  }
 }
 
-export async function sendContactEnquiry(input:Enquiry):Promise<void>{
- if(resendReady())return sendThroughResend(input);
- if(smtpReady())return sendThroughSiteGroundSmtp(input);
+export async function sendContactEnquiry(input:Enquiry,settings:ContactFormSettings=contactFormDefaults):Promise<void>{
+ if(resendReady())return sendThroughResend(input,settings);
+ if(smtpReady())return sendThroughSiteGroundSmtp(input,settings);
  throw new Error("Contact email provider is not configured.");
 }

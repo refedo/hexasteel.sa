@@ -36,7 +36,7 @@ test("GA4 direct loader requires an explicit verified mode; GTM remains the defa
 });
 
 test("GTM and analytics settings preserve the normal page metadata and layout",()=>{
- assert.match(layout,/export const metadata: Metadata/);
+ assert.match(layout,/export async function generateMetadata/);
  for(const component of ["SiteStructuredData","SiteHeader","BrandTransitionNotice","SiteFooter","ContactShortcuts"])
   assert.ok(layout.includes("<"+component+"/>"),component);
  assert.match(layout,/<html lang="en">/);

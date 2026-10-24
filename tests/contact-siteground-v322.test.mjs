@@ -16,7 +16,7 @@ test("contact prefers HTTPS API and supports gated SiteGround SMTP instead of th
  assert.doesNotMatch(mailer,/process\.env\.RESEND_API_KEY\b/);
  assert.match(mailer,/api\.resend\.com\/emails/);
  assert.match(mailer,/reply_to:input\.email/);
- assert.match(mailer,/if\(resendReady\(\)\)return sendThroughResend\(input\)/);
+ assert.match(mailer,/if\(resendReady\(\)\)return sendThroughResend\(input,settings\)/);
  assert.match(mailer,/requireTLS:\s*port\s*===\s*587/);
  assert.match(mailer,/secure:\s*port\s*===\s*465/);
  assert.match(mailer,/rejectUnauthorized:\s*true/);
@@ -59,7 +59,7 @@ test("contact page exposes secure form only if runtime SMTP and Turnstile are co
  assert.match(form,/disabled=\{busy\}/);
  assert.match(form,/\/api\/contact/);
  assert.ok(existsSync("src/app/contact/received/page.tsx"));
- assert.match(read("src/app/contact/received/page.tsx"),/accepted by our email service/);
+ assert.match(read("src/lib/contactFormSettings.ts"),/accepted by our email service/);
 });
 
 test("deployment reads private SMTP configuration outside immutable release",()=>{
