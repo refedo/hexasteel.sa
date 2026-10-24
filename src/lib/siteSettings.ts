@@ -17,3 +17,11 @@ export async function getAccentColor(): Promise<string> {
     return accentOptions.some(option=>option.value===color)?color!:fallback;
   }catch{return fallback}
 }
+
+export async function getFavicon():Promise<string|undefined>{
+ try{
+  const client=createClient({projectId:process.env.NEXT_PUBLIC_SANITY_PROJECT_ID||"ik7morln",dataset:process.env.NEXT_PUBLIC_SANITY_DATASET||"production",apiVersion:"2025-02-01",useCdn:true});
+  const url=await client.fetch<string|null>('*[_type=="siteSettings" && _id=="siteSettings"][0].favicon.asset->url',{}, {next:{revalidate:30}});
+  return typeof url==='string'&&/^https:\/\/cdn\.sanity\.io\/images\/[a-z0-9]+\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9-]+-\d+x\d+\.png$/.test(url)?url:undefined;
+ }catch{return undefined;}
+}

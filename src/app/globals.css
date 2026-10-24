@@ -1256,3 +1256,27 @@ body:has(.hexa-studio) > .contact-shortcuts{display:none!important}
 .career-application textarea{width:100%;padding:12px;border:1px solid #b5c5cf;background:#fff;font:inherit;resize:vertical}
 .career-application input:focus-visible,.career-application textarea:focus-visible{outline:2px solid #2c3e50;outline-offset:2px}
 @media(max-width:640px){.career-fields{grid-template-columns:1fr}.career-application{padding:16px}.career-role-detail{padding-left:0}}
+
+/* V3.26 — responsive vacancy cards and contact form presentation. */
+.careers-jobs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;align-items:start}
+.career-role,.career-role:first-child{min-width:0;border:1px solid #ccd6de;border-top:3px solid #2c3e50;background:#fff;border-radius:6px;box-shadow:0 8px 28px #2c3e5009;overflow:hidden}
+.career-role>summary{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;padding:28px;min-height:215px}
+.career-card-heading{min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:14px}
+.career-role h3{font-size:clamp(23px,2.1vw,30px);line-height:1.2;margin:0;overflow-wrap:anywhere}
+.career-code{font-size:10px;letter-spacing:.12em}
+.career-role>summary p{font-size:13px;line-height:1.6}
+.career-status{display:inline-flex;border:1px solid #d1dce4;background:#eef2f5;padding:4px 10px;border-radius:3px;font-size:11px;font-weight:700}
+.career-status.open{color:#245b43;background:#edf5f0;border-color:#bcd5c7}
+.career-expand{line-height:1;flex-shrink:0}
+.career-role[open]{grid-column:1/-1}
+.career-role[open] .career-expand{transform:rotate(45deg)}
+.career-role[open]>summary{min-height:0;border-bottom:1px solid #e1e7ec}
+.career-role-detail{padding:28px;max-width:none}
+.career-role-detail>section{max-width:850px}
+.career-role>summary:focus-visible{outline:3px solid #2c3e50;outline-offset:-5px}
+.contact-layout .form-shell{border:1px solid #d7e0e6;border-top:4px solid #2c3e50;border-radius:6px;box-shadow:0 12px 40px #2c3e500b;padding:clamp(22px,3.5vw,45px);background:#fff}
+.contact-form-intro{color:#607182;line-height:1.7;margin-bottom:30px}
+.contact-layout .form-grid input:not([type=checkbox]),.contact-layout .form-grid select,.contact-layout .form-grid textarea{background:#f6f8fa;border:1px solid #c6d1da;border-radius:4px;padding:14px;font:inherit;width:100%;min-width:0}
+.contact-layout .form-grid textarea{min-height:170px;resize:vertical}
+.contact-layout .form-grid input:focus-visible,.contact-layout .form-grid select:focus-visible,.contact-layout .form-grid textarea:focus-visible{outline:2px solid #2c3e50;outline-offset:2px}
+@media(max-width:760px){.careers-jobs{grid-template-columns:1fr}.career-role>summary{min-height:0;padding:22px}.career-role-detail{padding:22px}.career-role[open]{grid-column:auto}.career-fields{grid-template-columns:1fr}}

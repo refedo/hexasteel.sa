@@ -1,3 +1,4 @@
+import {contactFormSettings} from "./contactFormSettings";
 import {jobPosting} from "./jobPosting";
 import {defineType,defineField} from "sanity";
 import {industrySectors,projectTypeOptions,steelSystemOptions} from "../../content/projectTaxonomy";
@@ -89,6 +90,7 @@ const initiative=defineType({name:"initiative",title:"Strategic Initiative",type
 const siteSettings=defineType({
   name:"siteSettings",title:"Brand & Website Settings",type:"document",
   fields:[
+    defineField({name:"favicon",title:"Website favicon",type:"image",description:"Upload a square PNG, ideally 512 × 512 px. Publish to update browser tab and bookmark icons; browsers may cache the previous icon.",options:{accept:"image/png",hotspot:false},validation:r=>r.custom(value=>{const ref=(value as {asset?:{_ref?:string}}|undefined)?.asset?._ref;if(!ref)return true;const match=ref.match(/-(\d+)x(\d+)-png$/);return match&&match[1]===match[2]&&Number(match[1])>=64?true:"Use a square PNG of at least 64 × 64 px.";})}),
     defineField({name:"accentColor",title:"Industrial Accent Color",description:"Select an approved visual accent; primary HEXA navy #2C3E50 remains unchanged.",type:"string",initialValue:"#C6D547",
       options:{list:[
         {title:"Signal Lime / Current",value:"#C6D547"},
@@ -219,4 +221,4 @@ const publicQualification=defineType({name:"publicQualification",title:"Public Q
  defineField({name:"verifiedScope",type:"boolean",initialValue:false,description:"Scope and current status verified against official documentation."}),
  defineField({name:"approvedForWeb",type:"boolean",initialValue:false,description:"Cleared for public release."})
 ]});
-export const schemaTypes=[jobPosting,localizedText,contentSection,page,project,credential,initiative,siteSettings,analyticsSettings,testimonial,teamProfile,knowledgeArticle,companyUpdate,capabilityService,publicQualification];
+export const schemaTypes=[contactFormSettings,jobPosting,localizedText,contentSection,page,project,credential,initiative,siteSettings,analyticsSettings,testimonial,teamProfile,knowledgeArticle,companyUpdate,capabilityService,publicQualification];

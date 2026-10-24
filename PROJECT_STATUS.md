@@ -1,3 +1,13 @@
+## V3.26 — Careers cards, favicon and contact editing (24 October 2026; feature branch)
+
+- **Verified previous stopping point:** V3.25 PR #36 merged/deployed at `9624eefbbceb8d974813249491dde92b594dc3cb`; deployment #40082912941 succeeded, public routes/Studio bundle verified. HR publication, scanner/mailbox and private delivery acceptance remain pending. This supersedes stale deployment-pending notes below.
+- **Current baseline:** isolated `feature/v326-careers-contact-cms` from that integration revision. Existing V3.25 vacancies, contact delivery, supplier/nav/SEO retained. No production or main changes.
+- **Delivered:** responsive vacancy cards; Sanity favicon upload wired to metadata; Contact Form & Enquiry Email singleton for labels/hints/categories/page/confirmation/email copy; escaped branded HTML email with text alternative in both transports. See `V326_CAREERS_CONTACT_HANDOVER.md`.
+- **Validation:** local TypeScript, 72 automated tests and production build passed. Final-head CI and remaining visual/search/logo evidence recorded in milestone PR. No real mail sent, no Sanity records altered. Deployment/operational acceptance pending.
+- **Official progress remains R1 70%, R2/R3 0%.** No increase before accepted operation.
+
+---
+
 ## V3.25 — HR-managed Careers (24 October 2026; feature branch)
 
 - Baseline: integration `c435985bb6fad5f6c83a0de550ed312da536885e`. PR #35 records successful read-only live verification at this revision, superseding the earlier failed-rollout notes below. No new live acceptance is claimed here.
