@@ -1248,3 +1248,11 @@ body:has(.hexa-studio) > .contact-shortcuts{display:none!important}
 .supplier-submit-area button{min-width:220px}
 .supplier-success .supplier-reference{background:#ecf2f5;padding:14px;display:block;margin:16px 0}
 @media(max-width:580px){.supplier-selected-files li{flex-direction:column;gap:4px}.supplier-submit-area button{width:100%;min-width:0}}
+
+/* HR careers: readable long descriptions and grouped, responsive applications. */
+.career-copy{white-space:pre-line;overflow-wrap:anywhere}
+.career-application fieldset{min-width:0;margin:0;padding:16px;border:1px solid #b5c5cf}
+.career-application legend{font-weight:700;padding:0 8px}
+.career-application textarea{width:100%;padding:12px;border:1px solid #b5c5cf;background:#fff;font:inherit;resize:vertical}
+.career-application input:focus-visible,.career-application textarea:focus-visible{outline:2px solid #2c3e50;outline-offset:2px}
+@media(max-width:640px){.career-fields{grid-template-columns:1fr}.career-application{padding:16px}.career-role-detail{padding-left:0}}

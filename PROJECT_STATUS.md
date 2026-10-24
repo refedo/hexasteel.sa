@@ -1,3 +1,13 @@
+## V3.25 — HR-managed Careers (24 October 2026; feature branch)
+
+- Baseline: integration `c435985bb6fad5f6c83a0de550ed312da536885e`. PR #35 records successful read-only live verification at this revision, superseding the earlier failed-rollout notes below. No new live acceptance is claimed here.
+- Developed on `feature/v325-hr-careers-cms`: comprehensive Sanity vacancy editor, published Open/On Hold/Closed lifecycle, opening/deadline gates, legacy roles draft preparation, dynamic careers listing and comprehensive applicant form with private scanned PDF delivery.
+- Submission activation is gated pending verified HR mailbox, scanner and safe E2E acceptance; no candidate data in Sanity. HR Sanity permissions must be configured, not inferred from menu visibility.
+- Testing/deployment stages and operational checklist: `HR_CAREERS_V325_HANDOVER.md` and milestone PR. No integration/main changes or deployment without CEO approval.
+- **Official progress: R1 70%; R2 0%; R3 0%, unchanged pending acceptance.**
+
+---
+
 ## Official progress reconciliation — 24 October 2026 (CEO confirmation; V3.24 branch)
 
 | Release | Current management progress | Basis |
