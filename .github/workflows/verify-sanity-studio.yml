@@ -1,0 +1,39 @@
+name: Verify HEXA Sanity Studio public route
+on:
+  push:
+    branches: [rebuild/website-v3]
+    paths:
+      - .github/workflows/verify-sanity-studio.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  studio-smoke-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - name: Verify editor route replaces setup placeholder
+        run: |
+          set -euo pipefail
+          body="$(mktemp)"
+          status="$(curl -LfsS --connect-timeout 8 --max-time 30 -o "$body" -w '%{http_code}' 'https://hexasteel.sa/studio')"
+          echo "Studio HTTPS response: $status"
+          test "$status" = 200
+          if grep -Fq 'The editorial workspace is ready for its Sanity project connection' "$body"; then
+            echo "FAIL: setup placeholder is still served"; exit 1
+          fi
+          grep -q 'hexa-studio' "$body" || { echo "FAIL: embedded Sanity editor root missing"; exit 1; }
+          echo "PASS: live Studio page renders the new editor shell"
+      - name: Probe Sanity project and domain CORS (informational)
+        run: |
+          set -euo pipefail
+          api='https://ik7morln.api.sanity.io/v2025-02-01/data/query/production?query=count%28%2A%5B%5D%29'
+          status="$(curl -sSL --connect-timeout 8 --max-time 20 -o /tmp/sanity-response -D /tmp/sanity-headers -w '%{http_code}' -H 'Origin: https://hexasteel.sa' "$api" || true)"
+          echo "Sanity production API HTTP status: $status"
+          sed -n '/^[Aa]ccess-[Cc]ontrol-[Aa]llow-[Oo]rigin:/p; /^[Aa]ccess-[Cc]ontrol-[Aa]llow-[Cc]redentials:/p' /tmp/sanity-headers || true
+          if ! grep -iq '^access-control-allow-origin: https://hexasteel.sa' /tmp/sanity-headers; then
+            echo "ACTION: Sanity project owner may need to add https://hexasteel.sa to allowed CORS origins with credentials enabled."
+          else
+            echo "Sanity CORS origin for hexasteel.sa is configured."
+          fi
+          echo "Studio login requires browser authentication and must be tested by a project member."

@@ -1,0 +1,68 @@
+name: Verify HEXA V3.8 public structure & confidentiality
+# Re-run following successful DigitalOcean V3.8 activation
+on:
+  push:
+    branches: [rebuild/website-v3]
+    paths: [.github/workflows/verify-v38-public.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - name: Verify homepage, service routes and client confidentiality
+        run: |
+          set -euo pipefail
+          base='https://hexasteel.sa'
+          tmp="$(mktemp -d)"
+          fetch() {
+            route="$1"
+            output="$2"
+            code="$(curl -LsS --retry 3 --retry-delay 2 --retry-all-errors --connect-timeout 8 --max-time 30 -o "$output" -w '%{http_code}' "$base/$route")"
+            echo "$route => $code"
+            test "$code" = 200
+          }
+          fetch "" "$tmp/home"
+          grep -q 'WHY CHOOSE HEXA STEEL' "$tmp/home"
+          grep -q '300+' "$tmp/home"
+          grep -q 'Our edge' "$tmp/home"
+          grep -q 'Supply Chain Strength' "$tmp/home"
+          fetch "projects" "$tmp/projects"
+          grep -q 'Completed' "$tmp/projects"
+          grep -q 'Ongoing' "$tmp/projects"
+          for term in 'MAPA' 'NADEC' 'Red Sea Global' 'Al Othaim' 'Saudi Coffee' 'Green Pipes'; do
+            if grep -Fq "$term" "$tmp/projects"; then
+              echo "FAIL: confidential client reference disclosed in project index"; exit 1
+            fi
+          done
+          for route in company company/about company/careers company/approvals products-services services/supply-chain services/design-detailing services/fabrication services/pipes-vessels capabilities/coating knowledge/steel-grades-traceability; do
+            fetch "$route" "$tmp/route"
+          done
+          fetch "capabilities/coating" "$tmp/coating"
+          for exposure in C2 C3 C4 C5; do grep -q "$exposure" "$tmp/coating"; done
+          fetch "services/design-detailing" "$tmp/design"
+          grep -q AISC "$tmp/design"
+          grep -q MBMA "$tmp/design"
+          grep -q 'AWS D1.1' "$tmp/design"
+          fetch "api/search?q=MAPA" "$tmp/search"
+          if grep -Fq '"title":"MAPA' "$tmp/search"; then
+            echo "FAIL: client exposed in global search"; exit 1
+          fi
+          echo "PASS: V3.8 pages, navigation destinations and confidentiality checks"
+      - name: Check public Sanity dataset for historical client data
+        run: |
+          set -euo pipefail
+          curl -sSfGL --retry 3 --retry-delay 2 --retry-all-errors --connect-timeout 8 --max-time 20 \
+            'https://ik7morln.api.sanity.io/v2025-02-01/data/query/production' \
+            --data-urlencode 'query=count(*[_type=="project" && defined(client)])' \
+            -o /tmp/oldclients.json
+          python3 - <<'PY'
+          import json
+          data=json.load(open('/tmp/oldclients.json'))
+          n=data.get('result')
+          print('Legacy public project documents containing a client field:',n)
+          if isinstance(n,int) and n>0:
+            print('WARNING: remove private customer data from the PUBLIC Sanity dataset; website redaction alone does not protect raw API documents.')
+          PY

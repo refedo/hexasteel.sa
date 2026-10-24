@@ -1,0 +1,156 @@
+name: Deploy Hexa V3 direct-domain preview
+on:
+  push:
+    branches: [rebuild/website-v3]
+    paths:
+      - "src/**"
+      - "package.json"
+      - "package-lock.json"
+      - "next.config.mjs"
+      - "sanity.config.ts"
+      - ".github/workflows/deploy-v3-preview.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: hexasteel-v3-review
+  cancel-in-progress: false
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install, typecheck and build
+        env:
+          NEXT_PUBLIC_SITE_URL: https://hexasteel.sa
+          NEXT_PUBLIC_SANITY_PROJECT_ID: ik7morln
+          NEXT_PUBLIC_SANITY_DATASET: production
+        run: |
+          npm install --no-audit --no-fund
+          npm run check
+          npm run build
+          mkdir -p .next/standalone/.next
+          cp -R .next/static .next/standalone/.next/static
+          mkdir -p .next/standalone/public
+          tar -czf "hexa-v3-$GITHUB_SHA.tgz" -C .next/standalone .
+      - name: Server readiness (no changes)
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.DO_HOST }}
+          username: ${{ secrets.DO_USERNAME }}
+          key: ${{ secrets.DO_SSH_KEY }}
+          port: ${{ secrets.DO_PORT || '22' }}
+          command_timeout: 90s
+          script: |
+            set -eu
+            command -v pm2 >/dev/null
+            command -v nginx >/dev/null
+            node -e 'process.exit(Number(process.versions.node.split(".")[0])>=22?0:1)'
+            nginx -t >/dev/null 2>&1
+            test -L "$HOME/hexasteel-v3/current"
+            test -f "$HOME/hexasteel-v3/current/server.js"
+            pm2 describe hexasteel-v3-review >/dev/null 2>&1
+            test -r "$HOME/hexasteel-v3/.env.contact"
+            test "$(stat -c %a "$HOME/hexasteel-v3/.env.contact")" = "600"
+            # Environment file is sourced as shell code during activation.
+            # Reject prose headings or stray commands without printing secrets.
+            awk '
+              /^[[:space:]]*($|#)/ { next }
+              /^[[:space:]]*(export[[:space:]]+)?[A-Za-z_][A-Za-z0-9_]*=/ { next }
+              { print "Invalid website environment entry on line " NR; bad=1 }
+              END { exit bad }
+            ' "$HOME/hexasteel-v3/.env.contact"
+            sh -n "$HOME/hexasteel-v3/.env.contact" >/dev/null
+            curl -fsS --max-time 8 http://127.0.0.1:4500/ >/dev/null
+            if test "$(df -Pk "$HOME" | tail -1 | awk '{print $4}')" -lt 512000; then
+              echo "Insufficient free disk for release"; exit 1
+            fi
+            echo "Current V3 review process is healthy; release preflight passed"
+      - name: Transfer immutable release archive
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.DO_HOST }}
+          username: ${{ secrets.DO_USERNAME }}
+          key: ${{ secrets.DO_SSH_KEY }}
+          port: ${{ secrets.DO_PORT || '22' }}
+          source: "hexa-v3-${{ github.sha }}.tgz"
+          target: /tmp
+          overwrite: false
+      - name: Activate release with rollback on failed health check
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.DO_HOST }}
+          username: ${{ secrets.DO_USERNAME }}
+          key: ${{ secrets.DO_SSH_KEY }}
+          port: ${{ secrets.DO_PORT || '22' }}
+          command_timeout: 150s
+          script: |
+            set -eu
+            APP="$HOME/hexasteel-v3"
+            RELEASE="$APP/releases/${{ github.sha }}"
+            BUNDLE="/tmp/hexa-v3-${{ github.sha }}.tgz"
+            test -f "$BUNDLE"
+            test -L "$APP/current"
+            PREVIOUS="$(readlink -f "$APP/current")"
+            test -f "$PREVIOUS/server.js"
+            mkdir -p "$RELEASE"
+            tar -xzf "$BUNDLE" -C "$RELEASE"
+            test -f "$RELEASE/server.js"
+            export PORT=4500 HOSTNAME=127.0.0.1 NODE_ENV=production NEXT_PUBLIC_SANITY_PROJECT_ID=ik7morln NEXT_PUBLIC_SANITY_DATASET=production
+            CONTACT_ENV="$APP/.env.contact"
+            test -r "$CONTACT_ENV"
+            test "$(stat -c %a "$CONTACT_ENV")" = "600"
+            set -a
+            . "$CONTACT_ENV"
+            set +a
+            : "${CONTACT_TURNSTILE_SITE_KEY:?Missing Turnstile site key}"
+            : "${CONTACT_TURNSTILE_SECRET_KEY:?Missing Turnstile secret}"
+            if [ -n "${CONTACT_RESEND_API_KEY:-}" ] && [ -n "${CONTACT_RESEND_FROM_EMAIL:-}" ]; then
+              echo "Contact email: HTTPS API configured"
+            elif [ "${CONTACT_SMTP_EGRESS_VERIFIED:-}" = "true" ] && [ -n "${SITEGROUND_SMTP_HOST:-}" ] && [ -n "${SITEGROUND_SMTP_USER:-}" ] && [ -n "${SITEGROUND_SMTP_PASSWORD:-}" ]; then
+              echo "Contact email: SMTP configured; independent reachability check required"
+            else
+              echo "Contact email: missing HTTPS API or SMTP provider configuration"
+              exit 1
+            fi
+            completed=no
+            rollback() {
+              if [ "$completed" != yes ]; then
+                echo "Deployment verification failed: reverting V3 release"
+                pm2 delete hexasteel-v3-review >/dev/null 2>&1 || true
+                ln -sfn "$PREVIOUS" "$APP/previous-rollback"
+                mv -Tf "$APP/previous-rollback" "$APP/current"
+                if pm2 start "$APP/current/server.js" --name hexasteel-v3-review --cwd "$APP/current" --time >/dev/null 2>&1; then
+                  pm2 save >/dev/null 2>&1 || true
+                fi
+              fi
+            }
+            trap rollback EXIT
+            ln -s "$RELEASE" "$APP/next"
+            mv -Tf "$APP/next" "$APP/current"
+            pm2 delete hexasteel-v3-review >/dev/null
+            pm2 start "$APP/current/server.js" --name hexasteel-v3-review --cwd "$APP/current" --time >/dev/null
+            ready=no
+            for n in 1 2 3 4 5 6 7 8 9 10; do
+              if curl -fsS --max-time 6 http://127.0.0.1:4500/ | grep -q "Built for confidence"; then
+                ready=yes
+                break
+              fi
+              sleep 2
+            done
+            test "$ready" = yes || { echo "Homepage check failed"; exit 1; }
+            for route in projects insights capabilities/machinery knowledge/structural-steel-vs-peb project-delivery; do
+              curl -fsS --max-time 8 "http://127.0.0.1:4500/$route" >/dev/null || { echo "Failed route: $route"; exit 1; }
+            done
+            if ! curl -kfsS --max-time 10 --resolve hexasteel.sa:443:127.0.0.1 https://hexasteel.sa/ | grep -q "WHY CHOOSE HEXA STEEL"; then
+              echo "Domain did not serve revised V3"; exit 1
+            fi
+            pm2 save >/dev/null
+            rm -f "$BUNDLE"
+            completed=yes
+            trap - EXIT
+            echo "SUCCESS: revised V3 is live at https://hexasteel.sa; previous release preserved"
