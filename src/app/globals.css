@@ -1180,6 +1180,18 @@ body:has(.hexa-studio) > .contact-shortcuts{display:none!important}
 @media(max-width:760px){.supplier-product{grid-template-columns:1fr 1fr}}
 @media(max-width:580px){.supplier-product{grid-template-columns:1fr}}
 
+/* V3.24 — compact corporate header and future customer tracking preview */
+.site-header .header-actions{display:flex;flex-direction:column;align-items:stretch;gap:4px;min-width:126px}
+.site-header .header-actions .header-cta{text-align:center;background:#d9b566;color:#17242e!important;padding:11px 12px}
+.site-header .header-tracking{display:flex;align-items:center;justify-content:center;gap:5px;font-size:9px;font-weight:650;white-space:nowrap;color:#e8eef2}
+.site-header .header-tracking span{font-size:8px;color:#d9b566;border:1px solid #d9b56680;border-radius:2px;padding:2px 3px}
+.site-header .header-search{border:0!important;background:transparent!important;padding:8px!important;min-width:36px!important;flex-basis:36px!important}
+.site-header .header-search:hover,.site-header .header-search:focus-visible{color:#d9b566}
+.site-header .hexa-nav-desktop{gap:clamp(5px,.65vw,12px)}
+.site-header .hexa-nav-trigger{font-size:clamp(10px,.79vw,12px)}
+@media(max-width:1350px){.site-header .header-inner{gap:10px}.site-header .hexa-nav-desktop{gap:6px}}
+@media(max-width:1170px){.site-header .header-actions{display:none}.site-header .header-right{order:2}}
+
 /* V3.24 — Supplier qualification experience */
 .supplier-page .supplier-hero{background:#243746;color:#fff}
 .supplier-hero-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(260px,.7fr);gap:clamp(28px,6vw,80px);align-items:center}

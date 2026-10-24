@@ -38,8 +38,7 @@ export function SiteNavigation(){
       <Link href={item.href} onClick={close} className="hexa-nav-mobile-direct">{item.label}</Link>}
    </div>)}
    <Link className="hexa-nav-mobile-direct" href="/search" onClick={close}>Search website</Link>
-   <Link className="hexa-nav-mobile-direct" href="/contact" onClick={close}>Contact Us</Link>
-   <Link className="hexa-nav-mobile-rfq" href="/request-quotation" onClick={close}>Request a quotation</Link>
+   <Link className="hexa-nav-mobile-rfq" href="/request-quotation" onClick={close}>Request a quotation</Link><a className="hexa-nav-mobile-direct" href="/track-project" onClick={close}>Track Your Project — Coming Soon</a>
   </nav></>}
  </div>
 }

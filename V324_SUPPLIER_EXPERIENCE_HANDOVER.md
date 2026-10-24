@@ -28,5 +28,10 @@
 - **Developed:** site experience, form and pipeline preflight.
 - **Tested:** CI results will be linked after validation; not equivalent to acceptance.
 - **Merged/deployed/accepted:** not yet for V3.24.
-- **Official release progress:** R1 68%, R2 0%, R3 0% unchanged.
+- **Official release progress:** R1 70%, R2 0%, R3 0% unchanged.
 - **Next recommended milestone:** Resolve website env syntax, validate OTS supplier table, deploy website through existing GitHub–DigitalOcean workflow with approval, then perform production E2E supplier qualification review before starting RFQ/CRM.
+
+## Branch reconciliation with latest website baseline (24 October 2026)
+
+- `rebuild/website-v3` moved to `1c341c9b` through navigation PR #32. Its CI passed, but DigitalOcean deployment failed on malformed persistent website env configuration. Original V3.24 PR #33 became conflicted due to overlapping `PROJECT_STATUS.md` and `src/app/globals.css` changes.
+- Conflict resolution retains the latest header/navigation and official CEO-confirmed R1 **70%**, merges the new supplier experience CSS, and keeps the feature PR isolated. CEO subsequently verified `ots_db.ScSupplierApplication` exists (`COUNT(*) = 1`); no submission E2E acceptance implied.

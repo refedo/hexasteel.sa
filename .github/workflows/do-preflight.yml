@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - rebuild/website-v3
+      - feature/v324-supplier-experience-hardening
 
 permissions:
   contents: read
@@ -123,4 +124,20 @@ jobs:
             PY
             echo "Storage free above 1GB:"
             if test "$(df -Pk /var/www | tail -1 | awk '{print $4}')" -gt 1048576; then echo "yes"; else echo "no"; fi
+            echo "=== Website supplier environment syntax (read-only) ==="
+            ENV_FILE="$HOME/hexasteel-v3/.env.contact"
+            test -r "$ENV_FILE"
+            test "$(stat -c %a "$ENV_FILE")" = "600"
+            awk '
+              /^[[:space:]]*($|#)/ { next }
+              /^[[:space:]]*(export[[:space:]]+)?[A-Za-z_][A-Za-z0-9_]*=/ { next }
+              { print "Invalid website env entry at line " NR; invalid=1 }
+              END { exit invalid }
+            ' "$ENV_FILE"
+            if sh -n "$ENV_FILE" >/dev/null 2>&1; then
+              echo "Website environment syntax: PASS"
+            else
+              echo "Website environment syntax: FAIL"
+              exit 1
+            fi
             echo "Preflight complete; no files, PM2 processes, DNS, or Nginx settings were changed."

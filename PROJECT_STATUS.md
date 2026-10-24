@@ -1,3 +1,15 @@
+## Official progress reconciliation — 24 October 2026 (CEO confirmation; V3.24 branch)
+
+| Release | Current management progress | Basis |
+| --- | ---: | --- |
+| **R1 — Corporate Website, CMS & Lead Generation** | **70%** | CEO-confirmed management estimate, as documented in [PR #31](https://github.com/refedo/hexasteel.sa/pull/31): operational contact inbox delivery and deployed technical canonical SEO work |
+| **R2 — Commercial Platform & CRM** | **0%** | Not started / deferred |
+| **R3 — AI-Assisted Steel Estimation** | **0%** | Not started |
+
+**Reconciliation:** Historical 65% and 68% entries below are superseded for current management reporting by the 70% figure confirmed by the CEO. PR #31 is the separate acceptance-record branch; this entry records the same figure on V3.24 without claiming PR #31 has been merged into the integration branch. Google indexing confirmation and branded email formatting remain open. The V3.24 navigation changes in [PR #32](https://github.com/refedo/hexasteel.sa/pull/32) were integrated at `1c341c9b` after CI; the DigitalOcean deployment at that revision failed on the previously reported invalid `/root/hexasteel-v3/.env.contact` text line, so those navigation changes are not yet verified live and do not increase the 70% figure. No change to `main` or production.
+
+---
+
 ## V3.24 — Become a Supplier experience and deployment safeguards (24 October 2026)
 
 - **Previous stopping point:** V3.23 Supplier Registration PR #29 merged to `rebuild/website-v3` as `f8fbbb0423d3a20762963678a6bfc7ed7f3026c6`. Merge commit passed website foundation CI (#40031761231 / #40031754468) but DigitalOcean rollout #40031754305 **failed** while shell-sourcing persistent `.env.contact`: line 10 `Supplier: command not found`. Previous website release `6f482d7d` was preserved; V3.23 cannot be claimed deployed or accepted.
@@ -5,6 +17,11 @@
 - **Current milestone:** Isolated feature branch `feature/v324-supplier-experience-hardening` from verified website integration head. Premium navy supplier landing page; evidence-based qualification criteria; structured accessible form; per-product categories and manufacturing origin; PDF count/MIME/size preflight; consistent error feedback and Turnstile reset; deployment preflight rejects invalid persistent env lines without printing credentials.
 - **Acceptance criteria:** TypeScript checks, website tests, search/logo check and Next production build all pass in CI; no unrelated page regressions. Independent confirmation of persistent env fix, live website version, OTS supplier schema, page and form integration before enabling supplier submission. Feature development does not imply activation or operational acceptance.
 - **Release accounting:** Documented management baseline **R1 68%**, R2/R3 0%. V3.24 developed on feature branch only. No deployment, merge into integration or production acceptance claimed for this milestone.
+
+
+- **New verified integration baseline:** website `rebuild/website-v3` `1c341c9b` following the navigation PR. The last attempted deployment of this revision also failed before activation while sourcing the malformed server environment file; owner reports having edited the file on 24 October, but its syntax has not yet been independently rechecked.
+- **New DB evidence:** CEO ran a read-only MySQL table-existence query on DigitalOcean and returned `1` for `ots_db.ScSupplierApplication`. This verifies table presence, not schema conformance, email or form E2E.
+- **Reconciliation:** V3.24 Supplier UX remains isolated on `feature/v324-supplier-experience-hardening`; content/css have been merged with the latest navigation and official 70% status on the feature branch. No pushes to integration or website main in this reconciliation.
 
 ---
 
