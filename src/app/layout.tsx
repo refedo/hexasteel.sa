@@ -6,11 +6,11 @@ import { BrandTransitionNotice } from "@/components/BrandTransitionNotice";
 import {ContactShortcuts} from "@/components/ContactShortcuts";
 import {SiteMotion} from "@/components/SiteMotion";
 import "./globals.css";
-import {getAccentColor} from "@/lib/siteSettings";
+import {getFavicon,getAccentColor} from "@/lib/siteSettings";
 import {getAnalyticsSettings} from "@/lib/analyticsSettings";
 import type {CSSProperties} from "react";
 import {SiteStructuredData} from "@/components/SiteStructuredData";
-export const metadata: Metadata = {
+const baseMetadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://hexasteel.sa"),
   title: { default: "HEXA STEEL® | Structural Steel & PEB Manufacturer Saudi Arabia", template: "%s | HEXA STEEL®" },
   description: "Hexa Steel® provides structural steel fabrication, pre-engineered buildings (PEB), C/Z purlins, laser cutting, steel detailing, project management and site delivery in Saudi Arabia.",
@@ -23,6 +23,10 @@ export const metadata: Metadata = {
    ...(process.env.BING_SITE_VERIFICATION?{other:{"msvalidate.01":process.env.BING_SITE_VERIFICATION}}:{})
   }
 };
+export async function generateMetadata():Promise<Metadata>{
+ const favicon=await getFavicon();
+ return {...baseMetadata,...(favicon?{icons:{icon:[{url:favicon}],apple:[{url:favicon}]}}:{})};
+}
 // Keep CMS-controlled visual settings fresh without disabling static rendering.
 export const revalidate = 30;
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

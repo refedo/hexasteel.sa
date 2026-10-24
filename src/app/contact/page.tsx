@@ -1,3 +1,4 @@
+import {getContactFormSettings} from "@/lib/contactFormSettings";
 import type {Metadata} from "next";
 import {getPublicContact} from "@/lib/publicContact";
 import {contactMailConfigured} from "@/lib/contactMail";
@@ -7,11 +8,11 @@ import Link from "next/link";
 export const dynamic="force-dynamic";
 export const metadata:Metadata={alternates:{canonical:"https://hexasteel.sa/contact"},title:"Contact Hexa Steel®",description:"Contact Hexa Steel® in Saudi Arabia for structural steel, PEB, project management, steel fabrication and engineering services. Phone and WhatsApp."};
 export default async function ContactPage(){
- const contact=await getPublicContact();
+ const [contact,settings]=await Promise.all([getPublicContact(),getContactFormSettings()]);
  const siteKey=process.env.CONTACT_TURNSTILE_SITE_KEY||"";
  const formActive=Boolean(siteKey&&process.env.CONTACT_TURNSTILE_SECRET_KEY&&contactMailConfigured());
  return <main>
-  <section className="inner-hero"><div className="shell"><p className="eyebrow on-dark">CONTACT / HEXA STEEL®</p><h1>Let's make the next project happen.</h1><p>Discuss your structural steel project, industrial building, manufacturing requirements or engineering enquiry directly with our team.</p>
+  <section className="inner-hero"><div className="shell"><p className="eyebrow on-dark">CONTACT / HEXA STEEL®</p><h1>{settings.heroTitle}</h1><p>{settings.heroDescription}</p>
    <div className="contact-direct-actions"><a className="button signal" href={contact.tel}>Call {contact.formatted}</a>{contact.whatsappEnabled&&<a className="button outline" target="_blank" rel="noopener noreferrer" href={contact.whatsapp}>Chat with us on WhatsApp</a>}</div>
   </div></section>
   <section className="section"><div className="shell contact-layout">
@@ -22,8 +23,8 @@ export default async function ContactPage(){
     <div className="contact-detail"><small>CUSTOMER EXPERIENCE</small><Link href="/feedback">Share your feedback with our team</Link></div>
     <div className="contact-detail"><small>LOCATION</small><span>Riyadh, Saudi Arabia</span><a href="https://www.google.com/maps/search/?api=1&query=Hexa+Steel+Riyadh+Saudi+Arabia" target="_blank" rel="noopener noreferrer" className="contact-map-link">Find HEXA Steel® on Google Maps</a></div>
    </div>
-   <div className="form-shell"><p className="eyebrow">GENERAL ENQUIRY</p><h2>How can we help?</h2>
-    {formActive?<ContactEnquiryForm siteKey={siteKey}/>:<div className="hexa-feedback-pending"><strong>Online enquiries are temporarily unavailable.</strong><p>Please email <a href="mailto:inquiries@hexasteel.sa">inquiries@hexasteel.sa</a> or contact our team by phone or WhatsApp.</p></div>}
+   <div className="form-shell"><p className="eyebrow">{settings.formEyebrow}</p><h2>{settings.formTitle}</h2><p className="contact-form-intro">{settings.formIntro}</p>
+    {formActive?<ContactEnquiryForm siteKey={siteKey} settings={settings}/>:<div className="hexa-feedback-pending"><strong>Online enquiries are temporarily unavailable.</strong><p>Please email <a href="mailto:inquiries@hexasteel.sa">inquiries@hexasteel.sa</a> or contact our team by phone or WhatsApp.</p></div>}
    </div>
   </div></section>
  </main>;
