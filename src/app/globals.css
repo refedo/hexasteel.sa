@@ -1191,3 +1191,60 @@ body:has(.hexa-studio) > .contact-shortcuts{display:none!important}
 .site-header .hexa-nav-trigger{font-size:clamp(10px,.79vw,12px)}
 @media(max-width:1350px){.site-header .header-inner{gap:10px}.site-header .hexa-nav-desktop{gap:6px}}
 @media(max-width:1170px){.site-header .header-actions{display:none}.site-header .header-right{order:2}}
+
+/* V3.24 — Supplier qualification experience */
+.supplier-page .supplier-hero{background:#243746;color:#fff}
+.supplier-hero-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(260px,.7fr);gap:clamp(28px,6vw,80px);align-items:center}
+.supplier-hero-grid>div>p:not(.eyebrow){max-width:760px}
+.supplier-hero-actions{display:flex;align-items:center;gap:23px;flex-wrap:wrap;margin-top:30px}
+.supplier-hero-button{background:#fff;color:#2C3E50;border:1px solid #fff}
+.supplier-hero-button:hover{background:#eaf0f2}
+.supplier-hero-link{color:#fff;text-decoration:underline;text-underline-offset:5px;font-weight:650;font-size:14px}
+.supplier-hero-panel{border:1px solid rgba(255,255,255,.32);padding:clamp(26px,3.5vw,44px);background:rgba(255,255,255,.06)}
+.supplier-panel-kicker{font-size:11px!important;font-weight:700;letter-spacing:.15em;color:#d6e0e4}
+.supplier-hero-panel h2{color:#fff;font-size:clamp(24px,2.5vw,36px);line-height:1.16;margin:19px 0}
+.supplier-hero-panel p:not(.supplier-panel-kicker){font-size:15px;color:#e5ecef;line-height:1.7}
+.supplier-hero-panel span{display:block;border-top:1px solid rgba(255,255,255,.3);padding-top:20px;margin-top:26px;font-size:12px;color:#d8e3e8;line-height:1.5}
+.supplier-content{scroll-margin-top:90px}
+.supplier-guidance>p:not(.eyebrow){line-height:1.75}
+.supplier-steps{list-style:none;padding:0!important}
+.supplier-steps li{display:flex;align-items:start;gap:15px;border-left:3px solid #2C3E50;background:#edf2f4;padding:16px 18px;min-width:0}
+.supplier-step-number{font-size:13px;font-weight:800;color:#2C3E50;letter-spacing:.08em}
+.supplier-steps strong{display:block;color:#2C3E50;font-size:14px;line-height:1.4}
+.supplier-steps small{display:block;color:#536571;font-size:13px;line-height:1.6;margin-top:4px}
+.supplier-document-note{padding:24px;border:1px solid #cbd7dd;margin-top:30px}
+.supplier-document-note h3{color:#2C3E50;font-size:19px;margin:0 0 12px}
+.supplier-document-note p{line-height:1.65;font-size:14px;margin:8px 0}
+.supplier-unavailable h2{font-size:clamp(24px,2.4vw,32px)}
+.supplier-unavailable .button{display:inline-block;margin-top:18px}
+.supplier-qualifications{background:#f3f6f7}
+.supplier-qualifications-intro{max-width:730px;margin-bottom:34px}
+.supplier-qualifications-intro h2{font-size:clamp(28px,3vw,44px);color:#2C3E50}
+.supplier-qualifications-intro>p:not(.eyebrow){line-height:1.7}
+.supplier-qualification-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:#d3dee4;border:1px solid #d3dee4}
+.supplier-qualification-grid article{background:#fff;padding:clamp(18px,2vw,28px);min-width:0}
+.supplier-qualification-grid article>span{display:block;color:#718390;font-size:12px;font-weight:750;letter-spacing:.1em;margin-bottom:30px}
+.supplier-qualification-grid h3{color:#2C3E50;font-size:18px;line-height:1.3;margin-bottom:12px}
+.supplier-qualification-grid p{color:#50606a;font-size:14px;line-height:1.7;margin:0}
+.supplier-page a:focus-visible,.supplier-page button:focus-visible{outline:3px solid #92afc0;outline-offset:4px}
+@media(max-width:1000px){.supplier-qualification-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:900px){.supplier-hero-grid{grid-template-columns:1fr}.supplier-hero-panel{max-width:560px}}
+@media(max-width:580px){.supplier-qualification-grid{grid-template-columns:1fr}.supplier-hero-actions{align-items:flex-start;flex-direction:column}}
+
+/* V3.24 — structured supplier application and document feedback */
+.supplier-steps li>span{background:transparent;border:0;padding:0}
+.supplier-form-shell h2{font-size:clamp(25px,2.6vw,34px);color:#2C3E50;margin-bottom:12px}
+.supplier-form-intro{font-size:14px;line-height:1.65;color:#52626e;margin-bottom:23px}
+.supplier-form-section{min-width:0;border:0;margin:0 0 7px;padding:0;border-top:1px solid #d9e3e8}
+.supplier-form-section legend{padding:22px 0 16px;font-size:16px;font-weight:750;color:#2C3E50}
+.supplier-form-section legend span{margin-right:11px;font-weight:800;color:#688092;font-size:12px;letter-spacing:.04em}
+.supplier-form-section>.form-grid{min-width:0}
+.supplier-form-section input,.supplier-form-section textarea,.supplier-form-section select{min-width:0;max-width:100%}
+.supplier-form-section input[type=file]{width:100%}
+.supplier-selected-files{margin:12px 0 0;padding:0;list-style:none;border:1px solid #ccd8dd}
+.supplier-selected-files li{display:flex;gap:12px;justify-content:space-between;align-items:baseline;padding:11px 13px;border-bottom:1px solid #e2e8eb;overflow-wrap:anywhere;font-size:13px}
+.supplier-selected-files li:last-child{border-bottom:0}
+.supplier-selected-files li small{color:#657681;white-space:nowrap}
+.supplier-submit-area button{min-width:220px}
+.supplier-success .supplier-reference{background:#ecf2f5;padding:14px;display:block;margin:16px 0}
+@media(max-width:580px){.supplier-selected-files li{flex-direction:column;gap:4px}.supplier-submit-area button{width:100%;min-width:0}}

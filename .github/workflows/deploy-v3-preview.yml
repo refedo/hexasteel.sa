@@ -56,6 +56,15 @@ jobs:
             pm2 describe hexasteel-v3-review >/dev/null 2>&1
             test -r "$HOME/hexasteel-v3/.env.contact"
             test "$(stat -c %a "$HOME/hexasteel-v3/.env.contact")" = "600"
+            # Environment file is sourced as shell code during activation.
+            # Reject prose headings or stray commands without printing secrets.
+            awk '
+              /^[[:space:]]*($|#)/ { next }
+              /^[[:space:]]*(export[[:space:]]+)?[A-Za-z_][A-Za-z0-9_]*=/ { next }
+              { print "Invalid website environment entry on line " NR; bad=1 }
+              END { exit bad }
+            ' "$HOME/hexasteel-v3/.env.contact"
+            sh -n "$HOME/hexasteel-v3/.env.contact" >/dev/null
             curl -fsS --max-time 8 http://127.0.0.1:4500/ >/dev/null
             if test "$(df -Pk "$HOME" | tail -1 | awk '{print $4}')" -lt 512000; then
               echo "Insufficient free disk for release"; exit 1
