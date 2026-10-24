@@ -1,3 +1,4 @@
+import {jobPosting} from "./jobPosting";
 import {defineType,defineField} from "sanity";
 import {industrySectors,projectTypeOptions,steelSystemOptions} from "../../content/projectTaxonomy";
 
@@ -218,4 +219,4 @@ const publicQualification=defineType({name:"publicQualification",title:"Public Q
  defineField({name:"verifiedScope",type:"boolean",initialValue:false,description:"Scope and current status verified against official documentation."}),
  defineField({name:"approvedForWeb",type:"boolean",initialValue:false,description:"Cleared for public release."})
 ]});
-export const schemaTypes=[localizedText,contentSection,page,project,credential,initiative,siteSettings,analyticsSettings,testimonial,teamProfile,knowledgeArticle,companyUpdate,capabilityService,publicQualification];
+export const schemaTypes=[jobPosting,localizedText,contentSection,page,project,credential,initiative,siteSettings,analyticsSettings,testimonial,teamProfile,knowledgeArticle,companyUpdate,capabilityService,publicQualification];
