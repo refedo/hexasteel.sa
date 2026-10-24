@@ -1,3 +1,32 @@
+## Current release progress — 25 October 2026 (authorized weighted reassessment)
+
+**R1: 75.50% ≈ 76%. R2: 0%. R3: 0%.** This supersedes older management percentages for current reporting. The CEO requested publication and a fresh calculated estimate on 25 October. This measures development maturity; operational acceptance remains tracked separately.
+
+[Full calculation, evidence, remaining scope and handover](ROADMAP_PROGRESS_20261025.md).
+
+| Workstream | Weight | Estimated completion | Contribution to R1 | Remaining R1 points |
+| --- | ---: | ---: | ---: | ---: |
+| R1-A — Foundation, architecture and responsive design | 25% | 95% | 23.75 | 1.25 |
+| R1-B — Corporate pages, products, services and navigation | 15% | 95% | 14.25 | 0.75 |
+| R1-C — Sanity CMS and editorial management | 15% | 80% | 12.00 | 3.00 |
+| R1-D — Projects, qualifications, Knowledge Centre and media | 20% | 80% | 16.00 | 4.00 |
+| R1-E — Arabic/English localization and RTL | 10% | 0% | 0.00 | 10.00 |
+| R1-F — RFQ, secure uploads, notifications, Careers and basic vendor registration | 10% | 55% | 5.50 | 4.50 |
+| R1-G — SEO, security, testing and operational acceptance | 5% | 80% | 4.00 | 1.00 |
+| **R1 total** | **100%** | — | **75.50% ≈ 76%** | **24.50** |
+
+**Weight continuity:** Original weights retained: A = strategy 10% + visual/responsive 15%; B = page architecture 15%; C = CMS 15%; D = projects/trust 10% + Knowledge/Insights 10%; E = localization 10%; F = intake 10%; G = QA/security/sign-off 5%. Scores are evidence-informed estimates, not measured acceptance-test coverage. The prior 70% was a management estimate; 76% is a newly calculated rebaseline of already delivered work, not new operational acceptance.
+
+**Latest verified application baseline:** `rebuild/website-v3` `06db8641277498c105942ae7ed50b60a184e21a2`, merged V3.26 [PR #37](https://github.com/refedo/hexasteel.sa/pull/37). Final-head CI [#40137673024](https://github.com/refedo/hexasteel.sa/actions/runs/40137673024) / [#40137669866](https://github.com/refedo/hexasteel.sa/actions/runs/40137669866), deployment [#40137669936](https://github.com/refedo/hexasteel.sa/actions/runs/40137669936), preflight [#40137669860](https://github.com/refedo/hexasteel.sa/actions/runs/40137669860) all succeeded. This supersedes V3.26's historical deployment-pending text below.
+
+**Acceptance still open:** Careers legacy vacancy population, authenticated HR publishing/closure and private CV delivery; supplier E2E (last verified disabled); contact HTML inbox appearance and contact/favicon CMS publication; RFQ remains draft/incomplete; Arabic/RTL not implemented; remaining content/evidence, indexing and final release QA.
+
+**Next milestone:** Resolve missing Careers vacancies and verify the HR lifecycle/private intake; then close deployed CMS/contact/supplier acceptance, resume secure RFQ, implement Arabic/RTL and finish R1 operational sign-off. Scope remains the agreed R1-A–G, R2 commercial platform and R3 supervised AI estimation. No blended programme percentage.
+
+**This reconciliation:** documentation-only branch `docs/roadmap-progress-20261025`; no application changes, integration/main changes, deployment, email or Sanity mutations. Historical entries below are preserved for traceability.
+
+---
+
 ## V3.26 — Careers cards, favicon and contact editing (24 October 2026; feature branch)
 
 - **Verified previous stopping point:** V3.25 PR #36 merged/deployed at `9624eefbbceb8d974813249491dde92b594dc3cb`; deployment #40082912941 succeeded, public routes/Studio bundle verified. HR publication, scanner/mailbox and private delivery acceptance remain pending. This supersedes stale deployment-pending notes below.
