@@ -1,0 +1,83 @@
+.legacy {
+  background: #2c3e50;
+  color: #f7f9fa;
+  border-top: 1px solid rgba(255,255,255,.15);
+  border-bottom: 1px solid #152635;
+}
+.inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 26px max(28px, 4vw);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 36px;
+}
+.intro { max-width: 760px; }
+.intro h2 {
+  color: #fff;
+  font-size: clamp(23px, 2.6vw, 34px);
+  line-height: 1.2;
+  letter-spacing: -.035em;
+  margin: 0 0 4px;
+}
+.intro p { margin: 7px 0 0; font-size: 13px; line-height: 1.65; }
+.intro .eyebrow { color: #c7d4de; letter-spacing: .16em; font-size: 10px; font-weight: 750; margin: 0 0 11px; }
+.intro .lead { font-size: 15px; color: #fff; font-weight: 650; }
+.intro .betaContext { color: #ccdbe2; }
+.actions { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; }
+.explore {
+  display: inline-flex;
+  gap: 18px;
+  align-items: center;
+  background: white;
+  border: 1px solid white;
+  color: #2c3e50;
+  padding: 12px 15px;
+  border-radius: 2px;
+  font-size: 12px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+.explore:hover { color: #2c3e50; background: #e8eff3; }
+.dismiss {
+  padding: 11px 5px;
+  border: none;
+  background: transparent;
+  color: #e6eef4;
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.beta { background: #e7edf1; color: #2c3e50; border-bottom: 1px solid #cad5df; }
+.betaInner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 9px max(28px, 4vw);
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  justify-content: space-between;
+}
+.beta p { margin: 0; font-size: 12px; line-height: 1.6; }
+.beta strong { letter-spacing: .09em; font-size: 10px; margin-right: 12px; }
+.betaDismiss {
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  padding: 2px 0;
+  flex-shrink: 0;
+  background: transparent;
+  color: #2c3e50;
+  cursor: pointer;
+  font-size: 11px;
+}
+.dismiss:focus-visible, .explore:focus-visible, .betaDismiss:focus-visible {
+  outline: 3px solid #b9ce54; outline-offset: 3px;
+}
+@media (max-width: 720px) {
+  .inner { flex-direction: column; align-items: flex-start; gap: 15px; padding: 23px 24px; }
+  .betaInner { padding: 9px 18px; gap: 12px; align-items: flex-start; }
+  .beta p { font-size: 11px; }
+  .beta strong { display: inline-block; margin: 0 7px 0 0; }
+}

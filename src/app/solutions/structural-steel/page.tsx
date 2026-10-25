@@ -1,0 +1,16 @@
+import {getEditorialPage} from "@/lib/cms";
+import type {Metadata} from "next";
+import {publicPageMetadata} from "@/lib/seo";
+import Link from "next/link";
+import {CapabilityNarrative} from "@/components/CapabilityNarrative";
+import {structuralSteelScenes,structuralSteelProducts} from "@/content/structuralSteel";
+import {CallToAction,PageHero} from "@/components/PageBlocks";
+export const metadata:Metadata=publicPageMetadata("/solutions/structural-steel","Structural Steel Fabrication & Engineering","Structural steel fabrication and engineering for industrial buildings, mezzanines, pipe racks, platforms and commercial structures in Saudi Arabia.");
+export default async function StructuralSteel(){const editorial=await getEditorialPage("solutions--structural-steel");return <main>
+ <PageHero eyebrow="SOLUTIONS / STRUCTURAL STEEL" title={editorial?.title||"Complex steel. Deliberately delivered."} intro={editorial?.intro||"Hexa's structural steel practice combines engineering, fabrication, quality assurance and contractual project execution for industrial, commercial and infrastructure projects."}/>
+ <section className="section editorial-capability-intro"><div className="shell editorial-statement"><div><p className="eyebrow">A CORE HEXA STEEL DISCIPLINE</p><h2>Engineering detail.<br/><span>Industrial scale.</span></h2></div><p>Structural steel is a principal business pillar—not a subsidiary of PEB. We bring manufacturing resources, multidisciplinary teams and deliberate project control to demanding steelwork packages.</p></div></section>
+ <section className="section capability-story-section"><div className="shell"><div className="section-intro"><p className="eyebrow">EXPLORE THE STRUCTURAL STEEL SERVICE</p><h2>From concept to<br/><span>controlled completion.</span></h2><p>Select an area to see how our engineering, operations and project teams work together.</p></div><CapabilityNarrative scenes={structuralSteelScenes} kicker="STRUCTURAL STEEL"/></div></section>
+ <section className="section"><div className="shell"><p className="eyebrow">OUR STRUCTURAL STEEL PRODUCT RANGE</p><h2>Steel for <span>every function.</span></h2><div className="component-glossary">{structuralSteelProducts.map((item,i)=><article key={item.title} id={item.title.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/-$/,"")}><span>{String(i+1).padStart(2,"0")}</span><div><h3>{item.title}</h3><p>{item.description}</p></div></article>)}</div></div></section>
+ <section className="industrial-section-band"><div className="shell industrial-band-layout"><div><p className="eyebrow on-dark">OUR CONTRACTUAL DIFFERENCE</p><h2>We manage the project, not just the fabrication.</h2><p>Material submittals, project scheduling, inspection planning, controlled production, loading plans and site coordination all sit within one deliberate delivery structure.</p></div><Link href="/project-delivery" className="button outline">Project management & site execution</Link></div></section>
+ <CallToAction heading="Talk to our structural steel team."/>
+ </main>}

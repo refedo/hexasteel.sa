@@ -1,0 +1,13 @@
+import {getEditorialPage} from "@/lib/cms";
+import type {Metadata} from "next";
+import {PageHero,CallToAction} from "@/components/PageBlocks";
+import {CapabilityNarrative} from "@/components/CapabilityNarrative";
+export const metadata:Metadata={
+  alternates:{canonical:"https://hexasteel.sa/products/steel-accessories"},title:"Steel Accessories & Industrial Structures"};
+const scenes=[
+ {label:"Access & Safety",eyebrow:"01 / PLATFORMS",headline:"Safe access is structural.",description:"Fabricated steel access components for industrial facilities, mezzanines and maintenance areas.",outcomes:["Grating, checkered plates and deck panels","Industrial stairs, handrails and guardrails","Catwalks and walkways"],href:"/request-quotation",cta:"Request fabricated access steel",symbol:"ACCESS"},
+ {label:"Crane Systems",eyebrow:"02 / STRUCTURAL SUPPORTS",headline:"Ready for lifting loads.",description:"Crane runway beams, brackets and framing interfaces designed for the specific crane duty.",outcomes:["Crane support steel structures","Runway beams and brackets","Mezzanine and equipment platform framing"],href:"/solutions/structural-steel",cta:"Explore structural steel",symbol:"CRANE"},
+ {label:"Secondary Framing",eyebrow:"03 / PEB COMPONENTS",headline:"The connections that support the envelope.",description:"Cold-formed sections and related restraint items supporting walls, roofs and cladding.",outcomes:["C purlins and Z purlins","Girts, struts and sag rods","Secondary beams and joists"],href:"/solutions/peb",cta:"Discover PEB systems",symbol:"C / Z"},
+ {label:"Composite Parts",eyebrow:"04 / FLOORING",headline:"Purpose-built mezzanine and floor elements.",description:"Decking and structural accessories specified for service loading, fabrication and safe site installation.",outcomes:["Shear studs","Steel deck panels","Industrial grating and floor plates"],href:"/request-quotation",cta:"Discuss floor components",symbol:"FLOOR"}
+];
+export default async function Accessories(){const editorial=await getEditorialPage("products--steel-accessories");return <main><PageHero eyebrow="PRODUCTS / STRUCTURAL ACCESSORIES" title={editorial?.title||"Every component matters."} intro={editorial?.intro||"Access systems, secondary steel, floor components and crane supports integrated into our manufacturing and project delivery practice."}/><section className="section capability-story-section"><div className="shell"><div className="section-intro"><p className="eyebrow">INDUSTRIAL COMPONENTS</p><h2>Beyond beams<br/><span>and columns.</span></h2></div><CapabilityNarrative scenes={scenes} kicker="STEEL ACCESSORIES"/></div></section><CallToAction heading="Source structural accessories for your next project."/></main>}
