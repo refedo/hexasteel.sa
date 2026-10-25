@@ -1,3 +1,12 @@
+## V3.27 — Google Forms application links and engineering vacancies (25 October 2026)
+
+- Starting integration: `cd580ab381b1f67753f4b2d0218028c29966624b`; application baseline V3.26 `06db864`. Latest official progress remains **R1 75.50% ≈ 76%, R2/R3 0%**.
+- CEO-authorized live Sanity updates: HX-CAR-006 Steel Design Engineer (existing draft reused) and HX-CAR-007 Steel Detailing Engineer (Steel Detailer) completed and published, both 6–10 years. Seven open roles verified on public Careers page.
+- Isolated `feature/v327-careers-google-form`: visible “Apply for this job” on eligible open cards links to CEO-provided Google Form; native intake UI replaced temporarily, no OTS integration claimed. Google sign-in requirement disclosed.
+- Code integration/deployment pending separate approval. Form completion/response receipt not tested. See `CAREERS_GOOGLE_FORM_V327_HANDOVER.md` and PR for tests and handover. No progress increase for unmerged code.
+
+---
+
 ## Current release progress — 25 October 2026 (authorized weighted reassessment)
 
 **R1: 75.50% ≈ 76%. R2: 0%. R3: 0%.** This supersedes older management percentages for current reporting. The CEO requested publication and a fresh calculated estimate on 25 October. This measures development maturity; operational acceptance remains tracked separately.

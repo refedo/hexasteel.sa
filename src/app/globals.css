@@ -1280,3 +1280,11 @@ body:has(.hexa-studio) > .contact-shortcuts{display:none!important}
 .contact-layout .form-grid textarea{min-height:170px;resize:vertical}
 .contact-layout .form-grid input:focus-visible,.contact-layout .form-grid select:focus-visible,.contact-layout .form-grid textarea:focus-visible{outline:2px solid #2c3e50;outline-offset:2px}
 @media(max-width:760px){.careers-jobs{grid-template-columns:1fr}.career-role>summary{min-height:0;padding:22px}.career-role-detail{padding:22px}.career-role[open]{grid-column:auto}.career-fields{grid-template-columns:1fr}}
+
+/* Temporary Google Forms recruitment, visible without opening job details. */
+.career-card{min-width:0}
+.career-card:has(.career-role[open]){grid-column:1/-1}
+.career-card-apply{padding:18px 24px;border:1px solid #ccd6de;border-top:0;background:#fff;border-radius:0 0 6px 6px}
+.career-card-apply p{font-size:12px;line-height:1.6;color:#526575;margin:12px 0 0}
+.career-card-apply .button{width:100%;text-align:center;justify-content:center}
+@media(max-width:760px){.career-card:has(.career-role[open]){grid-column:auto}}
