@@ -35,6 +35,7 @@ export const navigation = [
  {label:"Insights & News",href:"/insights"},
  {label:"Join Our Team",href:"/company/careers"},
  {label:"Become a Supplier",href:"/become-a-supplier"},
+ {label:"Marketplace",href:"/marketplace"},
  {label:"Contact Us",href:"/contact"}
 ] as const;
 export const reportedQualifications=[

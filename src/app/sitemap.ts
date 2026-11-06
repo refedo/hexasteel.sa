@@ -4,7 +4,7 @@ const base="https://hexasteel.sa";
 const routes=[
 "/","/products-services","/solutions/structural-steel","/solutions/peb",
 "/services/design-detailing","/services/fabrication","/services/pipes-vessels",
-"/products/sheeting","/products/steel-accessories",
+"/products/sheeting","/products/steel-accessories","/marketplace",
 "/capabilities/quality","/capabilities/coating","/capabilities/machinery",
 "/company","/company/about","/company/approvals","/company/operational-excellence","/company/people","/company/careers",
 "/project-delivery","/projects","/become-a-supplier","/knowledge","/insights","/contact","/privacy","/feedback","/request-quotation",

@@ -1,3 +1,4 @@
+import {ImportMarketplaceItems} from "./src/sanity/tools/ImportMarketplaceItems";
 import {ImportCareerRoles} from "./src/sanity/tools/ImportCareerRoles";
 import {defineConfig} from "sanity";
 import {structureTool} from "sanity/structure";
@@ -21,6 +22,8 @@ export default defineConfig({
    S.listItem().title("Website Analytics").id("analyticsSettings").child(S.document().schemaType("analyticsSettings").documentId("analyticsSettings")),
    S.divider(),
    S.listItem().title("Website Pages").child(S.documentTypeList("page")),
+   S.listItem().title("Marketplace — Products & Services").child(S.documentTypeList("marketplaceItem")),
+   S.listItem().title("Prepare Marketplace Drafts").child(S.component(ImportMarketplaceItems).title("Prepare marketplace drafts")),
    S.listItem().title("Projects & Case Studies").child(S.documentTypeList("project")),
    S.listItem().title("Prepare Existing Career Drafts").child(S.component(ImportCareerRoles).title("Prepare existing career drafts")),
    S.listItem().title("HR — Careers & Opportunities").child(S.documentTypeList("jobPosting").title("Career opportunities — publish status changes")),

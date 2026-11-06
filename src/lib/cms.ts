@@ -1,3 +1,4 @@
+import {marketplaceDefaults, type MarketplaceItem} from "@/content/marketplace";
 import {createClient} from "next-sanity";
 import {articles,insights,references} from "@/content/site";
 import {qualificationLogos} from "@/content/qualificationLogos";
@@ -106,4 +107,26 @@ export async function getEditorialPage(route:string):Promise<{title:string;intro
   );
   return data?.title&&data?.intro?{title:data.title,intro:data.intro}:null;
  }catch{return null}
+}
+
+export async function getMarketplaceItems(): Promise<MarketplaceItem[]> {
+ const records = await safeFetch<MarketplaceItem & {visibleInMarketplace?: boolean;priceSar?: number}>(
+  '*[_type=="marketplaceItem" && !(_id in path("drafts.**")) && defined(slug.current)]|order(_updatedAt asc,_id asc){ "slug":slug.current,title,category,description,unit,priceSar,visibleInMarketplace,"image":image.asset->url,imageAlt }'
+ );
+ const items = new Map(marketplaceDefaults.map(item=>[item.slug,item]));
+ for (const record of records) {
+  const {slug,title,category,description,unit,priceSar,visibleInMarketplace,image,imageAlt}=record;
+  if (visibleInMarketplace === false) {
+   items.delete(slug);
+   continue;
+  }
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) || !title || !description || !unit || (category !== "Product" && category !== "Service")) continue;
+  const priceHalalas = typeof priceSar === "number" && priceSar > 0 && priceSar <= 10000000
+   ? Math.round(priceSar * 100) || null
+   : null;
+  const previous = items.get(slug);
+  items.set(slug,{slug,title,category,description,unit,priceHalalas,
+   image:isSafePublicImage(image ?? undefined)?image:previous?.image,imageAlt:imageAlt||previous?.imageAlt});
+ }
+ return [...items.values()];
 }

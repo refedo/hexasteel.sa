@@ -1,5 +1,24 @@
 ## Current release progress — 6 November 2026
 
+| Release | Official progress | Status |
+| --- | ---: | --- |
+| R1 — Corporate Website, CMS & Lead Generation | **100%** | Closed by CEO sign-off. Careers and supplier pages are live and operational, as confirmed by the CEO. |
+| R2 — Commercial Platform & CRM | **0%** | Marketplace added as the first delivery milestone. |
+| R3 — AI-Assisted Steel Estimation | **0%** | Unstarted. |
+
+The R1 sign-off supersedes the previous 85% management estimate. The earlier Arabic/RTL, secure RFQ, and SEO items are retained below as historical follow-up items. This record makes no new technical acceptance claim for those items.
+
+### R2 — Marketplace milestone
+
+- Sell HEXA Steel® products and services on the existing site. Sanity manages public listings, imagery, units, and prices. Keep customer, order and payment records outside Sanity.
+- Start with C/Z purlins at SAR 5,000 per tonne excluding VAT. Add more purchasable products and services as approved prices and units become available. Keep project-specific items available for quotation until priced.
+- Advance R2 to **25%** when customers can select a priced item, add it to the cart, complete online payment and receive an order confirmation, and the checkout has passed production verification. An enquiry cart alone leaves R2 at 0%.
+- Continue with the R2 customer portal, RFQ tracking, advanced supplier qualification, sales CRM, dashboards and controlled OTS™ integration.
+
+---
+
+## Historical release progress — 6 November 2026
+
 **R1: 85%. R2: 0%. R3: 0%.** R1 is the CEO-approved management estimate and supersedes the October weighted baseline of 75.50%. The October breakdown is retained below as a historical calculation. Operational acceptance is tracked separately.
 
 Remaining R1 scope includes end-to-end supplier and Careers intake verification, secure RFQ, Arabic/RTL, and final SEO and operational sign-off. Supplier status tracking via OTS™ remains deferred.
