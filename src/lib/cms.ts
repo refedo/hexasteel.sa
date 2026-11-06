@@ -1,6 +1,7 @@
 import {marketplaceDefaults, type MarketplaceItem} from "@/content/marketplace";
 import {createClient} from "next-sanity";
 import {articles,insights,references} from "@/content/site";
+import {managementLessons,type ManagementLesson} from "@/content/managementLessons";
 import {qualificationLogos} from "@/content/qualificationLogos";
 import {isSafePublicImage} from "@/content/cmsSeed";
 import {publicPageDefaults} from "@/content/cmsPages";
@@ -9,7 +10,7 @@ import type {SearchResult} from "@/lib/searchIndex";
 
 type Project = PublicProject;
 type Insight = (typeof insights)[number];
-type Article = (typeof articles)[number];
+type Article = (typeof articles)[number] & {date?:string;resource?:ManagementLesson['resource']};
 
 const projectId=process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "ik7morln";
 const dataset=process.env.NEXT_PUBLIC_SANITY_DATASET||"production";
@@ -18,10 +19,10 @@ const siteQuery='*[_type=="siteSettings" && _id=="siteSettings"][0]{ "heroHeadli
 type HomeSettings={heroHeadline?:string|null;heroDescription?:string|null;marketPositioning?:string|null;headerTagline?:string|null;contactMobile?:string|null;whatsappEnabled?:boolean|null;trustIndicators?:{figure:string;unit:string;description:string;symbol:string}[];heroSlides?:{src:string;alt:string;title:string;credit:string}[]};
 type CmsProject=PublicProject;
 type CmsInsight={slug:string;title:string;summary:string;category:string;date:string;sections?:{heading:string;body:string}[]};
-type CmsArticle={slug:string;title:string;intro:string;category:string;sections:{heading:string;body:string}[]};
+type CmsArticle={slug:string;title:string;intro:string;category:string;date?:string;resource?:Partial<ManagementLesson["resource"]>;sections:{heading:string;body:string}[]};
 const projectQuery='*[_type=="project" && approvedForWeb==true && identityClearedForWeb==true && defined(publicSlug.current)]{ "slug":publicSlug.current,"title":publicTitle.en,"category":sector,"description":publicSummary,"year":string(completionYear),"size":quantityDisplay,"status":deliveryStatus,"image":coalesce(coverImage.asset->url,illustrativeUrl),"gallery":photos[]{"src":asset->url,"alt":alt},"scope":scope,"industries":industries,"projectTypes":projectTypes,"steelSystem":steelSystem }';
 const insightQuery='*[_type=="companyUpdate" && approvedForWeb==true && defined(slug.current)]{ "slug":slug.current,"title":title.en,"summary":summary.en,"category":category,"date":displayDate,"sections":sections[]{"heading":heading.en,"body":body.en} }';
-const knowledgeQuery='*[_type=="knowledgeArticle" && approvedForWeb==true && defined(slug.current)]{ "slug":slug.current,"title":title.en,"intro":intro.en,"category":category,"sections":sections[]{"heading":heading.en,"body":body.en} }';
+const knowledgeQuery='*[_type=="knowledgeArticle" && approvedForWeb==true && defined(slug.current)]{ "slug":slug.current,"title":title.en,"intro":intro.en,"category":category,"date":publicationDate,"resource":externalResource,"sections":sections[]{"heading":heading.en,"body":body.en} }';
 
 async function safeFetch<T>(query:string):Promise<T[]> {
  if(!client)return [];
@@ -45,7 +46,16 @@ export async function getCmsArticles():Promise<CmsArticle[]>{
  return (await safeFetch<CmsArticle>(knowledgeQuery)).filter(x=>x.slug&&x.title&&x.intro&&x.category&&x.sections?.length>0);
 }
 export async function getKnowledgeArticles():Promise<Article[]> {
- return combine(articles,(await getCmsArticles()).map(x=>({...x,sections:x.sections.map(section=>[section.heading,section.body] as [string,string])})));
+ const fallback:Article[]=[...articles,...managementLessons];
+ const cms=await getCmsArticles();
+ return combine<Article>(fallback,cms.map(x=>({
+  ...x,
+  resource:x.resource?.title&&x.resource?.url&&/^https:\/\//.test(x.resource.url)?{
+   title:x.resource.title,creator:x.resource.creator||"External publisher",
+   format:x.resource.format||"Article",time:x.resource.time||"Time varies",url:x.resource.url
+  }:undefined,
+  sections:x.sections.map(section=>[section.heading,section.body] as [string,string])
+ })));
 }
 export async function getHomeSettings():Promise<HomeSettings>{
  if(!client)return {};

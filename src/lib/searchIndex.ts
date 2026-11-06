@@ -1,4 +1,5 @@
 import {articles,insights,machines,references,reportedQualifications} from "@/content/site";
+import {managementLessons} from "@/content/managementLessons";
 import {structuralSteelSearchCorpus,structuralSteelProducts} from "@/content/structuralSteel";
 import generatedPageSearch from "@/content/generatedPageSearch.json";
 
@@ -40,6 +41,7 @@ export const staticSearchIndex:SearchResult[]=[
  ...machines.map(x=>({title:x.name,description:x.service,href:"/capabilities/machinery#"+x.slug,category:"Capabilities",keywords:x.outcomes.join(" ")})),
  ...references.map(x=>({title:x.title,description:x.description,href:"/projects/"+x.slug,category:"Projects",keywords:x.category+" "+x.size+" "+x.year})),
  ...articles.map(x=>({title:x.title,description:x.intro,href:"/knowledge/"+x.slug,category:"Knowledge",keywords:x.sections.map(y=>y.join(" ")).join(" ")})),
+ ...managementLessons.map(x=>({title:x.title,description:x.intro,href:"/knowledge/"+x.slug,category:"Knowledge",keywords:[x.category,x.date,...x.sections.map(y=>y.join(" "))].join(" ")})),
  ...insights.map(x=>({title:x.title,description:x.summary,href:"/insights/"+x.slug,category:"Insights",keywords:x.category+" "+x.date+" "+((generatedPageSearch as Record<string,string>)["/insights/"+x.slug]||"")})),
 ];
 export function rankSearch(query:string,entries:SearchResult[],max=18){

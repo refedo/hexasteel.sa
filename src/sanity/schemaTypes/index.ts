@@ -180,11 +180,19 @@ const knowledgeArticle=defineType({name:"knowledgeArticle",title:"Knowledge Cent
  defineField({name:"title",type:"localizedText",validation:r=>r.required()}),
  defineField({name:"slug",type:"slug",options:{source:"title.en"},validation:r=>r.required()}),
  defineField({name:"category",type:"string",validation:r=>r.required()}),
+ defineField({name:"publicationDate",title:"Original Lesson / Publication Date",type:"date",description:"Displayed on dated management lessons. Use the original lesson date for the historical series."}),
  defineField({name:"intro",type:"localizedText",validation:r=>r.required()}),
  defineField({name:"sections",type:"array",of:[{type:"object",fields:[
   defineField({name:"heading",type:"localizedText",validation:r=>r.required()}),
   defineField({name:"body",type:"localizedText",validation:r=>r.required()})
  ]}]}),
+ defineField({name:"externalResource",title:"Recommended Learning Resource",type:"object",fields:[
+  defineField({name:"title",type:"string",validation:r=>r.required()}),
+  defineField({name:"creator",type:"string",title:"Author / Publisher"}),
+  defineField({name:"format",type:"string",title:"Format (article / book / video)"}),
+  defineField({name:"time",type:"string",title:"Estimated Reading / Viewing Time"}),
+  defineField({name:"url",type:"url",title:"Verified Resource Link",validation:r=>r.required().uri({scheme:["https"]})})
+ ]}),
  defineField({name:"coverImage",type:"image",options:{hotspot:true}}),
  defineField({name:"approvedForWeb",type:"boolean",initialValue:false,description:"Visible only once public publication approved."}),
  defineField({name:"seoDescription",type:"text",rows:3})
