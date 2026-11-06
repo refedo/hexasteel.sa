@@ -2,8 +2,11 @@ import {createConnection} from 'node:net';
 export function careersConfigured(){return process.env.CAREERS_SUBMISSIONS_ENABLED==='true'&&Boolean(process.env.CAREERS_TO_EMAIL&&process.env.CONTACT_RESEND_API_KEY&&process.env.CONTACT_RESEND_FROM_EMAIL&&process.env.CONTACT_TURNSTILE_SITE_KEY&&process.env.CONTACT_TURNSTILE_SECRET_KEY&&process.env.CAREERS_CLAMAV_SOCKET);}
 /** Private local ClamAV INSTREAM. Never send a candidate CV to a public scanner. */
 export function scanCareerPdf(bytes:Uint8Array):Promise<boolean>{
+ return scanPrivateUpload(bytes,process.env.CAREERS_CLAMAV_SOCKET);
+}
+export function scanPrivateUpload(bytes:Uint8Array,path:string|undefined):Promise<boolean>{
  return new Promise(resolve=>{
-  const path=process.env.CAREERS_CLAMAV_SOCKET;if(!path){resolve(false);return;}
+  if(!path){resolve(false);return;}
   const socket=createConnection({path});let answer='';let finished=false;
   function done(ok:boolean){if(finished)return;finished=true;socket.destroy();resolve(ok);}
   socket.setTimeout(15000,()=>done(false));socket.on('error',()=>done(false));

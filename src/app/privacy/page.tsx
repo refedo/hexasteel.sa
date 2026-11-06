@@ -2,7 +2,7 @@ import Link from "next/link";
 import {PageHero} from "@/components/PageBlocks";
 import {publicPageMetadata} from "@/lib/seo";
 
-const description = "How HEXA Steel® handles personal data from website visits, enquiries and job applications.";
+const description = "How HEXA Steel® handles personal data from website visits, enquiries, bank-transfer checkout and job applications.";
 
 export const metadata = publicPageMetadata("/privacy", "Privacy Policy", description);
 
@@ -23,6 +23,10 @@ export default function PrivacyPage() {
             <p>Where a form marks a field as required, we need that information to handle the request. Leaving it blank can prevent submission or limit our ability to respond.</p>
           </section>
           <section>
+            <h2>Bank-transfer checkout</h2>
+            <p>When you submit a transfer slip, we receive your contact and company details, order details and the payment information shown on the slip. We use this information to reconcile the transfer and follow up on the order. The uploaded slip is scanned for malware and sent through our email delivery provider to the Finance team.</p>
+          </section>
+          <section>
             <h2>Job applications</h2>
             <p>Our Careers page directs applicants to Google Forms. Google hosts the form and processes information submitted through it. HEXA Steel® uses the application details you provide to assess your suitability for a role and contact you about recruitment. These details can include your contact information, qualifications, work history and any CV or supporting material you submit.</p>
           </section>
@@ -37,7 +41,7 @@ export default function PrivacyPage() {
           </section>
           <section>
             <h2>How long we keep information</h2>
-            <p>Retention depends on the type of record, the reason it was collected, and any legal or contractual obligations that apply. These factors can differ for enquiries, supplier records and job applications.</p>
+            <p>Retention depends on the type of record, the reason it was collected, and any legal or contractual obligations that apply. These factors can differ for enquiries, supplier records, payment records and job applications.</p>
           </section>
           <section>
             <h2>Your privacy rights</h2>
