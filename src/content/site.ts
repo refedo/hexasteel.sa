@@ -10,8 +10,7 @@ export const navigation = [
   {label:"Approvals & Qualifications",href:"/company/approvals"},
   {label:"Quality & Certifications",href:"/capabilities/quality"},
   {label:"Operational Excellence & OTS™",href:"/company/operational-excellence"},
-  {label:"People & Hexa Academy",href:"/company/people"},
-  {label:"Become a Supplier",href:"/become-a-supplier"}
+  {label:"People & Hexa Academy",href:"/company/people"}
  ]},
  {label:"Products & Services",href:"/products-services",children:[
   {label:"Structural Steel",href:"/solutions/structural-steel"},
@@ -35,6 +34,7 @@ export const navigation = [
  ]},
  {label:"Insights & News",href:"/insights"},
  {label:"Join Our Team",href:"/company/careers"},
+ {label:"Become a Supplier",href:"/become-a-supplier"},
  {label:"Contact Us",href:"/contact"}
 ] as const;
 export const reportedQualifications=[

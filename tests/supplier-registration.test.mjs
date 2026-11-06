@@ -50,6 +50,8 @@ test("supplier landing uses canonical and qualification guidance",()=>{
  const page=read("src/app/become-a-supplier/page.tsx");
  assert.match(page,/alternates:\{canonical:"https:\/\/hexasteel\.sa\/become-a-supplier"\}/);
  assert.match(page,/registration does not guarantee approval/);
- assert.match(page,/SUPPLIER_REGISTRATION_ENABLED/);
- assert.match(page,/SupplierRegistrationForm/);
+ assert.ok(page.includes("https://docs.google.com/forms/d/e/1FAIpQLSdAqh24b5rSYPo3Z8xoFNq5pzWRJheEEOIxh31EqFjdK-Z8mA/viewform?hl=en"));
+ assert.match(page,/href=\{supplierFormUrl\}/);
+ assert.doesNotMatch(page,/SupplierRegistrationForm|\/suppliers\/track/);
+ assert.match(read("src/content/site.ts"),/^ \{label:"Become a Supplier",href:"\/become-a-supplier"\},$/m);
 });
