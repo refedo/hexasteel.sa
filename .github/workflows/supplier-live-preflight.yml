@@ -1,0 +1,60 @@
+name: Supplier Portal Live Acceptance Preflight
+on:
+  push:
+    branches: [feature/r1f-supplier-live-acceptance]
+    paths:
+      - '.github/workflows/supplier-live-preflight.yml'
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Read-only checks on existing DigitalOcean server
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.DO_HOST }}
+          username: ${{ secrets.DO_USERNAME }}
+          key: ${{ secrets.DO_SSH_KEY }}
+          port: ${{ secrets.DO_PORT || '22' }}
+          command_timeout: 120s
+          script: |
+            set -eu
+            APP="$HOME/hexasteel-v3"
+            WEB_ENV="$APP/.env.contact"
+            OTS_ENV="/var/www/hexasteel.sa/ots/.env"
+            test "$(stat -c %a "$WEB_ENV")" = "600"
+            test "$(stat -c %a "$OTS_ENV")" = "600"
+            awk '/^[[:space:]]*($|#)/{next} /^[[:space:]]*(export[[:space:]]+)?[A-Za-z_][A-Za-z0-9_]*=/{next} {bad=1;print "Website env line invalid:",NR} END{exit bad}' "$WEB_ENV"
+            echo "Website environment file: PASS"
+            echo "Website release: $(basename "$(readlink -f "$APP/current")")"
+            echo "Website supplier registration flag:"
+            grep -Eq '^SUPPLIER_REGISTRATION_ENABLED=false$' "$WEB_ENV" && echo "DISABLED (expected)" || { echo "Unexpected flag"; exit 1; }
+            echo "OTS supplier intake flag:"
+            grep -Eq '^SUPPLIER_INTAKE_ENABLED=false$' "$OTS_ENV" && echo "DISABLED (expected)" || { echo "Unexpected flag"; exit 1; }
+            command -v clamscan >/dev/null
+            clamscan --no-summary /usr/bin/true >/dev/null
+            echo "Antivirus scan executable: PASS"
+            test "$(stat -c %a /var/lib/hexasteel-supplier-documents)" = "700"
+            echo "Private document directory: PASS"
+            for u in /become-a-supplier /suppliers/track; do
+              body="$(curl -fsS --max-time 12 "http://127.0.0.1:4500$u")"
+              case "$u" in
+                /become-a-supplier)
+                  printf '%s' "$body" | grep -q "Become a HEXA Steel" || exit 1
+                  printf '%s' "$body" | grep -q "REGISTRATION OPENING SOON" || exit 1
+                  ;;
+                /suppliers/track)
+                  printf '%s' "$body" | grep -q "Tracking unavailable" || exit 1
+                  ;;
+              esac
+              echo "Website $u: PASS"
+            done
+            code="$(curl -sS -o /dev/null -w '%{http_code}' -X POST --max-time 10 -H 'Origin: https://hexasteel.sa' http://127.0.0.1:4500/api/supplier-applications)"
+            test "$code" = 503 || { echo "Website disabled intake response: $code (unexpected)"; exit 1; }
+            echo "Disabled supplier intake API: PASS"
+            code="$(curl -sS -o /dev/null -w '%{http_code}' -X POST --max-time 10 http://127.0.0.1:3000/api/supplier-intake)"
+            test "$code" = 503 || { echo "OTS disabled intake response: $code (unexpected)"; exit 1; }
+            echo "Disabled OTS intake API: PASS"
+            echo "LIVE PREFLIGHT: PASS (No submission or activation performed)"
