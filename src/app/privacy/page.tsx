@@ -19,6 +19,7 @@ export default function PrivacyPage() {
           <section>
             <h2>Enquiries, quotations and supplier submissions</h2>
             <p>When you contact us, request a quotation, send feedback or submit supplier information, we may receive your name, contact details, company information, message and any documents you choose to share. We use this information to route and respond to requests, evaluate commercial opportunities or supplier qualifications, and follow up where needed.</p>
+            <p>Our supplier registration page directs applicants to Google Forms. Google hosts the form and processes the company and business contact information submitted through it. HEXA Steel® uses that information to assess supplier qualifications and follow up on procurement needs.</p>
             <p>Where a form marks a field as required, we need that information to handle the request. Leaving it blank can prevent submission or limit our ability to respond.</p>
           </section>
           <section>
