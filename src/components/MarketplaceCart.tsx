@@ -3,6 +3,10 @@
 import {useEffect, useState} from "react";
 import {formatMarketplacePrice, type MarketplaceItem} from "@/content/marketplace";
 
+import {MarketplaceBankCheckout} from "@/components/MarketplaceBankCheckout";
+import type {BankCheckoutDetails} from "@/lib/marketplaceBank";
+import {checkoutTotals} from "@/lib/marketplaceTotals";
+
 const storageKey = "hexa-marketplace-cart";
 const maxQuantity = 10000;
 
@@ -10,8 +14,9 @@ function validQuantity(value: unknown): value is number {
   return typeof value === "number" && Number.isFinite(value) && value > 0 && value <= maxQuantity;
 }
 
-export function MarketplaceCart({items,whatsappBase}:{items:MarketplaceItem[];whatsappBase?:string}) {
+export function MarketplaceCart({items,whatsappBase,bankCheckout}:{items:MarketplaceItem[];whatsappBase?:string;bankCheckout?:BankCheckoutDetails}) {
   const [quantities,setQuantities] = useState<Record<string,number>>({});
+  const [submitted,setSubmitted] = useState("");
   const [ready,setReady] = useState(false);
   useEffect(()=>{
     try {
@@ -31,12 +36,15 @@ export function MarketplaceCart({items,whatsappBase}:{items:MarketplaceItem[];wh
   },[quantities,ready]);
 
   const lines = items.filter(item=>validQuantity(quantities[item.slug]));
+  const orderLines = lines.map(item=>({slug:item.slug,quantity:quantities[item.slug]}));
+  const totals = bankCheckout ? checkoutTotals(orderLines,items) : null;
   const subtotal = lines.reduce((total,item)=>total+Math.round((item.priceHalalas || 0)*quantities[item.slug]),0);
   const message = ["Hello HEXA Steel®, I would like to request the following:",
     ...lines.map(item=>`- ${item.title}: ${quantities[item.slug]} × ${item.unit}`),
     "Please confirm specifications, availability, VAT and delivery."].join("\n");
 
   function setQuantity(slug:string,quantity:number) {
+    setSubmitted("");
     setQuantities(current=>{
       const next = {...current};
       if (validQuantity(quantity)) next[slug] = quantity;
@@ -60,6 +68,7 @@ export function MarketplaceCart({items,whatsappBase}:{items:MarketplaceItem[];wh
     </div>
     <aside className="marketplace-card marketplace-cart" aria-labelledby="cart-title">
       <h2 id="cart-title">Your cart</h2>
+      {submitted && <p role="status"><strong>Transfer slip submitted.</strong> Reference {submitted}. Payment verification is pending.</p>}
       {lines.length===0 ? <p>Your cart is empty.</p> : <>
         <ul>{lines.map(item=><li key={item.slug}>
           <strong>{item.title}</strong>
@@ -72,6 +81,11 @@ export function MarketplaceCart({items,whatsappBase}:{items:MarketplaceItem[];wh
           <button type="button" className="text-link" aria-label={`Remove ${item.title}`} onClick={()=>setQuantity(item.slug,0)}>Remove</button>
         </li>)}</ul>
         <p aria-live="polite">Priced items subtotal <strong>{formatMarketplacePrice(subtotal)}</strong> excluding VAT and delivery.</p>
+        {bankCheckout && totals && <MarketplaceBankCheckout key={JSON.stringify(orderLines)} details={bankCheckout}
+          lines={orderLines} totals={totals} onSubmitted={reference=>{
+            setSubmitted(reference);
+            setQuantities({});
+          }}/>}
         {whatsappBase
           ? <a className="button dark" href={whatsappBase+"?text="+encodeURIComponent(message)}>Send cart enquiry on WhatsApp</a>
           : <a className="button dark" href="/contact">Contact sales about your cart</a>}

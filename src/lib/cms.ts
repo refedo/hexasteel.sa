@@ -109,10 +109,13 @@ export async function getEditorialPage(route:string):Promise<{title:string;intro
  }catch{return null}
 }
 
-export async function getMarketplaceItems(): Promise<MarketplaceItem[]> {
- const records = await safeFetch<MarketplaceItem & {visibleInMarketplace?: boolean;priceSar?: number}>(
-  '*[_type=="marketplaceItem" && !(_id in path("drafts.**")) && defined(slug.current)]|order(_updatedAt asc,_id asc){ "slug":slug.current,title,category,description,unit,priceSar,visibleInMarketplace,"image":image.asset->url,imageAlt }'
- );
+type MarketplaceRecord = MarketplaceItem & {visibleInMarketplace?:boolean;priceSar?:number};
+const marketplaceQuery = '*[_type=="marketplaceItem" && !(_id in path("drafts.**")) && defined(slug.current)]|order(_updatedAt asc,_id asc){ "slug":slug.current,title,category,description,unit,priceSar,visibleInMarketplace,"image":image.asset->url,imageAlt }';
+
+export async function getMarketplaceItems(fresh = false): Promise<MarketplaceItem[]> {
+ const records = fresh
+  ? await client!.withConfig({useCdn:false,perspective:"published"}).fetch<MarketplaceRecord[]>(marketplaceQuery,{}, {cache:"no-store",signal:AbortSignal.timeout(8000)})
+  : await safeFetch<MarketplaceRecord>(marketplaceQuery);
  const items = new Map(marketplaceDefaults.map(item=>[item.slug,item]));
  for (const record of records) {
   const {slug,title,category,description,unit,priceSar,visibleInMarketplace,image,imageAlt}=record;
