@@ -35,7 +35,7 @@ jobs:
           npm run build
           mkdir -p .next/standalone/.next
           cp -R .next/static .next/standalone/.next/static
-          mkdir -p .next/standalone/public
+          if [ -d public ]; then mkdir -p .next/standalone/public; cp -R public/. .next/standalone/public/; fi
           tar -czf "hexa-v3-$GITHUB_SHA.tgz" -C .next/standalone .
       - name: Server readiness (no changes)
         uses: appleboy/ssh-action@v1.2.0

@@ -13,7 +13,7 @@ The R1 sign-off supersedes the previous 85% management estimate. The earlier Ara
 - Sell HEXA Steel® products and services on the existing site. Sanity manages public listings, imagery, units, and prices. Keep customer, order and payment records outside Sanity.
 - Start with C/Z purlins at SAR 5,000 per tonne excluding VAT. Add more purchasable products and services as approved prices and units become available. Keep project-specific items available for quotation until priced.
 - Advance R2 to **25%** when customers can select a priced item, add it to the cart, submit a bank-transfer slip, and receive a pending-payment reference. Production acceptance also requires Finance to receive the attachment and reconcile a controlled test against cleared funds. Card and gateway checkout are deferred.
-- Bank-transfer handover: checkout requires the Finance-approved beneficiary and IBAN, fulfillment terms, private Finance inbox, Turnstile, Resend, and the local ClamAV socket in the protected server environment. The provided Alinma certificate was issued on 17 September 2025 and states one month of validity. Finance must reconfirm the account before activation. Keep the certificate and account details out of Git and Sanity.
+- Bank-transfer handover: CEO confirmed the Alinma account is active and approved pickup only, with slips routed to Finance@hexasteel.sa. Configure the approved beneficiary and IBAN, pickup terms, Finance inbox, Turnstile, Resend, and local ClamAV in the protected server environment. Keep the certificate and account details out of Git and Sanity.
 - Continue with the R2 customer portal, RFQ tracking, advanced supplier qualification, sales CRM, dashboards and controlled OTS™ integration.
 
 ---
