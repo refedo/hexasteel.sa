@@ -1,3 +1,12 @@
+## R1-F — Supplier registration via Google Forms (6 November 2026)
+
+- Baseline: privacy policy PR #41, merged at `1d680d8` and deployed via run `42159174494`. The supplier page still exposed the tracking link and the last recorded native intake check was disabled.
+- Feature branch `feature/supplier-google-form`: links both registration calls to action on `/become-a-supplier` to the supplied English Google Form. Moves Become a Supplier to the top level of desktop and mobile navigation, removes tracking from the registration page and describes the Google Forms handoff in the privacy policy. Native tracking code and routes are retained for future OTS™ work.
+- Official progress remains **R1 75.50%, R2/R3 0%**. See the PR for verification and deployment status.
+- Next: after approved deployment, verify desktop/mobile navigation, the live English form handoff and receipt of a controlled supplier submission. Native OTS™ acceptance, secure RFQ, Arabic/RTL and final SEO/operational sign-off remain open.
+
+---
+
 ## R1-G — Static website privacy policy (6 November 2026)
 
 - Baseline: V3.27 [PR #39](https://github.com/refedo/hexasteel.sa/pull/39) merged at `09ef3b5`; Careers Google Forms links verified live. This supersedes the integration-pending note below. Response receipt remains unverified.
