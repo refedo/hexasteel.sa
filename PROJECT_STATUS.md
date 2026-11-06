@@ -1,3 +1,13 @@
+## R1-G — Static website privacy policy (6 November 2026)
+
+- Baseline: V3.27 [PR #39](https://github.com/refedo/hexasteel.sa/pull/39) merged at `09ef3b5`; Careers Google Forms links verified live. This supersedes the integration-pending note below. Response receipt remains unverified.
+- Developed on `feature/website-privacy-policy`: static English `/privacy` page, footer and Careers links, and canonical/sitemap entry. Covers website visitors, commercial enquiries and recruitment through Google Forms. No changes to form requirements, Google Forms, consent UI or analytics configuration.
+- Before publication, confirm the controller’s registered name, privacy request routing, retention criteria and actual provider/transfer arrangements. Google Forms fields and response handling have not been independently verified. The website page does not implement disclosure inside Google Forms.
+- Official progress remains **R1 75.50%, R2/R3 0%**. Verification results are tracked in the feature PR. Integration, deployment and operational acceptance are pending.
+- Remaining R1 work includes intake acceptance (Careers and supplier), secure RFQ, Arabic/RTL, and final SEO and operational sign-off.
+
+---
+
 ## V3.27 — Google Forms application links and engineering vacancies (25 October 2026)
 
 - Starting integration: `cd580ab381b1f67753f4b2d0218028c29966624b`; application baseline V3.26 `06db864`. Latest official progress remains **R1 75.50% ≈ 76%, R2/R3 0%**.
