@@ -1,8 +1,16 @@
+## Current release progress — 6 November 2026
+
+**R1: 85%. R2: 0%. R3: 0%.** R1 is the CEO-approved management estimate and supersedes the October weighted baseline of 75.50%. The October breakdown is retained below as a historical calculation. Operational acceptance is tracked separately.
+
+Remaining R1 scope includes end-to-end supplier and Careers intake verification, secure RFQ, Arabic/RTL, and final SEO and operational sign-off. Supplier status tracking via OTS™ remains deferred.
+
+---
+
 ## R1-F — Supplier registration via Google Forms (6 November 2026)
 
 - Baseline: privacy policy PR #41, merged at `1d680d8` and deployed via run `42159174494`. The supplier page still exposed the tracking link and the last recorded native intake check was disabled.
 - Feature branch `feature/supplier-google-form`: links both registration calls to action on `/become-a-supplier` to the supplied English Google Form. Moves Become a Supplier to the top level of desktop and mobile navigation, removes tracking from the registration page and describes the Google Forms handoff in the privacy policy. Native tracking code and routes are retained for future OTS™ work.
-- Official progress remains **R1 75.50%, R2/R3 0%**. See the PR for verification and deployment status.
+- See [PR #42](https://github.com/refedo/hexasteel.sa/pull/42) for verification and deployment evidence.
 - Next: after approved deployment, verify desktop/mobile navigation, the live English form handoff and receipt of a controlled supplier submission. Native OTS™ acceptance, secure RFQ, Arabic/RTL and final SEO/operational sign-off remain open.
 
 ---
@@ -26,9 +34,9 @@
 
 ---
 
-## Current release progress — 25 October 2026 (authorized weighted reassessment)
+## Historical weighted release assessment — 25 October 2026
 
-**R1: 75.50% ≈ 76%. R2: 0%. R3: 0%.** This supersedes older management percentages for current reporting. The CEO requested publication and a fresh calculated estimate on 25 October. This measures development maturity; operational acceptance remains tracked separately.
+**R1: 75.50% ≈ 76%. R2: 0%. R3: 0%.** This was the previous weighted baseline and is retained for traceability. The CEO requested publication and a fresh calculated estimate on 25 October. This measures development maturity; operational acceptance remains tracked separately.
 
 [Full calculation, evidence, remaining scope and handover](ROADMAP_PROGRESS_20261025.md).
 
