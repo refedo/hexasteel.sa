@@ -28,8 +28,6 @@ test("Website permits default analytics without fixed consent prompts and rememb
  assert.doesNotMatch(layout,/<AnalyticsConsentBanner\/>/);
  assert.match(notice,/localStorage\.getItem\(BETA_DISMISSED_KEY\)/);
  assert.match(notice,/localStorage\.setItem\(BETA_DISMISSED_KEY/);
- assert.equal(existsSync("src/app/privacy/page.tsx"),false);
- assert.doesNotMatch(read("src/components/SiteFooter.tsx"),/href="\/privacy"/);
 });
 test("Marketing pages preserve routes and have premium interactive additions",()=>{
  const site=read("src/content/site.ts");

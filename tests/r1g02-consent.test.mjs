@@ -22,13 +22,15 @@ test("GTM remains installed and standard analytics measurement is enabled by def
  assert.doesNotMatch(layout,/G-JG2HQGQ2P3/);
 });
 
-test("Prelaunch does not display a privacy page or analytics-consent controls",()=>{
+test("Privacy policy is discoverable without adding analytics consent controls",()=>{
  const layout=read("src/app/layout.tsx");
  assert.doesNotMatch(layout,/<AnalyticsConsentBanner\/>|<AnalyticsConsentSettings\/>/);
  assert.doesNotMatch(layout,/googletagmanager\.com\/ns\.html/);
- assert.equal(existsSync("src/app/privacy/page.tsx"),false);
+ assert.equal(existsSync("src/app/privacy/page.tsx"),true);
  assert.equal(existsSync("src/components/AnalyticsConsent.tsx"),false);
- assert.doesNotMatch(read("src/components/SiteFooter.tsx"),/href="\/privacy"/);
- assert.doesNotMatch(read("src/app/sitemap.ts"),/"\/privacy"/);
+ assert.match(read("src/components/SiteFooter.tsx"),/href="\/privacy"/);
+ assert.match(read("src/app/sitemap.ts"),/"\/privacy"/);
+ assert.match(read("src/app/company/careers/page.tsx"),/href="\/privacy"/);
+ assert.doesNotMatch(read("src/app/privacy/page.tsx"),/<(?:form|input|button)\b/);
  assert.doesNotMatch(read("src/components/CustomerFeedbackForm.tsx"),/href="\/privacy"/);
 });
