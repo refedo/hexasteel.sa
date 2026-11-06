@@ -27,6 +27,7 @@ export const navigation = [
  {label:"Our Projects",href:"/projects"},
  {label:"Knowledge Centre",href:"/knowledge",children:[
   {label:"Engineering Guides",href:"/knowledge"},
+  {label:"Manufacturing & Management",href:"/knowledge#manufacturing-management"},
   {label:"Steel Grades & Traceability",href:"/knowledge/steel-grades-traceability"},
   {label:"PEB Frame Types",href:"/knowledge/peb-frame-systems"},
   {label:"PEB Components",href:"/knowledge/peb-building-components"},
