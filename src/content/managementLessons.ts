@@ -257,7 +257,7 @@ export const managementLessons:ManagementLesson[] = [
       "creator": "Michael V. Marn, Eric V. Roegner and Craig C. Zawada — McKinsey & Company",
       "format": "Article",
       "time": "Approximately 15–20 minutes",
-      "url": "https://www.mckinsey.com/capabilities/operations/our-insights/the-power-of-pricing"
+      "url": "https://www.mckinsey.com/capabilities/growth-marketing-and-sales/our-insights/the-power-of-pricing"
     }
   },
   {
@@ -473,7 +473,7 @@ export const managementLessons:ManagementLesson[] = [
       "creator": "Donald G. Reinertsen, Celeritas Publishing",
       "format": "Book",
       "time": "Approximately 8–12 hours",
-      "url": "https://reinertsenassociates.com/books/"
+      "url": "https://celeritaspublishing.com/books/"
     }
   }
 ];
