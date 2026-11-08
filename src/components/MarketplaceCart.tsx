@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import {useEffect, useState} from "react";
 import {formatMarketplacePrice, type MarketplaceItem} from "@/content/marketplace";
 
@@ -58,7 +59,7 @@ export function MarketplaceCart({items,whatsappBase,bankCheckout}:{items:Marketp
       {items.map(item=><article className="marketplace-card" key={item.slug}>
         {item.image && <img src={item.image} alt={item.imageAlt || item.title} loading="lazy"/>}
         <p className="eyebrow">{item.category}</p>
-        <h2>{item.title}</h2>
+        <h2>{item.detailsHref ? <Link href={item.detailsHref}>{item.title}</Link> : item.title}</h2>
         <p>{item.description}</p>
         <p><strong>{item.priceHalalas ? `${formatMarketplacePrice(item.priceHalalas)} / ${item.unit}` : "Price on request"}</strong>
           {item.priceHalalas ? <small> Excluding VAT</small> : null}</p>

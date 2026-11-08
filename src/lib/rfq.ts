@@ -1,3 +1,5 @@
+import {specialtySteelEntries} from "@/content/specialtySteelProducts";
+
 export const rfqServices=[
  {value:"structural-steel",label:"Structural Steel Fabrication"},
  {value:"peb",label:"Pre-Engineered Buildings (PEB)"},
@@ -11,6 +13,7 @@ export const rfqServices=[
  {value:"steel-accessories",label:"Industrial Steel Components"},
  {value:"pipes-vessels",label:"Mechanical Steel / Pipe Spools"},
  {value:"project-delivery",label:"Contractual Steel Project Delivery"},
+ ...specialtySteelEntries.map(([value, product])=>({value,label:product.title})),
  {value:"other",label:"Other Steel Service"}
 ] as const;
 export type RfqService=(typeof rfqServices)[number]["value"];

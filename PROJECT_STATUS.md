@@ -16,6 +16,12 @@ The R1 sign-off supersedes the previous 85% management estimate. The earlier Ara
 - Bank-transfer handover: CEO confirmed the Alinma account is active and approved pickup only, with slips routed to Finance@hexasteel.sa. Configure the approved beneficiary and IBAN, pickup terms, Finance inbox, Turnstile, Resend, and local ClamAV in the protected server environment. Keep the certificate and account details out of Git and Sanity.
 - Continue with the R2 customer portal, RFQ tracking, advanced supplier qualification, sales CRM, dashboards and controlled OTS™ integration.
 
+### R2 — Specialty steel catalog (8 November 2026)
+
+- Baseline: PR #44, integration commit `412540f`, deployed successfully in run [42301391871](https://github.com/refedo/hexasteel.sa/actions/runs/42301391871). Marketplace checkout was delivered separately in PR #43.
+- Feature branch `feature/specialty-steel-products`: separate pages and marketplace listings for steel unipoles, steel hoarding, steel space frames and steel trusses. Each page has distinct SEO copy, a canonical URL, site search terms and a product-prefilled quotation link. Marketplace listings start at price on request and can be edited through the existing Sanity marketplace draft workflow.
+- Acceptance: verify all four live pages, catalog links, search results, sitemap entries and RFQ preselection after approved deployment. The marketplace's controlled bank transfer and Finance reconciliation remain the next R2 acceptance gate. See the feature PR for validation and deployment status.
+
 ---
 
 ## Historical release progress — 6 November 2026
