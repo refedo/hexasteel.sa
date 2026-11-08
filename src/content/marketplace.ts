@@ -1,3 +1,5 @@
+import {specialtySteelEntries} from "./specialtySteelProducts";
+
 export type MarketplaceItem = {
   slug: string;
   title: string;
@@ -5,6 +7,7 @@ export type MarketplaceItem = {
   description: string;
   unit: string;
   priceHalalas?: number | null;
+  detailsHref?: string;
   image?: string | null;
   imageAlt?: string | null;
 };
@@ -52,6 +55,10 @@ export const marketplaceDefaults: MarketplaceItem[] = [
     slug: "laser-cutting", title: "Laser cutting", category: "Service", unit: "job",
     description: "CNC laser cutting of steel plates and components to supplied drawings.",
   },
+  ...specialtySteelEntries.map(([slug, product]): MarketplaceItem => ({
+    slug, title: product.title, category: "Product", unit: "project",
+    description: product.description, detailsHref: `/products/${slug}`,
+  })),
 ];
 
 const sar = new Intl.NumberFormat("en-SA", {style:"currency",currency:"SAR",currencyDisplay:"code"});

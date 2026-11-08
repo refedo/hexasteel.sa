@@ -36,6 +36,23 @@ async function run(){
    assert(result.results.length>0,"Existing content regression for "+term);
   }
   const sitemap=await (await fetch(origin+"/sitemap.xml")).text();
+  const catalog=await (await fetch(origin+"/products-services")).text();
+  const marketplace=await (await fetch(origin+"/marketplace")).text();
+  for(const [slug,term] of [["unipole","unipole billboard"],["hoarding","hording"],["space-frames","space frame roof"],["trusses","steel roof trusses"]]){
+   const route="/products/"+slug;
+   const product=await fetch(origin+route);
+   assert.equal(product.status,200,"Product route failed: "+route);
+   const html=await product.text();
+   assert(html.includes('rel="canonical" href="https://hexasteel.sa'+route+'"'),"Canonical missing for "+route);
+   assert(html.includes('/request-quotation?service='+slug),"Prefilled RFQ link missing for "+route);
+   const rfq=await (await fetch(origin+"/request-quotation?service="+slug)).text();
+   assert(rfq.includes('value="'+slug+'" selected=""'),"RFQ product preselection missing for "+route);
+   assert(catalog.includes('href="'+route+'"'),"Catalog link missing for "+route);
+   assert(marketplace.includes('href="'+route+'"'),"Marketplace link missing for "+route);
+   assert(sitemap.includes("<loc>https://hexasteel.sa"+route+"</loc>"),"Sitemap missing "+route);
+   const result=await (await fetch(origin+"/api/search?q="+encodeURIComponent(term))).json();
+   assert(result.results.some(x=>x.href===route),"Missing product search result for "+term);
+  }
   for(const route of ["/solutions/structural-steel","/company/approvals","/project-delivery"]){
    assert(sitemap.includes("https://hexasteel.sa"+route),"Sitemap missing "+route);
   }

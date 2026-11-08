@@ -1,6 +1,7 @@
 import {articles,insights,machines,references,reportedQualifications} from "@/content/site";
 import {managementLessons} from "@/content/managementLessons";
 import {structuralSteelSearchCorpus,structuralSteelProducts} from "@/content/structuralSteel";
+import {specialtySteelEntries} from "@/content/specialtySteelProducts";
 import generatedPageSearch from "@/content/generatedPageSearch.json";
 
 export type SearchResult = {title:string;description:string;href:string;category:string;keywords?:string};
@@ -37,6 +38,8 @@ const core:SearchResult[]=[
 ];
 export const staticSearchIndex:SearchResult[]=[
  ...core.map(item=>({...item,keywords:[item.keywords,generatedPageSearch[item.href as keyof typeof generatedPageSearch]||""].filter(Boolean).join(" ")})),
+ ...specialtySteelEntries.map(([slug, product])=>({title:product.title,description:product.description,
+   href:`/products/${slug}`,category:"Products",keywords:[...product.keywords,...product.applications,slug==="hoarding"?"hording":""].join(" ")})),
  ...structuralSteelProducts.map(x=>({title:x.title,description:x.description,href:"/solutions/structural-steel#"+x.title.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/-$/,""),category:"Structural Steel"})),
  ...machines.map(x=>({title:x.name,description:x.service,href:"/capabilities/machinery#"+x.slug,category:"Capabilities",keywords:x.outcomes.join(" ")})),
  ...references.map(x=>({title:x.title,description:x.description,href:"/projects/"+x.slug,category:"Projects",keywords:x.category+" "+x.size+" "+x.year})),

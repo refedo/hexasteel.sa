@@ -139,7 +139,7 @@ export async function getMarketplaceItems(fresh = false): Promise<MarketplaceIte
    : null;
   const previous = items.get(slug);
   items.set(slug,{slug,title,category,description,unit,priceHalalas,
-   image:isSafePublicImage(image ?? undefined)?image:previous?.image,imageAlt:imageAlt||previous?.imageAlt});
+   detailsHref:previous?.detailsHref,image:isSafePublicImage(image ?? undefined)?image:previous?.image,imageAlt:imageAlt||previous?.imageAlt});
  }
  return [...items.values()];
 }
