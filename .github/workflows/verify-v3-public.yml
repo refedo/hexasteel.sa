@@ -1,0 +1,38 @@
+name: Verify public HEXA V3 URL
+on:
+  push:
+    branches: [rebuild/website-v3]
+    paths: [.github/workflows/verify-v3-public.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-public-site:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Verify website search, editorial designs and CMS onboarding route
+        run: |
+          set -eu
+          getent ahostsv4 hexasteel.sa >/dev/null
+          check() {
+            path="$1"
+            marker="$2"
+            file="$(mktemp)"
+            code="$(curl -LsS --connect-timeout 8 --max-time 25 -o "$file" -w '%{http_code}' "https://hexasteel.sa$path")"
+            echo "$path => HTTP $code"
+            test "$code" = 200
+            grep -q "$marker" "$file" || { echo "Missing marker: $marker"; exit 1; }
+          }
+          check / "Search entire HEXA website"
+          check /search?q=peb "Search the whole website"
+          check "/api/search?q=quality" "Quality Control"
+          check "/api/search?q=MODON" "MODON"
+          check /solutions/structural-steel "capability-narrative-tabs"
+          check /solutions/peb "capability-narrative-tabs"
+          check /company/operational-excellence "capability-narrative-tabs"
+          check /projects "MAPA"
+          check /insights "SIRI"
+          check /knowledge "Knowledge Centre"
+          check /studio "HEXA Content Studio"
+          echo "SUCCESS: V3.7 global search, editorial design, and Sanity onboarding verified externally"

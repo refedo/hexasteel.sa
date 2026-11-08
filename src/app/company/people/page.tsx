@@ -1,0 +1,8 @@
+import {getEditorialPage} from "@/lib/cms";
+import type {Metadata} from "next";
+import Link from "next/link";
+import {PageHero,CallToAction} from "@/components/PageBlocks";
+export const metadata:Metadata={
+  alternates:{canonical:"https://hexasteel.sa/company/people"},title:"People & Hexa Academy"};
+const teams=[["Engineering & Detailing","Structural analysis, BIM and production-ready fabrication details."],["Production & Operations","Fabricators, certified welders, CNC technicians and production supervision."],["Projects & Site Management","Schedulers, project engineers, field coordination, lifting and site-supervision specialists."],["Quality & HSE","Welding inspection, traceability, NDT coordination, safety and compliant quality documentation."]];
+export default async function People(){const editorial=await getEditorialPage("company--people");return <main><PageHero eyebrow="COMPANY / OUR PEOPLE" title={editorial?.title||"We build people. People build the business."} intro={editorial?.intro||"Hexa Academy and technical development are central to our philosophy: science, quality, flexibility, trust and simplicity. We publish leadership profiles only with their consent."}/><section className="section"><div className="shell"><p className="eyebrow">OUR MULTIDISCIPLINARY TEAM</p><div className="feature-grid">{teams.map(([name,desc],i)=><article className="feature-card" key={name}><small>0{i+1}</small><h3>{name}</h3><p>{desc}</p></article>)}</div><Link className="text-link" href="/company/operational-excellence">How we develop industrial capability</Link></div></section><CallToAction heading="Work with people who care about quality."/></main>}
