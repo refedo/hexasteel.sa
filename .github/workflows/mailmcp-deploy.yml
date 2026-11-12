@@ -93,15 +93,26 @@ jobs:
                         path.write_bytes(source(TARGET,name))
                         os.chown(path,identity.pw_uid,identity.pw_gid)
                         path.chmod(0o600)
-                    test_env = dict(live_env,PYTHONDONTWRITEBYTECODE='1')
-                    state = live_env.get('STATE_DIRECTORY','./state').split(':')[0]
-                    test_env['STATE_DIRECTORY'] = str((APP/state).resolve())
-                    run(['runuser','-u','mailmcp','--','/opt/mail-mcp/venv/bin/python','-c',
+                    fake_accounts=validation/'test-accounts.json'
+                    fake_users=validation/'test-users.json'
+                    fake_accounts.write_text(json.dumps({'test':{'email':'test@example.invalid','imap_host':'imap.example.invalid'}}))
+                    fake_users.write_text('{}')
+                    for path in [fake_accounts,fake_users]:
+                        os.chown(path,identity.pw_uid,identity.pw_gid)
+                        path.chmod(0o600)
+                    test_env = {'PATH':'/usr/sbin:/usr/bin:/sbin:/bin','PYTHONDONTWRITEBYTECODE':'1',
+                                'PUBLIC_URL':'https://mail.example.invalid','OWNER_PASSWORD':'isolated-import-test-password',
+                                'MCP_TRANSPORT':'streamable-http','MAIL_ACCOUNTS_FILE':str(fake_accounts),
+                                'MAIL_USERS_FILE':str(fake_users),'STATE_DIRECTORY':str(validation/'state')}
+                    verification = subprocess.run(['runuser','-u','mailmcp','--','/opt/mail-mcp/venv/bin/python','-c',
                          'import server; assert server.PORTAL is not None; server.mcp.streamable_http_app()'],
-                         cwd=str(validation),env=test_env)
+                         cwd=str(validation),env=test_env,capture_output=True,text=True,timeout=45)
+                    if verification.returncode:
+                        print('Isolated import diagnostics: '+verification.stderr[-2000:])
+                        raise RuntimeError('Production-interpreter isolated registration check failed')
                 finally:
                     shutil.rmtree(validation)
-                print('New code compiled and registered using the production Python environment.')
+                print('New code compiled and registered with the production interpreter and isolated test settings.')
                 backup = Path('/root/mailmcp-code-backups')/(time.strftime('%Y%m%dT%H%M%SZ',time.gmtime())+'-'+TARGET[:12])
                 backup.mkdir(parents=True,mode=0o700)
                 backup.parent.chmod(0o700)
