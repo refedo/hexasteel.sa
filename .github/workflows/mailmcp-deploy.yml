@@ -1,0 +1,165 @@
+name: Deploy reviewed mail MCP portal
+on:
+  push:
+    branches: [ops/mailmcp-preflight]
+    paths: [.github/workflows/mailmcp-deploy.yml]
+permissions:
+  contents: read
+concurrency:
+  group: mailmcp-production
+  cancel-in-progress: false
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Deploy private connector commit using existing website server connection
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.DO_HOST }}
+          username: ${{ secrets.DO_USERNAME }}
+          key: ${{ secrets.DO_SSH_KEY }}
+          port: ${{ secrets.DO_PORT || '22' }}
+          command_timeout: 360s
+          script: |
+            set -eu
+            python3 - <<'PY'
+            import fcntl, json, os, pwd, re, shutil, subprocess, tempfile, time, urllib.request, urllib.error
+            from pathlib import Path
+            from urllib.parse import urlsplit
+            
+            APP = Path('/opt/mail-mcp')
+            TARGET = '19404f26038967058054ff2dace9834cff31a03c'
+            BASE = '3a4bcfc6fad7c9122b1b384070f74e826711eca3'
+            FILES = ['server.py','admin_portal.py','admin.html','admin.js']
+            assert os.geteuid() == 0, 'Deployment requires the existing authorized root connection'
+            lock = open('/run/lock/mailmcp-deploy.lock','w')
+            fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+            
+            def run(args, **kwargs):
+                p = subprocess.run(args, capture_output=True, timeout=60, **kwargs)
+                if p.returncode:
+                    raise RuntimeError('Command failed: ' + Path(args[0]).name)
+                return p.stdout
+            
+            raw = run(['systemctl','show','mailmcp','--no-pager','-p','User','-p','WorkingDirectory','-p','MainPID','-p','ActiveState']).decode()
+            meta = dict(line.split('=',1) for line in raw.splitlines() if '=' in line)
+            assert meta.get('User') == 'mailmcp' and meta.get('WorkingDirectory') == str(APP)
+            assert meta.get('ActiveState') == 'active', 'Service must be active before adoption'
+            pid = meta['MainPID']
+            # Keep current runtime secrets in process memory; do not print or rewrite them.
+            live_env = dict(item.decode().split('=',1) for item in Path('/proc',pid,'environ').read_bytes().split(b'\0') if b'=' in item)
+            port = int(live_env.get('PORT','8000'))
+            public = live_env.get('PUBLIC_URL','').rstrip('/')
+            url = urlsplit(public)
+            assert url.scheme == 'https' and url.hostname and not url.username and not url.password
+            assert not url.query and not url.fragment
+            health = 'http://127.0.0.1:' + str(port)
+            
+            def check(endpoint, expected=200, content=None):
+                try:
+                    with urllib.request.urlopen(endpoint, timeout=8) as response:
+                        status, body = response.status, response.read(200000)
+                except urllib.error.HTTPError as error:
+                    status, body = error.code, b''
+                if status != expected or (content and content not in body):
+                    raise RuntimeError('Health check did not match expected response')
+            
+            check(health+'/healthz',content=b'ok')
+            stage = Path(tempfile.mkdtemp(prefix='mailmcp-release-',dir='/root'))
+            repository = stage/'repo'
+            git_env = dict(os.environ,GIT_TERMINAL_PROMPT='0',
+                GIT_SSH_COMMAND='ssh -oBatchMode=yes -oStrictHostKeyChecking=yes -oConnectTimeout=10')
+            try:
+                run(['git','clone','--quiet','--no-checkout','git@github.com:refedo/Hexa-Steel-email-mcp.git',str(repository)],env=git_env)
+                head = run(['git','-C',str(repository),'rev-parse','origin/main'],env=git_env).decode().strip()
+                assert head == TARGET, 'Reviewed main commit changed; stop for revalidation'
+                def source(commit,name):
+                    return run(['git','-C',str(repository),'show',commit+':'+name],env=git_env)
+                # Stop if imported production code has drifted; never overwrite unseen changes.
+                for name in ['server.py','team.py','mail_credentials.py','manage_users.py']:
+                    assert (APP/name).read_bytes() == source(BASE,name), 'Live source drift: '+name
+                print('Known production source matches imported baseline.')
+                new = {name:source(TARGET,name) for name in FILES}
+                for name in ['server.py','admin_portal.py','team.py','mail_credentials.py']:
+                    compile(source(TARGET,name),name,'exec')
+                identity = pwd.getpwnam('mailmcp')
+                # Validate imports/route registration as the service user, with its existing env.
+                validation = Path(tempfile.mkdtemp(prefix='.mailmcp-check-',dir=str(APP)))
+                try:
+                    os.chown(validation,identity.pw_uid,identity.pw_gid)
+                    for name in FILES+['team.py','mail_credentials.py']:
+                        path=validation/name
+                        path.write_bytes(source(TARGET,name))
+                        os.chown(path,identity.pw_uid,identity.pw_gid)
+                        path.chmod(0o600)
+                    test_env = dict(live_env,PYTHONDONTWRITEBYTECODE='1')
+                    state = live_env.get('STATE_DIRECTORY','./state').split(':')[0]
+                    test_env['STATE_DIRECTORY'] = str((APP/state).resolve())
+                    run(['runuser','-u','mailmcp','--','/opt/mail-mcp/venv/bin/python','-c',
+                         'import server; assert server.PORTAL is not None; server.mcp.streamable_http_app()'],
+                         cwd=str(validation),env=test_env)
+                finally:
+                    shutil.rmtree(validation)
+                print('New code compiled and registered using the production Python environment.')
+                backup = Path('/root/mailmcp-code-backups')/(time.strftime('%Y%m%dT%H%M%SZ',time.gmtime())+'-'+TARGET[:12])
+                backup.mkdir(parents=True,mode=0o700)
+                backup.parent.chmod(0o700)
+                previous={}
+                previous_stats={}
+                for name in FILES:
+                    dest=APP/name
+                    previous[name]=dest.exists()
+                    previous_stats[name]=dest.stat() if dest.exists() else None
+                    if dest.exists():
+                        shutil.copy2(dest,backup/name)
+                (backup/'manifest.json').write_text(json.dumps({'commit':TARGET,'files':previous}))
+                def replace(name,data,stat=None):
+                    dest=APP/name
+                    temp=APP/(name+'.mailmcp-deploy')
+                    with open(temp,'wb') as output:
+                        output.write(data); output.flush(); os.fsync(output.fileno())
+                    os.chown(temp,stat.st_uid if stat else identity.pw_uid,stat.st_gid if stat else identity.pw_gid)
+                    temp.chmod((stat.st_mode & 0o777) if stat else 0o640)
+                    os.replace(temp,dest)
+                changed=False
+                try:
+                    for name,data in new.items():
+                        changed=True
+                        dest=APP/name
+                        replace(name,data,dest.stat() if dest.exists() else None)
+                    run(['systemctl','restart','mailmcp'])
+                    ready=False
+                    for _ in range(12):
+                        try:
+                            check(health+'/healthz',content=b'ok')
+                            check(health+'/admin',content=b'Mail Control')
+                            check(health+'/admin/app.js',content=b'use strict')
+                            check(health+'/admin/api',expected=401)
+                            ready=True; break
+                        except Exception:
+                            time.sleep(2)
+                    assert ready, 'Local portal readiness check failed'
+                    run(['systemctl','is-active','--quiet','mailmcp'])
+                    # Check the real HTTPS reverse proxy without disabling TLS verification.
+                    check(public+'/healthz',content=b'ok')
+                    check(public+'/admin',content=b'Mail Control')
+                    check(public+'/admin/app.js',content=b'use strict')
+                    check(public+'/admin/api',expected=401)
+                except Exception:
+                    if changed:
+                        for name,existed in previous.items():
+                            if existed:
+                                replace(name,(backup/name).read_bytes(),previous_stats[name])
+                            elif (APP/name).exists():
+                                (APP/name).unlink()
+                        run(['systemctl','restart','mailmcp'])
+                        print('Restored previous code and restarted mailmcp after failed verification.')
+                    raise
+                print('DEPLOYMENT_SUCCESS_COMMIT='+TARGET)
+                print('PORTAL_URL='+public+'/admin')
+                print('BACKUP_PATH='+str(backup))
+                print('Health, portal assets and unauthenticated API protection passed locally and over HTTPS.')
+            finally:
+                shutil.rmtree(stage)
+            PY
