@@ -1,0 +1,65 @@
+name: Mail MCP existing SSH access check
+on:
+  push:
+    branches: [ops/mailmcp-preflight]
+    paths: [.github/workflows/mailmcp-preflight.yml]
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Inspect mail service through existing website SSH connection
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.DO_HOST }}
+          username: ${{ secrets.DO_USERNAME }}
+          key: ${{ secrets.DO_SSH_KEY }}
+          port: ${{ secrets.DO_PORT || '22' }}
+          command_timeout: 120s
+          script: |
+            set -eu
+            python3 - <<'PY'
+            import json, os, re, subprocess
+            from pathlib import Path
+            
+            def run(args, **kwargs):
+                return subprocess.run(args, capture_output=True, text=True, timeout=35, **kwargs)
+            
+            result = run(['systemctl','show','mailmcp','--no-pager','-p','User','-p','Group','-p','WorkingDirectory','-p','FragmentPath','-p','ActiveState','-p','MainPID'])
+            print(result.stdout.strip())
+            if result.returncode:
+                raise SystemExit('Cannot read mailmcp metadata')
+            metadata = dict(line.split('=',1) for line in result.stdout.splitlines() if '=' in line)
+            if metadata.get('FragmentPath') != '/etc/systemd/system/mailmcp.service' or metadata.get('WorkingDirectory') != '/opt/mail-mcp':
+                raise SystemExit('This SSH target does not match the known mail service')
+            command = run(['systemctl','show','mailmcp','--value','-p','ExecStart']).stdout
+            match = re.search(r'path=([^ ;}]+)', command)
+            print('ServiceExecutable=' + (match.group(1) if match else 'unresolved'))
+            print('SSHUserIsRoot=' + str(os.geteuid() == 0))
+            print('AppDirectoryWritable=' + str(os.access('/opt/mail-mcp', os.W_OK)))
+            print('ServerSourcePresent=' + str(Path('/opt/mail-mcp/server.py').is_file()))
+            pid = metadata.get('MainPID','0')
+            if pid.isdigit() and pid != '0':
+                try:
+                    argv = Path('/proc',pid,'cmdline').read_bytes().split(b'\0')
+                    executable = argv[0].decode()
+                    if executable.startswith('/') and re.fullmatch(r'[A-Za-z0-9_./-]+',executable):
+                        print('RunningCommandExecutable=' + executable)
+                except OSError:
+                    print('RunningCommandExecutable=unreadable')
+            # Test normal existing Git authentication, without revealing or copying credentials.
+            # All output is captured; only success/failure is printed.
+            env = dict(os.environ, GIT_TERMINAL_PROMPT='0',
+                       GIT_SSH_COMMAND='ssh -oBatchMode=yes -oStrictHostKeyChecking=yes -oConnectTimeout=5')
+            for label, url in [
+                ('ExistingHTTPSCanReadMailRepo','https://github.com/refedo/Hexa-Steel-email-mcp.git'),
+                ('ExistingSSHCanReadMailRepo','git@github.com:refedo/Hexa-Steel-email-mcp.git')]:
+                try:
+                    check = run(['git','-c','credential.interactive=false','ls-remote',url,'HEAD'],env=env)
+                    print(label + '=' + str(check.returncode == 0))
+                except (OSError, subprocess.TimeoutExpired):
+                    print(label + '=False')
+            print('Read-only mail preflight complete; no services restarted or application files changed.')
+            PY
